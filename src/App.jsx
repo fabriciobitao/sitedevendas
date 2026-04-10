@@ -118,11 +118,6 @@ function App() {
           <div className="filters-row">
             <CategoryFilter selected={category} onSelect={handleCategoryChange} />
           </div>
-          <SubcategoryFilter
-            category={category}
-            selected={subcategory}
-            onSelect={setSubcategory}
-          />
         </section>
 
         {/* Results */}
@@ -131,7 +126,6 @@ function App() {
           <span className="results-count">
             {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
             {categoryInfo ? ` em ${categoryInfo.name}` : ''}
-            {subcategory !== 'all' ? ` · ${subcategory}` : ''}
             {search ? ` para "${search}"` : ''}
           </span>
         </div>

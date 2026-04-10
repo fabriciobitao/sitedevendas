@@ -2,7 +2,7 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 4px 0;
+  padding: 4px 4px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -16,28 +16,25 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: var(--linen);
-  border: 2px solid var(--gray-200);
+  background: var(--chip-color, var(--orange));
+  border: 2px solid var(--chip-color, var(--orange));
   border-radius: 100px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--gray-600);
+  color: var(--white);
   white-space: nowrap;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .category-chip:hover {
-  border-color: var(--gray-300);
-  background: var(--cream-dark);
   transform: translateY(-1px);
+  filter: brightness(1.1);
 }
 
 .category-chip.active {
-  background: var(--chip-color, var(--brown));
-  border-color: var(--chip-color, var(--brown));
+  background: var(--chip-color, var(--orange));
+  border-color: var(--chip-color, var(--orange));
   color: var(--white);
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--chip-color, var(--brown)) 35%, transparent);
 }
 
 .chip-icon {
