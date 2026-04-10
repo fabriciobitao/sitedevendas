@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: var(--gradient-hero);
+  background: var(--brown);
   flex-shrink: 0;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .cart-header h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 22px;
   font-weight: 800;
   color: var(--cream);
@@ -86,7 +86,7 @@
 }
 
 .cart-empty p {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--gray-600);
@@ -122,7 +122,7 @@
 }
 
 .cart-item-info h4 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: var(--gray-800);
@@ -184,7 +184,7 @@
 }
 
 .cart-item-subtotal {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--brown);
@@ -247,7 +247,7 @@
 }
 
 .cart-total strong {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 28px;
   font-weight: 800;
   color: var(--brown-dark);

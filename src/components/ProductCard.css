@@ -76,7 +76,7 @@
 }
 
 .product-image-fallback span {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 56px;
   font-weight: 800;
   color: var(--gray-300);
@@ -133,7 +133,7 @@
 }
 
 .product-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 15px;
   font-weight: 700;
   color: var(--gray-800);
@@ -182,7 +182,7 @@
 }
 
 .product-price {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 22px;
   font-weight: 800;
   color: var(--brown-dark);
