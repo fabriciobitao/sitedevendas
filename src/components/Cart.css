@@ -279,6 +279,42 @@
   color: var(--gray-500);
 }
 
+.cart-price-note {
+  text-align: center;
+  font-size: 11px;
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cart-success .cart-empty-icon {
+  font-size: 56px;
+}
+
+.cart-success p {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.cart-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.cart-whatsapp-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
 @media (max-width: 480px) {
   .cart-drawer {
     width: 100vw;

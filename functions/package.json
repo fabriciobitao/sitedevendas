@@ -1,0 +1,9 @@
+{
+  "name": "sitedevendas-api",
+  "version": "1.0.0",
+  "description": "API para envio automatico de pedidos via WhatsApp",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.3.0"
+  }
+}

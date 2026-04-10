@@ -1,15 +1,29 @@
 import { useState, useMemo, useRef } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { products, categories } from './data/products';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
-import SubcategoryFilter from './components/SubcategoryFilter';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
+import ClientForm from './components/ClientForm';
+import LoginModal from './components/LoginModal';
+import MeusPedidosPage from './pages/MeusPedidosPage';
+import MinhaContaPage from './pages/MinhaContaPage';
+import DashboardPage from './pages/DashboardPage';
 import './App.css';
 
-function App() {
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div style={{ textAlign: 'center', padding: '60px', color: '#8E7E6E' }}>Carregando...</div>;
+  if (!user) return <Navigate to="/" />;
+  return children;
+}
+
+function CatalogPage({ onOpenRegister }) {
+  const { user } = useAuth();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
@@ -29,18 +43,13 @@ function App() {
 
   const filteredProducts = useMemo(() => {
     let result = products;
-
     if (category !== 'all') {
-      const catName = category === 'resfriados' ? 'Resfriados'
-        : category === 'congelados' ? 'Congelados'
-        : 'Secos';
+      const catName = category === 'resfriados' ? 'Resfriados' : category === 'congelados' ? 'Congelados' : 'Secos';
       result = result.filter(p => p.category === catName);
     }
-
     if (subcategory !== 'all') {
       result = result.filter(p => p.subcategory === subcategory);
     }
-
     if (search.trim()) {
       const term = search.toLowerCase().trim();
       result = result.filter(p =>
@@ -49,104 +58,121 @@ function App() {
         p.subcategory.toLowerCase().includes(term)
       );
     }
-
     return result;
   }, [search, category, subcategory]);
 
-  const categoryInfo = category !== 'all'
-    ? categories.find(c => c.id === category)
-    : null;
+  const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
   return (
-    <CartProvider>
-      <Header />
-      <Cart />
-
-      <main className="main">
-        {/* Hero */}
-        <section className="hero">
-          <div className="hero-bg-pattern" />
-          <div className="hero-content">
-            <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
-            <p className="hero-tagline">Qualidade e tradição no atacado</p>
-            <p className="hero-desc">
-              Monte seu pedido com os melhores produtos e envie direto pelo WhatsApp
-            </p>
-            <div className="hero-stats-bar">
-              <div className="hero-stat">
-                <strong>{products.length}+</strong>
-                <span>Produtos</span>
-              </div>
-              <div className="hero-stat-divider" />
-              <div className="hero-stat">
-                <strong>3</strong>
-                <span>Categorias</span>
-              </div>
-              <div className="hero-stat-divider" />
-              <div className="hero-stat">
-                <strong>WhatsApp</strong>
-                <span>Pedido rápido</span>
-              </div>
-            </div>
+    <main className="main">
+      <section className="hero">
+        <div className="hero-bg-pattern" />
+        <div className="hero-content">
+          <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
+          <p className="hero-tagline">Qualidade e atendimento rápido!</p>
+          <p className="hero-desc">
+            Monte seu pedido com os melhores produtos e envie direto pelo WhatsApp
+          </p>
+          <div className="hero-stats-bar">
+            <div className="hero-stat"><strong>{products.length}+</strong><span>Produtos</span></div>
+            <div className="hero-stat-divider" />
+            <div className="hero-stat"><strong>3</strong><span>Categorias</span></div>
+            <div className="hero-stat-divider" />
+            <div className="hero-stat"><strong>WhatsApp</strong><span>Pedido rápido</span></div>
           </div>
-          <div className="hero-cards">
-            {categories.map((cat, i) => (
-              <button
-                key={cat.id}
-                className={`hero-card hero-card--${cat.id}`}
-                onClick={() => handleCategoryChange(cat.id)}
-                style={{ animationDelay: `${0.6 + i * 0.1}s` }}
-              >
-                <span className="hero-card-icon">{cat.icon}</span>
-                <div className="hero-card-text">
-                  <span className="hero-card-name">{cat.name}</span>
-                  <span className="hero-card-desc">{cat.description}</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Gold divider */}
-        <div className="section-divider" />
-
-        {/* Filters */}
-        <section className="filters-section">
-          <div className="filters-row">
-            <SearchBar value={search} onChange={setSearch} />
-          </div>
-          <div className="filters-row">
-            <CategoryFilter selected={category} onSelect={handleCategoryChange} />
-          </div>
-        </section>
-
-        {/* Results */}
-        <div ref={productsRef} className="results-anchor" />
-        <div className="results-info">
-          <span className="results-count">
-            {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
-            {categoryInfo ? ` em ${categoryInfo.name}` : ''}
-            {search ? ` para "${search}"` : ''}
-          </span>
         </div>
+        <div className="hero-cards">
+          {categories.map((cat, i) => (
+            <button key={cat.id} className={`hero-card hero-card--${cat.id}`}
+              onClick={() => handleCategoryChange(cat.id)}
+              style={{ animationDelay: `${0.6 + i * 0.1}s` }}>
+              <span className="hero-card-icon">{cat.icon}</span>
+              <div className="hero-card-text">
+                <span className="hero-card-name">{cat.name}</span>
+                <span className="hero-card-desc">{cat.description}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
 
-        {/* Product Grid */}
-        {filteredProducts.length > 0 ? (
-          <div className="product-grid">
-            {filteredProducts.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <span className="empty-icon">🔍</span>
-            <h3>Nenhum produto encontrado</h3>
-            <p>Tente buscar por outro termo ou altere os filtros</p>
-          </div>
-        )}
-      </main>
+      <div className="section-divider" />
 
-      {/* Footer */}
+      <section className="filters-section">
+        <div className="filters-row">
+          <SearchBar value={search} onChange={setSearch} />
+          {!user && (
+            <div className="novo-cliente-wrapper">
+              <span className="novo-cliente-hint">
+                Ainda não sou cliente, clique aqui
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+                </svg>
+              </span>
+              <button className="btn-novo-cliente" onClick={onOpenRegister}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <line x1="19" y1="8" x2="19" y2="14"/>
+                  <line x1="22" y1="11" x2="16" y2="11"/>
+                </svg>
+                <span>Novo Cliente</span>
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="filters-row">
+          <CategoryFilter selected={category} onSelect={handleCategoryChange} />
+        </div>
+      </section>
+
+      <div ref={productsRef} className="results-anchor" />
+      <div className="results-info">
+        <span className="results-count">
+          {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
+          {categoryInfo ? ` em ${categoryInfo.name}` : ''}
+          {search ? ` para "${search}"` : ''}
+        </span>
+      </div>
+
+      {filteredProducts.length > 0 ? (
+        <div className="product-grid">
+          {filteredProducts.map((product, i) => (
+            <ProductCard key={product.id} product={product} index={i} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <span className="empty-icon">🔍</span>
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente buscar por outro termo ou altere os filtros</p>
+        </div>
+      )}
+    </main>
+  );
+}
+
+function AppContent() {
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
+
+  const openLogin = () => { setRegisterOpen(false); setLoginOpen(true); };
+  const openRegister = () => { setLoginOpen(false); setRegisterOpen(true); };
+
+  return (
+    <>
+      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} />
+      <Cart />
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} onSwitchToRegister={openRegister} />
+      <ClientForm open={registerOpen} onClose={() => setRegisterOpen(false)} onSwitchToLogin={openLogin} />
+
+      <Routes>
+        <Route path="/" element={<CatalogPage onOpenRegister={openRegister} />} />
+        <Route path="/meus-pedidos" element={<ProtectedRoute><MeusPedidosPage /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
+      </Routes>
+
       <footer className="footer">
         <div className="footer-gold-line" />
         <div className="footer-inner">
@@ -166,8 +192,16 @@ function App() {
           </div>
         </div>
       </footer>
-    </CartProvider>
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </AuthProvider>
+  );
+}

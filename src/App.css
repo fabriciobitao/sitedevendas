@@ -36,7 +36,7 @@
 }
 
 .hero-logo-img {
-  height: 130px;
+  height: 180px;
   width: auto;
   object-fit: contain;
   margin: 0 auto 16px;
@@ -324,7 +324,7 @@
   }
 
   .hero-logo-img {
-    height: 100px;
+    height: 140px;
   }
 
   .hero-tagline {

@@ -1,0 +1,406 @@
+/* ==================== OVERLAY ==================== */
+.cf-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+
+/* ==================== MODAL ==================== */
+.cf-modal {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 620px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+  animation: cfSlideIn 0.3s ease-out;
+}
+
+@keyframes cfSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== HEADER ==================== */
+.cf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.cf-header h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brown);
+  margin: 0;
+}
+
+.cf-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  transition: all 0.2s;
+}
+
+.cf-close:hover {
+  background: var(--orange);
+  color: white;
+}
+
+/* ==================== BODY / FORM ==================== */
+.cf-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==================== ERROR / LINK ==================== */
+.cf-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  border-left: 3px solid #dc2626;
+}
+
+.cf-login-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.cf-login-link button {
+  color: var(--orange);
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cf-login-link button:hover {
+  text-decoration: underline;
+}
+
+/* ==================== TIPO TOGGLE ==================== */
+.cf-tipo-toggle {
+  display: flex;
+  gap: 0;
+  background: var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+}
+
+.cf-tipo-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--gray-500);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.cf-tipo-btn--active {
+  background: var(--white);
+  color: var(--orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cf-tipo-btn:hover:not(.cf-tipo-btn--active) {
+  color: var(--gray-700);
+}
+
+/* ==================== SECTIONS ==================== */
+.cf-section {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cf-section legend {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 8px;
+}
+
+/* ==================== ROWS ==================== */
+.cf-row {
+  display: flex;
+  gap: 12px;
+}
+
+.cf-row--full {
+  display: flex;
+}
+
+.cf-row--3 {
+  display: flex;
+  gap: 12px;
+}
+
+.cf-row label,
+.cf-row--full label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  flex: 1;
+  min-width: 0;
+}
+
+.cf-row label.cf-small {
+  flex: 0 0 40%;
+}
+
+.cf-row label.cf-tiny {
+  flex: 0 0 80px;
+}
+
+.cf-row--3 label.cf-tiny {
+  flex: 0 0 70px;
+}
+
+.cf-row--3 label.cf-small {
+  flex: 0 0 120px;
+}
+
+/* ==================== INPUTS ==================== */
+.cf-section input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--cream);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--gray-800);
+  transition: all 0.2s;
+}
+
+.cf-section input:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(232, 171, 29, 0.12);
+  background: var(--white);
+}
+
+.cf-section input::placeholder {
+  color: var(--gray-400);
+  font-size: 13px;
+}
+
+/* ==================== LEGAL ==================== */
+.cf-legal {
+  font-size: 11px;
+  color: var(--gray-500);
+  line-height: 1.5;
+  background: var(--cream);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--yellow);
+}
+
+/* ==================== SIGNATURE ==================== */
+.cf-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.cf-signature-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cf-signature-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cf-signature-clear {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cf-signature-clear:hover {
+  background: var(--orange);
+  color: white;
+}
+
+.cf-signature-canvas {
+  width: 100%;
+  height: 160px;
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius);
+  background: var(--white);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.cf-signature-hint {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+/* ==================== SUBMIT ==================== */
+.cf-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #25D366, #1DB954);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+}
+
+.cf-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+}
+
+/* ==================== TRIGGER BUTTON ==================== */
+.novo-cliente-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.novo-cliente-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--orange);
+  white-space: nowrap;
+  animation: hintBounce 2s ease-in-out infinite;
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+}
+
+.btn-novo-cliente {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--orange);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s;
+  box-shadow: 0 2px 8px rgba(212, 77, 45, 0.25);
+}
+
+.btn-novo-cliente:hover {
+  background: var(--orange-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(212, 77, 45, 0.35);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .cf-overlay {
+    padding: 16px 8px;
+  }
+
+  .cf-body {
+    padding: 16px;
+  }
+
+  .cf-section {
+    padding: 12px;
+  }
+
+  .cf-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cf-row--3 {
+    flex-wrap: wrap;
+  }
+
+  .cf-row label.cf-small,
+  .cf-row label.cf-tiny,
+  .cf-row--3 label.cf-tiny,
+  .cf-row--3 label.cf-small {
+    flex: 1;
+  }
+
+  .novo-cliente-hint {
+    font-size: 10px;
+  }
+
+  .btn-novo-cliente span {
+    display: none;
+  }
+
+  .btn-novo-cliente {
+    padding: 12px 14px;
+  }
+}

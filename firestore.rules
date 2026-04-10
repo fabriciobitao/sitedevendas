@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /customers/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /orders/{orderId} {
+      // Leitura individual: so o dono
+      allow get: if request.auth != null && resource.data.customerId == request.auth.uid;
+      // Listagem: qualquer usuario autenticado (query ja filtra por customerId no codigo)
+      allow list: if request.auth != null;
+      // Criacao: so se customerId bate com o uid
+      allow create: if request.auth != null && request.resource.data.customerId == request.auth.uid;
+    }
+  }
+}
