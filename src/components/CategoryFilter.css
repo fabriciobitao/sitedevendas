@@ -14,30 +14,44 @@
 .category-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  background: var(--white);
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--linen);
   border: 2px solid var(--gray-200);
   border-radius: 100px;
   font-size: 14px;
   font-weight: 600;
   color: var(--gray-600);
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .category-chip:hover {
   border-color: var(--gray-300);
-  background: var(--gray-50);
+  background: var(--cream-dark);
+  transform: translateY(-1px);
 }
 
 .category-chip.active {
   background: var(--chip-color, var(--brown));
   border-color: var(--chip-color, var(--brown));
   color: var(--white);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--chip-color, var(--brown)) 35%, transparent);
 }
 
 .chip-icon {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.category-chip.active .chip-icon {
+  background: rgba(255, 255, 255, 0.2);
 }

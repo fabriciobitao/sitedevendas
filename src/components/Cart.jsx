@@ -34,12 +34,9 @@ export default function Cart() {
 
         {items.length === 0 ? (
           <div className="cart-empty">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{color: 'var(--gray-300)'}}>
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            <p>Seu carrinho está vazio</p>
-            <span>Adicione produtos do catálogo</span>
+            <span className="cart-empty-icon">🛒</span>
+            <p>Seu carrinho está esperando</p>
+            <span>Explore nosso catálogo e monte seu pedido</span>
           </div>
         ) : (
           <>
@@ -53,37 +50,20 @@ export default function Cart() {
                   </div>
                   <div className="cart-item-actions">
                     <div className="cart-qty-control">
-                      <button
-                        className="qty-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        aria-label="Diminuir quantidade"
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                          <path d="M5 12h14"/>
-                        </svg>
+                      <button className="qty-btn" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
                       </button>
                       <span className="qty-value">{item.quantity}</span>
-                      <button
-                        className="qty-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        aria-label="Aumentar quantidade"
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                          <path d="M12 5v14"/><path d="M5 12h14"/>
-                        </svg>
+                      <button className="qty-btn" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                       </button>
                     </div>
                     <span className="cart-item-subtotal">
                       R$ {(item.price * item.quantity).toFixed(2)}
                     </span>
-                    <button
-                      className="cart-item-remove"
-                      onClick={() => removeItem(item.id)}
-                      aria-label="Remover item"
-                    >
+                    <button className="cart-item-remove" onClick={() => removeItem(item.id)} aria-label="Remover">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                        <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
                       </svg>
                     </button>
                   </div>
@@ -92,9 +72,7 @@ export default function Cart() {
             </div>
 
             <div className="cart-footer">
-              <button className="cart-clear" onClick={clearCart}>
-                Limpar carrinho
-              </button>
+              <button className="cart-clear" onClick={clearCart}>Limpar carrinho</button>
               <div className="cart-total">
                 <span>Total</span>
                 <strong>R$ {totalPrice.toFixed(2)}</strong>
@@ -105,6 +83,7 @@ export default function Cart() {
                 </svg>
                 Enviar Pedido pelo WhatsApp
               </button>
+              <p className="cart-whatsapp-sub">Pedido enviado direto para nosso WhatsApp</p>
             </div>
           </>
         )}

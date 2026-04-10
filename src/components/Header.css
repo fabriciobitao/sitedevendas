@@ -2,15 +2,23 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-sm);
+  background: var(--cream);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--brown), var(--orange), var(--yellow), transparent) 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header--scrolled {
+  background: rgba(253, 246, 238, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-warm);
 }
 
 .header-inner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,33 +30,39 @@
 }
 
 .header-logo-img {
-  height: 48px;
+  height: 50px;
   width: auto;
   object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.header-logo-img:hover {
+  transform: scale(1.03) rotate(-1deg);
 }
 
 .cart-button {
   position: relative;
-  background: var(--brown);
-  color: var(--white);
+  background: var(--gradient-gold);
+  color: var(--brown-dark);
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-warm-sm);
 }
 
 .cart-button:hover {
-  background: var(--brown-light);
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold-glow);
 }
 
 .cart-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: -4px;
+  right: -4px;
   background: var(--orange);
   color: var(--white);
   font-size: 11px;
@@ -60,5 +74,6 @@
   align-items: center;
   justify-content: center;
   padding: 0 5px;
-  animation: scaleIn 0.2s ease-out;
+  animation: bounce 0.35s ease-out;
+  border: 2px solid var(--cream);
 }

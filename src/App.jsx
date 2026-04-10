@@ -13,7 +13,6 @@ function App() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
-
   const productsRef = useRef(null);
 
   const scrollToProducts = () => {
@@ -66,12 +65,14 @@ function App() {
       <main className="main">
         {/* Hero */}
         <section className="hero">
+          <div className="hero-bg-pattern" />
           <div className="hero-content">
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
+            <p className="hero-tagline">Qualidade e tradição no atacado</p>
             <p className="hero-desc">
-              Encontre os melhores produtos com preço de atacado. Monte seu pedido e envie direto pelo WhatsApp!
+              Monte seu pedido com os melhores produtos e envie direto pelo WhatsApp
             </p>
-            <div className="hero-stats">
+            <div className="hero-stats-bar">
               <div className="hero-stat">
                 <strong>{products.length}+</strong>
                 <span>Produtos</span>
@@ -89,20 +90,25 @@ function App() {
             </div>
           </div>
           <div className="hero-cards">
-            {categories.map(cat => (
+            {categories.map((cat, i) => (
               <button
                 key={cat.id}
-                className="hero-card"
-                style={{ '--card-color': cat.color }}
+                className={`hero-card hero-card--${cat.id}`}
                 onClick={() => handleCategoryChange(cat.id)}
+                style={{ animationDelay: `${0.6 + i * 0.1}s` }}
               >
                 <span className="hero-card-icon">{cat.icon}</span>
-                <span className="hero-card-name">{cat.name}</span>
-                <span className="hero-card-desc">{cat.description}</span>
+                <div className="hero-card-text">
+                  <span className="hero-card-name">{cat.name}</span>
+                  <span className="hero-card-desc">{cat.description}</span>
+                </div>
               </button>
             ))}
           </div>
         </section>
+
+        {/* Gold divider */}
+        <div className="section-divider" />
 
         {/* Filters */}
         <section className="filters-section">
@@ -119,13 +125,13 @@ function App() {
           />
         </section>
 
-        {/* Results info */}
+        {/* Results */}
         <div ref={productsRef} className="results-anchor" />
         <div className="results-info">
           <span className="results-count">
             {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
             {categoryInfo ? ` em ${categoryInfo.name}` : ''}
-            {subcategory !== 'all' ? ` › ${subcategory}` : ''}
+            {subcategory !== 'all' ? ` · ${subcategory}` : ''}
             {search ? ` para "${search}"` : ''}
           </span>
         </div>
@@ -133,8 +139,8 @@ function App() {
         {/* Product Grid */}
         {filteredProducts.length > 0 ? (
           <div className="product-grid">
-            {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+            {filteredProducts.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
             ))}
           </div>
         ) : (
@@ -148,9 +154,13 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
+        <div className="footer-gold-line" />
         <div className="footer-inner">
           <div className="footer-brand">
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="footer-logo-img" />
+          </div>
+          <div className="footer-info">
+            <p className="footer-tagline">Frios Ouro Fino — Comércio Atacadista</p>
           </div>
           <div className="footer-contact">
             <a href="https://wa.me/5535998511194" className="footer-whatsapp" target="_blank" rel="noopener noreferrer">

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, index = 0 }) {
   const { addItem, items } = useCart();
   const [imgError, setImgError] = useState(false);
   const [added, setAdded] = useState(false);
@@ -12,15 +12,18 @@ export default function ProductCard({ product }) {
   const handleAdd = () => {
     addItem(product);
     setAdded(true);
-    setTimeout(() => setAdded(false), 600);
+    setTimeout(() => setAdded(false), 700);
   };
 
-  const categoryColor = product.category === 'Resfriados' ? '#D44D2D'
-    : product.category === 'Congelados' ? '#2D7DD4'
-    : '#E8AB1D';
+  const catClass = product.category === 'Resfriados' ? 'cat-resfriados'
+    : product.category === 'Congelados' ? 'cat-congelados'
+    : 'cat-secos';
 
   return (
-    <div className="product-card fade-in">
+    <div
+      className={`product-card ${catClass}`}
+      style={{ animationDelay: `${(index % 8) * 50}ms` }}
+    >
       <div className="product-image-wrap">
         {!imgError ? (
           <img
@@ -35,7 +38,8 @@ export default function ProductCard({ product }) {
             <span>{product.name.charAt(0)}</span>
           </div>
         )}
-        <span className="product-category-tag" style={{ background: categoryColor }}>
+        <div className="product-image-overlay" />
+        <span className="product-category-tag">
           {product.subcategory}
         </span>
         {cartItem && (
@@ -46,21 +50,25 @@ export default function ProductCard({ product }) {
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
         <p className="product-desc">{product.description}</p>
+        <div className="product-divider" />
         <div className="product-bottom">
           <div className="product-pricing">
-            <span className="product-price">R$ {product.price.toFixed(2)}</span>
+            <span className="product-currency">R$</span>
+            <span className="product-price">{product.price.toFixed(2)}</span>
             <span className="product-unit">/{product.unit}</span>
           </div>
           <button
             className={`product-add-btn ${added ? 'added' : ''}`}
             onClick={handleAdd}
+            aria-label="Adicionar ao carrinho"
           >
+            <span className="btn-ripple" />
             {added ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14"/><path d="M5 12h14"/>
               </svg>
             )}
