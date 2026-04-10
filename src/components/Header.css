@@ -19,54 +19,12 @@
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.header-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-squares {
-  display: flex;
-  gap: 2px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.logo-sq {
-  width: 16px;
-  height: 16px;
-}
-
-.logo-sq.brown { background: var(--brown); }
-.logo-sq.orange { background: var(--orange); }
-.logo-sq.yellow { background: var(--yellow); }
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.logo-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--brown);
-  letter-spacing: -0.5px;
-}
-
-.logo-of {
-  color: var(--orange);
-}
-
-.logo-subtitle {
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--gray-500);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.header-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 .cart-button {

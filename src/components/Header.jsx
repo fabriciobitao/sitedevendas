@@ -8,17 +8,7 @@ export default function Header() {
     <header className="header">
       <div className="header-inner">
         <div className="header-brand">
-          <div className="header-logo">
-            <div className="logo-squares">
-              <div className="logo-sq brown"></div>
-              <div className="logo-sq orange"></div>
-              <div className="logo-sq yellow"></div>
-            </div>
-            <div className="logo-text">
-              <span className="logo-title">Frios <span className="logo-of">OF</span></span>
-              <span className="logo-subtitle">Comércio Atacadista</span>
-            </div>
-          </div>
+          <img src="/logo.jpg" alt="Frios Ouro Fino" className="header-logo-img" />
         </div>
 
         <button className="cart-button" onClick={toggleCart} aria-label="Abrir carrinho">

@@ -67,10 +67,7 @@ function App() {
         {/* Hero */}
         <section className="hero">
           <div className="hero-content">
-            <h1 className="hero-title">
-              Frios <span className="hero-of">OF</span>
-            </h1>
-            <p className="hero-subtitle">Frios Ouro Fino Ltda — Comércio Atacadista</p>
+            <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
             <p className="hero-desc">
               Encontre os melhores produtos com preço de atacado. Monte seu pedido e envie direto pelo WhatsApp!
             </p>
@@ -153,8 +150,7 @@ function App() {
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <strong>Frios <span style={{color: 'var(--orange)'}}>OF</span></strong>
-            <span>Frios Ouro Fino Ltda — Comércio Atacadista</span>
+            <img src="/logo.jpg" alt="Frios Ouro Fino" className="footer-logo-img" />
           </div>
           <div className="footer-contact">
             <a href="https://wa.me/5535998511194" className="footer-whatsapp" target="_blank" rel="noopener noreferrer">
