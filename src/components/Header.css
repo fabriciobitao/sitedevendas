@@ -24,6 +24,26 @@
   justify-content: space-between;
 }
 
+.header-home {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  color: var(--brown-medium);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.header-home:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
 .header-info {
   display: flex;
   flex-direction: column;
