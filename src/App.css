@@ -46,7 +46,7 @@
 
 .hero-tagline {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--brown);
   margin-bottom: 8px;
@@ -202,6 +202,17 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters-row:last-child {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.filters-row:last-child::-webkit-scrollbar {
+  display: none;
 }
 
 /* Results */

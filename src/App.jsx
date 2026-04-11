@@ -69,30 +69,10 @@ function CatalogPage({ onOpenRegister }) {
         <div className="hero-bg-pattern" />
         <div className="hero-content">
           <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
-          <p className="hero-tagline">Qualidade e atendimento rápido!</p>
+          <p className="hero-tagline">Qualidade nas entregas e atendimento rápido!</p>
           <p className="hero-desc">
             Monte seu pedido com os melhores produtos e envie direto pelo WhatsApp
           </p>
-          <div className="hero-stats-bar">
-            <div className="hero-stat"><strong>{products.length}+</strong><span>Produtos</span></div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat"><strong>3</strong><span>Categorias</span></div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat"><strong>WhatsApp</strong><span>Pedido rápido</span></div>
-          </div>
-        </div>
-        <div className="hero-cards">
-          {categories.map((cat, i) => (
-            <button key={cat.id} className={`hero-card hero-card--${cat.id}`}
-              onClick={() => handleCategoryChange(cat.id)}
-              style={{ animationDelay: `${0.6 + i * 0.1}s` }}>
-              <span className="hero-card-icon">{cat.icon}</span>
-              <div className="hero-card-text">
-                <span className="hero-card-name">{cat.name}</span>
-                <span className="hero-card-desc">{cat.description}</span>
-              </div>
-            </button>
-          ))}
         </div>
       </section>
 
