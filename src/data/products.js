@@ -305,4 +305,71 @@ export const products = [
   { id: 147, name: 'Bacalhau Desfiado', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: '', description: 'Bacalhau desfiado, embalagem — prático para receitas' },
   { id: 148, name: 'Bacalhau Saith', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: 'Bacalhau tipo Saith salgado seco, peça inteira' },
   { id: 149, name: 'Bacalhau Porto Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: 'Bacalhau do Porto, lombo/peça — premium para receitas especiais' },
+
+  // ============================================================
+  //  CONGELADOS
+  // ============================================================
+
+  // --- Bovinos ---
+  { id: 150, name: 'Acém Congelado', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Acém bovino congelado, peça — corte versátil para cozidos e ensopados' },
+  { id: 151, name: 'Carne Lagarto', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Lagarto bovino congelado, peça — ideal para rosbife e carne de panela' },
+  { id: 152, name: 'Carne Picanha', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Picanha bovina congelada, peça — o corte nobre do churrasco brasileiro' },
+  { id: 153, name: 'Contra-Filé', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Contra-filé bovino congelado, peça — macio e saboroso para grelhar' },
+  { id: 154, name: 'Cupim Friboi', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Cupim bovino congelado Friboi, peça — suculento para churrasco lento' },
+  { id: 155, name: 'Carne Moída Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Carne moída bovina congelada, pacote — prática para o dia a dia' },
+  { id: 156, name: 'Almôndega Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: '', description: 'Almôndega bovina congelada, pacote — pronta para preparar' },
+
+  // --- Suínos ---
+  { id: 157, name: 'Costelinha de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: '', description: 'Costelinha suína congelada, peça — ideal para churrasco e assados' },
+  { id: 158, name: 'Lombo de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: '', description: 'Lombo suíno congelado, peça — corte magro e versátil' },
+  { id: 159, name: 'Pernil sem Osso Pif Paf', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: '', description: 'Pernil suíno sem osso Pif Paf, peça congelada — prático para assar' },
+  { id: 160, name: 'Bacon em Cubos Congelado', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: '', description: 'Bacon em cubos congelado, pacote — pronto para usar em receitas' },
+  { id: 161, name: 'Bacon Fatiado Congelado', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: '', description: 'Bacon fatiado congelado, pacote — praticidade no preparo' },
+
+  // --- Linguiças ---
+  { id: 162, name: 'Linguiça Toscana Nobre', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: '', description: 'Linguiça toscana Nobre congelada — sabor de carne suína temperada' },
+  { id: 163, name: 'Linguiça Toscana Aurora Churrasco', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: '', description: 'Linguiça toscana Aurora para churrasco, congelada' },
+  { id: 164, name: 'Linguiça Toscana Saudali', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: '', description: 'Linguiça toscana de pernil Saudali, congelada' },
+  { id: 165, name: 'Linguiça Uay', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: '', description: 'Linguiça de carne bovina Uay, congelada' },
+
+  // --- Aves ---
+  { id: 166, name: 'Frango Congelado Inteiro', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Frango inteiro congelado, embalagem — ave limpa e pronta para preparo' },
+  { id: 167, name: 'Asa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Asa de frango congelada, pacote' },
+  { id: 168, name: 'Filé de Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Filé de peito de frango congelado, pacote — corte magro e versátil' },
+  { id: 169, name: 'Coxa e Sobrecoxa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Coxa e sobrecoxa de frango congelada, pacote — suculenta e saborosa' },
+  { id: 170, name: 'Filé de Peito Seara', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Filé de peito de frango Seara congelado, pacote' },
+  { id: 171, name: 'Filé de Coxa e Sobrecoxa', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Filé de coxa e sobrecoxa sem osso congelado, pacote' },
+  { id: 172, name: 'Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Peito de frango inteiro congelado, pacote' },
+  { id: 173, name: 'Coxinha da Asa C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Coxinha da asa de frango C.Vale congelada, pacote' },
+  { id: 174, name: 'Meio da Asa (Tulipa)', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Meio da asa de frango (tulipa) congelado, pacote — ideal para aperitivos' },
+  { id: 175, name: 'Filé de Peito C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Filé de peito de frango C.Vale congelado, pacote' },
+  { id: 176, name: 'Coração de Frango Perdigão', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Coração de frango Perdigão congelado, pacote — clássico do churrasco' },
+  { id: 177, name: 'Filé Empanado C.Vale', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '', description: 'Filé de frango empanado C.Vale congelado, pacote — prático e crocante' },
+  { id: 178, name: 'Linguiça de Frango C.Vale', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: '', description: 'Linguiça de frango C.Vale congelada — opção mais leve para churrasco' },
+  { id: 179, name: 'Fígado de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Fígado de frango congelado, pacote' },
+  { id: 180, name: 'Filé Sassami C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Filé sassami de frango C.Vale congelado — corte magro e delicado' },
+  { id: 181, name: 'Moela de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: '', description: 'Moela de frango congelada, pacote' },
+
+  // --- Empanados ---
+  { id: 182, name: 'Chicken C.Vale', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '', description: 'Empanado de frango tipo chicken C.Vale congelado, pacote' },
+  { id: 183, name: 'Chicken Baita', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '', description: 'Empanado de frango tipo chicken Baita congelado, pacote' },
+  { id: 184, name: 'Steak Perdigão', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '', description: 'Steak empanado de frango Perdigão congelado, pacote' },
+
+  // --- Hambúrguer ---
+  { id: 185, name: 'Hambúrguer Aurora', category: 'Congelados', subcategory: 'Hambúrguer', price: null, unit: 'un', image: '', description: 'Hambúrguer de carne bovina Aurora congelado, caixa' },
+
+  // --- Vegetais Congelados ---
+  { id: 186, name: 'Mandioca Congelada (pacote)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: '', description: 'Mandioca cozida e congelada, pacote — prática para fritar ou cozinhar' },
+  { id: 187, name: 'Mandioca Congelada (a granel)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'kg', image: '', description: 'Mandioca congelada a granel — para uso em grande volume' },
+  { id: 188, name: 'Brócolis Congelado', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: '', description: 'Brócolis congelado, pacote — mantém nutrientes e praticidade' },
+  { id: 189, name: 'Polenta Congelada Palito', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: '', description: 'Polenta palito congelada Val Mar — pronta para fritar, crocante por fora' },
+
+  // --- Peixes e Frutos do Mar ---
+  { id: 190, name: 'Filé de Tilápia', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: '', description: 'Filé de tilápia congelado — peixe branco suave e versátil' },
+  { id: 191, name: 'Peixe Panga', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: '', description: 'Filé de peixe panga congelado — sabor neutro, ótimo para empanar' },
+
+  // --- Batatas Congeladas ---
+  { id: 192, name: 'Batata McCain', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: '', description: 'Batata pré-frita congelada McCain, pacote 2,5kg — corte tradicional' },
+  { id: 193, name: 'Batata Quality Fries Canoa', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: '', description: 'Batata pré-frita congelada Quality Fries corte canoa — rústica e crocante' },
+  { id: 194, name: 'Batata Quality Fries', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: '', description: 'Batata pré-frita congelada Quality Fries, pacote — corte palito premium' },
 ];
