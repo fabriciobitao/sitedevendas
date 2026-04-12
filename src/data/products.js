@@ -78,6 +78,8 @@ export const subcategories = {
     'Conservas',
     'Snacks',
     'Carnes Secas',
+    'Margarinas',
+    'Achocolatados',
   ],
 };
 
@@ -131,4 +133,29 @@ export const products = [
   // --- Molhos e Condimentos (maioneses) ---
   { id: 29, name: 'Maionese Balde Saúde', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://tfczuy.vtexassets.com/arquivos/ids/7973699/586459.jpg?v=639084590670370000', description: 'Maionese Saúde, balde tamanho institucional' },
   { id: 32, name: "Maionese Hellmann's 500g", category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/417314/7894000050034_1.jpg?v=638963334320400000', description: "Maionese Hellmann's tradicional, pote 500g" },
+
+  // --- Margarinas ---
+  { id: 34, name: 'Margarina Coamo Fry Balde 15kg 50% Lipídios', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://loja.allpan.com.br/407-large_default/margarina-50-lipidios-com-sal-145kg-coamo.jpg', description: 'Margarina Coamo Fry com sal, 50% lipídios, balde 15kg — ideal para frituras e uso profissional' },
+  { id: 35, name: 'Margarina Coamo Cremosa Balde 15kg 80% Lipídios', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://loja.allpan.com.br/409-large_default/margarina-80-lipidios-com-sal-145kg-coamo.jpg', description: 'Margarina Coamo Cremosa com sal, 80% lipídios, balde 15kg — textura macia para panificação e confeitaria' },
+  { id: 36, name: 'Margarina Claybom 250g', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/989015-11-07-2024-16-06-14-60.jpg', description: 'Margarina Claybom cremosa com sal, pote 250g' },
+  { id: 37, name: 'Margarina Qualy 250g', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://mercantilnovaera.vtexassets.com/arquivos/ids/217072-800-auto?v=638527804629800000&width=800&height=auto&aspect=true', description: 'Margarina Qualy com sal, pote 250g — sabor e cremosidade' },
+  { id: 38, name: 'Margarina Qualy Cremosa 500g', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://mercantilnovaera.vtexassets.com/arquivos/ids/217077-800-auto?v=638527812128230000&width=800&height=auto&aspect=true', description: 'Margarina Qualy Cremosa com sal, pote 500g — textura extra macia' },
+  { id: 39, name: 'Margarina Coamo Sem Sal Balde 15kg 80% Lipídios', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://loja.stampafood.com.br/2543-large_default/margarina-80-lipidios-sem-sal-balde-145-kg-coamo.webp', description: 'Margarina Coamo sem sal, 80% lipídios, balde 15kg — para receitas que pedem controle de sal' },
+  { id: 40, name: 'Margarina Claybom 500g', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://www.extrabom.com.br/media/produtos/350x350/4274_extrabom_margarinas_margarina-cremosa-com-sal-claybom-pote-500g.jpg_.jpeg', description: 'Margarina Claybom cremosa com sal, pote 500g' },
+
+  // --- Conservas (milho) ---
+  { id: 41, name: 'Milho Verde Quero 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/08/Milho-Verde-Quero.jpg', description: 'Milho verde em conserva Quero, lata 2kg — pronto para uso em receitas e saladas' },
+  { id: 42, name: 'Milho Verde Só Fruta Lata 200g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://images-food.ifcshop.com.br/produto/16718_0_20200423190640.jpg', description: 'Milho verde em conserva Só Fruta, lata 200g' },
+
+  // --- Molhos e Condimentos (continuação) ---
+  { id: 43, name: 'Molho de Pimenta 150ml', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://phygital-files.mercafacil.com/primato/uploads/produto/molho_pimenta_castelo_150ml_9eb7cfa4-9100-41ee-a16d-5822e9705007.png', description: 'Molho de pimenta tradicional, frasco 150ml — ardência na medida certa' },
+  { id: 44, name: 'Molho de Pizza Predilecta', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/Arquivos/ProdutosSku/1000042175/7896292334113_99_3_1200_72_RGB.jpg', description: 'Molho de pizza Predilecta, pronto para uso — sabor caseiro para suas pizzas' },
+  { id: 45, name: 'Molho Barbecue Cepera Galão 3kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Barbecue-35kg.jpg', description: 'Molho barbecue Cepera, galão 3kg — tamanho institucional para churrascarias e food service' },
+  { id: 46, name: 'Mostarda Cepera Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Mostarda-amarela-33kg.jpg', description: 'Mostarda amarela Cepera, galão 3,3kg — ideal para lanchonetes e uso profissional' },
+
+  // --- Enlatados (continuação) ---
+  { id: 47, name: 'Mortadelinha Mini Tradição', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://www.perdigao.com.br/assets/_images/5659575eb46a8e2a5bb2bad42930a619856a78cc.png', description: 'Mortadelinha mini Tradição Perdigão — prática e saborosa, ideal para lanches rápidos' },
+
+  // --- Achocolatados ---
+  { id: 48, name: 'Nescau 400g Nestlé', category: 'Secos', subcategory: 'Achocolatados', price: null, unit: 'un', image: 'https://drogal.vtexassets.com/arquivos/ids/246077/127059.jpg?v=638739838442770000', description: 'Achocolatado em pó Nescau Nestlé, lata 400g — o sabor clássico para seu leite' },
 ];
