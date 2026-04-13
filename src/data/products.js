@@ -171,7 +171,6 @@ export const products = [
   { id: 53, name: 'Creme de Leite Italac 200g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/235/32987235.jpg', description: 'Creme de leite UHT Italac, caixinha 200g' },
 
   // --- Águas ---
-  { id: 54, name: 'Água Mineral Bioleve 510ml Garrafa Rosa', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: 'https://agualibra.com.br/wp-content/uploads/2019/06/bioleve-sem-gas-510-ml-rosa.jpg', description: 'Água mineral sem gás Bioleve, garrafa rosa 510ml' },
   { id: 55, name: 'Água Mineral Bioleve 510ml Com Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/5268960/5775906_null_1_Zoom.jpg', description: 'Água mineral com gás Bioleve, garrafa 510ml' },
   { id: 56, name: 'Água Mineral Bioleve 510ml Sem Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/5268965/5775914_null_1_Zoom.jpg', description: 'Água mineral sem gás Bioleve, garrafa azul 510ml' },
 
