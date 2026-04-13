@@ -166,7 +166,6 @@ export const products = [
   // --- Conservas (palmitos) ---
   { id: 50, name: 'Palmito Inteiro Tolete 1,8kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/977444/m.jpg?v=639047151340700000', description: 'Palmito inteiro em tolete, vidro 1,8kg — ideal para uso profissional' },
   { id: 51, name: 'Palmito Inteiro 300g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1529960-800-auto?v=638924482553930000', description: 'Palmito inteiro em conserva, vidro 300g' },
-  { id: 52, name: 'Palmito Lata Conquista', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/470575/344_0.png?v=638595342132070000', description: 'Palmito em conserva Conquista, lata' },
 
   // --- Enlatados ---
   { id: 53, name: 'Creme de Leite Italac 200g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/235/32987235.jpg', description: 'Creme de leite UHT Italac, caixinha 200g' },
@@ -179,7 +178,6 @@ export const products = [
   // --- Refrigerantes ---
   { id: 57, name: 'H2O Bioleve Limão', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/24203350/5209447_1.jpg', description: 'Refrigerante H2O Bioleve sabor limão, garrafa PET' },
   { id: 59, name: 'H2O Bioleve Limoneto', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107630153/refrigerante-h2oh-limao-garrafa-500ml-1.jpg', description: 'Refrigerante H2O Bioleve sabor limoneto, garrafa PET' },
-  { id: 60, name: 'Guaraná Antártica Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/273/32850273.jpg', description: 'Refrigerante Guaraná Antártica, lata 350ml' },
   { id: 61, name: 'Sprite Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/861/32993861.png', description: 'Refrigerante Sprite limão, lata 350ml' },
   { id: 62, name: 'Fanta Laranja Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/89/33022089.png', description: 'Refrigerante Fanta sabor laranja, lata 350ml' },
   { id: 63, name: 'Fanta Uva Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/147300954/fanta-uva-lata-350-ml-1.jpg', description: 'Refrigerante Fanta sabor uva, lata 350ml' },
@@ -190,21 +188,35 @@ export const products = [
   { id: 66, name: 'Gatorade Sabores', category: 'Secos', subcategory: 'Sucos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/106450199/gatorade-sabor-laranja-500ml-1.jpg', description: 'Isotônico Gatorade, diversos sabores, garrafa 500ml' },
   { id: 67, name: 'Suco Bioleve Sabores', category: 'Secos', subcategory: 'Sucos', price: null, unit: 'un', image: 'https://agualibra.com.br/wp-content/uploads/2019/06/suco-bioleve-390-ml.jpg', description: 'Suco Bioleve, diversos sabores naturais' },
 
-  // --- Destilados ---
-  { id: 68, name: 'Cachaça Costa Brava 500ml', category: 'Secos', subcategory: 'Destilados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1145091/p.jpg', description: 'Cachaça Costa Brava, garrafa 500ml' },
+  // --- Cervejas (organizado por marca) ---
+  // Antarctica
+  { id: 196, name: 'Cerveja Antarctica Lata 350ml Cx 18un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/106451995/cerveja-pilsen-antarctica-lata-350ml-pack-com-12-unidades-1.jpg', description: 'Cerveja Antarctica pilsen, lata 350ml, caixa com 18 unidades' },
 
-  // --- Cervejas ---
+  // Brahma
   { id: 69, name: 'Cerveja Brahma Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/106436980/cerveja-pilsen-brahma-chopp-lata-350ml-1.jpg', description: 'Cerveja Brahma Chopp pilsen, lata 350ml' },
   { id: 70, name: 'Cerveja Brahma Latão 550ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/993610-1-18-04-2024-12-01-34-362.jpg', description: 'Cerveja Brahma Chopp pilsen, latão 550ml' },
-  { id: 71, name: 'Cerveja Skol Latão 500ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107629978/cerveja-skol-pilsen-lata-473ml-1.jpg', description: 'Cerveja Skol pilsen, latão 500ml' },
-  { id: 72, name: 'Cerveja Skol Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107629977/cerveja-skol-pilsen-lata-350ml-1.jpg', description: 'Cerveja Skol pilsen, lata 350ml' },
+  { id: 197, name: 'Cerveja Brahma Lata 350ml Cx 18un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/211195/5474299_1.jpg', description: 'Cerveja Brahma Chopp pilsen, lata 350ml, caixa com 18 unidades' },
+
+  // Heineken
+  { id: 198, name: 'Cerveja Heineken Lata 350ml Cx 12un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbr.vtexassets.com/arquivos/ids/189755264/image-0.jpg', description: 'Cerveja Heineken Lager, lata 350ml, caixa com 12 unidades' },
+  { id: 199, name: 'Cerveja Heineken Long Neck 330ml Cx 24un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbr.vtexassets.com/arquivos/ids/189700272/image-0.jpg', description: 'Cerveja Heineken Lager, long neck 330ml, caixa com 24 unidades' },
+
+  // Itaipava
   { id: 73, name: 'Cerveja Itaipava Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/191/32955191.png', description: 'Cerveja Itaipava pilsen, lata 350ml' },
+
+  // Original
+  { id: 200, name: 'Cerveja Original Lata 350ml Cx 12un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/216090/5699193_1.jpg', description: 'Cerveja Original, lata 350ml, caixa com 12 unidades' },
+
+  // Skol
+  { id: 72, name: 'Cerveja Skol Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107629977/cerveja-skol-pilsen-lata-350ml-1.jpg', description: 'Cerveja Skol pilsen, lata 350ml' },
+  { id: 71, name: 'Cerveja Skol Latão 500ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107629978/cerveja-skol-pilsen-lata-473ml-1.jpg', description: 'Cerveja Skol pilsen, latão 500ml' },
+  { id: 201, name: 'Cerveja Skol Lata 350ml Cx 18un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/134558684/cerveja-skol-pilsen-350ml---18-unidades-1.jpg', description: 'Cerveja Skol pilsen, lata 350ml, caixa com 18 unidades' },
 
   // --- Embalagens ---
   { id: 74, name: 'Bobina Picotada 20x30', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/92693075/e029fdb59c.jpg', description: 'Bobina plástica picotada 20x30cm, rolo' },
-  { id: 75, name: 'Saco para Lanche 22x17', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://reiembalagensonline.com/cdn/shop/products/c1d87f0ee7b3ba70ab04a200505411d7_7760846b-2fdc-4f60-a272-c0dec530b124.png?v=1751638149', description: 'Saco de papel para lanche 22x17cm' },
-  { id: 76, name: 'Saco para Lanche 24x19', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x700/1116/1116041/produto/108519804/saco-de-papel-para-lanche-grande-omy9tewurz.jpg', description: 'Saco de papel para lanche 24x19cm' },
-  { id: 77, name: 'Embalagem para Frios', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://www.embrast.com.br/storage/cache/products/21890-embalagem-para-frios-20x22cm-012mm-fardo-com-1000-unidades-570x570.jpg', description: 'Saco plástico estampado para embalar frios' },
+  { id: 75, name: 'Saco Plástico para Lanche 22x17', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/1037887/saco_plastico_para_lanche_leitoso_22x17cm_pacote_1kg_105565_1_3f243dda948d14cf59e5c601a2dd1252.png', description: 'Saco plástico leitoso para lanche 22x17cm' },
+  { id: 76, name: 'Saco Plástico para Lanche 24x19', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x1000/1027/1027618/produto/45978670/2be1242cf5.jpg', description: 'Saco plástico leitoso para lanche 24x19cm' },
+  { id: 77, name: 'Embalagem para Frios - Papel Acoplado', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://89embalagens.com.br/wp-content/uploads/2023/03/15170170266_papel-acoplado-para-frios-embalefrios-400-nidades-a07d3dee.jpg', description: 'Papel acoplado para embalar frios' },
   { id: 78, name: 'Saco Plástico 40x60', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/14048702708c2bc7da3.jpg', description: 'Saco plástico transparente 40x60cm' },
   { id: 79, name: 'Saco Plástico 50x80', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://biripelembalagens.com.br//controle/arquivo/saco-plastico-virgem-cesta-basica-50x80-altaplast-com-100-unidades.jpg', description: 'Saco plástico transparente 50x80cm' },
   { id: 80, name: 'Sacola 38x48', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/56726931/13efadbe2f.jpg', description: 'Sacola plástica branca 38x48cm' },
