@@ -61,8 +61,11 @@ export default function ProductCard({ product, index = 0 }) {
       </div>
 
       <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-        <p className="product-desc">{product.description}</p>
+        <div className="product-info-top">
+          <h3 className="product-name">{product.name}</h3>
+          {product.description && <p className="product-desc">{product.description}</p>}
+        </div>
+        <div className="product-info-bottom">
         <div className="product-divider" />
         <div className="product-pricing">
           {product.price != null ? (
@@ -124,6 +127,7 @@ export default function ProductCard({ product, index = 0 }) {
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

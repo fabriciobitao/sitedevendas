@@ -135,7 +135,7 @@ export const products = [
   { id: 27, name: 'Leite Integral Cooper Rita', category: 'Secos', subcategory: 'Leite em Pó', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/1220177/leite_uht_integral_1l_25_1_ddc37c4a6a4774a8dbc1961685816d76.jpg', description: 'Leite integral UHT Cooper Rita, caixa 1 litro' },
 
   // --- Molhos e Condimentos (maioneses) ---
-  { id: 29, name: 'Maionese Balde Saúde', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://tfczuy.vtexassets.com/arquivos/ids/7973699/586459.jpg?v=639084590670370000', description: 'Maionese Saúde, balde tamanho institucional' },
+  { id: 29, name: 'Maionese Balde Mariana', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/962968-06-09-2024-11-43-57-541.jpg', description: 'Maionese Mariana, balde tamanho institucional — ideal para food service' },
   { id: 32, name: "Maionese Hellmann's 500g", category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/417314/7894000050034_1.jpg?v=638963334320400000', description: "Maionese Hellmann's tradicional, pote 500g" },
 
   // --- Margarinas ---
@@ -152,17 +152,16 @@ export const products = [
   { id: 42, name: 'Milho Verde Só Fruta Lata 200g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://images-food.ifcshop.com.br/produto/16718_0_20200423190640.jpg', description: 'Milho verde em conserva Só Fruta, lata 200g' },
 
   // --- Molhos e Condimentos (continuação) ---
-  { id: 43, name: 'Molho de Pimenta 150ml', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://phygital-files.mercafacil.com/primato/uploads/produto/molho_pimenta_castelo_150ml_9eb7cfa4-9100-41ee-a16d-5822e9705007.png', description: 'Molho de pimenta tradicional, frasco 150ml — ardência na medida certa' },
-  { id: 44, name: 'Molho de Pizza Predilecta', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/Arquivos/ProdutosSku/1000042175/7896292334113_99_3_1200_72_RGB.jpg', description: 'Molho de pizza Predilecta, pronto para uso — sabor caseiro para suas pizzas' },
-  { id: 45, name: 'Molho Barbecue Cepera Galão 3kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Barbecue-35kg.jpg', description: 'Molho barbecue Cepera, galão 3kg — tamanho institucional para churrascarias e food service' },
+  { id: 44, name: 'Molho de Pizza Predilecta Bag 4,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://gerenciadorpd.com.br/assets/images/produtos/7896292302341_234_Molho%20para%20Pizza_3,1%20kg_Bag_0263_4296.png', description: 'Molho para pizza Predilecta, bag 4,1kg — tamanho institucional para pizzarias e food service' },
+  { id: 45, name: 'Molho Barbecue Predilecta Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://ccndistribuidora.vtexassets.com/arquivos/ids/162003/MOLHO-BARBECUE-PREDILECTA-GALAO-35KG.jpg?v=638201288482730000', description: 'Molho barbecue Predilecta, galão 3,5kg — tamanho institucional para churrascarias e food service' },
   { id: 46, name: 'Mostarda Cepera Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Mostarda-amarela-33kg.jpg', description: 'Mostarda amarela Cepera, galão 3,3kg — ideal para lanchonetes e uso profissional' },
 
   // --- Enlatados (continuação) ---
-  { id: 47, name: 'Mortadelinha Mini Tradição', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://www.perdigao.com.br/assets/_images/5659575eb46a8e2a5bb2bad42930a619856a78cc.png', description: 'Mortadelinha mini Tradição Perdigão — prática e saborosa, ideal para lanches rápidos' },
+  { id: 47, name: 'Mortadela Mini Saudali 400g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://tdc0wy.vteximg.com.br/arquivos/ids/164754-1000-1000/MORTADELA-SAUDALI-TUBULAR-500G-SUINA.png?v=638615652480100000', description: 'Mortadela mini tubular Saudali, 400g — prática para lanches e sanduíches' },
 
   // --- Achocolatados ---
   { id: 48, name: 'Nescau 400g Nestlé', category: 'Secos', subcategory: 'Achocolatados', price: null, unit: 'un', image: 'https://drogal.vtexassets.com/arquivos/ids/246077/127059.jpg?v=638739838442770000', description: 'Achocolatado em pó Nescau Nestlé, lata 400g — o sabor clássico para seu leite' },
-  { id: 49, name: 'Achocolatado Chocomil', category: 'Secos', subcategory: 'Achocolatados', price: null, unit: 'un', image: '', description: 'Bebida láctea achocolatada Chocomil, caixinha — prática e saborosa' },
+  { id: 49, name: 'Achocolatado Chocomil 200ml cx 27un', category: 'Secos', subcategory: 'Achocolatados', price: null, unit: 'cx', image: 'https://dcdn-us.mitiendanube.com/stores/005/951/679/products/41d64c8d5f66ad872a0bc56e2d64ed4f-86eb74bdca024d506517561226354387-1024-1024.webp', description: 'Achocolatado Chocomil 200ml, caixa fechada com 27 unidades' },
 
   // --- Conservas (palmitos) ---
   { id: 50, name: 'Palmito Inteiro Tolete 1,8kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '', description: 'Palmito inteiro em tolete, vidro 1,8kg — ideal para uso profissional' },
@@ -179,16 +178,13 @@ export const products = [
 
   // --- Refrigerantes ---
   { id: 57, name: 'H2O Bioleve Limão', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante H2O Bioleve sabor limão, garrafa PET' },
-  { id: 58, name: 'H2O Bioleve Mexerica', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante H2O Bioleve sabor mexerica, garrafa PET' },
-  { id: 59, name: 'H2O Bioleve Limão Zero', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante H2O Bioleve sabor limão zero açúcar, garrafa PET' },
+  { id: 59, name: 'H2O Bioleve Limoneto', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante H2O Bioleve sabor limoneto, garrafa PET' },
   { id: 60, name: 'Guaraná Antártica Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Guaraná Antártica, lata 350ml' },
   { id: 61, name: 'Sprite Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Sprite limão, lata 350ml' },
   { id: 62, name: 'Fanta Laranja Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Fanta sabor laranja, lata 350ml' },
   { id: 63, name: 'Fanta Uva Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Fanta sabor uva, lata 350ml' },
   { id: 64, name: 'Coca-Cola Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Coca-Cola original, lata 350ml' },
 
-  // --- Energéticos ---
-  { id: 65, name: 'Energético Bioleve Energy Power cx 6un', category: 'Secos', subcategory: 'Energéticos', price: null, unit: 'cx', image: '', description: 'Energético Bioleve Energy Power, caixa com 6 unidades' },
 
   // --- Sucos ---
   { id: 66, name: 'Gatorade Sabores', category: 'Secos', subcategory: 'Sucos', price: null, unit: 'un', image: '', description: 'Isotônico Gatorade, diversos sabores, garrafa 500ml' },
@@ -224,9 +220,7 @@ export const products = [
 
   // --- Descartáveis ---
   { id: 90, name: 'Papel Toalha Interfolha 20x21 pc 800', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'pc', image: '', description: 'Papel toalha interfolha 20x21cm, pacote com 800 folhas' },
-  { id: 91, name: 'Embalagem de Pizza Brotinho', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'un', image: '', description: 'Caixa octogonal para pizza brotinho' },
   { id: 92, name: 'Embalagem de Pizza Grande', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'un', image: '', description: 'Caixa octogonal para pizza grande' },
-  { id: 93, name: 'Copo Plástico Copolar 200ml pc 100un', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'pc', image: '', description: 'Copo plástico descartável Copolar 200ml, pacote com 100 unidades' },
   { id: 94, name: 'Marmitex nº8 cx 100un PT102', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'cx', image: '', description: 'Marmitex isopor nº8 com tampa, caixa com 100 unidades, modelo PT102' },
   { id: 95, name: 'Marmitex nº9 cx 100un PT104', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'cx', image: '', description: 'Marmitex isopor nº9 com tampa, caixa com 100 unidades, modelo PT104' },
   { id: 96, name: 'Marmitex PT100 cx 100un', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'cx', image: '', description: 'Marmitex isopor redondo PT100 com tampa, caixa com 100 unidades' },
@@ -239,72 +233,71 @@ export const products = [
   // ============================================================
 
   // --- Apresuntados ---
-  { id: 100, name: 'Apresuntado Aurora', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Aurora, peça — fatiado na hora' },
-  { id: 101, name: 'Apresuntado Fricor', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Fricor, peça — qualidade premium' },
-  { id: 102, name: 'Apresuntado Pepery', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Pepery, peça — sabor tradicional' },
-  { id: 103, name: 'Apresuntado Perdigão', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Perdigão, peça — marca líder de mercado' },
-  { id: 104, name: 'Apresuntado Poços de Caldas', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Lanche de Carnes Poços de Caldas, peça' },
-  { id: 105, name: 'Apresuntado Sadia', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: '', description: 'Apresuntado Sadia, peça — qualidade garantida' },
+  { id: 100, name: 'Apresuntado Aurora - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://www.auroraalimentos.com.br/wp-content/uploads/2022/04/APRESUNTADO-AURORA-3.7-KG-517.png', description: '' },
+  { id: 102, name: 'Apresuntado Nobre / Peperi - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://peperi.coop.br/wp-content/uploads/2022/05/520-Apresuntado-Peperi-flat-Nobre-Peperi.png', description: '' },
+  { id: 103, name: 'Apresuntado Perdigão - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://apoioentrega.vteximg.com.br/arquivos/ids/464695-500-500/APRESUNTADO-PERDIGAO-KG-PECA.jpg?v=637439082532270000', description: '' },
+  { id: 105, name: 'Apresuntado Sadia - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://images-food.ifcshop.com.br/produto/44708_0_20220103133041.jpg', description: '' },
 
   // --- Presuntos ---
-  { id: 106, name: 'Lombo Canadense Nobre', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: 'Lombo canadense defumado Nobre, peça' },
-  { id: 107, name: 'Presunto Cozido Sadia', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: 'Presunto cozido Sadia, peça — para fatiar' },
-  { id: 108, name: 'Presunto Rio Sul', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: 'Presunto cozido Rio Sul, peça' },
-  { id: 109, name: 'Presunto Perdigão', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: 'Presunto cozido Perdigão, peça' },
+  { id: 106, name: 'Lombo Canadense Nobre - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 107, name: 'Presunto Cozido Sadia - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 108, name: 'Presunto Rio Sul - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 109, name: 'Presunto Perdigão - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 195, name: 'Presunto Filé Mignon Suíno Sadia - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://redemix.vteximg.com.br/arquivos/ids/218916-500-500/7435.png?v=638524206461000000', description: '' },
 
   // --- Mortadelas ---
-  { id: 110, name: 'Mortadela Frigossa 2kg', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'pc', image: '', description: 'Mortadela Frigossa, peça inteira 2kg' },
-  { id: 111, name: 'Mortadela Marba', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: 'Mortadela Marba, peça — tradicional e saborosa' },
-  { id: 112, name: 'Mortadela Ouro', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: 'Mortadela Ouro, peça — qualidade premium' },
-  { id: 113, name: 'Bolonhela Perdigão', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: 'Mortadela tipo bologna Perdigão, peça' },
+  { id: 110, name: 'Mortadela Frigossa 2kg - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'pc', image: '', description: '' },
+  { id: 111, name: 'Mortadela Marba - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: '' },
+  { id: 112, name: 'Mortadela Ouro - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: '' },
+  { id: 113, name: 'Bolonhela Perdigão - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '', description: '' },
 
   // --- Cream Cheese ---
-  { id: 114, name: 'Cream Cheese Scala', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: 'Cream cheese Scala, embalagem bisnaga — cremoso e versátil' },
-  { id: 115, name: 'Catupiry Milk Gold', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: 'Requeijão cremoso tipo catupiry Milk Gold' },
-  { id: 116, name: 'Catupiry Catiguá', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: 'Requeijão cremoso tipo catupiry Catiguá' },
-  { id: 117, name: 'Catupiri Dalora', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: 'Requeijão cremoso tipo catupiry Dalora, bisnaga' },
-  { id: 118, name: 'Catupiri Scala Bisnaga', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: 'Requeijão cremoso tipo catupiry Scala, bisnaga' },
+  { id: 114, name: 'Cream Cheese Scala', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: '' },
+  { id: 115, name: 'Catupiry Milk Gold', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: '' },
+  { id: 116, name: 'Catupiry Catiguá', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: '' },
+  { id: 117, name: 'Catupiri Dalora', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: '' },
+  { id: 118, name: 'Catupiri Scala Bisnaga', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '', description: '' },
 
   // --- Queijos ---
-  { id: 119, name: 'Cheddar Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: 'Requeijão sabor cheddar Scala, bisnaga' },
-  { id: 120, name: 'Queijo Provolone', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo provolone defumado, peça' },
-  { id: 121, name: 'Queijo Crioulo', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: 'Queijo minas frescal Crioulo, pote' },
-  { id: 122, name: 'Queijo Gorgonzola', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo gorgonzola, peça — sabor intenso e marcante' },
-  { id: 123, name: 'Queijo Minas Padrão Nova Esperança', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo minas padrão Laticínio Nova Esperança, peça' },
-  { id: 124, name: 'Mussarela Nova Esperança', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo mussarela Nova Esperança, peça — para fatiar' },
-  { id: 125, name: 'Mussarela Roseira', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo mussarela Roseira, barra — qualidade e rendimento' },
-  { id: 126, name: 'Queijo Prato', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: 'Queijo prato, peça — ideal para sanduíches e lanches' },
-  { id: 127, name: 'Parmesão Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: 'Queijo parmesão Scala, embalagem — sabor intenso para gratinar e ralar' },
-  { id: 128, name: 'Espeto de Queijo Coalho', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: 'Queijo coalho em espeto, pronto para assar — ideal para churrascos' },
+  { id: 119, name: 'Cheddar Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: '' },
+  { id: 120, name: 'Queijo Provolone - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 121, name: 'Queijo Crioulo', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: '' },
+  { id: 122, name: 'Queijo Gorgonzola - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 123, name: 'Queijo Minas Padrão Nova Esperança - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 124, name: 'Mussarela Nova Esperança - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 125, name: 'Mussarela Roseira - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 126, name: 'Queijo Prato - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 127, name: 'Parmesão Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: '' },
+  { id: 128, name: 'Espeto de Queijo Coalho', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '', description: '' },
 
   // --- Requeijão ---
-  { id: 129, name: 'Requeijão Scala Light', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: '', description: 'Requeijão cremoso Scala light, copo — menos gordura, mesmo sabor' },
-  { id: 130, name: 'Requeijão Scala', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: '', description: 'Requeijão cremoso Scala tradicional, copo' },
+  { id: 129, name: 'Requeijão Scala Light', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: '', description: '' },
+  { id: 130, name: 'Requeijão Scala', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: '', description: '' },
 
   // --- Manteiga e Margarina ---
-  { id: 131, name: 'Manteiga Scala', category: 'Resfriados', subcategory: 'Manteiga e Margarina', price: null, unit: 'un', image: '', description: 'Manteiga Scala com sal, pote — sabor puro de manteiga' },
+  { id: 131, name: 'Manteiga Scala', category: 'Resfriados', subcategory: 'Manteiga e Margarina', price: null, unit: 'un', image: '', description: '' },
 
   // --- Salames e Embutidos ---
-  { id: 132, name: 'Bacon Perdigão', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Bacon defumado Perdigão, peça — sabor defumado marcante' },
-  { id: 133, name: 'Bacon Pernil Saudali', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Bacon de pernil Saudali, peça defumada' },
-  { id: 134, name: 'Bacon Sadia', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Bacon defumado Sadia, peça' },
-  { id: 135, name: 'Carne Seca Frisul', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Carne seca (charque) Frisul, peça — curada e saborosa' },
-  { id: 136, name: 'Calabresa Frigonossa', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça calabresa defumada Frigonossa, peça' },
-  { id: 137, name: 'Calabresa Reta Seara', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça calabresa reta defumada Seara, peça' },
-  { id: 138, name: 'Calabresa Sadia', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça calabresa defumada Sadia, peça' },
-  { id: 139, name: 'Salaminho Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Salame tipo italiano, peça inteira — curado e saboroso' },
-  { id: 140, name: 'Linguiça Cuiabana Grande', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça tipo cuiabana fininha, peça grande' },
-  { id: 141, name: 'Linguiça Gomo Grande', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça em gomos grande Churraskit, peça — ideal para churrasco' },
-  { id: 142, name: 'Linguiça Mista Fina', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Linguiça mista fina Perdigão, peça' },
-  { id: 143, name: 'Salsicha Amarrada', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Salsicha tipo amarrada artesanal, peça' },
-  { id: 144, name: 'Salsicha Frigonossa', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: 'Salsicha Frigonossa, pacote — para hot dog e lanches' },
-  { id: 145, name: 'Salsicha Perdigão Hot Dog', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'un', image: '', description: 'Salsicha Perdigão Hot Dog, pacote — a preferida do Brasil' },
-  { id: 146, name: 'Torresmo', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'un', image: '', description: 'Torresmo de porco, pacote — crocante e saboroso' },
+  { id: 132, name: 'Bacon Perdigão - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 133, name: 'Bacon Pernil Saudali - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 134, name: 'Bacon Sadia - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 135, name: 'Carne Seca Frisul - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 136, name: 'Calabresa Frigonossa - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 137, name: 'Calabresa Reta Seara - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 138, name: 'Calabresa Sadia - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 139, name: 'Salaminho - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 140, name: 'Linguiça Cuiabana Grande - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 141, name: 'Linguiça Gomo Grande - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 142, name: 'Linguiça Mista Fina - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 143, name: 'Salsicha Amarrada - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 144, name: 'Salsicha Frigonossa', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: '', description: '' },
+  { id: 145, name: 'Salsicha Perdigão Hot Dog', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'un', image: '', description: '' },
+  { id: 146, name: 'Torresmo', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'un', image: '', description: '' },
 
   // --- Bacalhau ---
-  { id: 147, name: 'Bacalhau Desfiado', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: '', description: 'Bacalhau desfiado, embalagem — prático para receitas' },
-  { id: 148, name: 'Bacalhau Saith', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: 'Bacalhau tipo Saith salgado seco, peça inteira' },
-  { id: 149, name: 'Bacalhau Porto Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: 'Bacalhau do Porto, lombo/peça — premium para receitas especiais' },
+  { id: 147, name: 'Bacalhau Desfiado', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: '', description: '' },
+  { id: 148, name: 'Bacalhau Saith - Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: '' },
+  { id: 149, name: 'Bacalhau Porto - Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '', description: '' },
 
   // ============================================================
   //  CONGELADOS

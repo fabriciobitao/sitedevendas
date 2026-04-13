@@ -132,6 +132,14 @@
   gap: 4px;
 }
 
+.product-info-top {
+  flex: 1;
+}
+
+.product-info-bottom {
+  margin-top: auto;
+}
+
 .product-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 15px;
