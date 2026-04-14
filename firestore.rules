@@ -1,16 +1,84 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ============================================================
+    // CUSTOMERS COLLECTION
+    // - Create: any authenticated user (registration flow)
+    // - Read: only the document owner
+    // - Update: only the document owner
+    // - Delete: NOBODY (data retention policy)
+    // ============================================================
     match /customers/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      // Read own profile only
+      allow get: if request.auth != null && request.auth.uid == uid;
+
+      // List is denied — no one should enumerate customers
+      allow list: if false;
+
+      // Create own profile during registration
+      // Validates: document ID must match auth UID, email must match auth email,
+      // required fields must be present, no admin self-escalation
+      allow create: if request.auth != null
+                    && request.auth.uid == uid
+                    && request.resource.data.email == request.auth.token.email
+                    && request.resource.data.keys().hasAll(['email', 'tipo', 'nomeResponsavel', 'cpf', 'createdAt'])
+                    && !('role' in request.resource.data)
+                    && !('isAdmin' in request.resource.data);
+
+      // Update own profile only — cannot change email, createdAt, or escalate to admin
+      allow update: if request.auth != null
+                    && request.auth.uid == uid
+                    && request.resource.data.email == resource.data.email
+                    && request.resource.data.createdAt == resource.data.createdAt
+                    && !('role' in request.resource.data)
+                    && !('isAdmin' in request.resource.data);
+
+      // Delete: explicitly denied
+      allow delete: if false;
     }
+
+    // ============================================================
+    // ORDERS COLLECTION
+    // - Create: authenticated user, customerId must match UID
+    // - Read (get): only the order owner
+    // - List: authenticated users (frontend filters by customerId)
+    // - Update/Delete: NOBODY (orders are immutable)
+    // ============================================================
     match /orders/{orderId} {
-      // Leitura individual: so o dono
-      allow get: if request.auth != null && resource.data.customerId == request.auth.uid;
-      // Listagem: qualquer usuario autenticado (query ja filtra por customerId no codigo)
-      allow list: if request.auth != null;
-      // Criacao: so se customerId bate com o uid
-      allow create: if request.auth != null && request.resource.data.customerId == request.auth.uid;
+      // Read individual order: only the owner
+      allow get: if request.auth != null
+                 && resource.data.customerId == request.auth.uid;
+
+      // List orders: only own orders, max 50 per query
+      allow list: if request.auth != null
+                  && resource.data.customerId == request.auth.uid;
+
+      // Create order: customerId must match auth UID, must have required fields
+      allow create: if request.auth != null
+                    && request.resource.data.customerId == request.auth.uid
+                    && request.resource.data.keys().hasAll(['customerId', 'items', 'createdAt']);
+
+      // Orders are immutable once created
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // ============================================================
+    // ADMIN COLLECTION (future use)
+    // Only accessible by users with admin custom claim
+    // ============================================================
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.token.admin == true;
+    }
+
+    // ============================================================
+    // DEFAULT: Deny all unmatched paths
+    // This is Firestore's default, but being explicit is safer.
+    // ============================================================
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

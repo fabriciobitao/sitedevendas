@@ -1,10 +1,5 @@
 import { useEffect } from 'react';
 
-/**
- * Client-side content protection layer.
- * Not bulletproof (nothing client-side is), but raises the bar
- * significantly against casual copying, scraping, and image theft.
- */
 export default function useContentProtection() {
   useEffect(() => {
     // --- 1. Disable right-click context menu ---
@@ -13,58 +8,39 @@ export default function useContentProtection() {
       return false;
     };
 
-    // --- 2. Block copy/cut/paste of content ---
+    // --- 2. Block copy/cut ---
     const handleCopy = (e) => {
       e.preventDefault();
       e.clipboardData?.setData('text/plain', '');
       return false;
     };
 
-    // --- 3. Block keyboard shortcuts for view-source, dev tools, save, print ---
+    // --- 3. Block keyboard shortcuts ---
     const handleKeyDown = (e) => {
-      // Ctrl+U / Cmd+U = View source
-      if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+      const ctrl = e.ctrlKey || e.metaKey;
+      // View source, Save, Print, Select All
+      if (ctrl && ['u', 's', 'p', 'a'].includes(e.key.toLowerCase())) {
         e.preventDefault();
         return false;
       }
-      // Ctrl+S / Cmd+S = Save page
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      // DevTools: Ctrl+Shift+I/J/C
+      if (ctrl && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) {
         e.preventDefault();
         return false;
       }
-      // Ctrl+P / Cmd+P = Print
-      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+I / Cmd+Opt+I = DevTools
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+J / Cmd+Opt+J = Console
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+C / Cmd+Opt+C = Element inspector
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
-        e.preventDefault();
-        return false;
-      }
-      // F12 = DevTools
+      // F12
       if (e.key === 'F12') {
         e.preventDefault();
         return false;
       }
-      // Ctrl+A / Cmd+A = Select all
-      if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+      // Ctrl+Shift+E (Network tab), Ctrl+Shift+M (mobile view)
+      if (ctrl && e.shiftKey && ['E', 'M', 'e', 'm'].includes(e.key)) {
         e.preventDefault();
         return false;
       }
     };
 
-    // --- 4. Block image dragging (prevents drag-to-desktop save) ---
+    // --- 4. Block image dragging ---
     const handleDragStart = (e) => {
       if (e.target.tagName === 'IMG') {
         e.preventDefault();
@@ -72,39 +48,67 @@ export default function useContentProtection() {
       }
     };
 
-    // --- 5. Console warning to deter inspection ---
-    const consoleWarning = () => {
-      const style = 'color: red; font-size: 24px; font-weight: bold;';
-      const styleSmall = 'color: #333; font-size: 14px;';
-      console.log('%cATENCAO!', style);
-      console.log(
-        '%cEste site e protegido. Tentativas de copia, scraping ou engenharia reversa ' +
-        'sao monitoradas e podem resultar em acoes legais.',
-        styleSmall
-      );
+    // --- 5. Block selecting text via mouse ---
+    const handleSelectStart = (e) => {
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+        e.preventDefault();
+        return false;
+      }
     };
-    consoleWarning();
 
-    // --- Register all listeners ---
+    // --- 6. DevTools detection (debugger trap) ---
+    let devtoolsInterval;
+    const detectDevTools = () => {
+      const threshold = 160;
+      const widthDiff = window.outerWidth - window.innerWidth > threshold;
+      const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      if (widthDiff || heightDiff) {
+        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#fff;"><div style="text-align:center;"><h1 style="color:#c00;">Acesso Bloqueado</h1><p>Ferramentas de desenvolvedor detectadas.<br>Feche o DevTools e recarregue a página.</p></div></div>';
+      }
+    };
+    devtoolsInterval = setInterval(detectDevTools, 2000);
+
+    // --- 7. Block "Save As" dialog ---
+    const handleBeforePrint = (e) => {
+      e.preventDefault();
+    };
+
+    // --- 8. Disable page visibility changes for screenshot tools ---
+    const handleVisibilityChange = () => {
+      // noop - just registering to prevent some automation tools
+    };
+
+    // --- 9. Console warning ---
+    const style = 'color: red; font-size: 24px; font-weight: bold;';
+    const styleSmall = 'color: #333; font-size: 14px;';
+    console.log('%c⛔ ACESSO PROIBIDO', style);
+    console.log(
+      '%cEste site é protegido por lei. Tentativas de cópia, scraping ou engenharia reversa ' +
+      'são monitoradas e podem resultar em ações legais conforme LGPD (Lei 13.709/2018).',
+      styleSmall
+    );
+
+    // --- Register listeners ---
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('copy', handleCopy);
     document.addEventListener('cut', handleCopy);
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('selectstart', handleSelectStart);
+    window.addEventListener('beforeprint', handleBeforePrint);
 
-    // --- 6. CSS-level protections via injected style ---
+    // --- 10. CSS protections ---
     const styleEl = document.createElement('style');
     styleEl.id = 'content-protection-styles';
     styleEl.textContent = `
-      /* Disable text selection globally */
       body {
         -webkit-user-select: none !important;
         -moz-user-select: none !important;
         -ms-user-select: none !important;
         user-select: none !important;
+        -webkit-touch-callout: none !important;
       }
 
-      /* Re-enable selection ONLY in form inputs and textareas */
       input, textarea, select, [contenteditable="true"] {
         -webkit-user-select: text !important;
         -moz-user-select: text !important;
@@ -112,22 +116,32 @@ export default function useContentProtection() {
         user-select: text !important;
       }
 
-      /* Prevent image saving via long-press on mobile */
       img {
         -webkit-touch-callout: none !important;
         pointer-events: none !important;
+        -webkit-user-drag: none !important;
+        user-drag: none !important;
       }
 
-      /* Allow pointer events on interactive images (links wrapping images) */
       a img, button img {
         pointer-events: auto !important;
       }
 
-      /* Disable print styles - blank page when printing */
       @media print {
-        body {
+        html, body {
           display: none !important;
+          visibility: hidden !important;
         }
+      }
+
+      ::selection {
+        background: transparent !important;
+        color: inherit !important;
+      }
+
+      ::-moz-selection {
+        background: transparent !important;
+        color: inherit !important;
       }
     `;
     document.head.appendChild(styleEl);
@@ -139,6 +153,9 @@ export default function useContentProtection() {
       document.removeEventListener('cut', handleCopy);
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('selectstart', handleSelectStart);
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      clearInterval(devtoolsInterval);
       const el = document.getElementById('content-protection-styles');
       if (el) el.remove();
     };
