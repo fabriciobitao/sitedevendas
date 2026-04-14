@@ -55,9 +55,6 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
         )}
         <div className="product-image-overlay" />
-        <span className="product-category-tag">
-          {product.subcategory}
-        </span>
       </div>
 
       <div className="product-info">
