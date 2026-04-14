@@ -51,15 +51,29 @@
 }
 
 .header-datetime {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--brown-medium);
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-icon {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.header-clock {
+  margin-left: 6px;
 }
 
 .header-vendedor {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--brown-dark);
-  font-weight: 600;
+  font-weight: 700;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  letter-spacing: 0.5px;
 }
 
 .header-actions {

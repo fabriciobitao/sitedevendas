@@ -71,7 +71,7 @@ function CatalogPage({ onOpenRegister }) {
           <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
           <p className="hero-tagline">Qualidade nas entregas e atendimento rápido!</p>
           <p className="hero-desc">
-            Monte seu pedido com os melhores produtos e envie direto pelo WhatsApp
+            Monte seu pedido com os melhores produtos e finalize seu pedido no carrinho de compras, ele será enviado para o WhatsApp!
           </p>
         </div>
       </section>
@@ -116,11 +116,34 @@ function CatalogPage({ onOpenRegister }) {
       </div>
 
       {filteredProducts.length > 0 ? (
-        <div className="product-grid">
-          {filteredProducts.map((product, i) => (
-            <ProductCard key={product.id} product={product} index={i} />
-          ))}
-        </div>
+        category === 'all' ? (
+          // Quando "Todos" está selecionado, agrupar por categoria
+          ['Secos', 'Resfriados', 'Congelados'].map(catName => {
+            const catProducts = filteredProducts.filter(p => p.category === catName);
+            if (catProducts.length === 0) return null;
+            const catInfo = categories.find(c => c.name === catName);
+            return (
+              <div key={catName} className="category-section">
+                <div className="category-section-header">
+                  <span className="category-section-icon">{catInfo?.icon}</span>
+                  <h2 className="category-section-title">{catName}</h2>
+                  <span className="category-section-desc">{catInfo?.description}</span>
+                </div>
+                <div className="product-grid">
+                  {catProducts.map((product, i) => (
+                    <ProductCard key={product.id} product={product} index={i} />
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="product-grid">
+            {filteredProducts.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
+        )
       ) : (
         <div className="empty-state">
           <span className="empty-icon">🔍</span>

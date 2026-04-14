@@ -49,13 +49,15 @@ export const subcategories = {
   Resfriados: [
     'Apresuntados',
     'Bacalhau',
+    'Bacon',
+    'Calabresas',
     'Cream Cheese',
     'Manteiga e Margarina',
     'Mortadelas',
     'Presuntos',
     'Queijos',
     'Requeijão',
-    'Salames e Embutidos',
+    'Salsichas',
   ],
   Congelados: [
     'Aves',
@@ -81,11 +83,14 @@ export const products = [
   { id: 202, name: 'Toddy 370g', category: 'Secos', subcategory: 'Achocolatados', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/193863201/achocolatado-em-po-original-toddy-370g-1.jpg?v=638877504790370000', description: 'Achocolatado em pó Toddy original, pacote 370g' },
 
   // --- Açúcar ---
-  { id: 1, name: 'Açúcar Refinado União 10/1kg', category: 'Secos', subcategory: 'Açúcar', price: 48.50, unit: 'fardo', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1140918/g.jpg?v=639076962153600000', description: 'Fardo com 10 pacotes de 1kg' },
+  { id: 1, name: 'Açúcar Refinado União 10/1kg', category: 'Secos', subcategory: 'Açúcar', price: null, unit: 'fardo', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1140918/g.jpg?v=639076962153600000', description: 'Fardo com 10 pacotes de 1kg' },
 
   // --- Águas ---
   { id: 55, name: 'Água Mineral Bioleve 510ml Com Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/5268960/5775906_null_1_Zoom.jpg', description: 'Água mineral com gás Bioleve, garrafa 510ml' },
   { id: 56, name: 'Água Mineral Bioleve 510ml Sem Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: '/images/agua-bioleve-sem-gas.webp', description: 'Água mineral sem gás Bioleve, garrafa azul 510ml' },
+  // Serra de Minas
+  { id: 209, name: 'Água Mineral Serra de Minas 510ml Com Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: '/images/agua-serra-de-minas.jpeg', description: 'Água mineral com gás Serra de Minas, garrafa 510ml' },
+  { id: 210, name: 'Água Mineral Serra de Minas 510ml Sem Gás', category: 'Secos', subcategory: 'Águas', price: null, unit: 'un', image: '/images/agua-serra-de-minas.jpeg', description: 'Água mineral sem gás Serra de Minas, garrafa 510ml' },
 
   // --- Cervejas (organizado por marca) ---
   // Antarctica
@@ -108,6 +113,7 @@ export const products = [
 
   // --- Conservas (agrupado por família) ---
   // Azeitonas
+  { id: 5, name: 'Alho Triturado Balde', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/alho balde triturado.webp', description: 'Alho triturado pronto para uso, balde' },
   { id: 8, name: 'Azeitona Chileninha Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/images/azeitona-chileninha.png', description: 'Azeitona chileninha preta, tipo portuguesa, balde 2kg' },
   { id: 10, name: 'Azeitona com Caroço Graúda Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/azeitona com caroco.webp', description: 'Azeitona verde com caroço, tamanho graúda, balde 2kg' },
   { id: 33, name: 'Azeitona com Caroço Miúda Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/azeitona com caroco.webp', description: 'Azeitona verde com caroço, tamanho miúda, balde 2kg' },
@@ -115,17 +121,13 @@ export const products = [
   { id: 11, name: 'Azeitona Fatiada Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/azeitona fatida.webp', description: 'Azeitona verde fatiada, balde 2kg' },
   { id: 12, name: 'Azeitona Preta Fatiada Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/azeitona preta fatiada.webp', description: 'Azeitona preta fatiada em conserva, balde 2kg' },
   { id: 14, name: 'Azeitona Verde sem Caroço Balde 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/azeitona sem caroco.webp', description: 'Azeitona verde sem caroço em conserva, balde 2kg' },
-  // Alho
-  { id: 4, name: 'Alho Frito 500g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/alho frito.jpeg', description: 'Alho frito crocante, pacote 500g' },
-  { id: 5, name: 'Alho Triturado Balde', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/alho balde triturado.webp', description: 'Alho triturado pronto para uso, balde' },
   // Champignon
   { id: 20, name: 'Champignon Fatiado Balde', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/champinhon fatiado.jpg', description: 'Cogumelos champignon fatiados em conserva, balde' },
   // Ervilhas
-  { id: 22, name: 'Ervilha 200g Predilecta', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/07/arq_0Ervilha-Lata-Predilecta-200g.jpg', description: 'Ervilha em conserva Predilecta, lata 200g' },
   { id: 21, name: 'Ervilha 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1147595/m.jpg?v=639076996519730000', description: 'Ervilha em conserva Predilecta, balde 2kg' },
   // Milho Verde
   { id: 41, name: 'Milho Verde Quero 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/08/Milho-Verde-Quero.jpg', description: 'Milho verde em conserva Quero, lata 2kg — pronto para uso em receitas e saladas' },
-  { id: 42, name: 'Milho Verde Só Fruta Lata 200g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://images-food.ifcshop.com.br/produto/16718_0_20200423190640.jpg', description: 'Milho verde em conserva Só Fruta, lata 200g' },
+  { id: 42, name: 'Milho Verde Lata 200g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/images/milho-lata-200g.png', description: 'Milho verde em conserva, lata 200g' },
   // Palmitos
   { id: 51, name: 'Palmito Inteiro 300g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/images/palmito-300g.webp', description: 'Palmito inteiro em conserva, vidro 300g' },
   { id: 50, name: 'Palmito Inteiro Tolete 1,8kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/977444/m.jpg?v=639047151340700000', description: 'Palmito inteiro em tolete, vidro 1,8kg — ideal para uso profissional' },
@@ -140,6 +142,9 @@ export const products = [
 
   // --- Farinhas ---
   { id: 24, name: 'Farinha de Trigo Aniela 10/1kg', category: 'Secos', subcategory: 'Farinhas', price: null, unit: 'fardo', image: 'https://assets.instabuy.app.br/ib.item.image.large/l-b7c754c7e4da47b3aa2762438e95ecca.jpeg', description: 'Fardo com 10 pacotes de 1kg' },
+  { id: 204, name: 'Farinha de Trigo Coamo Originale Purissima 10x1kg Fd 10kg', category: 'Secos', subcategory: 'Farinhas', price: null, unit: 'fardo', image: 'https://coamo-alimentos-production.s3.us-east-1.amazonaws.com/medias/a6989bfe-8af4-4f4a-a970-eeeb324f75be', description: 'Farinha de trigo Coamo Originale Purissima, fardo 10x1kg (10kg)' },
+  { id: 205, name: 'Farinha de Trigo Coamo Especial Pastel 5x5kg Fd 25kg', category: 'Secos', subcategory: 'Farinhas', price: null, unit: 'fardo', image: 'https://coamo-alimentos-staging.s3-accelerate.amazonaws.com/medias/de46319ff2a2ef307cdbd93581a489b3', description: 'Farinha de trigo Coamo Especial Pastel, fardo 5x5kg (25kg)' },
+  { id: 206, name: 'Farinha de Trigo Coamo Especial Pizza 5x5kg Fd 25kg', category: 'Secos', subcategory: 'Farinhas', price: null, unit: 'fardo', image: 'https://coamo-alimentos-staging.s3-accelerate.amazonaws.com/medias/12d8c790eb48170a46d152e73375ce43', description: 'Farinha de trigo Coamo Especial Pizza, fardo 5x5kg (25kg)' },
 
   // --- Leite em Pó ---
   { id: 27, name: 'Leite Integral Cooper Rita', category: 'Secos', subcategory: 'Leite em Pó', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/1220177/leite_uht_integral_1l_25_1_ddc37c4a6a4774a8dbc1961685816d76.jpg', description: 'Leite integral UHT Cooper Rita, caixa 1 litro' },
@@ -157,17 +162,21 @@ export const products = [
   { id: 39, name: 'Margarina Coamo Sem Sal Balde 15kg 80% Lipídios', category: 'Secos', subcategory: 'Margarinas', price: null, unit: 'un', image: 'https://loja.stampafood.com.br/2543-large_default/margarina-80-lipidios-sem-sal-balde-145-kg-coamo.webp', description: 'Margarina Coamo sem sal, 80% lipídios, balde 15kg — para receitas que pedem controle de sal' },
 
   // --- Molhos e Condimentos (agrupado por família) ---
-  // Ketchup
+  // Cepera (ketchup + mostarda juntos)
   { id: 17, name: 'Ketchup Galão Cepera', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/produtos/catchup galao cepera.webp', description: 'Ketchup Cepera, galão tamanho institucional' },
+  { id: 46, name: 'Mostarda Cepera Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Mostarda-amarela-33kg.jpg', description: 'Mostarda amarela Cepera, galão 3,3kg — ideal para lanchonetes e uso profissional' },
+  // Predilecta (ketchup + mostarda juntos)
   { id: 18, name: 'Ketchup Galão Predilecta', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/produtos/catchup galao predileta.webp', description: 'Ketchup Predilecta, galão tamanho institucional' },
+  { id: 207, name: 'Mostarda Galão Predilecta', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/images/mostarda-galao-predilecta.webp', description: 'Mostarda Predilecta, galão 3,3kg — tamanho institucional' },
+  { id: 45, name: 'Molho Barbecue Predilecta Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://ccndistribuidora.vtexassets.com/arquivos/ids/162003/MOLHO-BARBECUE-PREDILECTA-GALAO-35KG.jpg?v=638201288482730000', description: 'Molho barbecue Predilecta, galão 3,5kg — tamanho institucional para churrascarias e food service' },
   // Maionese
   { id: 29, name: 'Maionese Balde Mariana', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/962968-06-09-2024-11-43-57-541.jpg', description: 'Maionese Mariana, balde tamanho institucional — ideal para food service' },
   { id: 32, name: "Maionese Hellmann's 500g", category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/417314/7894000050034_1.jpg?v=638963334320400000', description: "Maionese Hellmann's tradicional, pote 500g" },
-  // Molhos
-  { id: 45, name: 'Molho Barbecue Predilecta Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://ccndistribuidora.vtexassets.com/arquivos/ids/162003/MOLHO-BARBECUE-PREDILECTA-GALAO-35KG.jpg?v=638201288482730000', description: 'Molho barbecue Predilecta, galão 3,5kg — tamanho institucional para churrascarias e food service' },
   { id: 44, name: 'Molho de Pizza Predilecta Bag 4,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://gerenciadorpd.com.br/assets/images/produtos/7896292302341_234_Molho%20para%20Pizza_3,1%20kg_Bag_0263_4296.png', description: 'Molho para pizza Predilecta, bag 4,1kg — tamanho institucional para pizzarias e food service' },
-  // Mostarda
-  { id: 46, name: 'Mostarda Cepera Galão', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.cepera.com.br/cms/wp-content/uploads/2019/05/Mostarda-amarela-33kg.jpg', description: 'Mostarda amarela Cepera, galão 3,3kg — ideal para lanchonetes e uso profissional' },
+  // Orégano
+  { id: 208, name: 'Orégano Pacote 1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/images/oregano-1kg.jpeg', description: 'Orégano desidratado, pacote 1kg' },
+  // Alho
+  { id: 4, name: 'Alho Frito 500g', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/produtos/alho frito.jpeg', description: 'Alho frito crocante, pacote 500g' },
 
   // --- Óleos ---
   { id: 23, name: 'Gordura Vegetal 15kg Coamo', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/970643/p.jpg?v=639047113475230000', description: 'Gordura vegetal Coamo Fry, balde 15kg' },
@@ -178,11 +187,11 @@ export const products = [
   // Fanta
   { id: 62, name: 'Fanta Laranja Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/89/33022089.png', description: 'Refrigerante Fanta sabor laranja, lata 350ml' },
   { id: 63, name: 'Fanta Uva Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/147300954/fanta-uva-lata-350-ml-1.jpg', description: 'Refrigerante Fanta sabor uva, lata 350ml' },
-  // H2O
-  { id: 57, name: 'H2O Bioleve Limão', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/24203350/5209447_1.jpg', description: 'Refrigerante H2O Bioleve sabor limão, garrafa PET' },
-  { id: 59, name: 'H2O Bioleve Limoneto', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/107630153/refrigerante-h2oh-limao-garrafa-500ml-1.jpg', description: 'Refrigerante H2O Bioleve sabor limoneto, garrafa PET' },
   // Sprite
   { id: 61, name: 'Sprite Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/861/32993861.png', description: 'Refrigerante Sprite limão, lata 350ml' },
+  // H2O
+  { id: 57, name: 'H2O Bioleve Limão', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/24203350/5209447_1.jpg', description: 'Refrigerante H2O Bioleve sabor limão, garrafa PET' },
+  { id: 59, name: 'H2O Bioleve Limoneto', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '/images/h2o-limoneto.webp', description: 'Refrigerante H2O Bioleve sabor limoneto, garrafa PET' },
 
   // --- Snacks ---
   { id: 16, name: 'Batata Palha', category: 'Secos', subcategory: 'Snacks', price: null, unit: 'un', image: '/produtos/batata palha.jpg', description: 'Batata palha crocante e saborosa' },
@@ -203,7 +212,10 @@ export const products = [
   { id: 97, name: 'Marmitex PT500', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'un', image: 'https://eficazjf.com.br/wp-content/uploads/2019/02/pt500-ret.jpg', description: 'Marmitex isopor redondo PT500 com tampa, tamanho grande' },
 
   // --- Embalagens (por último) ---
-  { id: 74, name: 'Bobina Picotada 20x30', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/92693075/e029fdb59c.jpg', description: 'Bobina plástica picotada 20x30cm, rolo' },
+  { id: 74, name: 'Bobina Picotada Good Roll 20x30', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://acdn-us.mitiendanube.com/stores/005/989/335/products/bobina-plastica-picotada-20x30cm-good-roll-500-unidades-dfbd08790596a7619817443015297151-1024-1024.webp', description: 'Bobina plástica picotada Good Roll 20x30cm, rolo' },
+  { id: 211, name: 'Bobina Picotada Good Roll 30x40', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://acdn-us.mitiendanube.com/stores/005/989/335/products/bobina-plastica-picotada-30x40cm-good-roll-500-unidades-3b1e8a1594e6366bfc17443015316110-1024-1024.webp', description: 'Bobina plástica picotada Good Roll 30x40cm, rolo' },
+  { id: 212, name: 'Bobina Picotada Good Roll 35x45', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/2500x2500/2476/2476561/produto/199891541/bobina-plastica-picotada-30x40cm-good-roll-500-unidades-jhwiqc.jpg', description: 'Bobina plástica picotada Good Roll 35x45cm, rolo' },
+  { id: 213, name: 'Bobina Picotada Good Roll 40x60', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://acdn-us.mitiendanube.com/stores/005/989/335/products/bobina-plastica-picotada-40x60cm-good-roll-400-unidades-c98ed995bc1fd83f4d17443015315962-1024-1024.webp', description: 'Bobina plástica picotada Good Roll 40x60cm, rolo' },
   { id: 77, name: 'Embalagem para Frios - Papel Acoplado', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://89embalagens.com.br/wp-content/uploads/2023/03/15170170266_papel-acoplado-para-frios-embalefrios-400-nidades-a07d3dee.jpg', description: 'Papel acoplado para embalar frios' },
   // Sacos plásticos
   { id: 78, name: 'Saco Plástico 40x60', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/14048702708c2bc7da3.jpg', description: 'Saco plástico transparente 40x60cm' },
@@ -215,10 +227,10 @@ export const products = [
   { id: 85, name: 'Sacola 30x40 Reforçada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/613137/sacola_plastica_branca_reforcada_30x40_pead_600un_3kg_extrusa_pack_631_1_20200824145703.jpg', description: 'Sacola plástica branca reforçada 30x40cm' },
   { id: 80, name: 'Sacola 38x48', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x450/1370/1370588/produto/56726931/13efadbe2f.jpg', description: 'Sacola plástica branca 38x48cm' },
   { id: 86, name: 'Sacola 40x50 Reforçada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/613137/sacola_plastica_branca_reforcada_40x50_pead_350un_3kg_extrusa_pack_593_1_20200721160951.jpg', description: 'Sacola plástica branca reforçada 40x50cm' },
-  { id: 81, name: 'Sacola 50x60 Reciclada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://www.sacariasafra.com.br/img/produtos/3fbb1d85ac082faea5c8f8ff40054044.jpg', description: 'Sacola plástica reciclada colorida 50x60cm' },
   { id: 87, name: 'Sacola 50x60 Reforçada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://images.tcdn.com.br/img/img_prod/1233279/sacola_plastica_leitosa_reforcada_50x60_c_3_kg_grande_123_1_b949259013ffdd81489fc3e7580f9f77.png', description: 'Sacola plástica branca reforçada 50x60cm' },
   { id: 83, name: 'Sacola Colorida 30x40 Reciclada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://static.clickembalagens.com.br/product_images/1280x1280/b/996/161464-19-02-2025-anuncio-20sacola-20reciclada-20colorida-20-201-28488.png', description: 'Sacola plástica colorida reciclada 30x40cm' },
   { id: 84, name: 'Sacola Colorida 40x50 Reciclada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://cdn.awsli.com.br/600x1000/1027/1027618/produto/45810663/b6721541ce.jpg', description: 'Sacola plástica colorida reciclada 40x50cm' },
+  { id: 81, name: 'Sacola Colorida 50x60 Reciclada', category: 'Secos', subcategory: 'Embalagens', price: null, unit: 'un', image: 'https://www.sacariasafra.com.br/img/produtos/3fbb1d85ac082faea5c8f8ff40054044.jpg', description: 'Sacola plástica colorida reciclada 50x60cm' },
 
   // ============================================================
   //  RESFRIADOS (subcategorias em ordem alfabética, produtos agrupados por família)
@@ -231,24 +243,22 @@ export const products = [
   { id: 105, name: 'Apresuntado Sadia - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://images-food.ifcshop.com.br/produto/44708_0_20220103133041.jpg', description: '' },
 
   // --- Bacalhau ---
-  { id: 147, name: 'Bacalhau Desfiado', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/Bacalhau-Desfiado-Seara-400g-1.webp', description: '' },
+  { id: 147, name: 'Bacalhau Desfiado Pct 1kg', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: '/images/bacalhau-desfiado.jpeg', description: 'Bacalhau desfiado Oceani, pacote 1kg' },
   { id: 149, name: 'Bacalhau Saithe - Caixa 25kg', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'cx', image: '/images/bacalhau-saithe-cx25kg.webp', description: 'Bacalhau salgado Saithe, caixa com 25kg' },
-  { id: 148, name: 'Bacalhau Saith - Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '/images/bacalhau-saithe-peca.jpg', description: '' },
+  { id: 148, name: 'Bacalhau Saithe - Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '/images/bacalhau-saithe-peca.jpg', description: '' },
 
   // --- Cream Cheese (agrupado por marca) ---
   // Catupiry
-  { id: 116, name: 'Catupiry Catiguá', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/3066.jpg', description: '' },
-  { id: 117, name: 'Catupiri Dalora', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: '' },
-  { id: 115, name: 'Catupiry Milk Gold', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1143954/p.jpg?v=639076978126900000', description: '' },
-  { id: 118, name: 'Catupiri Scala Bisnaga', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: '' },
-  // Cream Cheese
+  { id: 117, name: "D'Allora Requeijão 1,8kg", category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/dallora-requeijao.png', description: "Mistura de leite e gordura vegetal e amido sabor requeijão D'Allora, 1,8kg — ideal para pizzas, salgados e lanches" },
+  // Scala
+  { id: 118, name: 'Catupiri Scala Bisnaga 1,5kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: 'Catupiri Scala bisnaga, embalagem 1,5kg' },
   { id: 114, name: 'Cream Cheese Scala', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1146582/p.jpg?v=639076991461000000', description: '' },
 
   // --- Manteiga e Margarina ---
-  { id: 131, name: 'Manteiga Scala', category: 'Resfriados', subcategory: 'Manteiga e Margarina', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1145500/m.jpg?v=639076986030700000', description: '' },
+  { id: 131, name: 'Manteiga Scala Pote 200g', category: 'Resfriados', subcategory: 'Manteiga e Margarina', price: null, unit: 'un', image: '/images/manteiga-scala-200g.webp', description: 'Manteiga de primeira qualidade com sal Scala, pote 200g' },
 
   // --- Mortadelas ---
-  { id: 113, name: 'Bolonhela Perdigão - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: 'https://static.paodeacucar.com/img/uploads/1/654/32941654.jpg', description: '' },
+  { id: 113, name: 'Mortadela Tradicional Perdigão - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '/images/mortadela-perdigao.jpg', description: '' },
   { id: 110, name: 'Mortadela Frigossa 2kg - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'pc', image: '/images/mortadela-frigonossa.jpg', description: '' },
   { id: 111, name: 'Mortadela Marba - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: '/images/mortadela-marba.png', description: '' },
   { id: 112, name: 'Mortadela Ouro - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/4189-18-09-2023-11-03-25-806.jpg', description: '' },
@@ -261,35 +271,36 @@ export const products = [
   { id: 108, name: 'Presunto Rio Sul - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '/images/presunto-rio-sul.jpg', description: '' },
 
   // --- Queijos (agrupado por família) ---
-  { id: 119, name: 'Cheddar Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/04/mockups-1000x1000_cheddar-400-g.png', description: '' },
+  { id: 119, name: 'Cheddar Scala 1,5kg', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/04/mockups-1000x1000_cheddar-400-g.png', description: 'Queijo tipo cheddar Scala, embalagem 1,5kg' },
   { id: 128, name: 'Espeto de Queijo Coalho', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://www.vivaespetos.com.br/wp-content/uploads/2019/05/quijocoalho.jpg', description: '' },
   // Mussarela
   { id: 124, name: 'Mussarela Nova Esperança - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/mussarela-nova-esperanca.jpeg', description: '' },
   { id: 125, name: 'Mussarela Roseira - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/mussarela-roseira.jpeg', description: '' },
   // Parmesão
   { id: 127, name: 'Parmesão Scala', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: '/images/parmesao-scala.jpg', description: '' },
+  { id: 216, name: 'Queijo Parmesão - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/parmesao-minas-mil.png', description: 'Queijo parmesão Minas Mil, peça inteira' },
   // Queijos diversos
-  { id: 121, name: 'Queijo Crioulo', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://latco.com.br/wp-content/uploads/2019/12/queijominasmeialua_desde1966_mockup.png', description: '' },
   { id: 122, name: 'Queijo Gorgonzola - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/queijo-gorgonzola.jpg', description: '' },
   { id: 123, name: 'Queijo Minas Padrão Nova Esperança - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/queijo-minas-padrao.jpg', description: '' },
   { id: 126, name: 'Queijo Prato - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/queijo-prato.jpeg', description: '' },
-  { id: 120, name: 'Queijo Provolone - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/945859-1-06-03-2025-14-55-32-491.jpg', description: '' },
+  { id: 120, name: 'Queijo Provolone - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/queijo-provolone.jpeg', description: '' },
 
   // --- Requeijão ---
   { id: 130, name: 'Requeijão Scala', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/06/mockups-1000x1000_requeijao-tradicional-200-g.png', description: '' },
-  { id: 129, name: 'Requeijão Scala Light', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: 'https://food2c.s3.amazonaws.com/SC002.png', description: '' },
 
   // --- Salames e Embutidos (agrupado por família) ---
   // Bacon
-  { id: 132, name: 'Bacon Perdigão - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/5248-18-09-2023-11-07-19-662.jpg', description: '' },
-  { id: 133, name: 'Bacon Pernil Saudali - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://saudali.com.br/wp-content/uploads/2018/02/Bacon-Manta-Termoformado-Saudali-300x300.jpg', description: '' },
-  { id: 134, name: 'Bacon Sadia - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://www.sadia.com.br/storage/product/files/1048b0b1af5e05b41d37316e71057c9ce33c6cea.webp', description: '' },
+  { id: 132, name: 'Bacon Perdigão - Peça', category: 'Resfriados', subcategory: 'Bacon', price: null, unit: 'kg', image: '/images/bacon-perdigao.jpg', description: '' },
+  { id: 133, name: 'Bacon Pernil Adeel - Peça', category: 'Resfriados', subcategory: 'Bacon', price: null, unit: 'kg', image: '/images/bacon-adeel.jpg', description: 'Bacon especial pernil Adeel, peça' },
+  { id: 134, name: 'Bacon Sadia - Peça', category: 'Resfriados', subcategory: 'Bacon', price: null, unit: 'kg', image: '/images/bacon-sadia.jpg', description: '' },
   // Calabresa
-  { id: 136, name: 'Calabresa Frigonossa - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://www.friossemlimite.com.br/loja/src/uploads/produtos/a03c25b59d9cced43d1b59ced4b31ec1/20230227135030.jpg', description: '' },
-  { id: 137, name: 'Calabresa Reta Seara - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://megag.com.br/v21/wp-content/uploads/2025/07/686.jpg', description: '' },
-  { id: 138, name: 'Calabresa Sadia - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/985396-16-09-2024-16-40-26-326.jpg', description: '' },
+  { id: 136, name: 'Calabresa Frigonossa - Peça', category: 'Resfriados', subcategory: 'Calabresas', price: null, unit: 'kg', image: 'https://www.friossemlimite.com.br/loja/src/uploads/produtos/a03c25b59d9cced43d1b59ced4b31ec1/20230227135030.jpg', description: '' },
+  { id: 137, name: 'Calabresa Reta Seara - Peça', category: 'Resfriados', subcategory: 'Calabresas', price: null, unit: 'kg', image: 'https://megag.com.br/v21/wp-content/uploads/2025/07/686.jpg', description: '' },
+  { id: 138, name: 'Calabresa Sadia Pct 2,5kg', category: 'Resfriados', subcategory: 'Calabresas', price: null, unit: 'un', image: '/images/calabresa-sadia.webp', description: 'Linguiça tipo calabresa Sadia, pacote 2,5kg' },
+  { id: 214, name: 'Calabresa Reta Sadia Pct 2,5kg', category: 'Resfriados', subcategory: 'Calabresas', price: null, unit: 'un', image: '/images/calabresa-reta-sadia.jpg', description: 'Linguiça tipo calabresa reta Sadia Food Services, pacote 2,5kg' },
+  { id: 215, name: 'Calabresa Perdigão Pct 2,5kg', category: 'Resfriados', subcategory: 'Calabresas', price: null, unit: 'un', image: '/images/calabresa-perdigao.png', description: 'Linguiça tipo calabresa Perdigão, pacote 2,5kg' },
   // Salsicha
-  { id: 143, name: 'Salsicha Amarrada - Peça', category: 'Resfriados', subcategory: 'Salames e Embutidos', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/941328-26-10-2023-14-42-50-207.jpg', description: '' },
+  { id: 143, name: 'Salsicha Amarrada Salsichão - Peça', category: 'Resfriados', subcategory: 'Salsichas', price: null, unit: 'kg', image: '/images/salsicha-salsichao.jpeg', description: 'Salsicha amarrada tipo salsichão Frigonossa, peça' },
 
   // ============================================================
   //  CONGELADOS (subcategorias em ordem alfabética, produtos agrupados por família)
@@ -299,7 +310,6 @@ export const products = [
   // Asa
   { id: 167, name: 'Asa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/07/Meio-da-Asa-Seara-1kg.webp', description: 'Asa de frango congelada, pacote' },
   // Coração
-  { id: 176, name: 'Coração de Frango Perdigão', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.perdigao.com.br/assets/_images/475423c58600a9708f50fd1d2b09fe13536d026a.png', description: 'Coração de frango Perdigão congelado, pacote — clássico do churrasco' },
   // Coxa e Sobrecoxa
   { id: 169, name: 'Coxa e Sobrecoxa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2025/01/992404_IQF_COXA_SOBRECOXA_1kg-_2_-1.webp', description: 'Coxa e sobrecoxa de frango congelada, pacote — suculenta e saborosa' },
   // Coxinha da Asa
@@ -309,9 +319,7 @@ export const products = [
   // Filé de Coxa e Sobrecoxa
   { id: 171, name: 'Filé de Coxa e Sobrecoxa', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Coxa-e-Sobrecoxa-Seara-1kg.webp', description: 'Filé de coxa e sobrecoxa sem osso congelado, pacote' },
   // Filé de Peito
-  { id: 175, name: 'Filé de Peito C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1271710/m.jpg.jpg?v=639098736310400000', description: 'Filé de peito de frango C.Vale congelado, pacote' },
   { id: 168, name: 'Filé de Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Peito-Seara-1kg-1.webp', description: 'Filé de peito de frango congelado, pacote — corte magro e versátil' },
-  { id: 170, name: 'Filé de Peito Seara', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Peito-Seara-1kg-1.webp', description: 'Filé de peito de frango Seara congelado, pacote' },
   // Filé Sassami
   { id: 180, name: 'Filé Sassami C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1550075-800-auto?v=638931305681570000', description: 'Filé sassami de frango C.Vale congelado — corte magro e delicado' },
   // Frango Inteiro
@@ -319,18 +327,14 @@ export const products = [
   // Meio da Asa
   { id: 174, name: 'Meio da Asa (Tulipa)', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1549781-800-auto?v=638931297559830000', description: 'Meio da asa de frango (tulipa) congelado, pacote — ideal para aperitivos' },
   // Moela
-  { id: 181, name: 'Moela de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1525983-800-auto?v=638924259265570000', description: 'Moela de frango congelada, pacote' },
   // Peito
   { id: 172, name: 'Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Peito-Seara-1kg-1.webp', description: 'Peito de frango inteiro congelado, pacote' },
 
   // --- Batatas Congeladas ---
   { id: 192, name: 'Batata McCain', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: 'https://cdn.shopify.com/s/files/1/0579/9742/6861/files/image-removebg-preview-2024-06-03T172027.762.png?v=1717446094', description: 'Batata pré-frita congelada McCain, pacote 2,5kg — corte tradicional' },
-  { id: 194, name: 'Batata Quality Fries', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: 'https://fortatacadista.vteximg.com.br/arquivos/ids/160869-1000-1000/BATATA-PRE-FRITA-QUAL.FRIES-2KG-CONG.---1070690.jpg?v=637437438618330000', description: 'Batata pré-frita congelada Quality Fries, pacote — corte palito premium' },
-  { id: 193, name: 'Batata Quality Fries Canoa', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/10/2243.jpg', description: 'Batata pré-frita congelada Quality Fries corte canoa — rústica e crocante' },
 
   // --- Bovinos ---
   { id: 150, name: 'Acém Congelado', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://prezunic.vtexassets.com/arquivos/ids/179941-800-auto?v=638368811005400000', description: 'Acém bovino congelado, peça — corte versátil para cozidos e ensopados' },
-  { id: 156, name: 'Almôndega Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://www.sadia.com.br/storage/product/files/6e3ffcfdaed8f81fc5d4ccf5fc09955a0719b815.webp', description: 'Almôndega bovina congelada, pacote — pronta para preparar' },
   // Carne
   { id: 151, name: 'Carne Lagarto', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545356/295914_1.jpg?v=638984627687830000', description: 'Lagarto bovino congelado, peça — ideal para rosbife e carne de panela' },
   { id: 155, name: 'Carne Moída Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/200417/9421769_1.jpg?v=637272446135900000', description: 'Carne moída bovina congelada, pacote — prática para o dia a dia' },
@@ -339,8 +343,7 @@ export const products = [
   { id: 154, name: 'Cupim Friboi', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545333-200-auto/209104_1.jpg?v=638984627549530000', description: 'Cupim bovino congelado Friboi, peça — suculento para churrasco lento' },
 
   // --- Empanados ---
-  { id: 183, name: 'Chicken Baita', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://bkt-meuminerva.s3.sa-east-1.amazonaws.com/media/catalog/product/6/8/68467_1.jpg', description: 'Empanado de frango tipo chicken Baita congelado, pacote' },
-  { id: 182, name: 'Chicken C.Vale', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1006190/m.jpg?v=639047311322170000', description: 'Empanado de frango tipo chicken C.Vale congelado, pacote' },
+  { id: 182, name: 'Chicken C.Vale Pct 1kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1006190/m.jpg?v=639047311322170000', description: 'Empanado de frango tipo chicken C.Vale congelado, pacote 1kg' },
   { id: 177, name: 'Filé Empanado C.Vale', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/984197/m.jpg?v=639047189791330000', description: 'Filé de frango empanado C.Vale congelado, pacote — prático e crocante' },
   { id: 145, name: 'Salsicha Perdigão Hot Dog', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/411/32979411.png', description: 'Salsicha Perdigão Hot Dog congelada' },
   { id: 184, name: 'Steak Perdigão', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1144319/m.jpg?v=639076979940300000', description: 'Steak empanado de frango Perdigão congelado, pacote' },
@@ -374,7 +377,6 @@ export const products = [
   // --- Vegetais Congelados ---
   { id: 188, name: 'Brócolis Congelado', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://mambodelivery.vtexassets.com/arquivos/ids/234191-800-auto?v=638862961980130000', description: 'Brócolis congelado, pacote — mantém nutrientes e praticidade' },
   // Mandioca
-  { id: 187, name: 'Mandioca Congelada (a granel)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2022/10/Mandioca-Tolete-Seara-Nature-1kg.webp', description: 'Mandioca congelada a granel — para uso em grande volume' },
   { id: 186, name: 'Mandioca Congelada (pacote)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://www.seara.com.br/wp-content/uploads/2022/06/Mandioca-Supreme-Seara-Nature-600g.webp', description: 'Mandioca cozida e congelada, pacote — prática para fritar ou cozinhar' },
   // Polenta
   { id: 189, name: 'Polenta Congelada Palito', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/493386-800-auto?v=638756955561900000', description: 'Polenta palito congelada Val Mar — pronta para fritar, crocante por fora' },
