@@ -236,7 +236,9 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       `✅ PDF "${pdfName}" gerado e salvo no dispositivo do cliente.\n` +
       `📎 O cliente deve anexar o PDF nesta conversa.`
     );
-    window.open(`https://wa.me/5535998511194?text=${text}`, '_blank');
+    const url = `https://api.whatsapp.com/send?phone=5535998511194&text=${text}`;
+    const w = window.open(url, '_blank');
+    if (!w) window.location.href = url;
   };
 
   const handleSubmit = async (e) => {

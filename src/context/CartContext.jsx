@@ -147,7 +147,7 @@ export function CartProvider({ children }) {
         }, 3000);
       } catch {
         const phone = '5535998511194';
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        (() => { const u = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`; const w = window.open(u, '_blank'); if (!w) window.location.href = u; })();
         setItems([]);
         setIsOpen(false);
       } finally {
@@ -155,7 +155,7 @@ export function CartProvider({ children }) {
       }
     } else {
       const phone = '5535998511194';
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+      (() => { const u = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`; const w = window.open(u, '_blank'); if (!w) window.location.href = u; })();
       setItems([]);
       setIsOpen(false);
     }
