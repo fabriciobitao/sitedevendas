@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { jsPDF } from 'jspdf';
 import './ClientForm.css';
 
 const INITIAL = {
@@ -92,46 +93,149 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
 
   const set = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
-  const sendWhatsApp = () => {
+  const generatePDF = () => {
+    const doc = new jsPDF();
     const tipoLabel = isPF ? 'CONSUMIDOR FINAL' : 'EMPRESA';
-    const lines = [`📋 *FICHA CADASTRAL - ${tipoLabel}*`, ''];
+    const now = new Date();
+    const dataHora = `${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    let y = 20;
+
+    const addTitle = (text) => {
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(45, 125, 45);
+      doc.text(text, 105, y, { align: 'center' });
+      y += 8;
+    };
+
+    const addSection = (title) => {
+      y += 4;
+      doc.setFillColor(240, 240, 240);
+      doc.rect(14, y - 5, 182, 8, 'F');
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(80, 80, 80);
+      doc.text(title, 16, y);
+      y += 8;
+    };
+
+    const addField = (label, value) => {
+      if (y > 265) { doc.addPage(); y = 20; }
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(60, 60, 60);
+      doc.text(`${label}:`, 16, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(value || '—', 70, y);
+      y += 6;
+    };
+
+    // Cabeçalho
+    doc.setFillColor(45, 125, 45);
+    doc.rect(0, 0, 210, 3, 'F');
+    addTitle('FRIOS OURO FINO LTDA');
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 100, 100);
+    doc.text('CNPJ: 12.612.824/0001-00', 105, y, { align: 'center' });
+    y += 5;
+    doc.text(`Ficha Cadastral - ${tipoLabel}`, 105, y, { align: 'center' });
+    y += 4;
+    doc.text(`Data: ${dataHora}`, 105, y, { align: 'center' });
+    y += 4;
+    doc.setDrawColor(200, 200, 200);
+    doc.line(14, y, 196, y);
+    y += 4;
+
+    // Dados da Empresa
     if (!isPF) {
-      lines.push(
-        `*Razão Social:* ${form.razaoSocial}`,
-        `*Nome Fantasia:* ${form.nomeFantasia}`,
-        `*CNPJ:* ${form.cnpj}`,
-        `*Insc. Municipal:* ${form.inscMunicipal}`,
-        `*Insc. Estadual:* ${form.inscEstadual}`,
-        '',
-      );
+      addSection('DADOS DA EMPRESA');
+      addField('Razão Social', form.razaoSocial);
+      addField('Nome Fantasia', form.nomeFantasia);
+      addField('CNPJ', form.cnpj);
+      addField('Insc. Municipal', form.inscMunicipal);
+      addField('Insc. Estadual', form.inscEstadual);
     }
-    lines.push(
-      `*Nome:* ${form.nomeResponsavel}`,
-      `*CPF:* ${form.cpf}`,
-      `*RG:* ${form.rg}`,
-      '', `*Endereço:* ${form.endereco}, Nº ${form.numero}`,
-      `*Complemento:* ${form.complemento}`,
-      `*Bairro:* ${form.bairro}`,
-      `*Município:* ${form.municipio} - ${form.estado}`,
-      `*CEP:* ${form.cep}`,
-      '', `*Telefone:* ${form.telefone}`,
-      `*Email:* ${form.email}`,
-    );
+
+    // Dados Pessoais / Responsável
+    addSection(isPF ? 'DADOS PESSOAIS' : 'RESPONSÁVEL');
+    addField('Nome', form.nomeResponsavel);
+    addField('CPF', form.cpf);
+    addField('RG', form.rg);
+
+    // Endereço
+    addSection('ENDEREÇO');
+    addField('Endereço', `${form.endereco}, Nº ${form.numero}`);
+    addField('Complemento', form.complemento);
+    addField('Bairro', form.bairro);
+    addField('Município', `${form.municipio} - ${form.estado}`);
+    addField('CEP', form.cep);
+
+    // Contato
+    addSection('CONTATO');
+    addField('Telefone', form.telefone);
+    addField('Email', form.email);
+
+    // Responsável Financeiro
     if (!isPF) {
-      lines.push(
-        '', '*--- Responsável Financeiro ---*',
-        `*Nome:* ${form.nomeFinanceiro}`,
-        `*Telefone:* ${form.telefoneFinanceiro}`,
-        `*Email:* ${form.emailFinanceiro}`,
-      );
+      addSection('RESPONSÁVEL FINANCEIRO');
+      addField('Nome', form.nomeFinanceiro);
+      addField('Telefone', form.telefoneFinanceiro);
+      addField('Email', form.emailFinanceiro);
     }
-    lines.push(
-      '', '*--- Referências Comerciais ---*',
-      `1. ${form.ref1Nome} - ${form.ref1Telefone}`,
-      `2. ${form.ref2Nome} - ${form.ref2Telefone}`,
-      `3. ${form.ref3Nome} - ${form.ref3Telefone}`,
+
+    // Referências Comerciais
+    addSection('REFERÊNCIAS COMERCIAIS');
+    addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
+    addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
+    addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
+
+    // Termo de autorização
+    y += 4;
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(80, 80, 80);
+    const termo = 'Autorizo a empresa Frios Ouro Fino LTDA, CNPJ 12.612.824/0001-00, a realizar o meu cadastro, assim como fazer consultas e emitir boletos referente às minhas compras.';
+    const termoLines = doc.splitTextToSize(termo, 170);
+    doc.text(termoLines, 16, y);
+    y += termoLines.length * 4 + 6;
+
+    // Assinatura
+    if (y > 220) { doc.addPage(); y = 20; }
+    addSection('ASSINATURA DIGITAL');
+    y += 2;
+    const canvas = canvasRef.current;
+    const sigData = canvas.toDataURL('image/png');
+    doc.setDrawColor(180, 180, 180);
+    doc.rect(30, y, 150, 45);
+    doc.addImage(sigData, 'PNG', 32, y + 2, 146, 41);
+    y += 50;
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Assinado digitalmente em ${dataHora}`, 105, y, { align: 'center' });
+
+    // Rodapé
+    doc.setFillColor(45, 125, 45);
+    doc.rect(0, 294, 210, 3, 'F');
+
+    // Salvar e retornar blob
+    const nomeArquivo = `Ficha_Cadastral_${(form.nomeFantasia || form.nomeResponsavel).replace(/\s+/g, '_')}.pdf`;
+    doc.save(nomeArquivo);
+    return nomeArquivo;
+  };
+
+  const sendWhatsApp = (pdfName) => {
+    const nome = form.nomeFantasia || form.nomeResponsavel;
+    const text = encodeURIComponent(
+      `📋 *FICHA CADASTRAL*\n\n` +
+      `*Nome:* ${nome}\n` +
+      `*CNPJ/CPF:* ${isPF ? form.cpf : form.cnpj}\n` +
+      `*Telefone:* ${form.telefone}\n\n` +
+      `✅ PDF "${pdfName}" gerado e salvo no dispositivo do cliente.\n` +
+      `📎 O cliente deve anexar o PDF nesta conversa.`
     );
-    const text = encodeURIComponent(lines.join('\n'));
     window.open(`https://wa.me/5535998511194?text=${text}`, '_blank');
   };
 
@@ -169,7 +273,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       delete profileData.ref3Nome; delete profileData.ref3Telefone;
 
       await register(form.email, password, profileData);
-      sendWhatsApp();
+      const pdfName = generatePDF();
+      sendWhatsApp(pdfName);
       setForm(INITIAL);
       setPassword('');
       setConfirmPassword('');
