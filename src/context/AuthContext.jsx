@@ -11,7 +11,7 @@ import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { encryptSensitiveData, decryptSensitiveData } from '../utils/crypto';
 
 const AuthContext = createContext();
-const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutos
+const MIDNIGHT_CHECK_INTERVAL = 60 * 1000; // verifica a cada 1 minuto
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_TIME = 15 * 60 * 1000; // 15 minutos
 
@@ -22,28 +22,23 @@ export function AuthProvider({ children }) {
   const inactivityTimer = useRef(null);
   const loginAttempts = useRef({ count: 0, lockedUntil: 0 });
 
-  // --- Auto-logout por inatividade ---
-  const resetInactivityTimer = useCallback(() => {
-    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
-    if (auth.currentUser) {
-      inactivityTimer.current = setTimeout(async () => {
+  // --- Auto-logout ao virar a data (meia-noite) ---
+  const loginDate = useRef(null);
+
+  const startMidnightCheck = useCallback(() => {
+    if (inactivityTimer.current) clearInterval(inactivityTimer.current);
+    loginDate.current = new Date().toDateString();
+    inactivityTimer.current = setInterval(async () => {
+      const today = new Date().toDateString();
+      if (loginDate.current && today !== loginDate.current && auth.currentUser) {
+        clearInterval(inactivityTimer.current);
         await signOut(auth);
         setUser(null);
         setCustomerProfile(null);
-        alert('Sessão expirada por inatividade. Faça login novamente.');
-      }, INACTIVITY_TIMEOUT);
-    }
+        alert('Sessão encerrada. Um novo dia começou, faça login novamente.');
+      }
+    }, MIDNIGHT_CHECK_INTERVAL);
   }, []);
-
-  useEffect(() => {
-    const events = ['mousedown', 'keydown', 'scroll', 'touchstart'];
-    const handler = () => resetInactivityTimer();
-    events.forEach(e => window.addEventListener(e, handler, { passive: true }));
-    return () => {
-      events.forEach(e => window.removeEventListener(e, handler));
-      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
-    };
-  }, [resetInactivityTimer]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -56,15 +51,15 @@ export function AuthProvider({ children }) {
         } else {
           setCustomerProfile(null);
         }
-        resetInactivityTimer();
+        startMidnightCheck();
       } else {
         setCustomerProfile(null);
-        if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+        if (inactivityTimer.current) clearInterval(inactivityTimer.current);
       }
       setLoading(false);
     });
     return unsubscribe;
-  }, [resetInactivityTimer]);
+  }, [startMidnightCheck]);
 
   const login = useCallback(async (email, password) => {
     // Proteção contra brute force
@@ -84,7 +79,7 @@ export function AuthProvider({ children }) {
       } else {
         setCustomerProfile(null);
       }
-      resetInactivityTimer();
+      startMidnightCheck();
       return cred.user;
     } catch (err) {
       loginAttempts.current.count++;
@@ -94,7 +89,7 @@ export function AuthProvider({ children }) {
       }
       throw err;
     }
-  }, [resetInactivityTimer]);
+  }, [startMidnightCheck]);
 
   const register = useCallback(async (email, password, formData) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -107,12 +102,12 @@ export function AuthProvider({ children }) {
     };
     await setDoc(doc(db, 'customers', cred.user.uid), profile);
     setCustomerProfile(formData); // manter dados legíveis em memória
-    resetInactivityTimer();
+    startMidnightCheck();
     return cred.user;
-  }, [resetInactivityTimer]);
+  }, [startMidnightCheck]);
 
   const logout = useCallback(async () => {
-    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    if (inactivityTimer.current) clearInterval(inactivityTimer.current);
     await signOut(auth);
     setUser(null);
     setCustomerProfile(null);
