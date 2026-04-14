@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { products, categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import useContentProtection from './hooks/useContentProtection';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
@@ -159,6 +160,7 @@ function CatalogPage({ onOpenRegister }) {
 }
 
 function AppContent() {
+  useContentProtection();
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
 

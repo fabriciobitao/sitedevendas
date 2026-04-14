@@ -93,6 +93,56 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
 
   const set = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
+  const maskCpf = (e) => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+    setForm(prev => ({ ...prev, cpf: v }));
+  };
+
+  const maskCnpj = (e) => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 14);
+    if (v.length > 12) v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
+    else if (v.length > 8) v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
+    else if (v.length > 5) v = v.replace(/(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{1,3})/, '$1.$2');
+    setForm(prev => ({ ...prev, cnpj: v }));
+  };
+
+  const maskTelefone = (field) => (e) => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    setForm(prev => ({ ...prev, [field]: v }));
+  };
+
+  const handleCep = async (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 8) value = value.slice(0, 8);
+    if (value.length > 5) value = value.slice(0, 5) + '-' + value.slice(5);
+    setForm(prev => ({ ...prev, cep: value }));
+
+    const digits = value.replace(/\D/g, '');
+    if (digits.length === 8) {
+      try {
+        const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+        const data = await res.json();
+        if (!data.erro) {
+          setForm(prev => ({
+            ...prev,
+            cep: value,
+            municipio: data.localidade || '',
+            estado: data.uf || '',
+            bairro: data.bairro || prev.bairro,
+            endereco: data.logradouro || prev.endereco,
+          }));
+        }
+      } catch {}
+    }
+  };
+
   const generatePDF = () => {
     const doc = new jsPDF();
     const tipoLabel = isPF ? 'CONSUMIDOR FINAL' : 'EMPRESA';
@@ -220,7 +270,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     doc.setFillColor(45, 125, 45);
     doc.rect(0, 294, 210, 3, 'F');
 
-    // Salvar e retornar blob
     const nomeArquivo = `Ficha_Cadastral_${(form.nomeFantasia || form.nomeResponsavel).replace(/\s+/g, '_')}.pdf`;
     doc.save(nomeArquivo);
     return nomeArquivo;
@@ -233,10 +282,10 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       `*Nome:* ${nome}\n` +
       `*CNPJ/CPF:* ${isPF ? form.cpf : form.cnpj}\n` +
       `*Telefone:* ${form.telefone}\n\n` +
-      `✅ PDF "${pdfName}" gerado e salvo no dispositivo do cliente.\n` +
-      `📎 O cliente deve anexar o PDF nesta conversa.`
+      `✅ PDF "${pdfName}" foi baixado no seu dispositivo.\n` +
+      `📎 Por favor, anexe o PDF nesta conversa.`
     );
-    const url = `https://api.whatsapp.com/send?phone=5535998511194&text=${text}`;
+    const url = `https://api.whatsapp.com/send?phone=+5535998511194&text=${text}`;
     const w = window.open(url, '_blank');
     if (!w) window.location.href = url;
   };
@@ -276,11 +325,12 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
 
       await register(form.email, password, profileData);
       const pdfName = generatePDF();
-      sendWhatsApp(pdfName);
       setForm(INITIAL);
       setPassword('');
       setConfirmPassword('');
       onClose();
+      // Delay para o download do PDF completar antes de abrir WhatsApp
+      setTimeout(() => sendWhatsApp(pdfName), 1500);
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         setError('Este email já está cadastrado. Faça login.');
@@ -335,7 +385,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
               </div>
               <div className="cf-row">
                 <label>Nome Fantasia *<input required value={form.nomeFantasia} onChange={set('nomeFantasia')} /></label>
-                <label>CNPJ *<input required value={form.cnpj} onChange={set('cnpj')} placeholder="00.000.000/0000-00" /></label>
+                <label>CNPJ *<input required value={form.cnpj} onChange={maskCnpj} placeholder="00.000.000/0000-00" maxLength={18} inputMode="numeric" /></label>
               </div>
               <div className="cf-row">
                 <label>Inscrição Municipal<input value={form.inscMunicipal} onChange={set('inscMunicipal')} /></label>
@@ -350,7 +400,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
               <label>{isPF ? 'Nome Completo' : 'Nome do Responsável'} *<input required value={form.nomeResponsavel} onChange={set('nomeResponsavel')} /></label>
             </div>
             <div className="cf-row">
-              <label className="cf-small">CPF *<input required value={form.cpf} onChange={set('cpf')} placeholder="000.000.000-00" /></label>
+              <label className="cf-small">CPF *<input required value={form.cpf} onChange={maskCpf} placeholder="000.000.000-00" maxLength={14} inputMode="numeric" /></label>
               <label className="cf-small">RG {isPF ? '*' : ''}<input required={isPF} value={form.rg} onChange={set('rg')} /></label>
             </div>
           </fieldset>
@@ -358,24 +408,24 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
           <fieldset className="cf-section">
             <legend>Endereço</legend>
             <div className="cf-row">
+              <label className="cf-small">CEP *<input required value={form.cep} onChange={handleCep} placeholder="00000-000" maxLength={9} inputMode="numeric" /></label>
+              <label>Município *<input required value={form.municipio} onChange={set('municipio')} /></label>
+              <label className="cf-tiny">UF *<input required value={form.estado} onChange={set('estado')} maxLength={2} placeholder="MG" /></label>
+            </div>
+            <div className="cf-row">
               <label>Endereço *<input required value={form.endereco} onChange={set('endereco')} /></label>
               <label className="cf-tiny">Nº *<input required value={form.numero} onChange={set('numero')} /></label>
             </div>
             <div className="cf-row">
-              <label>Complemento<input value={form.complemento} onChange={set('complemento')} /></label>
               <label>Bairro *<input required value={form.bairro} onChange={set('bairro')} /></label>
-            </div>
-            <div className="cf-row cf-row--3">
-              <label>Município *<input required value={form.municipio} onChange={set('municipio')} /></label>
-              <label className="cf-tiny">Estado *<input required value={form.estado} onChange={set('estado')} maxLength={2} placeholder="MG" /></label>
-              <label className="cf-small">CEP *<input required value={form.cep} onChange={set('cep')} placeholder="00000-000" /></label>
+              <label>Complemento<input value={form.complemento} onChange={set('complemento')} /></label>
             </div>
           </fieldset>
 
           <fieldset className="cf-section">
             <legend>Contato e Acesso</legend>
             <div className="cf-row">
-              <label>Telefone *<input required value={form.telefone} onChange={set('telefone')} placeholder="(00) 00000-0000" /></label>
+              <label>Telefone *<input required value={form.telefone} onChange={maskTelefone('telefone')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
               <label>Email *<input required type="email" value={form.email} onChange={set('email')} /></label>
             </div>
             <div className="cf-row">
@@ -391,7 +441,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
                 <label>Nome *<input required value={form.nomeFinanceiro} onChange={set('nomeFinanceiro')} /></label>
               </div>
               <div className="cf-row">
-                <label>Telefone *<input required value={form.telefoneFinanceiro} onChange={set('telefoneFinanceiro')} placeholder="(00) 00000-0000" /></label>
+                <label>Telefone *<input required value={form.telefoneFinanceiro} onChange={maskTelefone('telefoneFinanceiro')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
                 <label>Email *<input required type="email" value={form.emailFinanceiro} onChange={set('emailFinanceiro')} /></label>
               </div>
             </fieldset>
