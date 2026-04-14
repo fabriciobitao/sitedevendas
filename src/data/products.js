@@ -250,9 +250,11 @@ export const products = [
   // --- Cream Cheese (agrupado por marca) ---
   // Catupiry
   { id: 117, name: "D'Allora Requeijão 1,8kg", category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/dallora-requeijao.png', description: "Mistura de leite e gordura vegetal e amido sabor requeijão D'Allora, 1,8kg — ideal para pizzas, salgados e lanches" },
+  { id: 217, name: "Cheddar D'Allora Bis 1,8kg", category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/cheddar-dallora.jpg', description: "Requeijão cremoso sabor cheddar D'Allora, bisnaga 1,2kg — ideal para pizzas, salgados e lanches" },
   // Scala
   { id: 118, name: 'Catupiri Scala Bisnaga 1,5kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: 'Catupiri Scala bisnaga, embalagem 1,5kg' },
-  { id: 114, name: 'Cream Cheese Scala', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1146582/p.jpg?v=639076991461000000', description: '' },
+  { id: 119, name: 'Cheddar Scala 1,5kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/04/mockups-1000x1000_cheddar-400-g.png', description: 'Queijo tipo cheddar Scala, embalagem 1,5kg' },
+  { id: 114, name: 'Cream Cheese Scala Bis 1,2kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/cream-cheese-scala.webp', description: 'Cream cheese queijo cremoso Scala, bisnaga 1,2kg' },
 
   // --- Manteiga e Margarina ---
   { id: 131, name: 'Manteiga Scala Pote 200g', category: 'Resfriados', subcategory: 'Manteiga e Margarina', price: null, unit: 'un', image: '/images/manteiga-scala-200g.webp', description: 'Manteiga de primeira qualidade com sal Scala, pote 200g' },
@@ -271,7 +273,6 @@ export const products = [
   { id: 108, name: 'Presunto Rio Sul - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: '/images/presunto-rio-sul.jpg', description: '' },
 
   // --- Queijos (agrupado por família) ---
-  { id: 119, name: 'Cheddar Scala 1,5kg', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/04/mockups-1000x1000_cheddar-400-g.png', description: 'Queijo tipo cheddar Scala, embalagem 1,5kg' },
   { id: 128, name: 'Espeto de Queijo Coalho', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'un', image: 'https://www.vivaespetos.com.br/wp-content/uploads/2019/05/quijocoalho.jpg', description: '' },
   // Mussarela
   { id: 124, name: 'Mussarela Nova Esperança - Peça', category: 'Resfriados', subcategory: 'Queijos', price: null, unit: 'kg', image: '/images/mussarela-nova-esperanca.jpeg', description: '' },
