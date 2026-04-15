@@ -45,6 +45,7 @@ export const subcategories = {
     'Sucos',
     'Descartáveis',
     'Embalagens',
+    'Confeitaria',
   ],
   Resfriados: [
     'Apresuntados',
@@ -124,9 +125,9 @@ export const products = [
   // Champignon
   { id: 20, name: 'Champignon Fatiado Balde', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/produtos/champinhon fatiado.jpg', description: 'Cogumelos champignon fatiados em conserva, balde' },
   // Ervilhas
-  { id: 21, name: 'Ervilha 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1147595/m.jpg?v=639076996519730000', description: 'Ervilha em conserva Predilecta, balde 2kg' },
+  { id: 21, name: 'Ervilha Lata 1,7kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1147595/m.jpg?v=639076996519730000', description: 'Ervilha em conserva, lata 1,7kg' },
   // Milho Verde
-  { id: 41, name: 'Milho Verde Quero 2kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/08/Milho-Verde-Quero.jpg', description: 'Milho verde em conserva Quero, lata 2kg — pronto para uso em receitas e saladas' },
+  { id: 41, name: 'Milho Verde Lata 1,7kg', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2021/08/Milho-Verde-Quero.jpg', description: 'Milho verde em conserva, lata 1,7kg' },
   { id: 42, name: 'Milho Verde Lata 200g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/images/milho-lata-200g.png', description: 'Milho verde em conserva, lata 200g' },
   // Palmitos
   { id: 51, name: 'Palmito Inteiro 300g', category: 'Secos', subcategory: 'Conservas', price: null, unit: 'un', image: '/images/palmito-300g.webp', description: 'Palmito inteiro em conserva, vidro 300g' },
@@ -136,6 +137,10 @@ export const products = [
   { id: 6, name: 'Atum Ralado Chicharro lata 410g Randy', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: '/produtos/atum chicharro.jpg', description: 'Atum ralado tipo chicharro, lata 410g marca Randy' },
   { id: 53, name: 'Creme de Leite Italac 200g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/235/32987235.jpg', description: 'Creme de leite UHT Italac, caixinha 200g' },
   { id: 25, name: 'Leite Condensado 395g Italac', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1141006/g.jpg?v=639076962610100000', description: 'Leite condensado Italac, lata 395g' },
+
+  // --- Confeitaria ---
+  { id: 236, name: 'Recheio Forneavel Chocolate ao Leite Harald Confeiteiro 1,010kg', category: 'Secos', subcategory: 'Confeitaria', price: null, unit: 'un', image: '/images/confeiteiro-chocolate-ao-leite.webp', description: 'Recheio forneavel Harald Confeiteiro, sabor chocolate ao leite, 1,010kg — para pizzas, crepes, pasteis e tapiocas' },
+  { id: 237, name: 'Recheio Forneavel Chocolate Branco Harald Confeiteiro 1,010kg', category: 'Secos', subcategory: 'Confeitaria', price: null, unit: 'un', image: '/images/confeiteiro-chocolate-branco.webp', description: 'Recheio forneavel Harald Confeiteiro, sabor chocolate branco, 1,010kg — para pizzas, crepes, pasteis e tapiocas' },
   { id: 47, name: 'Mortadela Mini Saudali 400g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://tdc0wy.vteximg.com.br/arquivos/ids/164754-1000-1000/MORTADELA-SAUDALI-TUBULAR-500G-SUINA.png?v=638615652480100000', description: 'Mortadela mini tubular Saudali, 400g — prática para lanches e sanduíches' },
   { id: 139, name: 'Salame Italiano - Peça', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'kg', image: '/images/salame-italiano-peca.webp', description: 'Salame tipo italiano Pamplona, peça inteira' },
   { id: 203, name: 'Salame Italiano Fatiado Cart. 100g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: '/images/salame-italiano-fatiado.jpg', description: 'Salame tipo italiano fatiado Pamplona, cartela 100g' },
@@ -179,6 +184,8 @@ export const products = [
   { id: 4, name: 'Alho Frito 500g', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: '/produtos/alho frito.jpeg', description: 'Alho frito crocante, pacote 500g' },
 
   // --- Óleos ---
+  { id: 231, name: 'Oleo de Soja Liza 900ml pct 6un', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'pct', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/131582015/oleo-de-soja-liza-900ml-1.jpg?v=638319501126800000', description: 'Oleo de soja Liza 900ml, pacote com 6 unidades' },
+  { id: 232, name: 'Oleo de Soja 900ml cx com 20un Soya/Vitaliv/Coamo', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'cx', image: '/images/oleos-soja-3marcas.png', description: 'Oleo de soja 900ml, caixa com 20 unidades — marcas Soya, Vitaliv ou Coamo' },
   { id: 23, name: 'Gordura Vegetal 15kg Coamo', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/970643/p.jpg?v=639047113475230000', description: 'Gordura vegetal Coamo Fry, balde 15kg' },
 
   // --- Refrigerantes (agrupado por marca) ---
@@ -202,6 +209,11 @@ export const products = [
 
   // --- Descartáveis (por último) ---
   { id: 92, name: 'Embalagem de Pizza Grande Nº 35', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'un', image: '/images/caixa-pizza-grande.jpg', description: 'Caixa octogonal para pizza grande nº 35' },
+
+  // --- Molhos e Condimentos (Temperos Sazon) ---
+  { id: 234, name: 'Tempero Amaciante de Carnes Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/amaciante-de-carne_food-service_1kg_ajinomoto.png', description: 'Tempero amaciante de carnes Sazon, pacote 1,1kg — uso profissional' },
+  { id: 235, name: 'Caldo de Carne Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/caldo_sazon_carne_11kg_ajinomoto.png', description: 'Caldo de carne Sazon, pacote 1,1kg — tempero profissional para caldos e sopas' },
+
   // Hamburgueiras
   { id: 98, name: 'Hamburgueira CH2 cx 100un', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'cx', image: 'https://cdn.awsli.com.br/600x1000/446/446822/produto/126182413/shopping---2023-07-05t142524-699-rcvsly7tea.jpg', description: 'Embalagem isopor para hambúrguer CH2 média, caixa com 100 unidades' },
   { id: 99, name: 'Hamburgueira CH3 cx 50un', category: 'Secos', subcategory: 'Descartáveis', price: null, unit: 'cx', image: 'https://cdn.awsli.com.br/600x1000/446/446822/produto/126180789/shopping---2023-07-05t142524-699-uyag22s2xh.jpg', description: 'Embalagem isopor para hambúrguer CH3 grande, caixa com 50 unidades' },
@@ -243,6 +255,7 @@ export const products = [
   { id: 105, name: 'Apresuntado Sadia - Peça', category: 'Resfriados', subcategory: 'Apresuntados', price: null, unit: 'kg', image: 'https://images-food.ifcshop.com.br/produto/44708_0_20220103133041.jpg', description: '' },
 
   // --- Bacalhau ---
+  { id: 106, name: 'Lombo Canadense Nobre - Peca', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://megag.com.br/v21/wp-content/uploads/2021/07/arq_973Lombo-Nobre-Tipo-Canadense-1Kg.jpg', description: 'Lombo canadense tipo Nobre, peca' },
   { id: 147, name: 'Bacalhau Desfiado Pct 1kg', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'un', image: '/images/bacalhau-desfiado.jpeg', description: 'Bacalhau desfiado Oceani, pacote 1kg' },
   { id: 149, name: 'Bacalhau Saithe - Caixa 25kg', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'cx', image: '/images/bacalhau-saithe-cx25kg.webp', description: 'Bacalhau salgado Saithe, caixa com 25kg' },
   { id: 148, name: 'Bacalhau Saithe - Peça', category: 'Resfriados', subcategory: 'Bacalhau', price: null, unit: 'kg', image: '/images/bacalhau-saithe-peca.jpg', description: '' },
@@ -252,7 +265,7 @@ export const products = [
   { id: 117, name: "D'Allora Requeijão 1,8kg", category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/dallora-requeijao.png', description: "Mistura de leite e gordura vegetal e amido sabor requeijão D'Allora, 1,8kg — ideal para pizzas, salgados e lanches" },
   { id: 217, name: "Cheddar D'Allora Bis 1,8kg", category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/cheddar-dallora.jpg', description: "Requeijão cremoso sabor cheddar D'Allora, bisnaga 1,2kg — ideal para pizzas, salgados e lanches" },
   // Scala
-  { id: 118, name: 'Catupiri Scala Bisnaga 1,5kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: 'Catupiri Scala bisnaga, embalagem 1,5kg' },
+  { id: 118, name: 'Requeijao Scala Bisnaga 1,5kg', category: 'Resfriados', subcategory: 'Requeijão', price: null, unit: 'un', image: 'https://www.sondadelivery.com.br/img.aspx/sku/1212940/530/7898039680187.png', description: 'Requeijao Scala bisnaga, embalagem 1,5kg' },
   { id: 119, name: 'Cheddar Scala 1,5kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: 'https://www.scala.com.br/wp-content/uploads/2020/04/mockups-1000x1000_cheddar-400-g.png', description: 'Queijo tipo cheddar Scala, embalagem 1,5kg' },
   { id: 114, name: 'Cream Cheese Scala Bis 1,2kg', category: 'Resfriados', subcategory: 'Cream Cheese', price: null, unit: 'un', image: '/images/cream-cheese-scala.webp', description: 'Cream cheese queijo cremoso Scala, bisnaga 1,2kg' },
 
@@ -266,7 +279,6 @@ export const products = [
   { id: 112, name: 'Mortadela Ouro - Peça', category: 'Resfriados', subcategory: 'Mortadelas', price: null, unit: 'kg', image: 'https://d3gdr9n5lqb5z7.cloudfront.net/fotos/4189-18-09-2023-11-03-25-806.jpg', description: '' },
 
   // --- Presuntos ---
-  { id: 106, name: 'Lombo Canadense Nobre - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://megag.com.br/v21/wp-content/uploads/2021/07/arq_973Lombo-Nobre-Tipo-Canadense-1Kg.jpg', description: '' },
   { id: 107, name: 'Presunto Cozido Sadia - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://www.sadia.com.br/assets/images/_/products/ce316db01279c02630a24352ab32bed99b881819.webp', description: '' },
   { id: 195, name: 'Presunto Filé Mignon Suíno Sadia - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://redemix.vteximg.com.br/arquivos/ids/218916-500-500/7435.png?v=638524206461000000', description: '' },
   { id: 109, name: 'Presunto Perdigão - Peça', category: 'Resfriados', subcategory: 'Presuntos', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1272117/g.jpg.jpg?v=639098738599970000', description: '' },
@@ -304,115 +316,78 @@ export const products = [
   { id: 143, name: 'Salsicha Amarrada Salsichão - Peça', category: 'Resfriados', subcategory: 'Salsichas', price: null, unit: 'kg', image: '/images/salsicha-salsichao.jpeg', description: 'Salsicha amarrada tipo salsichão Frigonossa, peça' },
 
   // ============================================================
-  //  CONGELADOS (subcategorias em ordem alfabética, produtos agrupados por família)
+  //  CONGELADOS — Organizado: Aves (cx 20kg primeiro), Bovinos (alfabetico), demais
   // ============================================================
 
-  // --- Aves (agrupado por família) ---
-  // Asa
-  { id: 167, name: 'Asa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/07/Meio-da-Asa-Seara-1kg.webp', description: 'Asa de frango congelada, pacote' },
-  // Coração
-  // Coxa e Sobrecoxa
-  { id: 169, name: 'Coxa e Sobrecoxa de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2025/01/992404_IQF_COXA_SOBRECOXA_1kg-_2_-1.webp', description: 'Coxa e sobrecoxa de frango congelada, pacote — suculenta e saborosa' },
-  // Coxinha da Asa
-  { id: 173, name: 'Coxinha da Asa C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1143624/g.jpg?v=639076976496930000', description: 'Coxinha da asa de frango C.Vale congelada, pacote' },
-  // Fígado
-  { id: 179, name: 'Fígado de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1006188/m.jpg?v=639047311321700000', description: 'Fígado de frango congelado, pacote' },
-  // Filé de Coxa e Sobrecoxa
-  { id: 171, name: 'Filé de Coxa e Sobrecoxa', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Coxa-e-Sobrecoxa-Seara-1kg.webp', description: 'Filé de coxa e sobrecoxa sem osso congelado, pacote' },
-  // Filé de Peito
-  { id: 168, name: 'Filé de Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Peito-Seara-1kg-1.webp', description: 'Filé de peito de frango congelado, pacote — corte magro e versátil' },
-  // Filé Sassami
-  { id: 180, name: 'Filé Sassami C.Vale', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1550075-800-auto?v=638931305681570000', description: 'Filé sassami de frango C.Vale congelado — corte magro e delicado' },
-  // Frango Inteiro
-  { id: 166, name: 'Frango Congelado Inteiro', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/Frango-Inteiro-com-Miudos-Seara.webp', description: 'Frango inteiro congelado, embalagem — ave limpa e pronta para preparo' },
-  // Meio da Asa
-  { id: 174, name: 'Meio da Asa (Tulipa)', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/1549781-800-auto?v=638931297559830000', description: 'Meio da asa de frango (tulipa) congelado, pacote — ideal para aperitivos' },
-  // Moela
-  // Peito
-  { id: 172, name: 'Peito de Frango', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Peito-Seara-1kg-1.webp', description: 'Peito de frango inteiro congelado, pacote' },
+  // --- Aves — Caixa 20kg (ordem alfabetica) ---
+  { id: 167, name: 'Asa de Frango cx 20kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: '/images/asa-frango-real.jpg', description: 'Asa de frango congelada, caixa 20kg' },
+  { id: 169, name: 'Coxa e Sobrecoxa de Frango cx 20kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: '/images/coxa-sobrecoxa-real.webp', description: 'Coxa e sobrecoxa de frango congelada, caixa 20kg' },
+  { id: 168, name: 'File de Peito de Frango cx 20kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: '/images/file-peito-cancao.webp', description: 'File de peito de frango congelado, sem osso e sem pele, caixa 20kg' },
+  { id: 174, name: 'Meio da Asa (Tulipa) cx 20kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: '/images/meio-asa-levo.jpg', description: 'Meio da asa de frango (tulipa) congelado, caixa 20kg' },
+  { id: 172, name: 'Peito de Frango com Osso cx 20kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: '/images/peito-frango-real.jpg', description: 'Peito de frango com osso congelado, caixa 20kg' },
+
+  // --- Aves — Pacotes e outros (ordem alfabetica) ---
+  { id: 173, name: 'Coxinha da Asa IQF Pioneiro cx 10,5kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'cx', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1143624/g.jpg?v=639076976496930000', description: 'Coxinha da asa de frango IQF Pioneiro congelada, caixa 10,5kg' },
+  { id: 242, name: 'Coxinha da Asa Pioneiro pct', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1143624/g.jpg?v=639076976496930000', description: 'Coxinha da asa de frango Pioneiro congelada, pacote' },
+  { id: 171, name: 'File de Coxa e Sobrecoxa', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/File-de-Coxa-e-Sobrecoxa-Seara-1kg.webp', description: 'File de coxa e sobrecoxa sem osso congelado, pacote' },
+  { id: 180, name: 'Filezinho Sassami IQF pct 1kg', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'un', image: '/images/filezinho-sassami-cvale.png', description: 'Filezinho sassami de frango congelado IQF, pacote 1kg' },
+  { id: 166, name: 'Frango Congelado Inteiro', category: 'Congelados', subcategory: 'Aves', price: null, unit: 'kg', image: 'https://www.seara.com.br/wp-content/uploads/2024/08/Frango-Inteiro-com-Miudos-Seara.webp', description: 'Frango inteiro congelado — ave limpa e pronta para preparo' },
+
+  // --- Bovinos (ordem alfabetica) ---
+  { id: 150, name: 'Acem', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/30908275/5936527_1.jpg?v=637770235244900000', description: 'Acem bovino congelado — corte versatil para cozidos e ensopados' },
+  { id: 153, name: 'Contra File', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/209437/5283655_1.jpg?v=637272509350000000', description: 'Contra file bovino congelado — macio e saboroso para grelhar' },
+  { id: 219, name: 'Costela Desfiada Bovina pct 1kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: '/images/costela-desfiada-quali.jpg', description: 'Carne desfiada bovina costela congelada, pacote 1kg — pronta para uso' },
+  { id: 223, name: 'Costela em Tiras', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://coopsp.vtexassets.com/arquivos/ids/234672-800-800?v=638337717002000000', description: 'Costela bovina em tiras congelada — ideal para churrasco' },
+  { id: 224, name: 'Costela Minga', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/391751/318136.png?v=638621946809470000', description: 'Costela minga bovina congelada — corte tradicional para cozinhar' },
+  { id: 225, name: 'Coxao Duro', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/215449/620155-bife-de-coxao-duro-bandeja_inn.jpg?v=639100772770230000', description: 'Coxao duro bovino congelado — ideal para bifes e carne de panela' },
+  { id: 221, name: 'Cubos Bovinos pct 2kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/163245108/55e5280c45ec4f718f61b7b7ab33177c.jpg?v=638548057473930000', description: 'Carne bovina em cubos congelada, pacote 2kg — pratica para estrogonofe e espetinhos' },
+  { id: 154, name: 'Cupim', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545333-200-auto/209104_1.jpg?v=638984627549530000', description: 'Cupim bovino congelado — suculento para churrasco lento' },
+  { id: 226, name: 'Figado Bovino', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/212831/616098-iscas-de-figado_inn.jpg?v=639005482425070000', description: 'Figado bovino congelado — rico em ferro, ideal para acebolado' },
+  { id: 227, name: 'File Mignon', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214805/621390-bife-de-file-mignon_inn.jpg?v=639082345647870000', description: 'File mignon bovino congelado — corte premium, macio e suculento' },
+  { id: 228, name: 'Fraldinha', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/288474/5870593_1.jpg?v=637272661125200000', description: 'Fraldinha bovina congelada — sabor intenso para churrasco' },
+  { id: 151, name: 'Lagarto', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545356/295914_1.jpg?v=638984627687830000', description: 'Lagarto bovino congelado — ideal para rosbife e carne de panela' },
+  { id: 155, name: 'Carne Moida', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/200417/9421769_1.jpg?v=637272446135900000', description: 'Carne moida bovina congelada, pacote — pratica para o dia a dia' },
+  { id: 229, name: 'Patinho', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214239/618212-cubos-de-patinho_inn.jpg?v=639064132810270000', description: 'Patinho bovino congelado — corte magro, ideal para moer ou bifes' },
+  { id: 152, name: 'Picanha', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/5706852/peca-de-picanha-bovina-congelada-carrefour-12kg-1.jpg?v=637327743915770000', description: 'Picanha bovina congelada — o corte nobre do churrasco brasileiro' },
+  { id: 230, name: 'Ponta de Peito', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1275984/p.jpg.jpg?v=639098759773300000', description: 'Ponta de peito bovina congelada — corte suculento para churrasco e defumados' },
 
   // --- Batatas Congeladas ---
-  { id: 192, name: 'Batata McCain', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: 'https://cdn.shopify.com/s/files/1/0579/9742/6861/files/image-removebg-preview-2024-06-03T172027.762.png?v=1717446094', description: 'Batata pré-frita congelada McCain, pacote 2,5kg — corte tradicional' },
-
-  // --- Bovinos ---
-  { id: 150, name: 'Acém Congelado', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://prezunic.vtexassets.com/arquivos/ids/179941-800-auto?v=638368811005400000', description: 'Acém bovino congelado, peça — corte versátil para cozidos e ensopados' },
-  // Carne
-  { id: 151, name: 'Carne Lagarto', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545356/295914_1.jpg?v=638984627687830000', description: 'Lagarto bovino congelado, peça — ideal para rosbife e carne de panela' },
-  { id: 155, name: 'Carne Moída Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/200417/9421769_1.jpg?v=637272446135900000', description: 'Carne moída bovina congelada, pacote — prática para o dia a dia' },
-  { id: 152, name: 'Carne Picanha', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/5706852/peca-de-picanha-bovina-congelada-carrefour-12kg-1.jpg?v=637327743915770000', description: 'Picanha bovina congelada, peça — o corte nobre do churrasco brasileiro' },
-  { id: 153, name: 'Contra-Filé', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/209437/5283655_1.jpg?v=637272509350000000', description: 'Contra-filé bovino congelado, peça — macio e saboroso para grelhar' },
-  { id: 154, name: 'Cupim Friboi', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/206545333-200-auto/209104_1.jpg?v=638984627549530000', description: 'Cupim bovino congelado Friboi, peça — suculento para churrasco lento' },
-
-  // --- Empanados ---
-  { id: 182, name: 'Chicken C.Vale Pct 1kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1006190/m.jpg?v=639047311322170000', description: 'Empanado de frango tipo chicken C.Vale congelado, pacote 1kg' },
-  { id: 177, name: 'Filé Empanado C.Vale', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/984197/m.jpg?v=639047189791330000', description: 'Filé de frango empanado C.Vale congelado, pacote — prático e crocante' },
-  { id: 145, name: 'Salsicha Perdigão Hot Dog', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/411/32979411.png', description: 'Salsicha Perdigão Hot Dog congelada' },
-  { id: 184, name: 'Steak Perdigão', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1144319/m.jpg?v=639076979940300000', description: 'Steak empanado de frango Perdigão congelado, pacote' },
-
-  // --- Hambúrguer ---
-  { id: 185, name: 'Hambúrguer Aurora', category: 'Congelados', subcategory: 'Hambúrguer', price: null, unit: 'un', image: 'https://www.auroraalimentos.com.br/wp-content/uploads/2022/04/HAMBURGUER-DE-CARNE-BOVINA-CAIXETA-AURORA-672G-2093-1.png', description: 'Hambúrguer de carne bovina Aurora congelado, caixa' },
-
-  // --- Linguiças (agrupado por marca) ---
-  { id: 178, name: 'Linguiça de Frango C.Vale', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1147626/p.jpg?v=639076996698230000', description: 'Linguiça de frango C.Vale congelada — opção mais leve para churrasco' },
-  // Toscana
-  { id: 163, name: 'Linguiça Toscana Aurora Churrasco', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/216849/5718023_1.jpg?v=637272523977170000', description: 'Linguiça toscana Aurora para churrasco, congelada' },
-  { id: 162, name: 'Linguiça Toscana Nobre', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1141213/p.jpg?v=639076963976870000', description: 'Linguiça toscana Nobre congelada — sabor de carne suína temperada' },
-  { id: 164, name: 'Linguiça Toscana Saudali', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://saudali.com.br/wp-content/uploads/2018/02/Linguica-de-Carne-Suina-1kg-Saudali-300x300.jpg', description: 'Linguiça toscana de pernil Saudali, congelada' },
-  { id: 165, name: 'Linguiça Uay', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://s3-us-west-2.amazonaws.com/fasow/26291/imagens/2vKyM2DD2QkzjkOEzlpS.jpg', description: 'Linguiça de carne bovina Uay, congelada' },
-
-  // --- Peixes e Frutos do Mar ---
-  { id: 190, name: 'Filé de Tilápia', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: 'https://mambodelivery.vtexassets.com/arquivos/ids/231336-800-auto?v=638810060653700000', description: 'Filé de tilápia congelado — peixe branco suave e versátil' },
-  { id: 191, name: 'Peixe Panga', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/460658-800-auto?v=638575136391070000', description: 'Filé de peixe panga congelado — sabor neutro, ótimo para empanar' },
-
-  // --- Suínos (agrupado por família) ---
-  // Bacon
-  { id: 160, name: 'Bacon em Cubos Congelado', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/182392256/3400808_1.jpg.jpg?v=638721074045730000', description: 'Bacon em cubos congelado, pacote — pronto para usar em receitas' },
-  { id: 161, name: 'Bacon Fatiado Congelado', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://www.sadia.com.br/assets/images/_/products/19add854120bf278ddc9c87f6812e5584ef2c2c0.webp', description: 'Bacon fatiado congelado, pacote — praticidade no preparo' },
-  // Costelinha
-  { id: 157, name: 'Costelinha de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/37667216/costelinha-suina-sadia-cong-kg-1.jpg?v=637814111642370000', description: 'Costelinha suína congelada, peça — ideal para churrasco e assados' },
-  // Lombo
-  { id: 158, name: 'Lombo de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/214437/5608031_1.jpg?v=637272519057830000', description: 'Lombo suíno congelado, peça — corte magro e versátil' },
-  // Pernil
-  { id: 159, name: 'Pernil sem Osso Pif Paf', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://www.pifpaf.com.br/wp-content/uploads/2024/11/00-060.545-PERNIL-SUINO-S-OSSO-TEMP.-CONG.-CX-18KG-1024x1024.png', description: 'Pernil suíno sem osso Pif Paf, peça congelada — prático para assar' },
-
-  // --- Vegetais Congelados ---
-  { id: 188, name: 'Brócolis Congelado', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://mambodelivery.vtexassets.com/arquivos/ids/234191-800-auto?v=638862961980130000', description: 'Brócolis congelado, pacote — mantém nutrientes e praticidade' },
-  // Mandioca
-  { id: 186, name: 'Mandioca Congelada (pacote)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://www.seara.com.br/wp-content/uploads/2022/06/Mandioca-Supreme-Seara-Nature-600g.webp', description: 'Mandioca cozida e congelada, pacote — prática para fritar ou cozinhar' },
-  // Polenta
-  { id: 189, name: 'Polenta Congelada Palito', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/493386-800-auto?v=638756955561900000', description: 'Polenta palito congelada Val Mar — pronta para fritar, crocante por fora' },
-
-  // ============================================================
-  //  NOVOS CONGELADOS (sessão 15/04/2026)
-  // ============================================================
+  { id: 192, name: 'Batata McCain', category: 'Congelados', subcategory: 'Batatas Congeladas', price: null, unit: 'un', image: 'https://cdn.shopify.com/s/files/1/0579/9742/6861/files/image-removebg-preview-2024-06-03T172027.762.png?v=1717446094', description: 'Batata pre-frita congelada McCain, pacote 2,5kg — corte tradicional' },
 
   // --- Empanados ---
   { id: 218, name: 'Anel de Cebola McCain 1,05kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://gigavc.vtexassets.com/arquivos/ids/162439-800-auto?v=638971018245970000', description: 'Anel de cebola empanado McCain, pacote 1,05kg — pronto para fritar' },
+  { id: 182, name: 'Chicken Cvale pct 1kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1006190/m.jpg?v=639047311322170000', description: 'Empanado de frango tipo chicken Cvale congelado, pacote 1kg' },
+  { id: 240, name: 'Chicken Cvale pct 2,5kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '/images/chicken-cvale-2-5kg.png', description: 'Tirinhas de frango empanadas Cvale congeladas, pacote 2,5kg' },
+  { id: 177, name: 'File Empanado pct 1kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/984197/m.jpg?v=639047189791330000', description: 'File de frango empanado congelado, pacote 1kg' },
+  { id: 241, name: 'File Empanado Cvale pct 2,5kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '/images/file-empanado-cvale-2-5kg.png', description: 'Filezinho empanado de frango Cvale congelado, pacote 2,5kg' },
+  { id: 145, name: 'Salsicha Hot Dog Perdigao pct 5kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: '/images/salsicha-hotdog-perdigao.png', description: 'Salsicha Hot Dog Perdigao congelada sem corante, pacote 5kg' },
+  { id: 184, name: 'Steak Empanado', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1144319/m.jpg?v=639076979940300000', description: 'Steak empanado de frango congelado, pacote' },
 
-  // --- Bovinos (novos cortes) ---
-  { id: 219, name: 'Costela Desfiada Congelada pct 1kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2023/10/14806.jpg', description: 'Carne de costela desfiada congelada, pacote 1kg — pronta para uso' },
-  { id: 220, name: 'Carne Acem Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/30908275/5936527_1.jpg?v=637770235244900000', description: 'Acem bovino congelado, peca — ideal para cozidos e ensopados' },
-  { id: 221, name: 'Carne Bovina Cubos pct 2kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/163245108/55e5280c45ec4f718f61b7b7ab33177c.jpg?v=638548057473930000', description: 'Carne bovina em cubos congelada, pacote 2kg — pratica para estrogonofe e espetinhos' },
-  { id: 222, name: 'Carne Contra File Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/209437/5283655_1.jpg?v=637272509350000000', description: 'Contra file bovino congelado, peca — corte nobre para grelhados' },
-  { id: 223, name: 'Costela em Tiras Friboi', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://coopsp.vtexassets.com/arquivos/ids/234672-800-800?v=638337717002000000', description: 'Costela bovina em tiras Friboi, congelada — ideal para churrasco' },
-  { id: 224, name: 'Costela Minga Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/391751/318136.png?v=638621946809470000', description: 'Costela minga bovina congelada, peca — corte tradicional para cozinhar' },
-  { id: 225, name: 'Carne Coxao Duro Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/215449/620155-bife-de-coxao-duro-bandeja_inn.jpg?v=639100772770230000', description: 'Coxao duro bovino congelado, peca — ideal para bifes e carne de panela' },
-  { id: 226, name: 'Carne Figado Bovino Congelado', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/212831/616098-iscas-de-figado_inn.jpg?v=639005482425070000', description: 'Figado bovino congelado — rico em ferro, ideal para acebolado' },
-  { id: 227, name: 'Carne File Mignon Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214805/621390-bife-de-file-mignon_inn.jpg?v=639082345647870000', description: 'File mignon bovino congelado — corte premium, macio e suculento' },
-  { id: 228, name: 'Carne Fraldinha Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/288474/5870593_1.jpg?v=637272661125200000', description: 'Fraldinha bovina congelada, peca — sabor intenso para churrasco' },
-  { id: 229, name: 'Carne Patinho Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214239/618212-cubos-de-patinho_inn.jpg?v=639064132810270000', description: 'Patinho bovino congelado — corte magro, ideal para moer ou bifes' },
-  { id: 230, name: 'Carne Ponta de Peito Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1275984/p.jpg.jpg?v=639098759773300000', description: 'Ponta de peito bovina congelada — corte suculento para churrasco e defumados' },
+  // --- Hamburger ---
+  { id: 185, name: 'Hamburger Aurora 56g cx com 36un', category: 'Congelados', subcategory: 'Hambúrguer', price: null, unit: 'cx', image: '/images/hamburger-aurora.webp', description: 'Hamburger Aurora 56g, caixa com 36 unidades' },
+  { id: 238, name: 'Hamburger Fast Burger Bovino 56g cx com 36un', category: 'Congelados', subcategory: 'Hambúrguer', price: null, unit: 'cx', image: '/images/hamburger-fast-burger.jpg', description: 'Hamburger de carne bovina Fast Burger 56g, caixa com 36 unidades' },
+  { id: 239, name: 'Hamburger Fast Burger Bovino 90g cx com 36un', category: 'Congelados', subcategory: 'Hambúrguer', price: null, unit: 'cx', image: '/images/hamburger-fast-burger-aves.png', description: 'Hamburger de carne bovina Fast Burger 90g, caixa com 36 unidades' },
 
-  // ============================================================
-  //  NOVOS SECOS (sessão 15/04/2026)
-  // ============================================================
+  // --- Linguicas ---
+  { id: 178, name: 'Linguica de Frango', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1147626/p.jpg?v=639076996698230000', description: 'Linguica de frango congelada' },
+  { id: 163, name: 'Linguica Toscana Churrasco', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/216849/5718023_1.jpg?v=637272523977170000', description: 'Linguica toscana para churrasco, congelada' },
+  { id: 162, name: 'Linguica Toscana Nobre pct 700g', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1141213/p.jpg?v=639076963976870000', description: 'Linguica Toscana Nobre congelada, pacote 700g' },
+  { id: 164, name: 'Linguica Toscana de Pernil', category: 'Congelados', subcategory: 'Linguiças', price: null, unit: 'kg', image: 'https://saudali.com.br/wp-content/uploads/2018/02/Linguica-de-Carne-Suina-1kg-Saudali-300x300.jpg', description: 'Linguica toscana de pernil, congelada' },
 
-  // --- Óleos ---
-  { id: 231, name: 'Oleo de Soja Liza 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/131582015/oleo-de-soja-liza-900ml-1.jpg?v=638319501126800000', description: 'Oleo de soja Liza, garrafa 900ml' },
-  { id: 232, name: 'Oleo de Soja Soya 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/211616/141836_1.jpg?v=637272514200130000', description: 'Oleo de soja Soya, garrafa 900ml' },
-  { id: 233, name: 'Oleo de Soja Coamo 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/334460/7896279600538.jpg?v=638022157463000000', description: 'Oleo de soja Coamo, garrafa 900ml' },
+  // --- Peixes e Frutos do Mar ---
+  { id: 190, name: 'File de Tilapia', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: 'https://mambodelivery.vtexassets.com/arquivos/ids/231336-800-auto?v=638810060653700000', description: 'File de tilapia congelado — peixe branco suave e versatil' },
+  { id: 191, name: 'Peixe Panga', category: 'Congelados', subcategory: 'Peixes e Frutos do Mar', price: null, unit: 'kg', image: 'https://supernossoio.vtexassets.com/arquivos/ids/460658-800-auto?v=638575136391070000', description: 'File de peixe panga congelado — sabor neutro, otimo para empanar' },
 
-  // --- Molhos e Condimentos ---
-  { id: 234, name: 'Tempero Amaciante de Carnes Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/amaciante-de-carne_food-service_1kg_ajinomoto.png', description: 'Tempero amaciante de carnes Sazon, pacote 1,1kg — uso profissional' },
-  { id: 235, name: 'Caldo de Carne Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/caldo_sazon_carne_11kg_ajinomoto.png', description: 'Caldo de carne Sazon, pacote 1,1kg — tempero profissional para caldos e sopas' },
+  // --- Suinos ---
+  { id: 160, name: 'Bacon em Cubos', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/182392256/3400808_1.jpg.jpg?v=638721074045730000', description: 'Bacon em cubos congelado, pacote — pronto para usar em receitas' },
+  { id: 161, name: 'Bacon Fatiado', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://www.sadia.com.br/assets/images/_/products/19add854120bf278ddc9c87f6812e5584ef2c2c0.webp', description: 'Bacon fatiado congelado — praticidade no preparo' },
+  { id: 157, name: 'Costelinha de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/37667216/costelinha-suina-sadia-cong-kg-1.jpg?v=637814111642370000', description: 'Costelinha suina congelada — ideal para churrasco e assados' },
+  { id: 158, name: 'Lombo de Porco', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/214437/5608031_1.jpg?v=637272519057830000', description: 'Lombo suino congelado — corte magro e versatil' },
+  { id: 159, name: 'Pernil sem Osso', category: 'Congelados', subcategory: 'Suínos', price: null, unit: 'kg', image: 'https://www.pifpaf.com.br/wp-content/uploads/2024/11/00-060.545-PERNIL-SUINO-S-OSSO-TEMP.-CONG.-CX-18KG-1024x1024.png', description: 'Pernil suino sem osso congelado — pratico para assar' },
+
+  // --- Vegetais Congelados ---
+  { id: 188, name: 'Brocolis Congelado', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://mambodelivery.vtexassets.com/arquivos/ids/234191-800-auto?v=638862961980130000', description: 'Brocolis congelado, pacote — mantem nutrientes e praticidade' },
+  { id: 186, name: 'Mandioca Congelada', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://www.seara.com.br/wp-content/uploads/2022/06/Mandioca-Supreme-Seara-Nature-600g.webp', description: 'Mandioca cozida e congelada, pacote — pratica para fritar ou cozinhar' },
+  { id: 189, name: 'Polenta Congelada Palito', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/493386-800-auto?v=638756955561900000', description: 'Polenta palito congelada — pronta para fritar, crocante por fora' },
+
 ];
