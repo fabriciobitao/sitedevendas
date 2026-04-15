@@ -313,6 +313,54 @@
   box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
 }
 
+/* ==================== PASSWORD FIELD ==================== */
+.cf-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cf-password-wrap input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.cf-eye-btn {
+  position: absolute;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-500);
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.cf-eye-btn:hover {
+  color: var(--orange);
+  background: var(--gray-100);
+}
+
+.cf-password-match {
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cf-password-match.match {
+  color: #16a34a;
+}
+
+.cf-password-match.no-match {
+  color: #dc2626;
+}
+
 /* ==================== TRIGGER BUTTON ==================== */
 .novo-cliente-row {
   max-width: 1280px;
@@ -324,36 +372,18 @@
 
 .novo-cliente-wrapper {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
   flex-shrink: 0;
-}
-
-.novo-cliente-hint {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--orange);
-  white-space: nowrap;
-  animation: hintBounce 2s ease-in-out infinite;
-}
-
-@keyframes hintBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(2px); }
 }
 
 .btn-novo-cliente {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
+  gap: 10px;
+  padding: 14px 28px;
   background: var(--orange);
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   border: none;
   border-radius: var(--radius-lg);
@@ -399,15 +429,8 @@
     flex: 1;
   }
 
-  .novo-cliente-hint {
-    font-size: 10px;
-  }
-
-  .btn-novo-cliente span {
-    display: none;
-  }
-
   .btn-novo-cliente {
-    padding: 12px 14px;
+    font-size: 14px;
+    padding: 12px 20px;
   }
 }

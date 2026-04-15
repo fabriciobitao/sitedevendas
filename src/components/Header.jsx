@@ -55,49 +55,40 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
         </div>
 
         <div className="header-actions">
-          {!loading && (
-            user ? (
-              <div className="header-account">
-                <button className="header-account-btn" onClick={() => setMenuOpen(!menuOpen)}>
-                  <span className="header-avatar">{displayName.charAt(0).toUpperCase()}</span>
-                  <span className="header-account-name">{displayName}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="m6 9 6 6 6-6"/>
-                  </svg>
-                </button>
-                {menuOpen && (
-                  <>
-                    <div className="header-menu-overlay" onClick={() => setMenuOpen(false)} />
-                    <div className="header-menu">
-                      <button onClick={() => { navigate('/meus-pedidos'); setMenuOpen(false); }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
-                        Meus Pedidos
-                      </button>
-                      <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-                        Dashboard
-                      </button>
-                      <button onClick={() => { navigate('/minha-conta'); setMenuOpen(false); }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        Minha Conta
-                      </button>
-                      <div className="header-menu-divider" />
-                      <button className="header-menu-logout" onClick={() => { logout(); setMenuOpen(false); navigate('/'); }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                        Sair
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <button className="header-login-btn" onClick={onOpenLogin}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          {!loading && user && (
+            <div className="header-account">
+              <button className="header-account-btn" onClick={() => setMenuOpen(!menuOpen)}>
+                <span className="header-avatar">{displayName.charAt(0).toUpperCase()}</span>
+                <span className="header-account-name">{displayName}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="m6 9 6 6 6-6"/>
                 </svg>
-                <span>Entrar</span>
               </button>
-            )
+              {menuOpen && (
+                <>
+                  <div className="header-menu-overlay" onClick={() => setMenuOpen(false)} />
+                  <div className="header-menu">
+                    <button onClick={() => { navigate('/meus-pedidos'); setMenuOpen(false); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+                      Meus Pedidos
+                    </button>
+                    <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                      Dashboard
+                    </button>
+                    <button onClick={() => { navigate('/minha-conta'); setMenuOpen(false); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      Minha Conta
+                    </button>
+                    <div className="header-menu-divider" />
+                    <button className="header-menu-logout" onClick={() => { logout(); setMenuOpen(false); navigate('/'); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                      Sair
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           )}
 
           <button className="cart-button" onClick={toggleCart} aria-label="Abrir carrinho">
@@ -115,6 +106,7 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
           </button>
         </div>
       </div>
+
     </header>
   );
 }

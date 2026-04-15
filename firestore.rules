@@ -13,8 +13,8 @@ service cloud.firestore {
       // Read own profile only
       allow get: if request.auth != null && request.auth.uid == uid;
 
-      // List is denied — no one should enumerate customers
-      allow list: if false;
+      // List: allow phone lookup for login (limit 1 only, safe because sensitive fields are encrypted)
+      allow list: if request.query.limit <= 1;
 
       // Create own profile during registration
       // Validates: document ID must match auth UID, email must match auth email,

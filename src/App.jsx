@@ -23,7 +23,7 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-function CatalogPage({ onOpenRegister }) {
+function CatalogPage({ onOpenRegister, onOpenLogin }) {
   const { user } = useAuth();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
@@ -80,24 +80,19 @@ function CatalogPage({ onOpenRegister }) {
       <div className="section-divider" />
 
       {!user && (
-        <div className="novo-cliente-row">
-          <div className="novo-cliente-wrapper">
-            <span className="novo-cliente-hint">
-              Ainda não sou cliente, clique aqui
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
-              </svg>
-            </span>
-            <button className="btn-novo-cliente" onClick={onOpenRegister}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <line x1="19" y1="8" x2="19" y2="14"/>
-                <line x1="22" y1="11" x2="16" y2="11"/>
-              </svg>
-              <span>Novo Cliente</span>
-            </button>
-          </div>
+        <div className="auth-buttons-bar">
+          <button className="auth-btn auth-btn--login" onClick={onOpenLogin}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            Vou às compras
+          </button>
+          <button className="auth-btn auth-btn--register" onClick={onOpenRegister}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+            </svg>
+            Quero me cadastrar
+          </button>
         </div>
       )}
 
@@ -175,7 +170,7 @@ function AppContent() {
       <ClientForm open={registerOpen} onClose={() => setRegisterOpen(false)} onSwitchToLogin={openLogin} />
 
       <Routes>
-        <Route path="/" element={<CatalogPage onOpenRegister={openRegister} />} />
+        <Route path="/" element={<CatalogPage onOpenRegister={openRegister} onOpenLogin={openLogin} />} />
         <Route path="/meus-pedidos" element={<ProtectedRoute><MeusPedidosPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />

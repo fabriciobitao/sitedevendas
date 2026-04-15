@@ -82,27 +82,6 @@
   gap: 10px;
 }
 
-/* Login button */
-.header-login-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  background: var(--white);
-  border: 2px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  color: var(--gray-700);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.header-login-btn:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
 /* Account dropdown */
 .header-account {
   position: relative;
@@ -251,12 +230,6 @@
 @media (max-width: 768px) {
   .header-account-name {
     display: none;
-  }
-  .header-login-btn span {
-    display: none;
-  }
-  .header-login-btn {
-    padding: 10px;
   }
   .cart-hint {
     display: none;

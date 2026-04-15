@@ -56,17 +56,7 @@ export default function useContentProtection() {
       }
     };
 
-    // --- 6. DevTools detection (debugger trap) ---
-    let devtoolsInterval;
-    const detectDevTools = () => {
-      const threshold = 160;
-      const widthDiff = window.outerWidth - window.innerWidth > threshold;
-      const heightDiff = window.outerHeight - window.innerHeight > threshold;
-      if (widthDiff || heightDiff) {
-        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#fff;"><div style="text-align:center;"><h1 style="color:#c00;">Acesso Bloqueado</h1><p>Ferramentas de desenvolvedor detectadas.<br>Feche o DevTools e recarregue a página.</p></div></div>';
-      }
-    };
-    devtoolsInterval = setInterval(detectDevTools, 2000);
+    // DevTools detection removed — causava falsos positivos em mobile
 
     // --- 7. Block "Save As" dialog ---
     const handleBeforePrint = (e) => {
@@ -155,7 +145,6 @@ export default function useContentProtection() {
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('selectstart', handleSelectStart);
       window.removeEventListener('beforeprint', handleBeforePrint);
-      clearInterval(devtoolsInterval);
       const el = document.getElementById('content-protection-styles');
       if (el) el.remove();
     };

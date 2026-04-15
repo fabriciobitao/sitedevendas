@@ -381,4 +381,38 @@ export const products = [
   { id: 186, name: 'Mandioca Congelada (pacote)', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://www.seara.com.br/wp-content/uploads/2022/06/Mandioca-Supreme-Seara-Nature-600g.webp', description: 'Mandioca cozida e congelada, pacote — prática para fritar ou cozinhar' },
   // Polenta
   { id: 189, name: 'Polenta Congelada Palito', category: 'Congelados', subcategory: 'Vegetais Congelados', price: null, unit: 'un', image: 'https://supernossoio.vtexassets.com/arquivos/ids/493386-800-auto?v=638756955561900000', description: 'Polenta palito congelada Val Mar — pronta para fritar, crocante por fora' },
+
+  // ============================================================
+  //  NOVOS CONGELADOS (sessão 15/04/2026)
+  // ============================================================
+
+  // --- Empanados ---
+  { id: 218, name: 'Anel de Cebola McCain 1,05kg', category: 'Congelados', subcategory: 'Empanados', price: null, unit: 'un', image: 'https://gigavc.vtexassets.com/arquivos/ids/162439-800-auto?v=638971018245970000', description: 'Anel de cebola empanado McCain, pacote 1,05kg — pronto para fritar' },
+
+  // --- Bovinos (novos cortes) ---
+  { id: 219, name: 'Costela Desfiada Congelada pct 1kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: 'https://megag.com.br/v21/wp-content/uploads/2023/10/14806.jpg', description: 'Carne de costela desfiada congelada, pacote 1kg — pronta para uso' },
+  { id: 220, name: 'Carne Acem Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/30908275/5936527_1.jpg?v=637770235244900000', description: 'Acem bovino congelado, peca — ideal para cozidos e ensopados' },
+  { id: 221, name: 'Carne Bovina Cubos pct 2kg', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/163245108/55e5280c45ec4f718f61b7b7ab33177c.jpg?v=638548057473930000', description: 'Carne bovina em cubos congelada, pacote 2kg — pratica para estrogonofe e espetinhos' },
+  { id: 222, name: 'Carne Contra File Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/209437/5283655_1.jpg?v=637272509350000000', description: 'Contra file bovino congelado, peca — corte nobre para grelhados' },
+  { id: 223, name: 'Costela em Tiras Friboi', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://coopsp.vtexassets.com/arquivos/ids/234672-800-800?v=638337717002000000', description: 'Costela bovina em tiras Friboi, congelada — ideal para churrasco' },
+  { id: 224, name: 'Costela Minga Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/391751/318136.png?v=638621946809470000', description: 'Costela minga bovina congelada, peca — corte tradicional para cozinhar' },
+  { id: 225, name: 'Carne Coxao Duro Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/215449/620155-bife-de-coxao-duro-bandeja_inn.jpg?v=639100772770230000', description: 'Coxao duro bovino congelado, peca — ideal para bifes e carne de panela' },
+  { id: 226, name: 'Carne Figado Bovino Congelado', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/212831/616098-iscas-de-figado_inn.jpg?v=639005482425070000', description: 'Figado bovino congelado — rico em ferro, ideal para acebolado' },
+  { id: 227, name: 'Carne File Mignon Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214805/621390-bife-de-file-mignon_inn.jpg?v=639082345647870000', description: 'File mignon bovino congelado — corte premium, macio e suculento' },
+  { id: 228, name: 'Carne Fraldinha Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/288474/5870593_1.jpg?v=637272661125200000', description: 'Fraldinha bovina congelada, peca — sabor intenso para churrasco' },
+  { id: 229, name: 'Carne Patinho Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://swiftbr.vteximg.com.br/arquivos/ids/214239/618212-cubos-de-patinho_inn.jpg?v=639064132810270000', description: 'Patinho bovino congelado — corte magro, ideal para moer ou bifes' },
+  { id: 230, name: 'Carne Ponta de Peito Congelada', category: 'Congelados', subcategory: 'Bovinos', price: null, unit: 'kg', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1275984/p.jpg.jpg?v=639098759773300000', description: 'Ponta de peito bovina congelada — corte suculento para churrasco e defumados' },
+
+  // ============================================================
+  //  NOVOS SECOS (sessão 15/04/2026)
+  // ============================================================
+
+  // --- Óleos ---
+  { id: 231, name: 'Oleo de Soja Liza 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/131582015/oleo-de-soja-liza-900ml-1.jpg?v=638319501126800000', description: 'Oleo de soja Liza, garrafa 900ml' },
+  { id: 232, name: 'Oleo de Soja Soya 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/211616/141836_1.jpg?v=637272514200130000', description: 'Oleo de soja Soya, garrafa 900ml' },
+  { id: 233, name: 'Oleo de Soja Coamo 900ml', category: 'Secos', subcategory: 'Óleos', price: null, unit: 'un', image: 'https://muffatosupermercados.vtexassets.com/arquivos/ids/334460/7896279600538.jpg?v=638022157463000000', description: 'Oleo de soja Coamo, garrafa 900ml' },
+
+  // --- Molhos e Condimentos ---
+  { id: 234, name: 'Tempero Amaciante de Carnes Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/amaciante-de-carne_food-service_1kg_ajinomoto.png', description: 'Tempero amaciante de carnes Sazon, pacote 1,1kg — uso profissional' },
+  { id: 235, name: 'Caldo de Carne Sazon 1,1kg', category: 'Secos', subcategory: 'Molhos e Condimentos', price: null, unit: 'un', image: 'https://www.ajinomotofoodservice.com.br/wp/content/uploads/2025/06/caldo_sazon_carne_11kg_ajinomoto.png', description: 'Caldo de carne Sazon, pacote 1,1kg — tempero profissional para caldos e sopas' },
 ];
