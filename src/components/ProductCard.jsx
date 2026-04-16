@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
   const [imgError, setImgError] = useState(false);
+
+  // Resetar erro quando a imagem do produto mudar
+  useEffect(() => {
+    setImgError(false);
+  }, [product.image]);
   const [qty, setQty] = useState('');
   const [added, setAdded] = useState(false);
 
