@@ -1,21 +1,25 @@
 # Catálogo Frios Ouro Fino - Progress
 
-**Ultima atualizacao:** 2026-04-14
+**Ultima atualizacao:** 2026-04-15
 
-## Status: Admin Panel Implementado
+## Status: Imagens de Produtos Restauradas
 
 ### O que foi feito
 - Projeto React (Vite) criado e configurado
-- 200+ produtos cadastrados
+- 213 produtos cadastrados no Firestore
 - Subcategorias novas: Margarinas, Achocolatados, Confeitaria
 - Sistema de busca, filtros, carrinho, checkout WhatsApp
 - Design responsivo, cores da marca
 - Deploy em https://friosof.web.app/
-- **NOVO: Painel admin de produtos** (/admin) com CRUD completo via Firestore
-- **NOVO: ProductsContext** — catalogo agora le do Firestore em tempo real (com fallback para dados estaticos)
-- **NOVO: Script de migracao** (scripts/migrate-products.cjs) para popular Firestore a partir do arquivo estatico
-- **NOVO: Firestore rules** atualizadas com colecao products (read publico, write admin)
-- **NOVO: Storage rules** preparadas para upload de imagens de produtos (admin only)
+- **Painel admin de produtos** (/admin) com CRUD completo via Firestore
+- **ProductsContext** — catalogo agora le do Firestore em tempo real (com fallback para dados estaticos)
+- **Script de migracao** (scripts/migrate-products.cjs) para popular Firestore a partir do arquivo estatico
+- **Firestore rules** atualizadas com colecao products (read publico, write admin)
+- **Storage rules** preparadas para upload de imagens de produtos (admin only)
+- **NOVO: Restauracao de imagens** — 88 fotos locais em public/images/, 13 em public/produtos/
+- **NOVO: 6 produtos atualizados no Firestore** — fotos de aves cx 20kg, Salvador (base64 removido), Mussarela Nova Esperanca
+- **NOVO: Script restore-images.cjs** — para restaurar paths de imagens no Firestore
+- **Stats de imagens:** 93 locais (/images/), 13 path antigo (/produtos/), 107 URLs externas, 0 sem imagem
 
 ### O que falta cadastrar (imagens já coletadas do catálogo físico)
 
