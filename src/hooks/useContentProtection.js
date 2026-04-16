@@ -1,15 +1,24 @@
 import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 export default function useContentProtection() {
+  const { user } = useAuth();
+  const isAdminUser = user?.email === 'fabricio.fazer@gmail.com';
+
   useEffect(() => {
+    // Liberar tudo para o admin logado
+    const isAdmin = () => isAdminUser;
+
     // --- 1. Disable right-click context menu ---
     const handleContextMenu = (e) => {
+      if (isAdmin()) return;
       e.preventDefault();
       return false;
     };
 
     // --- 2. Block copy/cut ---
     const handleCopy = (e) => {
+      if (isAdmin()) return;
       e.preventDefault();
       e.clipboardData?.setData('text/plain', '');
       return false;
@@ -17,6 +26,7 @@ export default function useContentProtection() {
 
     // --- 3. Block keyboard shortcuts ---
     const handleKeyDown = (e) => {
+      if (isAdmin()) return;
       const ctrl = e.ctrlKey || e.metaKey;
       // View source, Save, Print, Select All
       if (ctrl && ['u', 's', 'p', 'a'].includes(e.key.toLowerCase())) {
@@ -50,6 +60,7 @@ export default function useContentProtection() {
 
     // --- 5. Block selecting text via mouse ---
     const handleSelectStart = (e) => {
+      if (isAdmin()) return;
       if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
         e.preventDefault();
         return false;
@@ -87,53 +98,55 @@ export default function useContentProtection() {
     document.addEventListener('selectstart', handleSelectStart);
     window.addEventListener('beforeprint', handleBeforePrint);
 
-    // --- 10. CSS protections ---
+    // --- 10. CSS protections (apenas para nao-admin) ---
     const styleEl = document.createElement('style');
     styleEl.id = 'content-protection-styles';
-    styleEl.textContent = `
-      body {
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
-        user-select: none !important;
-        -webkit-touch-callout: none !important;
-      }
-
-      input, textarea, select, [contenteditable="true"] {
-        -webkit-user-select: text !important;
-        -moz-user-select: text !important;
-        -ms-user-select: text !important;
-        user-select: text !important;
-      }
-
-      img {
-        -webkit-touch-callout: none !important;
-        pointer-events: none !important;
-        -webkit-user-drag: none !important;
-        user-drag: none !important;
-      }
-
-      a img, button img {
-        pointer-events: auto !important;
-      }
-
-      @media print {
-        html, body {
-          display: none !important;
-          visibility: hidden !important;
+    if (!isAdminUser) {
+      styleEl.textContent = `
+        body {
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
+          -webkit-touch-callout: none !important;
         }
-      }
 
-      ::selection {
-        background: transparent !important;
-        color: inherit !important;
-      }
+        input, textarea, select, [contenteditable="true"] {
+          -webkit-user-select: text !important;
+          -moz-user-select: text !important;
+          -ms-user-select: text !important;
+          user-select: text !important;
+        }
 
-      ::-moz-selection {
-        background: transparent !important;
-        color: inherit !important;
-      }
-    `;
+        img {
+          -webkit-touch-callout: none !important;
+          pointer-events: none !important;
+          -webkit-user-drag: none !important;
+          user-drag: none !important;
+        }
+
+        a img, button img {
+          pointer-events: auto !important;
+        }
+
+        @media print {
+          html, body {
+            display: none !important;
+            visibility: hidden !important;
+          }
+        }
+
+        ::selection {
+          background: transparent !important;
+          color: inherit !important;
+        }
+
+        ::-moz-selection {
+          background: transparent !important;
+          color: inherit !important;
+        }
+      `;
+    }
     document.head.appendChild(styleEl);
 
     // --- Cleanup ---
@@ -148,5 +161,5 @@ export default function useContentProtection() {
       const el = document.getElementById('content-protection-styles');
       if (el) el.remove();
     };
-  }, []);
+  }, [isAdminUser]);
 }

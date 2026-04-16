@@ -1,8 +1,8 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { useProducts } from './ProductsContext';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { products } from '../data/products';
 
 const CartContext = createContext();
 
@@ -10,10 +10,21 @@ const API_URL = import.meta.env.VITE_ORDER_API_URL || '';
 
 export function CartProvider({ children }) {
   const { user, customerProfile } = useAuth();
-  const [items, setItems] = useState([]);
+  const { products } = useProducts();
+  const [items, setItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cart_items');
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+
+  // Salvar carrinho no localStorage sempre que mudar
+  useEffect(() => {
+    try { localStorage.setItem('cart_items', JSON.stringify(items)); } catch {}
+  }, [items]);
 
   const addItem = useCallback((product, qty = 1) => {
     setItems(prev => {
@@ -49,7 +60,7 @@ export function CartProvider({ children }) {
     setItems([]);
   }, []);
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = items.length;
   const totalPrice = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
   const hasItemsWithoutPrice = items.some(item => item.price == null);
 
@@ -70,23 +81,13 @@ export function CartProvider({ children }) {
 
     items.forEach(item => {
       msg += `▸ ${item.name}\n`;
-      if (item.price != null) {
-        msg += `  Qtd: ${item.quantity} × R$ ${item.price.toFixed(2)} = R$ ${(item.price * item.quantity).toFixed(2)}\n\n`;
-      } else {
-        msg += `  Qtd: ${item.quantity} (preço a consultar)\n\n`;
-      }
+      msg += `  Qtd: ${item.quantity}\n\n`;
     });
     msg += `──────────────\n`;
-    if (hasItemsWithoutPrice) {
-      msg += `*Subtotal itens com preço: R$ ${totalPrice.toFixed(2)}*\n`;
-      msg += `⚠️ Alguns itens precisam de consulta de preço\n\n`;
-    } else {
-      msg += `*Total: R$ ${totalPrice.toFixed(2)}*\n\n`;
-    }
     msg += `📋 Itens: ${totalItems}`;
 
     return msg;
-  }, [items, totalPrice, totalItems, hasItemsWithoutPrice]);
+  }, [items, totalItems]);
 
   const saveOrderToFirestore = useCallback(async () => {
     if (!user) return;
@@ -166,7 +167,13 @@ export function CartProvider({ children }) {
     const warnings = [];
 
     for (const orderItem of orderItems) {
-      const currentProduct = products.find(p => p.id === orderItem.productId);
+      // Buscar por legacyId, firestoreId ou nome
+      const currentProduct = products.find(p =>
+        p.id === orderItem.productId ||
+        p.legacyId === orderItem.productId ||
+        p.firestoreId === orderItem.productId ||
+        p.name === orderItem.name
+      );
       if (currentProduct) {
         newItems.push({ ...currentProduct, quantity: orderItem.quantity });
       } else {
@@ -177,7 +184,7 @@ export function CartProvider({ children }) {
     setItems(newItems);
     setIsOpen(true);
     return warnings;
-  }, []);
+  }, [products]);
 
   return (
     <CartContext.Provider value={{

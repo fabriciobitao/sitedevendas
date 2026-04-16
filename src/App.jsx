@@ -1,8 +1,9 @@
 import { useState, useMemo, useRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { products, categories } from './data/products';
+import { categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { ProductsProvider, useProducts } from './context/ProductsContext';
 import useContentProtection from './hooks/useContentProtection';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
@@ -14,6 +15,7 @@ import LoginModal from './components/LoginModal';
 import MeusPedidosPage from './pages/MeusPedidosPage';
 import MinhaContaPage from './pages/MinhaContaPage';
 import DashboardPage from './pages/DashboardPage';
+import AdminPage from './pages/AdminPage';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -23,8 +25,16 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div style={{ textAlign: 'center', padding: '60px', color: '#8E7E6E' }}>Carregando...</div>;
+  if (!user || user.email !== 'fabricio.fazer@gmail.com') return <Navigate to="/" />;
+  return children;
+}
+
 function CatalogPage({ onOpenRegister, onOpenLogin }) {
   const { user } = useAuth();
+  const { products } = useProducts();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
@@ -60,7 +70,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin }) {
       );
     }
     return result;
-  }, [search, category, subcategory]);
+  }, [products, search, category, subcategory]);
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
@@ -174,6 +184,7 @@ function AppContent() {
         <Route path="/meus-pedidos" element={<ProtectedRoute><MeusPedidosPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
+        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
       </Routes>
 
       <footer className="footer">
@@ -202,9 +213,11 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
+      <ProductsProvider>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+      </ProductsProvider>
     </AuthProvider>
   );
 }

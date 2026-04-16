@@ -55,7 +55,7 @@ export default function Cart() {
                   <div className="cart-item-info">
                     <h4>{item.name}</h4>
                     <span className="cart-item-unit">{item.unit}</span>
-                    <span className="cart-item-price">{item.price != null ? `R$ ${item.price.toFixed(2)}` : 'Consulte'}</span>
+                    {item.price != null && <span className="cart-item-price">R$ {item.price.toFixed(2)}</span>}
                   </div>
                   <div className="cart-item-actions">
                     <div className="cart-qty-control">
@@ -67,9 +67,11 @@ export default function Cart() {
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                       </button>
                     </div>
-                    <span className="cart-item-subtotal">
-                      {item.price != null ? `R$ ${(item.price * item.quantity).toFixed(2)}` : 'A consultar'}
-                    </span>
+                    {item.price != null && (
+                      <span className="cart-item-subtotal">
+                        R$ {(item.price * item.quantity).toFixed(2)}
+                      </span>
+                    )}
                     <button className="cart-item-remove" onClick={() => removeItem(item.id)} aria-label="Remover">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
@@ -81,14 +83,13 @@ export default function Cart() {
             </div>
 
             <div className="cart-footer">
+              <button className="cart-add-more" onClick={closeCart}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Adicionar mais itens
+              </button>
               <button className="cart-clear" onClick={clearCart}>Limpar carrinho</button>
-              <div className="cart-total">
-                <span>{hasItemsWithoutPrice ? 'Subtotal' : 'Total'}</span>
-                <strong>R$ {totalPrice.toFixed(2)}</strong>
-              </div>
-              {hasItemsWithoutPrice && (
-                <p className="cart-price-note">* Alguns itens precisam de consulta de preço</p>
-              )}
               <button
                 className="cart-whatsapp-btn"
                 onClick={sendOrder}

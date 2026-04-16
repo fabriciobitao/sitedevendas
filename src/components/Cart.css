@@ -220,13 +220,35 @@
   background: var(--parchment);
 }
 
+.cart-add-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cart-add-more:hover {
+  background: #1d4ed8;
+}
+
 .cart-clear {
   background: transparent;
-  color: var(--gray-500);
-  font-size: 13px;
+  color: var(--gray-400);
+  font-size: 11px;
   font-weight: 500;
-  padding: 4px 0;
-  text-align: left;
+  padding: 2px 0;
+  text-align: right;
+  align-self: flex-end;
   transition: color 0.15s;
 }
 

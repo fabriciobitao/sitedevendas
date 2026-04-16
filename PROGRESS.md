@@ -1,16 +1,21 @@
 # Catálogo Frios Ouro Fino - Progress
 
-**Última atualização:** 2026-04-12
+**Ultima atualizacao:** 2026-04-14
 
-## Status: Cadastro de Produtos em Andamento
+## Status: Admin Panel Implementado
 
 ### O que foi feito
 - Projeto React (Vite) criado e configurado
-- 38 produtos cadastrados no total (23 originais + 15 novos da sessão de hoje)
-- Subcategorias novas: Margarinas, Achocolatados
+- 200+ produtos cadastrados
+- Subcategorias novas: Margarinas, Achocolatados, Confeitaria
 - Sistema de busca, filtros, carrinho, checkout WhatsApp
 - Design responsivo, cores da marca
 - Deploy em https://friosof.web.app/
+- **NOVO: Painel admin de produtos** (/admin) com CRUD completo via Firestore
+- **NOVO: ProductsContext** — catalogo agora le do Firestore em tempo real (com fallback para dados estaticos)
+- **NOVO: Script de migracao** (scripts/migrate-products.cjs) para popular Firestore a partir do arquivo estatico
+- **NOVO: Firestore rules** atualizadas com colecao products (read publico, write admin)
+- **NOVO: Storage rules** preparadas para upload de imagens de produtos (admin only)
 
 ### O que falta cadastrar (imagens já coletadas do catálogo físico)
 
@@ -47,8 +52,9 @@ Várias URLs de imagens já foram encontradas via web search para:
 - Sem backend (dados em JSON)
 - Firebase Hosting (friosof.web.app)
 
-### Próximos passos
-1. Adicionar ~51 produtos Secos restantes (já tem imagens)
-2. Buscar imagens + adicionar ~50 produtos Resfriados
-3. Receber e adicionar produtos Congelados
-4. Deploy atualizado no Firebase
+### Proximos passos
+1. Ativar Firebase Storage no console (necessario para upload de imagens de produtos)
+2. Baixar serviceAccountKey.json e rodar `node scripts/migrate-products.cjs` para popular Firestore
+3. Deploy das Storage rules (apos ativar Storage)
+4. Adicionar produtos faltantes via painel admin
+5. Deploy atualizado no Firebase

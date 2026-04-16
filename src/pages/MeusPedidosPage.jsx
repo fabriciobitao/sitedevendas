@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import { db } from '../firebase';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import OrderCard from '../components/OrderCard';
@@ -7,6 +9,8 @@ import './MeusPedidosPage.css';
 
 export default function MeusPedidosPage() {
   const { user } = useAuth();
+  const { loadOrder } = useCart();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -33,12 +37,30 @@ export default function MeusPedidosPage() {
     fetchOrders();
   }, [user]);
 
+  const handleRepeatOrder = (order) => {
+    const warnings = loadOrder(order.items);
+    if (warnings.length > 0) {
+      alert(`Atenção: os seguintes produtos não estão mais disponíveis:\n\n${warnings.join('\n')}\n\nOs demais foram adicionados ao carrinho.`);
+    }
+    navigate('/');
+  };
+
   return (
     <div className="pedidos-page">
       <div className="pedidos-header">
         <h1>Meus Pedidos</h1>
         <p>Veja seus pedidos anteriores e repita com um clique</p>
       </div>
+
+      {/* Botao Repetir Ultimo Pedido */}
+      {!loading && !error && orders.length > 0 && (
+        <button className="pedidos-repeat-btn" onClick={() => handleRepeatOrder(orders[0])}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+          </svg>
+          Repetir meu pedido
+        </button>
+      )}
 
       {error ? (
         <div className="pedidos-empty">

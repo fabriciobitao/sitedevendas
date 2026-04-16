@@ -9,6 +9,15 @@ service firebase.storage {
                    && request.resource.contentType == 'application/pdf';
     }
 
+    // Product images - public read, admin-only write
+    match /products/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+                   && request.auth.token.email == 'fabricio.fazer@gmail.com'
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
     // Bloquear tudo o mais
     match /{allPaths=**} {
       allow read, write: if false;

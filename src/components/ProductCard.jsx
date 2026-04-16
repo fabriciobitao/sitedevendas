@@ -5,21 +5,30 @@ import './ProductCard.css';
 export default function ProductCard({ product, index = 0 }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
   const [imgError, setImgError] = useState(false);
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState('');
   const [added, setAdded] = useState(false);
 
   const cartItem = items.find(item => item.id === product.id);
   const inCart = !!cartItem;
 
   const handleAdd = () => {
-    addItem(product, qty);
+    const finalQty = parseInt(qty) || 1;
+    addItem(product, finalQty);
     setAdded(true);
+    setQty('');
     setTimeout(() => setAdded(false), 1000);
   };
 
   const handleQtyChange = (val) => {
-    const n = Math.max(1, parseInt(val) || 1);
-    setQty(n);
+    if (val === '') { setQty(''); return; }
+    const n = parseInt(val);
+    if (!isNaN(n) && n >= 0) setQty(n > 0 ? String(n) : '');
+  };
+
+  const handleQtyButton = (delta) => {
+    const current = parseInt(qty) || 0;
+    const n = Math.max(0, current + delta);
+    setQty(n > 0 ? String(n) : '');
   };
 
   const handleCartQty = (delta) => {
@@ -37,10 +46,11 @@ export default function ProductCard({ product, index = 0 }) {
 
   return (
     <div
-      className={`product-card ${catClass}`}
+      className={`product-card ${catClass} ${product.outOfStock ? 'out-of-stock' : ''}`}
       style={{ animationDelay: `${(index % 8) * 50}ms` }}
     >
       <div className="product-image-wrap">
+        {product.outOfStock && <div className="product-out-of-stock-banner">ESGOTADO</div>}
         {!imgError ? (
           <img
             src={product.image}
@@ -76,7 +86,9 @@ export default function ProductCard({ product, index = 0 }) {
           )}
         </div>
 
-        {inCart ? (
+        {product.outOfStock ? (
+          <div className="product-out-of-stock-msg">Produto esgotado</div>
+        ) : inCart ? (
           <div className="product-cart-control">
             <div className="product-qty-row">
               <button className="pqty-btn pqty-minus" onClick={() => handleCartQty(-1)}>
@@ -102,7 +114,7 @@ export default function ProductCard({ product, index = 0 }) {
         ) : (
           <div className="product-add-row">
             <div className="product-qty-row">
-              <button className="pqty-btn pqty-minus" onClick={() => handleQtyChange(qty - 1)}>
+              <button className="pqty-btn pqty-minus" onClick={() => handleQtyButton(-1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
               </button>
               <input
@@ -110,9 +122,11 @@ export default function ProductCard({ product, index = 0 }) {
                 className="pqty-input"
                 value={qty}
                 onChange={(e) => handleQtyChange(e.target.value)}
-                min="1"
+                onFocus={(e) => e.target.select()}
+                placeholder="0"
+                min="0"
               />
-              <button className="pqty-btn pqty-plus" onClick={() => handleQtyChange(qty + 1)}>
+              <button className="pqty-btn pqty-plus" onClick={() => handleQtyButton(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>

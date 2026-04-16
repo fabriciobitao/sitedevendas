@@ -21,6 +21,30 @@
   color: var(--gray-500);
 }
 
+.pedidos-repeat-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: var(--shadow-warm-sm);
+}
+
+.pedidos-repeat-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
+}
+
 .pedidos-grid {
   display: flex;
   flex-direction: column;

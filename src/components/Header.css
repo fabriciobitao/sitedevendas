@@ -167,6 +167,15 @@
   background: var(--cream);
 }
 
+.header-menu-repeat {
+  color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+}
+
+.header-menu-repeat:hover {
+  background: rgba(22, 163, 74, 0.15) !important;
+}
+
 .header-menu-divider {
   height: 1px;
   background: var(--gray-200);
