@@ -446,19 +446,19 @@ export default function AdminPage() {
                   </svg>
                 </div>
               )}
-              {product.image ? (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="admin-product-img"
-                  onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling && (e.target.nextSibling.style.display = 'flex'); }}
-                />
-              ) : null}
-              {!product.image && (
-                <div className="admin-product-img-placeholder">
-                  📷
+              <div className="admin-product-img-wrap">
+                {product.image && (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="admin-product-img"
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                )}
+                <div className="admin-product-img-placeholder" style={product.image ? { position: 'absolute', zIndex: -1 } : {}}>
+                  {product.name ? product.name.charAt(0) : '📷'}
                 </div>
-              )}
+              </div>
 
               <div className="admin-product-info">
                 <h4 className="admin-product-name">{product.name}</h4>

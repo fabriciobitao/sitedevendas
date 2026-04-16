@@ -167,13 +167,21 @@
   box-shadow: var(--shadow-warm-sm);
 }
 
+.admin-product-img-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
 .admin-product-img {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-sm);
   object-fit: cover;
   background: var(--gray-100);
-  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 .admin-product-img-placeholder {
   width: 56px;
@@ -912,6 +920,7 @@
     gap: 10px;
   }
 
+  .admin-product-img-wrap,
   .admin-product-img,
   .admin-product-img-placeholder {
     width: 44px;
