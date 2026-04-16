@@ -275,6 +275,139 @@
   color: var(--brown-dark);
 }
 
+/* Back button */
+.cart-back {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cream);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.cart-back:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Review button */
+.cart-review-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--brown), var(--brown-dark));
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(77, 43, 24, 0.25);
+}
+
+.cart-review-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(77, 43, 24, 0.35);
+}
+
+/* Confirm step */
+.cart-confirm-items {
+  padding: 16px 20px;
+}
+
+.cart-confirm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--gray-200);
+}
+
+.cart-confirm-row:last-child {
+  border-bottom: none;
+}
+
+.cart-confirm-product {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-confirm-qty {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brown);
+  flex-shrink: 0;
+}
+
+.cart-confirm-name {
+  font-size: 14px;
+  color: var(--gray-700);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-confirm-subtotal {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brown);
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.cart-confirm-footer {
+  padding: 20px;
+  border-top: 2px solid var(--gray-200);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--parchment);
+}
+
+/* Observations */
+.cart-observations {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cart-observations label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+
+.cart-observations textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-size: 14px;
+  color: var(--gray-700);
+  resize: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.cart-observations textarea:focus {
+  outline: none;
+  border-color: var(--brown);
+}
+
+.cart-observations textarea::placeholder {
+  color: var(--gray-400);
+}
+
 .cart-whatsapp-btn {
   display: flex;
   align-items: center;

@@ -68,7 +68,7 @@ export function CartProvider({ children }) {
   const closeCart = useCallback(() => setIsOpen(false), []);
   const toggleCart = useCallback(() => setIsOpen(prev => !prev), []);
 
-  const generateMessage = useCallback((customerInfo) => {
+  const generateMessage = useCallback((customerInfo, observations) => {
     if (items.length === 0) return '';
 
     let msg = '🛒 *Pedido - Frios Ouro Fino*\n\n';
@@ -81,13 +81,26 @@ export function CartProvider({ children }) {
 
     items.forEach(item => {
       msg += `▸ ${item.name}\n`;
-      msg += `  Qtd: ${item.quantity}\n\n`;
+      msg += `  Qtd: ${item.quantity}`;
+      if (item.price != null) {
+        msg += ` — R$ ${(item.price * item.quantity).toFixed(2)}`;
+      }
+      msg += '\n\n';
     });
     msg += `──────────────\n`;
     msg += `📋 Itens: ${totalItems}`;
+    if (totalPrice > 0) {
+      msg += `\n💰 *Total: R$ ${totalPrice.toFixed(2)}*`;
+    }
+    if (hasItemsWithoutPrice) {
+      msg += `\n⚠️ Alguns itens com preço a consultar`;
+    }
+    if (observations && observations.trim()) {
+      msg += `\n\n📝 *Observações:* ${observations.trim()}`;
+    }
 
     return msg;
-  }, [items, totalItems]);
+  }, [items, totalItems, totalPrice, hasItemsWithoutPrice]);
 
   const saveOrderToFirestore = useCallback(async () => {
     if (!user) return;
@@ -116,19 +129,26 @@ export function CartProvider({ children }) {
     }
   }, [user, customerProfile, items, totalPrice, totalItems, hasItemsWithoutPrice]);
 
-  const sendOrder = useCallback(async () => {
+  const sendOrder = useCallback(async (observations) => {
     const customerInfo = customerProfile ? {
       name: customerProfile.nomeFantasia || customerProfile.nomeResponsavel,
       doc: customerProfile.cnpj || customerProfile.cpf,
     } : null;
 
-    const message = generateMessage(customerInfo);
+    const message = generateMessage(customerInfo, observations);
     if (!message) return;
 
     // Salva no Firestore se logado
     if (user) {
       await saveOrderToFirestore();
     }
+
+    const openWhatsApp = () => {
+      const phone = '+5535998511194';
+      const u = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+      const w = window.open(u, '_blank');
+      if (!w) window.location.href = u;
+    };
 
     // Envia via WhatsApp
     if (API_URL) {
@@ -140,26 +160,22 @@ export function CartProvider({ children }) {
           body: JSON.stringify({ message }),
         });
         if (!res.ok) throw new Error('Falha no envio');
-        setSent(true);
-        setItems([]);
-        setTimeout(() => {
-          setSent(false);
-          setIsOpen(false);
-        }, 3000);
       } catch {
-        const phone = '+5535998511194';
-        (() => { const u = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`; const w = window.open(u, '_blank'); if (!w) window.location.href = u; })();
-        setItems([]);
-        setIsOpen(false);
+        openWhatsApp();
       } finally {
         setSending(false);
       }
     } else {
-      const phone = '+5535998511194';
-      (() => { const u = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`; const w = window.open(u, '_blank'); if (!w) window.location.href = u; })();
-      setItems([]);
-      setIsOpen(false);
+      openWhatsApp();
     }
+
+    // Sempre mostra feedback de sucesso
+    setItems([]);
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+      setIsOpen(false);
+    }, 3000);
   }, [generateMessage, user, saveOrderToFirestore]);
 
   const loadOrder = useCallback((orderItems) => {
