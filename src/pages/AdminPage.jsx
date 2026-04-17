@@ -359,77 +359,71 @@ export default function AdminPage() {
 
   return (
     <div className="admin-page">
-      {/* Header */}
-      <div className="admin-header">
-        <div className="admin-header-left">
-          <button className="admin-back-btn" onClick={() => navigate('/')} aria-label="Voltar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-            </svg>
-          </button>
-          <h1 className="admin-title">
-            Gerenciar Produtos
-            <span className="admin-count">({products.length})</span>
-          </h1>
-        </div>
-      </div>
-
-      {/* Floating Action Buttons — acompanham a rolagem pela lateral direita */}
-      <div className={`admin-fab ${reorderMode ? 'admin-fab--reorder' : ''}`} role="toolbar" aria-label="Acoes do gerenciador">
-        <button
-          className={`admin-fab-btn admin-fab-reorder ${reorderMode ? 'active' : ''}`}
-          onClick={() => setReorderMode(!reorderMode)}
-          title={reorderMode ? 'Concluir reordenacao' : 'Reordenar produtos'}
-          aria-label={reorderMode ? 'Concluir reordenacao' : 'Reordenar produtos'}
-        >
-          {reorderMode ? (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          ) : (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="17 11 21 7 17 3" /><line x1="21" y1="7" x2="9" y2="7" />
-              <polyline points="7 21 3 17 7 13" /><line x1="15" y1="17" x2="3" y2="17" />
-            </svg>
-          )}
-          <span className="admin-fab-label">{reorderMode ? 'Concluir' : 'Reordenar'}</span>
-        </button>
-        <button
-          className="admin-fab-btn admin-fab-add"
-          onClick={handleAdd}
-          title="Adicionar produto"
-          aria-label="Adicionar produto"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          <span className="admin-fab-label">Adicionar</span>
-        </button>
-      </div>
-
-      {/* Search & Filters */}
-      <div className="admin-filters">
-        <div className="admin-search">
-          <svg className="admin-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Buscar por nome, descricao ou subcategoria..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <div className="admin-category-tabs">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              className={`admin-tab ${filterCategory === cat.id ? 'active' : ''}`}
-              onClick={() => setFilterCategory(cat.id)}
-            >
-              {cat.icon} {cat.name}
+      {/* Toolbar sticky — topo + acoes + busca + filtros acompanham a rolagem */}
+      <div className="admin-toolbar">
+        <div className="admin-header">
+          <div className="admin-header-left">
+            <button className="admin-back-btn" onClick={() => navigate('/')} aria-label="Voltar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
+              </svg>
             </button>
-          ))}
+            <h1 className="admin-title">
+              Gerenciar Produtos
+              <span className="admin-count">({products.length})</span>
+            </h1>
+          </div>
+          <div className="admin-header-actions">
+            <button
+              className={`admin-reorder-btn ${reorderMode ? 'active' : ''}`}
+              onClick={() => setReorderMode(!reorderMode)}
+              title={reorderMode ? 'Concluir reordenacao' : 'Reordenar produtos'}
+              aria-label={reorderMode ? 'Concluir reordenacao' : 'Reordenar produtos'}
+            >
+              {reorderMode ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="17 11 21 7 17 3" /><line x1="21" y1="7" x2="9" y2="7" />
+                  <polyline points="7 21 3 17 7 13" /><line x1="15" y1="17" x2="3" y2="17" />
+                </svg>
+              )}
+              <span className="admin-btn-label">{reorderMode ? 'Concluir' : 'Reordenar'}</span>
+            </button>
+            <button className="admin-add-btn" onClick={handleAdd} aria-label="Adicionar produto">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <span className="admin-btn-label">Adicionar</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="admin-filters">
+          <div className="admin-search">
+            <svg className="admin-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Buscar por nome, descricao ou subcategoria..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="admin-category-tabs">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                className={`admin-tab ${filterCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setFilterCategory(cat.id)}
+              >
+                {cat.icon} {cat.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -9,14 +9,33 @@
   min-height: 80vh;
 }
 
+/* --- Sticky Toolbar (topo + acoes + busca + filtros) --- */
+.admin-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--cream, #fdf8f2);
+  margin: -24px -20px 20px;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--gray-200, #e5e5e5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
 /* --- Header --- */
 .admin-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .admin-header-left {
@@ -964,129 +983,34 @@
   }
 }
 
-/* ============================================================
-   Floating Action Buttons (FAB)
-   Acompanham a rolagem pela lateral direita da viewport
-   ============================================================ */
-.admin-fab {
-  position: fixed;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 90;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  pointer-events: none;
-}
-
-.admin-fab-btn {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  width: 56px;
-  height: 56px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  font-family: inherit;
-}
-
-.admin-fab-btn::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-}
-
-.admin-fab-label {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 700;
-  opacity: 0;
-  transition: max-width 0.25s ease, opacity 0.2s ease, margin-left 0.25s ease;
-  margin-left: 0;
-}
-
-.admin-fab-btn:hover {
-  width: auto;
-  padding: 0 22px 0 16px;
-  border-radius: 28px;
-}
-
-.admin-fab-btn:hover .admin-fab-label {
-  max-width: 140px;
-  opacity: 1;
-  margin-left: 10px;
-}
-
-/* Add (primary, orange gradient) */
-.admin-fab-add {
-  background: var(--gradient-orange, linear-gradient(135deg, #ef7a3d, #d44d2d));
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(212, 77, 45, 0.35), 0 2px 6px rgba(212, 77, 45, 0.25);
-}
-.admin-fab-add:hover {
-  box-shadow: 0 10px 28px rgba(212, 77, 45, 0.45);
-  transform: translateY(-1px);
-}
-.admin-fab-add:active {
-  transform: translateY(0);
-}
-
-/* Reorder (secondary, white) */
-.admin-fab-reorder {
-  background: #fff;
-  color: var(--brown, #4d2b18);
-  border: 1.5px solid var(--gray-200, #e5e5e5);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-.admin-fab-reorder:hover {
-  background: var(--cream, #fdf8f2);
-  border-color: var(--brown-light, #8b6c4a);
-}
-.admin-fab-reorder.active {
-  background: #2563eb;
-  color: #fff;
-  border-color: #2563eb;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-}
-.admin-fab-reorder.active:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
-}
-
-/* Mobile: reposicionar no canto inferior direito (FAB clássico) */
+/* --- Sticky Toolbar — responsive --- */
 @media (max-width: 768px) {
-  .admin-fab {
-    right: 16px;
-    bottom: 20px;
-    top: auto;
-    transform: none;
-    gap: 12px;
+  .admin-toolbar {
+    margin: -24px -20px 16px;
+    padding: 12px 16px 10px;
   }
 
-  .admin-fab-btn {
-    width: 52px;
-    height: 52px;
+  .admin-header {
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
-  /* Em mobile, labels só aparecem no modo reorder ativo para indicar estado */
-  .admin-fab-btn:hover {
-    width: 52px;
-    padding: 0;
-    border-radius: 50%;
+  .admin-title {
+    font-size: 18px;
   }
 
-  .admin-fab-btn:hover .admin-fab-label {
-    max-width: 0;
-    opacity: 0;
-    margin-left: 0;
+  .admin-header-actions {
+    gap: 6px;
+  }
+
+  .admin-add-btn,
+  .admin-reorder-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* Em mobile, esconder labels, manter so icones */
+  .admin-btn-label {
+    display: none;
   }
 }
