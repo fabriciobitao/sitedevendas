@@ -204,7 +204,7 @@ function AppContent() {
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="footer-logo-img" />
           </div>
           <div className="footer-info">
-            <p className="footer-tagline">Frios Ouro Fino — Comércio Atacadista</p>
+            <p className="footer-tagline">Frios Ouro Fino Ltda. — Comércio Atacadista</p>
           </div>
           <div className="footer-contact">
             <a href="https://wa.me/5535998511194" className="footer-whatsapp" target="_blank" rel="noopener noreferrer">
