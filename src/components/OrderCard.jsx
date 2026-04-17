@@ -47,6 +47,7 @@ export default function OrderCard({ order }) {
     if (warnings.length > 0) {
       alert(`Atenção: Os seguintes produtos foram removidos do catálogo:\n\n${warnings.join('\n')}\n\nOs demais foram adicionados ao carrinho.`);
     }
+    navigate('/');
   };
 
   const handleAddMore = () => {

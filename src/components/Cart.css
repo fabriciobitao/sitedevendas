@@ -160,14 +160,21 @@
 }
 
 .qty-btn {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
+  position: relative;
   background: transparent;
   color: var(--gray-600);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
+}
+
+.qty-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
 }
 
 .qty-btn:hover {
@@ -195,13 +202,20 @@
 .cart-item-remove {
   background: transparent;
   color: var(--gray-400);
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
+  position: relative;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
+}
+
+.cart-item-remove::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
 }
 
 .cart-item-remove:hover {
@@ -254,6 +268,29 @@
 
 .cart-clear:hover {
   color: #dc2626;
+}
+
+.cart-clear--confirm {
+  color: #fff;
+  background: #dc2626;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  align-self: stretch;
+  text-align: center;
+  animation: clearPulse 0.3s ease-out;
+}
+
+.cart-clear--confirm:hover {
+  background: #b91c1c;
+  color: #fff;
+}
+
+@keyframes clearPulse {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 .cart-total {
@@ -449,6 +486,48 @@
 .cart-success p {
   color: #16a34a;
   font-weight: 700;
+}
+
+.cart-sent-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 20px;
+}
+
+.cart-sent-confirm {
+  background: var(--brown);
+  color: var(--cream);
+  border: none;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cart-sent-confirm:hover {
+  background: var(--brown-dark);
+}
+
+.cart-sent-cancel {
+  background: transparent;
+  color: var(--gray-500);
+  border: 1px solid var(--gray-300);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cart-sent-cancel:hover {
+  border-color: var(--orange);
+  color: var(--orange);
 }
 
 .cart-spinner {

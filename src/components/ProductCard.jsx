@@ -109,6 +109,8 @@ export default function ProductCard({ product, index = 0 }) {
                   else updateQuantity(product.id, v);
                 }}
                 min="1"
+                inputMode="numeric"
+                pattern="[0-9]*"
               />
               <button className="pqty-btn pqty-plus" onClick={() => handleCartQty(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
@@ -130,6 +132,9 @@ export default function ProductCard({ product, index = 0 }) {
                 onFocus={(e) => e.target.select()}
                 placeholder="0"
                 min="0"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                enterKeyHint="done"
               />
               <button className="pqty-btn pqty-plus" onClick={() => handleQtyButton(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>

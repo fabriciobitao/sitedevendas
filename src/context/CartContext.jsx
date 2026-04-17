@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { useAuth } from './AuthContext';
 import { useProducts } from './ProductsContext';
 import { db } from '../firebase';
@@ -20,6 +20,7 @@ export function CartProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const sentTimerRef = useRef(null);
 
   // Salvar carrinho no localStorage sempre que mudar
   useEffect(() => {
@@ -129,6 +130,38 @@ export function CartProvider({ children }) {
     }
   }, [user, customerProfile, items, totalPrice, totalItems, hasItemsWithoutPrice]);
 
+  const saveGuestLead = useCallback(async () => {
+    if (user) return;
+    try {
+      let sid = localStorage.getItem('guest_sid');
+      if (!sid) {
+        sid = (crypto.randomUUID && crypto.randomUUID()) || `sid_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem('guest_sid', sid);
+      }
+      await addDoc(collection(db, 'leads'), {
+        sessionId: sid,
+        items: items.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price || null,
+          unit: item.unit || '',
+          quantity: item.quantity,
+          subtotal: item.price ? item.price * item.quantity : null,
+        })),
+        totalPrice,
+        totalItems,
+        hasItemsWithoutPrice,
+        status: 'enviado',
+        whatsappSent: true,
+        source: 'guest-cart',
+        userAgent: (navigator.userAgent || '').slice(0, 200),
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error('Erro ao salvar lead:', err);
+    }
+  }, [user, items, totalPrice, totalItems, hasItemsWithoutPrice]);
+
   const sendOrder = useCallback(async (observations) => {
     const customerInfo = customerProfile ? {
       name: customerProfile.nomeFantasia || customerProfile.nomeResponsavel,
@@ -138,9 +171,11 @@ export function CartProvider({ children }) {
     const message = generateMessage(customerInfo, observations);
     if (!message) return;
 
-    // Salva no Firestore se logado
+    // Salva no Firestore: orders/ para logados, leads/ para visitantes (captura de lead)
     if (user) {
       await saveOrderToFirestore();
+    } else {
+      await saveGuestLead();
     }
 
     const openWhatsApp = () => {
@@ -169,14 +204,35 @@ export function CartProvider({ children }) {
       openWhatsApp();
     }
 
-    // Sempre mostra feedback de sucesso
-    setItems([]);
+    // Feedback de sucesso — carrinho preservado ate o usuario confirmar ou 15s passarem.
+    // Evita perda de pedido no iOS se o popup do WhatsApp for bloqueado.
     setSent(true);
-    setTimeout(() => {
+    if (sentTimerRef.current) clearTimeout(sentTimerRef.current);
+    sentTimerRef.current = setTimeout(() => {
+      setItems([]);
       setSent(false);
       setIsOpen(false);
-    }, 3000);
-  }, [generateMessage, user, saveOrderToFirestore]);
+      sentTimerRef.current = null;
+    }, 15000);
+  }, [generateMessage, user, saveOrderToFirestore, saveGuestLead]);
+
+  const confirmSent = useCallback(() => {
+    if (sentTimerRef.current) {
+      clearTimeout(sentTimerRef.current);
+      sentTimerRef.current = null;
+    }
+    setItems([]);
+    setSent(false);
+    setIsOpen(false);
+  }, []);
+
+  const cancelSent = useCallback(() => {
+    if (sentTimerRef.current) {
+      clearTimeout(sentTimerRef.current);
+      sentTimerRef.current = null;
+    }
+    setSent(false);
+  }, []);
 
   const loadOrder = useCallback((orderItems) => {
     const newItems = [];
@@ -219,6 +275,8 @@ export function CartProvider({ children }) {
       closeCart,
       toggleCart,
       sendOrder,
+      confirmSent,
+      cancelSent,
       loadOrder,
     }}>
       {children}

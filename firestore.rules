@@ -65,6 +65,30 @@ service cloud.firestore {
     }
 
     // ============================================================
+    // LEADS COLLECTION (guest checkout capture)
+    // - Create: qualquer visitante (sem auth) com payload validado
+    // - Read/List: apenas admin
+    // - Update/Delete: ninguem
+    // ============================================================
+    match /leads/{leadId} {
+      allow create: if request.resource.data.keys().hasAll(['sessionId', 'items', 'createdAt'])
+                    && request.resource.data.sessionId is string
+                    && request.resource.data.sessionId.size() >= 8
+                    && request.resource.data.sessionId.size() <= 128
+                    && request.resource.data.items is list
+                    && request.resource.data.items.size() > 0
+                    && request.resource.data.items.size() <= 100
+                    && !('customerId' in request.resource.data)
+                    && !('role' in request.resource.data)
+                    && !('isAdmin' in request.resource.data);
+
+      allow get, list: if request.auth != null
+                       && request.auth.token.email == 'fabricio.fazer@gmail.com';
+
+      allow update, delete: if false;
+    }
+
+    // ============================================================
     // PRODUCTS COLLECTION
     // - Read: public (catalog is visible to everyone)
     // - Write: only admin (fabricio.fazer@gmail.com)

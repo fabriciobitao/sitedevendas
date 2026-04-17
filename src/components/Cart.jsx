@@ -16,15 +16,29 @@ export default function Cart() {
     clearCart,
     closeCart,
     sendOrder,
+    confirmSent,
+    cancelSent,
   } = useCart();
 
   const [step, setStep] = useState('cart');
   const [observations, setObservations] = useState('');
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const handleClose = () => {
     setStep('cart');
     setObservations('');
+    setConfirmClear(false);
     closeCart();
+  };
+
+  const handleClearClick = () => {
+    if (confirmClear) {
+      clearCart();
+      setConfirmClear(false);
+    } else {
+      setConfirmClear(true);
+      setTimeout(() => setConfirmClear(false), 4000);
+    }
   };
 
   const handleConfirmSend = () => {
@@ -63,6 +77,14 @@ export default function Cart() {
             <span className="cart-empty-icon">✅</span>
             <p>Pedido enviado com sucesso!</p>
             <span>Confira a mensagem no WhatsApp para finalizar</span>
+            <div className="cart-sent-actions">
+              <button className="cart-sent-confirm" onClick={confirmSent}>
+                Tudo certo, pode fechar
+              </button>
+              <button className="cart-sent-cancel" onClick={() => { cancelSent(); setStep('cart'); }}>
+                Não enviou? Voltar ao carrinho
+              </button>
+            </div>
           </div>
         ) : items.length === 0 ? (
           <div className="cart-empty">
@@ -179,7 +201,12 @@ export default function Cart() {
                 </svg>
                 Adicionar mais itens
               </button>
-              <button className="cart-clear" onClick={clearCart}>Limpar carrinho</button>
+              <button
+                className={`cart-clear ${confirmClear ? 'cart-clear--confirm' : ''}`}
+                onClick={handleClearClick}
+              >
+                {confirmClear ? 'Tem certeza? Toque novamente para limpar' : 'Limpar carrinho'}
+              </button>
               <button
                 className="cart-review-btn"
                 onClick={() => setStep('confirm')}

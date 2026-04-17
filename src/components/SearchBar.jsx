@@ -8,11 +8,14 @@ export default function SearchBar({ value, onChange }) {
         <path d="m21 21-4.3-4.3"/>
       </svg>
       <input
-        type="text"
+        type="search"
         placeholder="Buscar produtos..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="search-input"
+        enterKeyHint="search"
+        autoCapitalize="off"
+        autoCorrect="off"
       />
       {value && (
         <button className="search-clear" onClick={() => onChange('')} aria-label="Limpar busca">

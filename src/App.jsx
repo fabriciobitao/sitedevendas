@@ -8,6 +8,7 @@ import useContentProtection from './hooks/useContentProtection';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
+import SubcategoryFilter from './components/SubcategoryFilter';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
 import ClientForm from './components/ClientForm';
@@ -113,6 +114,15 @@ function CatalogPage({ onOpenRegister, onOpenLogin }) {
         <div className="filters-row">
           <CategoryFilter selected={category} onSelect={handleCategoryChange} />
         </div>
+        {category !== 'all' && (
+          <div className="filters-row">
+            <SubcategoryFilter
+              category={category}
+              selected={subcategory}
+              onSelect={(sub) => { setSubcategory(sub); scrollToProducts(); }}
+            />
+          </div>
+        )}
       </section>
 
       <div ref={productsRef} className="results-anchor" />

@@ -100,7 +100,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
 
             <label>
               Telefone cadastrado
-              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} />
+              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} autoComplete="tel" enterKeyHint="send" />
             </label>
 
             <button type="submit" className="login-submit" disabled={loading}>
@@ -120,13 +120,13 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
 
             <label>
               Telefone
-              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} />
+              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} autoComplete="tel" enterKeyHint="next" />
             </label>
 
             <label>
               Senha
               <div className="login-password-wrap">
-                <input type={showPassword ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Sua senha" minLength={6} />
+                <input type={showPassword ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Sua senha" minLength={6} autoComplete="current-password" enterKeyHint="go" />
                 <button type="button" className="login-eye-btn" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>
                   {showPassword ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

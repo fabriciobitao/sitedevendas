@@ -216,8 +216,9 @@
 }
 
 .pqty-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,6 +228,12 @@
   cursor: pointer;
   transition: all 0.15s;
   flex-shrink: 0;
+}
+
+.pqty-btn::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
 }
 
 .pqty-btn:hover {
@@ -340,8 +347,11 @@
     font-size: 18px;
   }
   .pqty-btn {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+  }
+  .pqty-btn::before {
+    inset: -4px;
   }
   .pqty-input {
     width: 38px;
