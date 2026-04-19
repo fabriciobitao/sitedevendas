@@ -58,6 +58,24 @@ async function compressImage(file, maxDim = 1600, quality = 0.82) {
   });
 }
 
+async function fileToDataUrl(fileOrBlob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(fileOrBlob);
+  });
+}
+
+async function getImageDimensions(dataUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve({ width: img.width, height: img.height });
+    img.onerror = () => resolve({ width: 1, height: 1 });
+    img.src = dataUrl;
+  });
+}
+
 export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
   const { register } = useAuth();
   const [form, setForm] = useState(INITIAL);
@@ -227,7 +245,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     }
   };
 
-  const buildPdfBlob = () => {
+  const buildPdfBlob = async (photoDataUrl) => {
     const doc = new jsPDF();
     const now = new Date();
     const dataHora = `${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -313,6 +331,24 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
       addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
       addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
+    }
+
+    if (photoDataUrl) {
+      const dims = await getImageDimensions(photoDataUrl);
+      const maxW = 150;
+      const maxH = 100;
+      const ratio = Math.min(maxW / dims.width, maxH / dims.height);
+      const drawW = Math.max(40, dims.width * ratio);
+      const drawH = Math.max(40, dims.height * ratio);
+      if (y + drawH + 20 > 280) { doc.addPage(); y = 20; }
+      addSection(isPessoaFisica ? 'FOTO DA RESIDÊNCIA' : 'FOTO DA FACHADA');
+      const x = (210 - drawW) / 2;
+      doc.setDrawColor(180, 180, 180);
+      doc.rect(x - 1, y - 1, drawW + 2, drawH + 2);
+      try {
+        doc.addImage(photoDataUrl, 'JPEG', x, y, drawW, drawH);
+      } catch {}
+      y += drawH + 6;
     }
 
     y += 4;
@@ -417,8 +453,10 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setError('Por favor, assine o formulário antes de enviar.');
       return;
     }
-    if (isEmpresa && !fachadaFile) {
-      setError('Envie uma foto da fachada para concluir o cadastro.');
+    if (!fachadaFile) {
+      setError(isPessoaFisica
+        ? 'Envie uma foto da residência para concluir o cadastro.'
+        : 'Envie uma foto da fachada para concluir o cadastro.');
       return;
     }
 
@@ -477,25 +515,19 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       const fileNamePdf = `Ficha_Cadastral_${slug}.pdf`;
 
       setLoadingStep('Gerando documentos...');
-      const pdfBlob = buildPdfBlob();
+      let imageBlob;
+      try {
+        imageBlob = await compressImage(fachadaFile);
+      } catch {
+        imageBlob = fachadaFile;
+      }
+      const photoDataUrl = await fileToDataUrl(imageBlob);
+      const pdfBlob = await buildPdfBlob(photoDataUrl);
 
       setLoadingStep('Enviando arquivos...');
       const pdfRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}.pdf`);
       const pdfUp = await uploadBytes(pdfRef, pdfBlob, { contentType: 'application/pdf' });
       const pdfUrl = await getDownloadURL(pdfUp.ref);
-
-      let imageUrl = '';
-      if (isEmpresa && fachadaFile) {
-        let imageBlob;
-        try {
-          imageBlob = await compressImage(fachadaFile);
-        } catch {
-          imageBlob = fachadaFile;
-        }
-        const imgRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}-fachada.jpg`);
-        const imgUp = await uploadBytes(imgRef, imageBlob, { contentType: 'image/jpeg' });
-        imageUrl = await getDownloadURL(imgUp.ref);
-      }
 
       let sent = false;
       if (REGISTRATION_API_URL) {
@@ -506,7 +538,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               pdfUrl,
-              imageUrl,
+              imageUrl: '',
               clientName: nome,
               documento: isPessoaFisica ? form.cpf : form.cnpj,
               telefone: form.telefone,
@@ -768,12 +800,13 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                 </fieldset>
               )}
 
-              {isEmpresa && (
               <fieldset className="cf-section">
-                <legend>Foto da Fachada *</legend>
+                <legend>{isPessoaFisica ? 'Foto da Residência *' : 'Foto da Fachada *'}</legend>
                 <div className="cf-fachada">
                   <p className="cf-fachada-hint">
-                    Envie uma foto da fachada para facilitar o cadastro e ajudar os entregadores.
+                    {isPessoaFisica
+                      ? 'Envie uma foto da residência para facilitar a identificação e ajudar os entregadores.'
+                      : 'Envie uma foto da fachada para facilitar o cadastro e ajudar os entregadores.'}
                   </p>
                   <input
                     ref={fachadaInputRef}
@@ -824,7 +857,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                   )}
                 </div>
               </fieldset>
-              )}
 
               <p className="cf-legal">
                 Autorizo a empresa Frios Ouro Fino LTDA, CNPJ 12.612.824/0001-00, a realizar o meu cadastro,
