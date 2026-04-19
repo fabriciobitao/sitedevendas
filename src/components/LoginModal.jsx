@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './LoginModal.css';
 
@@ -16,6 +16,17 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setCodigo('');
+      setPassword('');
+      setShowPassword(false);
+      setError('');
+      setSuccess('');
+      setForgotMode(false);
+    }
+  }, [open]);
 
   if (!open) return null;
 
@@ -88,7 +99,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
         </div>
 
         {forgotMode ? (
-          <form className="login-body" onSubmit={handleForgotPassword}>
+          <form className="login-body" autoComplete="off" onSubmit={handleForgotPassword}>
             {error && <p className="login-error">{error}</p>}
             {success && <p className="login-success">{success}</p>}
 
@@ -98,7 +109,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
 
             <label>
               Código de Cliente
-              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="username" enterKeyHint="send" />
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="off" enterKeyHint="send" />
             </label>
 
             <button type="submit" className="login-submit" disabled={loading}>
@@ -113,18 +124,18 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
             </button>
           </form>
         ) : (
-          <form className="login-body" onSubmit={handleSubmit}>
+          <form className="login-body" autoComplete="off" onSubmit={handleSubmit}>
             {error && <p className="login-error">{error}</p>}
 
             <label>
               Código de Cliente
-              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="username" enterKeyHint="next" />
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="off" enterKeyHint="next" />
             </label>
 
             <label>
               Senha
               <div className="login-password-wrap">
-                <input type={showPassword ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Sua senha" minLength={6} autoComplete="current-password" enterKeyHint="go" />
+                <input type={showPassword ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Sua senha" minLength={6} autoComplete="new-password" enterKeyHint="go" />
                 <button type="button" className="login-eye-btn" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>
                   {showPassword ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
