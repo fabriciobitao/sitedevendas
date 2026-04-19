@@ -795,7 +795,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
           )}
 
           <button type="submit" className="cf-submit" disabled={loading}>
-            {loading ? (loadingStep || 'Processando...') : (isCliente ? 'Criar código de cliente' : 'Criar Conta e Cadastrar')}
+            {loading ? (loadingStep || 'Processando...') : (isCliente ? 'Salvar Senha e Criar Código de Cliente' : 'Criar Conta e Cadastrar')}
           </button>
         </form>
       </div>
