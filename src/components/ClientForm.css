@@ -244,13 +244,25 @@
   line-height: 1.4;
 }
 
-.cf-fachada-dropzone {
+.cf-fachada-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .cf-fachada-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cf-fachada-option {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 20px;
+  gap: 6px;
+  padding: 18px 12px;
   border: 2px dashed var(--gray-300);
   border-radius: var(--radius);
   background: var(--gray-50, #fafafa);
@@ -260,22 +272,22 @@
   text-align: center;
 }
 
-.cf-fachada-dropzone:hover {
+.cf-fachada-option:hover {
   border-color: var(--orange);
   background: #fff8f1;
 }
 
-.cf-fachada-dropzone svg {
-  color: var(--gray-500);
+.cf-fachada-option svg {
+  color: var(--orange, #C97B20);
 }
 
-.cf-fachada-dropzone-text {
+.cf-fachada-option-text {
   font-size: 14px;
   font-weight: 600;
   color: var(--gray-700);
 }
 
-.cf-fachada-dropzone-sub {
+.cf-fachada-option-sub {
   font-size: 12px;
   color: var(--gray-500);
 }
