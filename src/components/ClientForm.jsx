@@ -1,11 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { storage } from '../firebase';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { jsPDF } from 'jspdf';
 import './ClientForm.css';
 
-const REGISTRATION_API_URL = import.meta.env.VITE_REGISTRATION_API_URL || '';
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
 
 const INITIAL = {
   razaoSocial: '',
@@ -503,11 +501,9 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         ],
       };
 
-      const { user: firebaseUser, codigoCliente } = await register(form.email, password, profileData);
-      const uid = firebaseUser.uid;
+      const { codigoCliente } = await register(form.email, password, profileData);
       const nome = form.nomeFantasia || form.nomeResponsavel;
       const slug = slugify(nome);
-      const ts = Date.now();
       const fileNamePdf = `Ficha_Cadastral_${slug}.pdf`;
 
       setLoadingStep('Processando foto...');
@@ -526,30 +522,43 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setLoadingStep('Gerando PDF...');
       const pdfBlob = buildPdfBlob(photoDataUrl, photoW, photoH);
 
-      setLoadingStep('Enviando arquivos...');
-      const pdfRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}.pdf`);
-      const pdfUp = await uploadBytes(pdfRef, pdfBlob, { contentType: 'application/pdf' });
-      const pdfUrl = await getDownloadURL(pdfUp.ref);
-
       let sent = false;
-      if (REGISTRATION_API_URL) {
-        setLoadingStep('Enviando para o WhatsApp...');
+      if (WEB3FORMS_KEY) {
+        setLoadingStep('Enviando ficha por email...');
         try {
-          const res = await fetch(REGISTRATION_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              pdfUrl,
-              imageUrl: '',
-              clientName: nome,
-              documento: isPessoaFisica ? form.cpf : form.cnpj,
-              telefone: form.telefone,
-              tipo: isPessoaFisica ? 'pessoa_fisica' : 'empresa',
-              codigoCliente,
-            }),
-          });
+          const resumo = isPessoaFisica
+            ? `Novo cadastro - PESSOA FÍSICA\n\n` +
+              `Nome: ${form.nomeResponsavel}\n` +
+              `CPF: ${form.cpf}\n` +
+              `Telefone: ${form.telefone}\n` +
+              `Email: ${form.email}\n` +
+              `Endereço: ${form.endereco}, ${form.numero} - ${form.bairro}\n` +
+              `Cidade: ${form.municipio}/${form.estado} - CEP ${form.cep}\n` +
+              `Código Cliente: ${codigoCliente}\n\n` +
+              `PDF completo em anexo.`
+            : `Novo cadastro - EMPRESA\n\n` +
+              `Razão Social: ${form.razaoSocial}\n` +
+              `Nome Fantasia: ${form.nomeFantasia}\n` +
+              `CNPJ: ${form.cnpj}\n` +
+              `Responsável: ${form.nomeResponsavel} (CPF ${form.cpf})\n` +
+              `Telefone: ${form.telefone}\n` +
+              `Email: ${form.email}\n` +
+              `Endereço: ${form.endereco}, ${form.numero} - ${form.bairro}\n` +
+              `Cidade: ${form.municipio}/${form.estado} - CEP ${form.cep}\n` +
+              `Código Cliente: ${codigoCliente}\n\n` +
+              `PDF completo com foto da fachada e assinatura em anexo.`;
+
+          const fd = new FormData();
+          fd.append('access_key', WEB3FORMS_KEY);
+          fd.append('subject', `Novo cadastro ${isPessoaFisica ? 'PF' : 'PJ'} - ${nome} (código ${codigoCliente})`);
+          fd.append('from_name', 'Site Frios Ouro Fino');
+          fd.append('message', resumo);
+          fd.append('attachment', pdfBlob, fileNamePdf);
+
+          const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
           sent = res.ok;
-        } catch {
+        } catch (err) {
+          console.error('Falha ao enviar email:', err);
           sent = false;
         }
       }
