@@ -2,13 +2,27 @@
 .cf-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(20, 15, 10, 0.72);
+  backdrop-filter: blur(10px) saturate(90%);
+  -webkit-backdrop-filter: blur(10px) saturate(90%);
   z-index: 1000;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 40px 16px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* fallback quando backdrop-filter nao for suportado */
+@supports not (backdrop-filter: blur(1px)) {
+  .cf-overlay {
+    background: rgba(10, 8, 5, 0.92);
+  }
 }
 
 /* ==================== MODAL ==================== */
@@ -66,6 +80,21 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.cf-body--locked .cf-section,
+.cf-body--locked .cf-signature,
+.cf-body--locked .cf-tipo-toggle,
+.cf-body--locked .cf-login-link,
+.cf-body--locked .cf-legal {
+  pointer-events: none;
+  opacity: 0.55;
+  filter: grayscale(20%);
+  transition: opacity 0.2s ease;
+}
+
+.cf-body--locked .cf-signature-canvas {
+  cursor: not-allowed;
 }
 
 /* ==================== ERROR / LINK ==================== */
@@ -415,6 +444,27 @@
 .cf-submit:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+}
+
+.cf-submit:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cf-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cfSpin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes cfSpin {
+  to { transform: rotate(360deg); }
 }
 
 /* ==================== PASSWORD FIELD ==================== */

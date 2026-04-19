@@ -44,7 +44,7 @@ const slugify = (v) =>
     .replace(/^_+|_+$/g, '')
     .slice(0, 50);
 
-async function compressImage(file, maxDim = 1200, quality = 0.7) {
+async function compressImage(file, maxDim = 900, quality = 0.62) {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
   const w = Math.round(bitmap.width * scale);
@@ -77,6 +77,14 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   useEffect(() => {
     if (open) setTipo(initialTipo);
   }, [open, initialTipo]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
   const isRegister = initialTipo !== 'cliente';
   const canvasRef = useRef(null);
   const fachadaInputRef = useRef(null);
@@ -105,16 +113,18 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
   const startDraw = useCallback((e) => {
     e.preventDefault();
+    if (loading) return;
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext('2d');
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
     isDrawing.current = true;
-  }, []);
+  }, [loading]);
 
   const draw = useCallback((e) => {
     if (!isDrawing.current || !canvasRef.current) return;
+    if (loading) return;
     e.preventDefault();
     const ctx = canvasRef.current.getContext('2d');
     const pos = getPos(e);
@@ -125,7 +135,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
     setHasSigned(true);
-  }, []);
+  }, [loading]);
 
   const stopDraw = useCallback(() => {
     isDrawing.current = false;
@@ -605,18 +615,18 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   }
 
   return (
-    <div className="cf-overlay" onClick={onClose}>
+    <div className="cf-overlay" onClick={loading ? undefined : onClose}>
       <div className="cf-modal" onClick={(e) => e.stopPropagation()}>
         <div className="cf-header">
           <h2>{isCliente ? 'Já sou cliente' : 'Quero me cadastrar'}</h2>
-          <button className="cf-close" onClick={onClose} aria-label="Fechar">
+          <button className="cf-close" onClick={onClose} disabled={loading} aria-label="Fechar">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
             </svg>
           </button>
         </div>
 
-        <form className="cf-body" onSubmit={handleSubmit}>
+        <form className={`cf-body ${loading ? 'cf-body--locked' : ''}`} onSubmit={handleSubmit} aria-busy={loading}>
           {error && <p className="cf-error">{error}</p>}
 
           <p className="cf-login-link">
@@ -872,6 +882,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
           )}
 
           <button type="submit" className="cf-submit" disabled={loading}>
+            {loading && <span className="cf-spinner" aria-hidden="true" />}
             {loading ? (loadingStep || 'Processando...') : (isCliente ? 'Salvar Senha e Criar Código de Cliente' : 'Criar Conta e Cadastrar')}
           </button>
         </form>
