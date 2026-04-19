@@ -2,9 +2,21 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './LoginModal.css';
 
-// Mascara codigo de cliente (somente digitos, max 6)
-function maskCode(value) {
-  return value.replace(/\D/g, '').slice(0, 6);
+// Aceita codigo de cliente (ate 6 digitos) OU telefone (com mascara)
+// Se o usuario digitar poucos digitos (<=6), tratamos como codigo
+// Se digitar mais, aplicamos mascara de telefone
+function maskIdentifier(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 6) return digits;
+  // Telefone: (XX) XXXXX-XXXX
+  if (digits.length <= 10) {
+    return digits.replace(/^(\d{2})(\d{0,4})(\d{0,4}).*/, (_, a, b, c) =>
+      c ? `(${a}) ${b}-${c}` : b ? `(${a}) ${b}` : `(${a}`
+    );
+  }
+  return digits.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, (_, a, b, c) =>
+    c ? `(${a}) ${b}-${c}` : `(${a}) ${b}`
+  );
 }
 
 export default function LoginModal({ open, onClose, onSwitchToRegister }) {
@@ -31,7 +43,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
   if (!open) return null;
 
   const handleCodigoChange = (e) => {
-    setCodigo(maskCode(e.target.value));
+    setCodigo(maskIdentifier(e.target.value));
   };
 
   const handleSubmit = async (e) => {
@@ -44,9 +56,9 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
       onClose();
     } catch (err) {
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-        setError('Código ou senha incorretos');
+        setError('Código/telefone ou senha incorretos');
       } else if (err.code === 'auth/user-not-found') {
-        setError('Nenhuma conta encontrada com este código');
+        setError('Nenhuma conta encontrada com este código/telefone');
       } else if (err.message?.includes('Muitas tentativas')) {
         setError(err.message);
       } else {
@@ -62,7 +74,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
     setError('');
     setSuccess('');
     if (!codigo) {
-      setError('Digite seu código de cliente');
+      setError('Digite seu código de cliente ou telefone');
       return;
     }
     setLoading(true);
@@ -77,7 +89,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
       }, 3000);
     } catch (err) {
       if (err.code === 'auth/user-not-found') {
-        setError('Nenhuma conta encontrada com este código');
+        setError('Nenhuma conta encontrada com este código/telefone');
       } else {
         setError('Erro ao enviar recuperação. Tente novamente.');
       }
@@ -104,12 +116,12 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
             {success && <p className="login-success">{success}</p>}
 
             <p className="login-forgot-desc">
-              Digite seu código de cliente. Enviaremos um link para redefinir sua senha no email associado à sua conta.
+              Digite seu código de cliente ou telefone. Enviaremos um link para redefinir sua senha no email associado à sua conta.
             </p>
 
             <label>
-              Código de Cliente
-              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="off" enterKeyHint="send" />
+              Código de Cliente ou Telefone
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="0001 ou (35) 99999-9999" inputMode="tel" maxLength={16} autoComplete="off" enterKeyHint="send" />
             </label>
 
             <button type="submit" className="login-submit" disabled={loading}>
@@ -128,8 +140,8 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
             {error && <p className="login-error">{error}</p>}
 
             <label>
-              Código de Cliente
-              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="off" enterKeyHint="next" />
+              Código de Cliente ou Telefone
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="0001 ou (35) 99999-9999" inputMode="tel" maxLength={16} autoComplete="off" enterKeyHint="next" />
             </label>
 
             <label>
