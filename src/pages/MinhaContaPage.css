@@ -103,3 +103,87 @@
     grid-template-columns: 1fr;
   }
 }
+
+.conta-section--codigo {
+  background: linear-gradient(135deg, #fff8f1 0%, #fff2e0 100%);
+  border-color: var(--orange);
+}
+
+.conta-codigo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0 4px;
+}
+
+.conta-codigo-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: 6px;
+  line-height: 1;
+}
+
+.conta-codigo-hint {
+  font-size: 12px;
+  color: var(--gray-600);
+  text-align: center;
+}
+
+.conta-security {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conta-security-desc {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.conta-security-msg {
+  font-size: 13px;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  margin: 0;
+}
+
+.conta-security-err {
+  font-size: 13px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  margin: 0;
+}
+
+.conta-security-btn {
+  align-self: flex-start;
+  padding: 10px 18px;
+  background: var(--white);
+  color: var(--orange);
+  font-size: 14px;
+  font-weight: 700;
+  border: 2px solid var(--orange);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.conta-security-btn:hover:not(:disabled) {
+  background: var(--orange);
+  color: var(--white);
+}
+
+.conta-security-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

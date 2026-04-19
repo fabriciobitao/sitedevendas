@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './MinhaContaPage.css';
 
 export default function MinhaContaPage() {
-  const { customerProfile, user, logout } = useAuth();
+  const { customerProfile, user, logout, resetPassword } = useAuth();
+  const [resetMsg, setResetMsg] = useState('');
+  const [resetErr, setResetErr] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
 
   if (!customerProfile) {
     return (
@@ -15,6 +19,26 @@ export default function MinhaContaPage() {
   const p = customerProfile;
   const isEmpresa = p.tipo === 'empresa';
 
+  const handleResetPassword = async () => {
+    setResetMsg('');
+    setResetErr('');
+    const email = p.email || user?.email;
+    if (!email) {
+      setResetErr('Email não encontrado no seu cadastro.');
+      return;
+    }
+    setResetLoading(true);
+    try {
+      await resetPassword(email);
+      const masked = email.replace(/(.{2})(.*)(@)/, (_, a, b, c) => a + '*'.repeat(b.length) + c);
+      setResetMsg(`Enviamos um link para ${masked}. Verifique sua caixa de entrada para alterar sua senha.`);
+    } catch {
+      setResetErr('Não conseguimos enviar o email agora. Tente novamente em instantes.');
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   return (
     <div className="conta-page">
       <div className="conta-header">
@@ -23,22 +47,38 @@ export default function MinhaContaPage() {
       </div>
 
       <div className="conta-sections">
+        {p.codigoCliente && (
+          <div className="conta-section conta-section--codigo">
+            <h3>Código de Cliente</h3>
+            <div className="conta-codigo-box">
+              <span className="conta-codigo-value">{p.codigoCliente}</span>
+              <span className="conta-codigo-hint">Use este código + sua senha para entrar na sua conta.</span>
+            </div>
+          </div>
+        )}
+
         {isEmpresa && (
           <div className="conta-section">
             <h3>Dados da Empresa</h3>
             <div className="conta-grid">
-              <div className="conta-field">
-                <span>Razão Social</span>
-                <strong>{p.razaoSocial}</strong>
-              </div>
-              <div className="conta-field">
-                <span>Nome Fantasia</span>
-                <strong>{p.nomeFantasia}</strong>
-              </div>
-              <div className="conta-field">
-                <span>CNPJ</span>
-                <strong>{p.cnpj}</strong>
-              </div>
+              {p.razaoSocial && (
+                <div className="conta-field">
+                  <span>Razão Social</span>
+                  <strong>{p.razaoSocial}</strong>
+                </div>
+              )}
+              {p.nomeFantasia && (
+                <div className="conta-field">
+                  <span>Nome Fantasia</span>
+                  <strong>{p.nomeFantasia}</strong>
+                </div>
+              )}
+              {p.cnpj && (
+                <div className="conta-field">
+                  <span>CNPJ</span>
+                  <strong>{p.cnpj}</strong>
+                </div>
+              )}
               {p.inscMunicipal && (
                 <div className="conta-field">
                   <span>Insc. Municipal</span>
@@ -58,14 +98,24 @@ export default function MinhaContaPage() {
         <div className="conta-section">
           <h3>{isEmpresa ? 'Responsável' : 'Dados Pessoais'}</h3>
           <div className="conta-grid">
-            <div className="conta-field">
-              <span>Nome</span>
-              <strong>{p.nomeResponsavel}</strong>
-            </div>
-            <div className="conta-field">
-              <span>CPF</span>
-              <strong>{p.cpf}</strong>
-            </div>
+            {(p.nomeResponsavel || p.nome) && (
+              <div className="conta-field">
+                <span>Nome</span>
+                <strong>{p.nomeResponsavel || p.nome}</strong>
+              </div>
+            )}
+            {p.cpf && (
+              <div className="conta-field">
+                <span>CPF</span>
+                <strong>{p.cpf}</strong>
+              </div>
+            )}
+            {!p.cpf && p.cnpj && !isEmpresa && (
+              <div className="conta-field">
+                <span>CNPJ</span>
+                <strong>{p.cnpj}</strong>
+              </div>
+            )}
             {p.rg && (
               <div className="conta-field">
                 <span>RG</span>
@@ -75,39 +125,72 @@ export default function MinhaContaPage() {
           </div>
         </div>
 
-        <div className="conta-section">
-          <h3>Endereço</h3>
-          <div className="conta-grid">
-            <div className="conta-field conta-field--full">
-              <span>Endereço</span>
-              <strong>{p.endereco}, Nº {p.numero}{p.complemento ? ` - ${p.complemento}` : ''}</strong>
-            </div>
-            <div className="conta-field">
-              <span>Bairro</span>
-              <strong>{p.bairro}</strong>
-            </div>
-            <div className="conta-field">
-              <span>Cidade/Estado</span>
-              <strong>{p.municipio} - {p.estado}</strong>
-            </div>
-            <div className="conta-field">
-              <span>CEP</span>
-              <strong>{p.cep}</strong>
+        {(p.endereco || p.bairro || p.municipio || p.cep) && (
+          <div className="conta-section">
+            <h3>Endereço</h3>
+            <div className="conta-grid">
+              {p.endereco && (
+                <div className="conta-field conta-field--full">
+                  <span>Endereço</span>
+                  <strong>{p.endereco}{p.numero ? `, Nº ${p.numero}` : ''}{p.complemento ? ` - ${p.complemento}` : ''}</strong>
+                </div>
+              )}
+              {p.bairro && (
+                <div className="conta-field">
+                  <span>Bairro</span>
+                  <strong>{p.bairro}</strong>
+                </div>
+              )}
+              {(p.municipio || p.estado) && (
+                <div className="conta-field">
+                  <span>Cidade/Estado</span>
+                  <strong>{p.municipio}{p.estado ? ` - ${p.estado}` : ''}</strong>
+                </div>
+              )}
+              {p.cep && (
+                <div className="conta-field">
+                  <span>CEP</span>
+                  <strong>{p.cep}</strong>
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        )}
 
         <div className="conta-section">
           <h3>Contato</h3>
           <div className="conta-grid">
-            <div className="conta-field">
-              <span>Telefone</span>
-              <strong>{p.telefone}</strong>
-            </div>
-            <div className="conta-field">
-              <span>Email</span>
-              <strong>{p.email}</strong>
-            </div>
+            {p.telefone && (
+              <div className="conta-field">
+                <span>Telefone</span>
+                <strong>{p.telefone}</strong>
+              </div>
+            )}
+            {(p.email || user?.email) && (
+              <div className="conta-field">
+                <span>Email</span>
+                <strong>{p.email || user?.email}</strong>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="conta-section">
+          <h3>Segurança</h3>
+          <div className="conta-security">
+            <p className="conta-security-desc">
+              Para trocar sua senha, enviaremos um link de redefinição para o email do seu cadastro.
+            </p>
+            {resetMsg && <p className="conta-security-msg">{resetMsg}</p>}
+            {resetErr && <p className="conta-security-err">{resetErr}</p>}
+            <button
+              type="button"
+              className="conta-security-btn"
+              onClick={handleResetPassword}
+              disabled={resetLoading}
+            >
+              {resetLoading ? 'Enviando...' : 'Alterar senha por email'}
+            </button>
           </div>
         </div>
 
