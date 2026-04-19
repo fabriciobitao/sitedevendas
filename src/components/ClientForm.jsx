@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { storage } from '../firebase';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -58,14 +58,18 @@ async function compressImage(file, maxDim = 1600, quality = 0.82) {
   });
 }
 
-export default function ClientForm({ open, onClose, onSwitchToLogin }) {
+export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
   const { register } = useAuth();
   const [form, setForm] = useState(INITIAL);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   // 'empresa' = cadastro completo / 'cliente' = ja sou cliente (simplificado)
-  const [tipo, setTipo] = useState('empresa');
+  const [tipo, setTipo] = useState(initialTipo);
+
+  useEffect(() => {
+    if (open) setTipo(initialTipo);
+  }, [open, initialTipo]);
   const canvasRef = useRef(null);
   const fachadaInputRef = useRef(null);
   const fachadaCameraRef = useRef(null);
@@ -557,7 +561,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     <div className="cf-overlay" onClick={onClose}>
       <div className="cf-modal" onClick={(e) => e.stopPropagation()}>
         <div className="cf-header">
-          <h2>Ficha Cadastral</h2>
+          <h2>{isCliente ? 'Já sou cliente' : 'Ficha Cadastral'}</h2>
           <button className="cf-close" onClick={onClose} aria-label="Fechar">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
@@ -573,22 +577,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
             <button type="button" onClick={onSwitchToLogin}>Faça login</button>
           </p>
 
-          <div className="cf-tipo-toggle">
-            <button type="button" className={`cf-tipo-btn ${!isCliente ? 'cf-tipo-btn--active' : ''}`} onClick={() => setTipo('empresa')}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-              </svg>
-              Fazer meu Cadastro
-            </button>
-            <button type="button" className={`cf-tipo-btn ${isCliente ? 'cf-tipo-btn--active' : ''}`} onClick={() => setTipo('cliente')}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-              Já sou cliente
-            </button>
-          </div>
-
-          {/* =================== ABA: Ja sou cliente =================== */}
+          {/* =================== FLUXO: Ja sou cliente (simplificado) =================== */}
           {isCliente && (
             <>
               <p className="cf-fachada-hint" style={{ marginTop: 0 }}>

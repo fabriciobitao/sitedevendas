@@ -216,9 +216,21 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
+.auth-btn--cliente {
+  background: #15803d;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+}
+
+.auth-btn--cliente:hover {
+  background: #166534;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.35);
+}
+
 @media (max-width: 768px) {
   .auth-buttons-bar {
     gap: 8px;
+    flex-wrap: wrap;
   }
   .auth-btn {
     font-size: 13px;
