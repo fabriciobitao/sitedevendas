@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -176,6 +176,13 @@ function CatalogPage({ onOpenRegister, onOpenLogin }) {
 
 function AuthGateToast({ onLogin }) {
   const { authGate, clearAuthGate } = useCart();
+
+  useEffect(() => {
+    if (!authGate) return;
+    const t = setTimeout(() => clearAuthGate(), 3000);
+    return () => clearTimeout(t);
+  }, [authGate, clearAuthGate]);
+
   if (!authGate) return null;
   return (
     <div className="auth-gate-toast" role="alert">
