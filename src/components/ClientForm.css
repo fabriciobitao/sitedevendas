@@ -526,3 +526,84 @@
     padding: 12px 20px;
   }
 }
+
+/* ==================== SUCCESS MODAL (codigo do cliente) ==================== */
+.cf-modal--success {
+  max-width: 480px;
+}
+
+.cf-success {
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.cf-success-icon {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2E7D32, #66BB6A);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(46, 125, 50, 0.35);
+}
+
+.cf-success h2 {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brown);
+}
+
+.cf-success-sub {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.cf-success-code {
+  margin: 12px 0 8px;
+  padding: 18px 28px;
+  background: linear-gradient(135deg, #FFF4E0, #FFE9C2);
+  border: 2px solid #F5A524;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.cf-success-code-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #8B6B2E;
+}
+
+.cf-success-code-value {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #2D2418;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.cf-success-hint {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--gray-500);
+  max-width: 320px;
+  line-height: 1.4;
+}
+
+.cf-success .cf-submit {
+  margin-top: 8px;
+}

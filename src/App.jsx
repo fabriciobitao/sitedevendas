@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
+import { CartProvider, useCart } from './context/CartContext';
 import { ProductsProvider, useProducts } from './context/ProductsContext';
 import useContentProtection from './hooks/useContentProtection';
 import Header from './components/Header';
@@ -96,7 +96,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin }) {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
             </svg>
-            Vou às compras
+            Fazer minhas compras
           </button>
           <button className="auth-btn auth-btn--register" onClick={onOpenRegister}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -174,6 +174,27 @@ function CatalogPage({ onOpenRegister, onOpenLogin }) {
   );
 }
 
+function AuthGateToast({ onLogin }) {
+  const { authGate, clearAuthGate } = useCart();
+  if (!authGate) return null;
+  return (
+    <div className="auth-gate-toast" role="alert">
+      <div className="auth-gate-toast-inner">
+        <span className="auth-gate-toast-icon" aria-hidden="true">🔒</span>
+        <span className="auth-gate-toast-msg">{authGate.message}</span>
+        <button type="button" className="auth-gate-toast-btn" onClick={() => { clearAuthGate(); onLogin(); }}>
+          Fazer login
+        </button>
+        <button type="button" className="auth-gate-toast-close" onClick={clearAuthGate} aria-label="Fechar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function AppContent() {
   useContentProtection();
   const [loginOpen, setLoginOpen] = useState(false);
@@ -186,6 +207,7 @@ function AppContent() {
     <>
       <Header onOpenLogin={openLogin} onOpenRegister={openRegister} />
       <Cart />
+      <AuthGateToast onLogin={openLogin} />
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} onSwitchToRegister={openRegister} />
       <ClientForm open={registerOpen} onClose={() => setRegisterOpen(false)} onSwitchToLogin={openLogin} />
 

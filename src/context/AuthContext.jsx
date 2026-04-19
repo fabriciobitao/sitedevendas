@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-// useRef kept for loginAttempts
 import { auth, db } from '../firebase';
 import {
   onAuthStateChanged,
@@ -8,12 +7,26 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, getDocs, query, where, collection, limit, serverTimestamp } from 'firebase/firestore';
+import {
+  doc, setDoc, getDoc, getDocs, query, where, collection, limit, serverTimestamp, runTransaction,
+} from 'firebase/firestore';
 import { encryptSensitiveData, decryptSensitiveData } from '../utils/crypto';
 
 const AuthContext = createContext();
 const MAX_LOGIN_ATTEMPTS = 5;
-const LOCKOUT_TIME = 15 * 60 * 1000; // 15 minutos
+const LOCKOUT_TIME = 15 * 60 * 1000;
+
+// Gera proximo codigo de cliente sequencial (0001, 0002, ...)
+async function allocateCustomerCode() {
+  const counterRef = doc(db, 'counters', 'customers');
+  const nextNumber = await runTransaction(db, async (tx) => {
+    const snap = await tx.get(counterRef);
+    const current = snap.exists() ? (snap.data().next || 1) : 1;
+    tx.set(counterRef, { next: current + 1 }, { merge: true });
+    return current;
+  });
+  return String(nextNumber).padStart(4, '0');
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -40,8 +53,8 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const login = useCallback(async (phone, password) => {
-    // Proteção contra brute force
+  // Login agora aceita codigo de cliente (0001) OU telefone (retrocompat)
+  const login = useCallback(async (identifier, password) => {
     const now = Date.now();
     if (loginAttempts.current.lockedUntil > now) {
       const mins = Math.ceil((loginAttempts.current.lockedUntil - now) / 60000);
@@ -49,15 +62,27 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      // Buscar email do cliente pelo telefone no Firestore
-      // Tenta com e sem máscara para compatibilidade
-      const phoneDigits = phone.replace(/\D/g, '');
-      let snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', phone), limit(1)));
-      if (snap.empty) {
-        snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', phoneDigits), limit(1)));
+      const trimmed = String(identifier || '').trim();
+      let snap;
+
+      // Tenta por codigo de cliente (apenas digitos e tamanho <= 6)
+      const onlyDigits = trimmed.replace(/\D/g, '');
+      const looksLikeCode = /^\d{1,6}$/.test(trimmed);
+      if (looksLikeCode) {
+        const padded = onlyDigits.padStart(4, '0');
+        snap = await getDocs(query(collection(db, 'customers'), where('codigoCliente', '==', padded), limit(1)));
       }
+
+      // Fallback: telefone (retrocompat)
+      if (!snap || snap.empty) {
+        snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', trimmed), limit(1)));
+        if (snap.empty && onlyDigits) {
+          snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', onlyDigits), limit(1)));
+        }
+      }
+
       if (snap.empty) {
-        const err = new Error('Telefone não encontrado');
+        const err = new Error('Codigo de cliente nao encontrado');
         err.code = 'auth/user-not-found';
         throw err;
       }
@@ -81,16 +106,20 @@ export function AuthProvider({ children }) {
 
   const register = useCallback(async (email, password, formData) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    const encrypted = await encryptSensitiveData(formData, cred.user.uid);
+    const codigoCliente = await allocateCustomerCode();
+    const dataWithCode = { ...formData, codigoCliente };
+    const encrypted = await encryptSensitiveData(dataWithCode, cred.user.uid);
     const profile = {
       ...encrypted,
       email,
+      tipo: formData.tipo,
+      codigoCliente,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };
     await setDoc(doc(db, 'customers', cred.user.uid), profile);
-    setCustomerProfile(formData); // manter dados legíveis em memória
-    return cred.user;
+    setCustomerProfile(dataWithCode);
+    return { user: cred.user, codigoCliente };
   }, []);
 
   const logout = useCallback(async () => {
@@ -99,14 +128,24 @@ export function AuthProvider({ children }) {
     setCustomerProfile(null);
   }, []);
 
-  const findEmailByPhone = useCallback(async (phone) => {
-    const phoneDigits = phone.replace(/\D/g, '');
-    let snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', phone), limit(1)));
-    if (snap.empty) {
-      snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', phoneDigits), limit(1)));
+  // Recupera email pelo codigo de cliente ou telefone (fallback)
+  const findEmailByIdentifier = useCallback(async (identifier) => {
+    const trimmed = String(identifier || '').trim();
+    const onlyDigits = trimmed.replace(/\D/g, '');
+    let snap;
+
+    if (/^\d{1,6}$/.test(trimmed)) {
+      const padded = onlyDigits.padStart(4, '0');
+      snap = await getDocs(query(collection(db, 'customers'), where('codigoCliente', '==', padded), limit(1)));
+    }
+    if (!snap || snap.empty) {
+      snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', trimmed), limit(1)));
+      if (snap.empty && onlyDigits) {
+        snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', onlyDigits), limit(1)));
+      }
     }
     if (snap.empty) {
-      const err = new Error('Telefone não encontrado');
+      const err = new Error('Codigo de cliente nao encontrado');
       err.code = 'auth/user-not-found';
       throw err;
     }
@@ -125,7 +164,8 @@ export function AuthProvider({ children }) {
       login,
       register,
       logout,
-      findEmailByPhone,
+      findEmailByIdentifier,
+      findEmailByPhone: findEmailByIdentifier, // retrocompat
       resetPassword,
     }}>
       {children}

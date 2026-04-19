@@ -20,7 +20,13 @@ export function CartProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [authGate, setAuthGate] = useState(null); // { message, ts } quando acao bloqueada por falta de login
   const sentTimerRef = useRef(null);
+
+  const triggerAuthGate = useCallback(() => {
+    setAuthGate({ message: 'Você precisa se logar para realizar os pedidos!', ts: Date.now() });
+  }, []);
+  const clearAuthGate = useCallback(() => setAuthGate(null), []);
 
   // Salvar carrinho no localStorage sempre que mudar
   useEffect(() => {
@@ -28,6 +34,10 @@ export function CartProvider({ children }) {
   }, [items]);
 
   const addItem = useCallback((product, qty = 1) => {
+    if (!user) {
+      triggerAuthGate();
+      return false;
+    }
     setItems(prev => {
       const existing = prev.find(item => item.id === product.id);
       if (existing) {
@@ -39,13 +49,22 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, quantity: qty }];
     });
-  }, []);
+    return true;
+  }, [user, triggerAuthGate]);
 
   const removeItem = useCallback((productId) => {
+    if (!user) {
+      triggerAuthGate();
+      return;
+    }
     setItems(prev => prev.filter(item => item.id !== productId));
-  }, []);
+  }, [user, triggerAuthGate]);
 
   const updateQuantity = useCallback((productId, quantity) => {
+    if (!user) {
+      triggerAuthGate();
+      return;
+    }
     if (quantity <= 0) {
       setItems(prev => prev.filter(item => item.id !== productId));
       return;
@@ -55,7 +74,7 @@ export function CartProvider({ children }) {
         item.id === productId ? { ...item, quantity } : item
       )
     );
-  }, []);
+  }, [user, triggerAuthGate]);
 
   const clearCart = useCallback(() => {
     setItems([]);
@@ -278,6 +297,8 @@ export function CartProvider({ children }) {
       confirmSent,
       cancelSent,
       loadOrder,
+      authGate,
+      clearAuthGate,
     }}>
       {children}
     </CartContext.Provider>

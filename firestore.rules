@@ -22,7 +22,7 @@ service cloud.firestore {
       allow create: if request.auth != null
                     && request.auth.uid == uid
                     && request.resource.data.email == request.auth.token.email
-                    && request.resource.data.keys().hasAll(['email', 'tipo', 'nomeResponsavel', 'cpf', 'createdAt'])
+                    && request.resource.data.keys().hasAll(['email', 'tipo', 'codigoCliente', 'createdAt'])
                     && !('role' in request.resource.data)
                     && !('isAdmin' in request.resource.data);
 
@@ -117,6 +117,15 @@ service cloud.firestore {
     match /admin/{document=**} {
       allow read, write: if request.auth != null
                          && request.auth.token.admin == true;
+    }
+
+    // ============================================================
+    // COUNTERS COLLECTION (contador sequencial de codigos de cliente)
+    // - Read/Write: qualquer autenticado (necessario durante register)
+    // - Incremento atomico via transaction no client
+    // ============================================================
+    match /counters/{counterId} {
+      allow read, write: if request.auth != null;
     }
 
     // ============================================================

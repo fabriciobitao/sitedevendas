@@ -2,16 +2,14 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './LoginModal.css';
 
-function maskPhone(value) {
-  const digits = value.replace(/\D/g, '').slice(0, 11);
-  if (digits.length <= 2) return `(${digits}`;
-  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+// Mascara codigo de cliente (somente digitos, max 6)
+function maskCode(value) {
+  return value.replace(/\D/g, '').slice(0, 6);
 }
 
 export default function LoginModal({ open, onClose, onSwitchToRegister }) {
-  const { login, findEmailByPhone, resetPassword } = useAuth();
-  const [phone, setPhone] = useState('');
+  const { login, findEmailByIdentifier, resetPassword } = useAuth();
+  const [codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -21,8 +19,8 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
 
   if (!open) return null;
 
-  const handlePhoneChange = (e) => {
-    setPhone(maskPhone(e.target.value));
+  const handleCodigoChange = (e) => {
+    setCodigo(maskCode(e.target.value));
   };
 
   const handleSubmit = async (e) => {
@@ -31,13 +29,13 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
     setSuccess('');
     setLoading(true);
     try {
-      await login(phone, password);
+      await login(codigo, password);
       onClose();
     } catch (err) {
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-        setError('Telefone ou senha incorretos');
+        setError('Código ou senha incorretos');
       } else if (err.code === 'auth/user-not-found') {
-        setError('Nenhuma conta encontrada com este telefone');
+        setError('Nenhuma conta encontrada com este código');
       } else if (err.message?.includes('Muitas tentativas')) {
         setError(err.message);
       } else {
@@ -52,13 +50,13 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
     e.preventDefault();
     setError('');
     setSuccess('');
-    if (!phone || phone.replace(/\D/g, '').length < 10) {
-      setError('Digite seu telefone cadastrado');
+    if (!codigo) {
+      setError('Digite seu código de cliente');
       return;
     }
     setLoading(true);
     try {
-      const email = await findEmailByPhone(phone);
+      const email = await findEmailByIdentifier(codigo);
       await resetPassword(email);
       const maskedEmail = email.replace(/(.{2})(.*)(@)/, (_, a, b, c) => a + '*'.repeat(b.length) + c);
       setSuccess(`Link enviado para ${maskedEmail}. Verifique sua caixa de entrada.`);
@@ -68,7 +66,7 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
       }, 3000);
     } catch (err) {
       if (err.code === 'auth/user-not-found') {
-        setError('Nenhuma conta encontrada com este telefone');
+        setError('Nenhuma conta encontrada com este código');
       } else {
         setError('Erro ao enviar recuperação. Tente novamente.');
       }
@@ -95,12 +93,12 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
             {success && <p className="login-success">{success}</p>}
 
             <p className="login-forgot-desc">
-              Digite seu telefone cadastrado. Enviaremos um link para redefinir sua senha no email associado à sua conta.
+              Digite seu código de cliente. Enviaremos um link para redefinir sua senha no email associado à sua conta.
             </p>
 
             <label>
-              Telefone cadastrado
-              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} autoComplete="tel" enterKeyHint="send" />
+              Código de Cliente
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="username" enterKeyHint="send" />
             </label>
 
             <button type="submit" className="login-submit" disabled={loading}>
@@ -119,8 +117,8 @@ export default function LoginModal({ open, onClose, onSwitchToRegister }) {
             {error && <p className="login-error">{error}</p>}
 
             <label>
-              Telefone
-              <input type="tel" required value={phone} onChange={handlePhoneChange} placeholder="(00) 00000-0000" inputMode="numeric" maxLength={15} autoComplete="tel" enterKeyHint="next" />
+              Código de Cliente
+              <input type="text" required value={codigo} onChange={handleCodigoChange} placeholder="Ex: 0001" inputMode="numeric" maxLength={6} autoComplete="username" enterKeyHint="next" />
             </label>
 
             <label>

@@ -526,3 +526,92 @@
     gap: 8px;
   }
 }
+
+/* ==================== AUTH GATE TOAST ==================== */
+.auth-gate-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  animation: authGateSlide 0.3s ease-out;
+  max-width: calc(100vw - 32px);
+}
+
+@keyframes authGateSlide {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.auth-gate-toast-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #2D2418;
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.auth-gate-toast-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.auth-gate-toast-msg {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.auth-gate-toast-btn {
+  background: #F5A524;
+  color: #2D2418;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s;
+}
+
+.auth-gate-toast-btn:hover {
+  transform: translateY(-1px);
+}
+
+.auth-gate-toast-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-gate-toast-close:hover {
+  color: #fff;
+}
+
+@media (max-width: 540px) {
+  .auth-gate-toast-inner {
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .auth-gate-toast-msg {
+    flex-basis: 100%;
+    order: 1;
+  }
+  .auth-gate-toast-btn {
+    order: 2;
+  }
+  .auth-gate-toast-close {
+    order: 3;
+  }
+}
