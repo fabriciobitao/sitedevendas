@@ -64,12 +64,13 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  // 'empresa' = cadastro completo / 'cliente' = ja sou cliente (simplificado)
+  // 'empresa' = cadastro PJ / 'pessoa_fisica' = cadastro PF / 'cliente' = ja sou cliente (simplificado)
   const [tipo, setTipo] = useState(initialTipo);
 
   useEffect(() => {
     if (open) setTipo(initialTipo);
   }, [open, initialTipo]);
+  const isRegister = initialTipo !== 'cliente';
   const canvasRef = useRef(null);
   const fachadaInputRef = useRef(null);
   const fachadaCameraRef = useRef(null);
@@ -82,6 +83,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [loadingStep, setLoadingStep] = useState('');
   const [successCode, setSuccessCode] = useState('');
   const isCliente = tipo === 'cliente';
+  const isPessoaFisica = tipo === 'pessoa_fisica';
+  const isEmpresa = tipo === 'empresa';
 
   const getPos = (e) => {
     const canvas = canvasRef.current;
@@ -267,7 +270,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     doc.setTextColor(100, 100, 100);
     doc.text('CNPJ: 12.612.824/0001-00', 105, y, { align: 'center' });
     y += 5;
-    doc.text(`Ficha Cadastral - EMPRESA`, 105, y, { align: 'center' });
+    doc.text(`Ficha Cadastral - ${isPessoaFisica ? 'PESSOA FÍSICA' : 'EMPRESA'}`, 105, y, { align: 'center' });
     y += 4;
     doc.text(`Data: ${dataHora}`, 105, y, { align: 'center' });
     y += 4;
@@ -275,14 +278,16 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     doc.line(14, y, 196, y);
     y += 4;
 
-    addSection('DADOS DA EMPRESA');
-    addField('Razão Social', form.razaoSocial);
-    addField('Nome Fantasia', form.nomeFantasia);
-    addField('CNPJ', form.cnpj);
-    addField('Insc. Municipal', form.inscMunicipal);
-    addField('Insc. Estadual', form.inscEstadual);
+    if (!isPessoaFisica) {
+      addSection('DADOS DA EMPRESA');
+      addField('Razão Social', form.razaoSocial);
+      addField('Nome Fantasia', form.nomeFantasia);
+      addField('CNPJ', form.cnpj);
+      addField('Insc. Municipal', form.inscMunicipal);
+      addField('Insc. Estadual', form.inscEstadual);
+    }
 
-    addSection('RESPONSÁVEL');
+    addSection(isPessoaFisica ? 'DADOS PESSOAIS' : 'RESPONSÁVEL');
     addField('Nome', form.nomeResponsavel);
     addField('CPF', form.cpf);
     addField('RG', form.rg);
@@ -298,15 +303,17 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     addField('Telefone', form.telefone);
     addField('Email', form.email);
 
-    addSection('RESPONSÁVEL FINANCEIRO');
-    addField('Nome', form.nomeFinanceiro);
-    addField('Telefone', form.telefoneFinanceiro);
-    addField('Email', form.emailFinanceiro);
+    if (!isPessoaFisica) {
+      addSection('RESPONSÁVEL FINANCEIRO');
+      addField('Nome', form.nomeFinanceiro);
+      addField('Telefone', form.telefoneFinanceiro);
+      addField('Email', form.emailFinanceiro);
 
-    addSection('REFERÊNCIAS COMERCIAIS');
-    addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
-    addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
-    addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
+      addSection('REFERÊNCIAS COMERCIAIS');
+      addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
+      addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
+      addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
+    }
 
     y += 4;
     doc.setFontSize(8);
@@ -405,12 +412,12 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       return;
     }
 
-    // ------------------ FLUXO: Fazer meu Cadastro (empresa, completo) ------------------
+    // ------------------ FLUXO: Fazer meu Cadastro (empresa ou PF) ------------------
     if (!hasSigned) {
       setError('Por favor, assine o formulário antes de enviar.');
       return;
     }
-    if (!fachadaFile) {
+    if (isEmpresa && !fachadaFile) {
       setError('Envie uma foto da fachada para concluir o cadastro.');
       return;
     }
@@ -419,7 +426,21 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     setLoadingStep('Criando conta...');
 
     try {
-      const profileData = {
+      const profileData = isPessoaFisica ? {
+        tipo: 'pessoa_fisica',
+        nomeResponsavel: form.nomeResponsavel,
+        cpf: form.cpf,
+        rg: form.rg,
+        endereco: form.endereco,
+        numero: form.numero,
+        complemento: form.complemento,
+        bairro: form.bairro,
+        municipio: form.municipio,
+        estado: form.estado,
+        cep: form.cep,
+        telefone: form.telefone,
+        email: form.email,
+      } : {
         tipo: 'empresa',
         razaoSocial: form.razaoSocial,
         nomeFantasia: form.nomeFantasia,
@@ -457,24 +478,24 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
       setLoadingStep('Gerando documentos...');
       const pdfBlob = buildPdfBlob();
-      let imageBlob;
-      try {
-        imageBlob = await compressImage(fachadaFile);
-      } catch {
-        imageBlob = fachadaFile;
-      }
 
       setLoadingStep('Enviando arquivos...');
       const pdfRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}.pdf`);
-      const imgRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}-fachada.jpg`);
-      const [pdfUp, imgUp] = await Promise.all([
-        uploadBytes(pdfRef, pdfBlob, { contentType: 'application/pdf' }),
-        uploadBytes(imgRef, imageBlob, { contentType: 'image/jpeg' }),
-      ]);
-      const [pdfUrl, imageUrl] = await Promise.all([
-        getDownloadURL(pdfUp.ref),
-        getDownloadURL(imgUp.ref),
-      ]);
+      const pdfUp = await uploadBytes(pdfRef, pdfBlob, { contentType: 'application/pdf' });
+      const pdfUrl = await getDownloadURL(pdfUp.ref);
+
+      let imageUrl = '';
+      if (isEmpresa && fachadaFile) {
+        let imageBlob;
+        try {
+          imageBlob = await compressImage(fachadaFile);
+        } catch {
+          imageBlob = fachadaFile;
+        }
+        const imgRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}-fachada.jpg`);
+        const imgUp = await uploadBytes(imgRef, imageBlob, { contentType: 'image/jpeg' });
+        imageUrl = await getDownloadURL(imgUp.ref);
+      }
 
       let sent = false;
       if (REGISTRATION_API_URL) {
@@ -487,9 +508,9 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
               pdfUrl,
               imageUrl,
               clientName: nome,
-              documento: form.cnpj,
+              documento: isPessoaFisica ? form.cpf : form.cnpj,
               telefone: form.telefone,
-              tipo: 'empresa',
+              tipo: isPessoaFisica ? 'pessoa_fisica' : 'empresa',
               codigoCliente,
             }),
           });
@@ -561,7 +582,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     <div className="cf-overlay" onClick={onClose}>
       <div className="cf-modal" onClick={(e) => e.stopPropagation()}>
         <div className="cf-header">
-          <h2>{isCliente ? 'Já sou cliente' : 'Ficha Cadastral'}</h2>
+          <h2>{isCliente ? 'Já sou cliente' : 'Quero me cadastrar'}</h2>
           <button className="cf-close" onClick={onClose} aria-label="Fechar">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
@@ -576,6 +597,28 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
             Já tem conta?{' '}
             <button type="button" onClick={onSwitchToLogin}>Faça login</button>
           </p>
+
+          {/* =================== ABAS: Empresa / Pessoa Fisica =================== */}
+          {isRegister && (
+            <div className="cf-tipo-toggle" role="tablist">
+              <button
+                type="button"
+                role="tab"
+                className={`cf-tipo-btn ${isEmpresa ? 'cf-tipo-btn--active' : ''}`}
+                onClick={() => setTipo('empresa')}
+              >
+                Empresa
+              </button>
+              <button
+                type="button"
+                role="tab"
+                className={`cf-tipo-btn ${isPessoaFisica ? 'cf-tipo-btn--active' : ''}`}
+                onClick={() => setTipo('pessoa_fisica')}
+              >
+                Pessoa Física
+              </button>
+            </div>
+          )}
 
           {/* =================== FLUXO: Ja sou cliente (simplificado) =================== */}
           {isCliente && (
@@ -623,28 +666,30 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
             </>
           )}
 
-          {/* =================== ABA: Fazer meu Cadastro (empresa) =================== */}
+          {/* =================== ABA: Fazer meu Cadastro (empresa / pessoa fisica) =================== */}
           {!isCliente && (
             <>
-              <fieldset className="cf-section">
-                <legend>Dados da Empresa</legend>
-                <div className="cf-row cf-row--full">
-                  <label>Razão Social *<input required value={form.razaoSocial} onChange={set('razaoSocial')} /></label>
-                </div>
-                <div className="cf-row">
-                  <label>Nome Fantasia *<input required value={form.nomeFantasia} onChange={set('nomeFantasia')} /></label>
-                  <label>CNPJ *<input required value={form.cnpj} onChange={maskCnpj} placeholder="00.000.000/0000-00" maxLength={18} inputMode="numeric" /></label>
-                </div>
-                <div className="cf-row">
-                  <label>Inscrição Municipal<input value={form.inscMunicipal} onChange={set('inscMunicipal')} /></label>
-                  <label>Inscrição Estadual<input value={form.inscEstadual} onChange={set('inscEstadual')} /></label>
-                </div>
-              </fieldset>
+              {isEmpresa && (
+                <fieldset className="cf-section">
+                  <legend>Dados da Empresa</legend>
+                  <div className="cf-row cf-row--full">
+                    <label>Razão Social *<input required value={form.razaoSocial} onChange={set('razaoSocial')} /></label>
+                  </div>
+                  <div className="cf-row">
+                    <label>Nome Fantasia *<input required value={form.nomeFantasia} onChange={set('nomeFantasia')} /></label>
+                    <label>CNPJ *<input required value={form.cnpj} onChange={maskCnpj} placeholder="00.000.000/0000-00" maxLength={18} inputMode="numeric" /></label>
+                  </div>
+                  <div className="cf-row">
+                    <label>Inscrição Municipal<input value={form.inscMunicipal} onChange={set('inscMunicipal')} /></label>
+                    <label>Inscrição Estadual<input value={form.inscEstadual} onChange={set('inscEstadual')} /></label>
+                  </div>
+                </fieldset>
+              )}
 
               <fieldset className="cf-section">
-                <legend>Responsável</legend>
+                <legend>{isPessoaFisica ? 'Dados Pessoais' : 'Responsável'}</legend>
                 <div className="cf-row cf-row--full">
-                  <label>Nome do Responsável *<input required value={form.nomeResponsavel} onChange={set('nomeResponsavel')} /></label>
+                  <label>{isPessoaFisica ? 'Nome Completo *' : 'Nome do Responsável *'}<input required value={form.nomeResponsavel} onChange={set('nomeResponsavel')} /></label>
                 </div>
                 <div className="cf-row">
                   <label className="cf-small">CPF *<input required value={form.cpf} onChange={maskCpf} placeholder="000.000.000-00" maxLength={14} inputMode="numeric" /></label>
@@ -701,24 +746,29 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                 </div>
               </fieldset>
 
-              <fieldset className="cf-section">
-                <legend>Responsável Financeiro</legend>
-                <div className="cf-row cf-row--full">
-                  <label>Nome *<input required value={form.nomeFinanceiro} onChange={set('nomeFinanceiro')} /></label>
-                </div>
-                <div className="cf-row">
-                  <label>Telefone *<input required value={form.telefoneFinanceiro} onChange={maskTelefone('telefoneFinanceiro')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
-                  <label>Email *<input required type="email" value={form.emailFinanceiro} onChange={set('emailFinanceiro')} /></label>
-                </div>
-              </fieldset>
+              {isEmpresa && (
+                <fieldset className="cf-section">
+                  <legend>Responsável Financeiro</legend>
+                  <div className="cf-row cf-row--full">
+                    <label>Nome *<input required value={form.nomeFinanceiro} onChange={set('nomeFinanceiro')} /></label>
+                  </div>
+                  <div className="cf-row">
+                    <label>Telefone *<input required value={form.telefoneFinanceiro} onChange={maskTelefone('telefoneFinanceiro')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
+                    <label>Email *<input required type="email" value={form.emailFinanceiro} onChange={set('emailFinanceiro')} /></label>
+                  </div>
+                </fieldset>
+              )}
 
-              <fieldset className="cf-section">
-                <legend>Referências Comerciais</legend>
-                <div className="cf-row"><label>Nome<input value={form.ref1Nome} onChange={set('ref1Nome')} /></label><label className="cf-small">Telefone<input value={form.ref1Telefone} onChange={set('ref1Telefone')} /></label></div>
-                <div className="cf-row"><label>Nome<input value={form.ref2Nome} onChange={set('ref2Nome')} /></label><label className="cf-small">Telefone<input value={form.ref2Telefone} onChange={set('ref2Telefone')} /></label></div>
-                <div className="cf-row"><label>Nome<input value={form.ref3Nome} onChange={set('ref3Nome')} /></label><label className="cf-small">Telefone<input value={form.ref3Telefone} onChange={set('ref3Telefone')} /></label></div>
-              </fieldset>
+              {isEmpresa && (
+                <fieldset className="cf-section">
+                  <legend>Referências Comerciais</legend>
+                  <div className="cf-row"><label>Nome<input value={form.ref1Nome} onChange={set('ref1Nome')} /></label><label className="cf-small">Telefone<input value={form.ref1Telefone} onChange={set('ref1Telefone')} /></label></div>
+                  <div className="cf-row"><label>Nome<input value={form.ref2Nome} onChange={set('ref2Nome')} /></label><label className="cf-small">Telefone<input value={form.ref2Telefone} onChange={set('ref2Telefone')} /></label></div>
+                  <div className="cf-row"><label>Nome<input value={form.ref3Nome} onChange={set('ref3Nome')} /></label><label className="cf-small">Telefone<input value={form.ref3Telefone} onChange={set('ref3Telefone')} /></label></div>
+                </fieldset>
+              )}
 
+              {isEmpresa && (
               <fieldset className="cf-section">
                 <legend>Foto da Fachada *</legend>
                 <div className="cf-fachada">
@@ -774,6 +824,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                   )}
                 </div>
               </fieldset>
+              )}
 
               <p className="cf-legal">
                 Autorizo a empresa Frios Ouro Fino LTDA, CNPJ 12.612.824/0001-00, a realizar o meu cadastro,
