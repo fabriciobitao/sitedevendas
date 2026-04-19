@@ -289,8 +289,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     y += 5;
     doc.text(`Ficha Cadastral - ${isPessoaFisica ? 'PESSOA FÍSICA' : 'EMPRESA'}`, 105, y, { align: 'center' });
     y += 4;
-    doc.text(`Data: ${dataHora}`, 105, y, { align: 'center' });
-    y += 4;
     doc.setDrawColor(200, 200, 200);
     doc.line(14, y, 196, y);
     y += 4;
