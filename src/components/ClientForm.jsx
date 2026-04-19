@@ -44,7 +44,7 @@ const slugify = (v) =>
     .replace(/^_+|_+$/g, '')
     .slice(0, 50);
 
-async function compressImage(file, maxDim = 1600, quality = 0.82) {
+async function compressImage(file, maxDim = 1200, quality = 0.7) {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
   const w = Math.round(bitmap.width * scale);
@@ -53,27 +53,16 @@ async function compressImage(file, maxDim = 1600, quality = 0.82) {
   canvas.width = w;
   canvas.height = h;
   canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob || file), 'image/jpeg', quality);
+  const blob = await new Promise((resolve) => {
+    canvas.toBlob((b) => resolve(b || file), 'image/jpeg', quality);
   });
-}
-
-async function fileToDataUrl(fileOrBlob) {
-  return new Promise((resolve, reject) => {
+  const dataUrl = await new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
-    reader.readAsDataURL(fileOrBlob);
+    reader.readAsDataURL(blob);
   });
-}
-
-async function getImageDimensions(dataUrl) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve({ width: img.width, height: img.height });
-    img.onerror = () => resolve({ width: 1, height: 1 });
-    img.src = dataUrl;
-  });
+  return { blob, dataUrl, width: w, height: h };
 }
 
 export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
@@ -245,7 +234,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     }
   };
 
-  const buildPdfBlob = async (photoDataUrl) => {
+  const buildPdfBlob = (photoDataUrl, photoW, photoH) => {
     const doc = new jsPDF();
     const now = new Date();
     const dataHora = `${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -334,12 +323,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     }
 
     if (photoDataUrl) {
-      const dims = await getImageDimensions(photoDataUrl);
       const maxW = 150;
       const maxH = 100;
-      const ratio = Math.min(maxW / dims.width, maxH / dims.height);
-      const drawW = Math.max(40, dims.width * ratio);
-      const drawH = Math.max(40, dims.height * ratio);
+      const ratio = Math.min(maxW / (photoW || maxW), maxH / (photoH || maxH));
+      const drawW = Math.max(40, (photoW || maxW) * ratio);
+      const drawH = Math.max(40, (photoH || maxH) * ratio);
       if (y + drawH + 20 > 280) { doc.addPage(); y = 20; }
       addSection(isPessoaFisica ? 'FOTO DA RESIDÊNCIA' : 'FOTO DA FACHADA');
       const x = (210 - drawW) / 2;
@@ -514,15 +502,21 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       const ts = Date.now();
       const fileNamePdf = `Ficha_Cadastral_${slug}.pdf`;
 
-      setLoadingStep('Gerando documentos...');
-      let imageBlob;
+      setLoadingStep('Processando foto...');
+      let photoDataUrl = '';
+      let photoW = 0;
+      let photoH = 0;
       try {
-        imageBlob = await compressImage(fachadaFile);
-      } catch {
-        imageBlob = fachadaFile;
+        const compressed = await compressImage(fachadaFile);
+        photoDataUrl = compressed.dataUrl;
+        photoW = compressed.width;
+        photoH = compressed.height;
+      } catch (err) {
+        console.error('Falha ao processar foto:', err);
       }
-      const photoDataUrl = await fileToDataUrl(imageBlob);
-      const pdfBlob = await buildPdfBlob(photoDataUrl);
+
+      setLoadingStep('Gerando PDF...');
+      const pdfBlob = buildPdfBlob(photoDataUrl, photoW, photoH);
 
       setLoadingStep('Enviando arquivos...');
       const pdfRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}.pdf`);
