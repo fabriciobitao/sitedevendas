@@ -1,7 +1,11 @@
 import { useState, useRef, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { storage } from '../firebase';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { jsPDF } from 'jspdf';
 import './ClientForm.css';
+
+const REGISTRATION_API_URL = import.meta.env.VITE_REGISTRATION_API_URL || '';
 
 const INITIAL = {
   razaoSocial: '',
@@ -32,6 +36,29 @@ const INITIAL = {
   ref3Telefone: '',
 };
 
+const slugify = (v) =>
+  (v || 'cliente')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .slice(0, 50);
+
+// Comprime imagem no client (reduz custo de upload no 3G)
+async function compressImage(file, maxDim = 1600, quality = 0.82) {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+  const w = Math.round(bitmap.width * scale);
+  const h = Math.round(bitmap.height * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob || file), 'image/jpeg', quality);
+  });
+}
+
 export default function ClientForm({ open, onClose, onSwitchToLogin }) {
   const { register } = useAuth();
   const [form, setForm] = useState(INITIAL);
@@ -40,10 +67,14 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [tipo, setTipo] = useState('empresa');
   const canvasRef = useRef(null);
+  const fachadaInputRef = useRef(null);
   const isDrawing = useRef(false);
   const [hasSigned, setHasSigned] = useState(false);
+  const [fachadaFile, setFachadaFile] = useState(null);
+  const [fachadaPreview, setFachadaPreview] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState('');
   const isPF = tipo === 'consumidor';
 
   const getPos = (e) => {
@@ -88,6 +119,29 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setHasSigned(false);
+  };
+
+  const handleFachadaChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setError('O arquivo da fachada deve ser uma imagem.');
+      return;
+    }
+    if (file.size > 15 * 1024 * 1024) {
+      setError('A foto da fachada deve ter no máximo 15MB.');
+      return;
+    }
+    setError('');
+    setFachadaFile(file);
+    setFachadaPreview(URL.createObjectURL(file));
+  };
+
+  const removeFachada = () => {
+    if (fachadaPreview) URL.revokeObjectURL(fachadaPreview);
+    setFachadaFile(null);
+    setFachadaPreview('');
+    if (fachadaInputRef.current) fachadaInputRef.current.value = '';
   };
 
   if (!open) return null;
@@ -144,7 +198,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     }
   };
 
-  const generatePDF = () => {
+  // Gera o PDF e retorna um Blob (sem baixar automaticamente)
+  const buildPdfBlob = () => {
     const doc = new jsPDF();
     const tipoLabel = isPF ? 'CONSUMIDOR FINAL' : 'EMPRESA';
     const now = new Date();
@@ -182,7 +237,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       y += 6;
     };
 
-    // Cabeçalho
     doc.setFillColor(45, 125, 45);
     doc.rect(0, 0, 210, 3, 'F');
     addTitle('FRIOS OURO FINO LTDA');
@@ -199,7 +253,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     doc.line(14, y, 196, y);
     y += 4;
 
-    // Dados da Empresa
     if (!isPF) {
       addSection('DADOS DA EMPRESA');
       addField('Razão Social', form.razaoSocial);
@@ -209,13 +262,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       addField('Insc. Estadual', form.inscEstadual);
     }
 
-    // Dados Pessoais / Responsável
     addSection(isPF ? 'DADOS PESSOAIS' : 'RESPONSÁVEL');
     addField('Nome', form.nomeResponsavel);
     addField('CPF', form.cpf);
     addField('RG', form.rg);
 
-    // Endereço
     addSection('ENDEREÇO');
     addField('Endereço', `${form.endereco}, Nº ${form.numero}`);
     addField('Complemento', form.complemento);
@@ -223,12 +274,10 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     addField('Município', `${form.municipio} - ${form.estado}`);
     addField('CEP', form.cep);
 
-    // Contato
     addSection('CONTATO');
     addField('Telefone', form.telefone);
     addField('Email', form.email);
 
-    // Responsável Financeiro
     if (!isPF) {
       addSection('RESPONSÁVEL FINANCEIRO');
       addField('Nome', form.nomeFinanceiro);
@@ -236,13 +285,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
       addField('Email', form.emailFinanceiro);
     }
 
-    // Referências Comerciais
     addSection('REFERÊNCIAS COMERCIAIS');
     addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
     addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
     addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
 
-    // Termo de autorização
     y += 4;
     doc.setFontSize(8);
     doc.setFont('helvetica', 'italic');
@@ -252,7 +299,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     doc.text(termoLines, 16, y);
     y += termoLines.length * 4 + 6;
 
-    // Assinatura
     if (y > 220) { doc.addPage(); y = 20; }
     addSection('ASSINATURA DIGITAL');
     y += 2;
@@ -267,28 +313,35 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     doc.setTextColor(100, 100, 100);
     doc.text(`Assinado digitalmente em ${dataHora}`, 105, y, { align: 'center' });
 
-    // Rodapé
     doc.setFillColor(45, 125, 45);
     doc.rect(0, 294, 210, 3, 'F');
 
-    const nomeArquivo = `Ficha_Cadastral_${(form.nomeFantasia || form.nomeResponsavel).replace(/\s+/g, '_')}.pdf`;
-    doc.save(nomeArquivo);
-    return nomeArquivo;
+    return doc.output('blob');
   };
 
-  const sendWhatsApp = (pdfName) => {
+  // Fallback: baixar PDF e abrir WhatsApp com instrucao manual (se Cloud Function falhar)
+  const fallbackDownloadAndOpenWhatsApp = (pdfBlob, fileName) => {
+    try {
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch {}
     const nome = form.nomeFantasia || form.nomeResponsavel;
     const text = encodeURIComponent(
       `📋 *FICHA CADASTRAL*\n\n` +
       `*Nome:* ${nome}\n` +
       `*CNPJ/CPF:* ${isPF ? form.cpf : form.cnpj}\n` +
       `*Telefone:* ${form.telefone}\n\n` +
-      `✅ PDF "${pdfName}" foi baixado no seu dispositivo.\n` +
-      `📎 Por favor, anexe o PDF nesta conversa.`
+      `⚠️ Envio automático falhou. Anexe manualmente o PDF (${fileName}) e a foto da fachada nesta conversa.`
     );
-    const url = `https://api.whatsapp.com/send?phone=+5535998511194&text=${text}`;
-    const w = window.open(url, '_blank');
-    if (!w) window.location.href = url;
+    const waUrl = `https://api.whatsapp.com/send?phone=+5535998511194&text=${text}`;
+    const w = window.open(waUrl, '_blank');
+    if (!w) window.location.href = waUrl;
   };
 
   const handleSubmit = async (e) => {
@@ -297,6 +350,10 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
 
     if (!hasSigned) {
       setError('Por favor, assine o formulário antes de enviar.');
+      return;
+    }
+    if (!fachadaFile) {
+      setError('Envie uma foto da fachada para concluir o cadastro.');
       return;
     }
     if (password.length < 6) {
@@ -309,6 +366,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
     }
 
     setLoading(true);
+    setLoadingStep('Criando conta...');
+
     try {
       const profileData = {
         tipo,
@@ -319,27 +378,86 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
           { nome: form.ref3Nome, telefone: form.ref3Telefone },
         ],
       };
-      // Remove ref fields duplicados
       delete profileData.ref1Nome; delete profileData.ref1Telefone;
       delete profileData.ref2Nome; delete profileData.ref2Telefone;
       delete profileData.ref3Nome; delete profileData.ref3Telefone;
 
-      await register(form.email, password, profileData);
-      const pdfName = generatePDF();
+      // 1) Cria auth + Firestore
+      const userCred = await register(form.email, password, profileData);
+      const uid = userCred.uid;
+      const nome = form.nomeFantasia || form.nomeResponsavel;
+      const slug = slugify(nome);
+      const ts = Date.now();
+      const fileNamePdf = `Ficha_Cadastral_${slug}.pdf`;
+
+      // 2) Gera PDF e comprime foto
+      setLoadingStep('Gerando documentos...');
+      const pdfBlob = buildPdfBlob();
+      let imageBlob;
+      try {
+        imageBlob = await compressImage(fachadaFile);
+      } catch {
+        imageBlob = fachadaFile;
+      }
+
+      // 3) Upload pro Firebase Storage (paralelo)
+      setLoadingStep('Enviando arquivos...');
+      const pdfRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}.pdf`);
+      const imgRef = storageRef(storage, `fichas-cadastrais/${uid}-${ts}-${slug}-fachada.jpg`);
+      const [pdfUp, imgUp] = await Promise.all([
+        uploadBytes(pdfRef, pdfBlob, { contentType: 'application/pdf' }),
+        uploadBytes(imgRef, imageBlob, { contentType: 'image/jpeg' }),
+      ]);
+      const [pdfUrl, imageUrl] = await Promise.all([
+        getDownloadURL(pdfUp.ref),
+        getDownloadURL(imgUp.ref),
+      ]);
+
+      // 4) Envia pro WhatsApp via Cloud Function
+      let sent = false;
+      if (REGISTRATION_API_URL) {
+        setLoadingStep('Enviando para o WhatsApp...');
+        try {
+          const res = await fetch(REGISTRATION_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              pdfUrl,
+              imageUrl,
+              clientName: nome,
+              documento: isPF ? form.cpf : form.cnpj,
+              telefone: form.telefone,
+              tipo,
+            }),
+          });
+          sent = res.ok;
+        } catch {
+          sent = false;
+        }
+      }
+
+      // 5) Limpa estado
       setForm(INITIAL);
       setPassword('');
       setConfirmPassword('');
+      removeFachada();
+      clearSignature();
       onClose();
-      // Delay para o download do PDF completar antes de abrir WhatsApp
-      setTimeout(() => sendWhatsApp(pdfName), 1500);
+
+      // 6) Fallback se envio automatico falhou
+      if (!sent) {
+        fallbackDownloadAndOpenWhatsApp(pdfBlob, fileNamePdf);
+      }
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         setError('Este email já está cadastrado. Faça login.');
       } else {
+        console.error(err);
         setError('Erro ao criar conta. Tente novamente.');
       }
     } finally {
       setLoading(false);
+      setLoadingStep('');
     }
   };
 
@@ -475,6 +593,43 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
             <div className="cf-row"><label>Nome<input value={form.ref3Nome} onChange={set('ref3Nome')} /></label><label className="cf-small">Telefone<input value={form.ref3Telefone} onChange={set('ref3Telefone')} /></label></div>
           </fieldset>
 
+          <fieldset className="cf-section">
+            <legend>Foto da Fachada *</legend>
+            <div className="cf-fachada">
+              <p className="cf-fachada-hint">
+                Envie uma foto da fachada para facilitar o cadastro e ajudar os entregadores.
+              </p>
+              <input
+                ref={fachadaInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleFachadaChange}
+                className="cf-fachada-input"
+                id="cf-fachada-input"
+              />
+              {!fachadaPreview ? (
+                <label htmlFor="cf-fachada-input" className="cf-fachada-dropzone">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                  <span className="cf-fachada-dropzone-text">Tirar foto / Escolher imagem</span>
+                  <span className="cf-fachada-dropzone-sub">JPG ou PNG (até 15MB)</span>
+                </label>
+              ) : (
+                <div className="cf-fachada-preview">
+                  <img src={fachadaPreview} alt="Prévia da fachada" />
+                  <button type="button" className="cf-fachada-remove" onClick={removeFachada} aria-label="Remover foto">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </div>
+          </fieldset>
+
           <p className="cf-legal">
             Autorizo a empresa Frios Ouro Fino LTDA, CNPJ 12.612.824/0001-00, a realizar o meu cadastro,
             assim como fazer consultas e emitir boletos referente às minhas compras.
@@ -493,7 +648,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin }) {
           </div>
 
           <button type="submit" className="cf-submit" disabled={loading}>
-            {loading ? 'Criando conta...' : 'Criar Conta e Cadastrar'}
+            {loading ? (loadingStep || 'Processando...') : 'Criar Conta e Cadastrar'}
           </button>
         </form>
       </div>
