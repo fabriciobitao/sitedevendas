@@ -220,29 +220,10 @@ export default function CatalogoPDFPage() {
                       <span className="catpdf-shoplist-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
                     </div>
                     <ShoppingList subs={subs} subKeys={subKeys} startNum={startNum} />
-                    <div className="catpdf-shoplist-cat-subtotal">
-                      <span className="catpdf-shoplist-cat-subtotal-label">Subtotal {cat}</span>
-                      <span className="catpdf-shoplist-cat-subtotal-itens">Itens comprados:&nbsp;<span className="catpdf-shoplist-subtotal-line short" />&nbsp;/ {totalCat}</span>
-                      <span className="catpdf-shoplist-cat-subtotal-value">R$&nbsp;<span className="catpdf-shoplist-subtotal-line" /></span>
-                    </div>
                   </div>
                 );
               });
             })()}
-
-            {/* Totais e assinatura */}
-            <div className="catpdf-shoplist-totals">
-              <div className="catpdf-shoplist-totals-row">
-                <span className="catpdf-shoplist-totals-label">Total geral da compra</span>
-                <span className="catpdf-shoplist-totals-value">R$&nbsp;<span className="catpdf-shoplist-totals-line" /></span>
-              </div>
-              <div className="catpdf-shoplist-totals-row">
-                <span className="catpdf-shoplist-totals-label">Total de itens comprados</span>
-                <span className="catpdf-shoplist-totals-value">
-                  <span className="catpdf-shoplist-totals-line short" />&nbsp;/ {totalItens}
-                </span>
-              </div>
-            </div>
 
             <div className="catpdf-shoplist-sign">
               <div className="catpdf-shoplist-sign-field">
