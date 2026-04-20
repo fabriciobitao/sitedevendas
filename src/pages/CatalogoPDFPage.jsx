@@ -33,6 +33,33 @@ function proxySrc(url) {
   return `https://images.weserv.nl/?url=${encodeURIComponent(clean)}&w=500&fit=contain&output=webp&q=85`;
 }
 
+// Detecta variantes "cx" vs "por peça" em nomes como "Acem cx - 20kg" / "Acem por Peça"
+function variantInfo(name) {
+  if (!name) return { base: '', isCx: false, isPeca: false };
+  const n = name.toLowerCase().trim();
+  const mCx = n.match(/^(.+?)\s+cx\b/);
+  const mPe = n.match(/^(.+?)\s+(?:por\s+)?pe[çc]a\b/);
+  if (mCx) return { base: mCx[1].trim(), isCx: true, isPeca: false };
+  if (mPe) return { base: mPe[1].trim(), isCx: false, isPeca: true };
+  return { base: n, isCx: false, isPeca: false };
+}
+
+// Remove duplicatas: quando existe variante "cx" e "por peça" do mesmo produto, mantém só a "cx"
+function dedupCxPeca(list) {
+  const byBase = new Map();
+  const solo = [];
+  list.forEach((p) => {
+    const v = variantInfo(p.name);
+    if (!v.isCx && !v.isPeca) { solo.push(p); return; }
+    const existing = byBase.get(v.base);
+    if (!existing) { byBase.set(v.base, p); return; }
+    const ev = variantInfo(existing.name);
+    // cx sempre vence sobre peça
+    if (v.isCx && ev.isPeca) byBase.set(v.base, p);
+  });
+  return [...solo, ...byBase.values()];
+}
+
 // QR code via API pública (zero deps)
 function qrUrl(data, size = 180) {
   return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&margin=0&data=${encodeURIComponent(data)}&color=4D2B18&bgcolor=FFFFFF`;
@@ -53,7 +80,9 @@ export default function CatalogoPDFPage() {
 
   const filtered = useMemo(() => {
     if (!products) return [];
-    return products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
+    const base = products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
+    // Na lista de esgotados, quando existe variante "cx" e "por peça" do mesmo item, manter apenas a "cx"
+    return tipo === 'esgotados' ? dedupCxPeca(base) : base;
   }, [products, tipo]);
 
   const grouped = useMemo(() => {
