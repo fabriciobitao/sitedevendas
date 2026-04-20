@@ -269,7 +269,7 @@
   margin-bottom: 20px;
   position: -webkit-sticky;
   position: sticky;
-  top: 72px;
+  top: var(--header-h, 72px);
   z-index: 50;
   background: var(--cream);
   padding: 16px 0 12px;
@@ -542,7 +542,7 @@
   .filters-section {
     position: -webkit-sticky;
     position: sticky;
-    top: 74px;
+    top: var(--header-h, 74px);
     margin-left: -16px;
     margin-right: -16px;
     padding-left: 16px;

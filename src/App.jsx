@@ -56,6 +56,24 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const header = document.querySelector('.header');
+    if (!header) return;
+    const update = () => {
+      document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(header);
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update);
+    };
+  }, []);
+
   const scrollToProducts = () => {
     setTimeout(() => {
       productsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
