@@ -963,12 +963,22 @@
   border-bottom: 1px solid var(--pdf-gray-200);
 }
 
-.catpdf-shoplist-table .col-chk { width: 32px; text-align: center; }
-.catpdf-shoplist-table .col-num { width: 32px; text-align: center; color: var(--pdf-gray-500); font-weight: 700; font-size: 11px; }
+.catpdf-shoplist-table .col-chk { width: 30px; text-align: center; }
+.catpdf-shoplist-table .col-num { width: 30px; text-align: center; color: var(--pdf-gray-500); font-weight: 700; font-size: 11px; }
 .catpdf-shoplist-table .col-name { width: auto; }
-.catpdf-shoplist-table .col-price { width: 110px; text-align: center; }
-.catpdf-shoplist-table .col-qty { width: 70px; text-align: center; }
-.catpdf-shoplist-table .col-supplier { width: 160px; }
+.catpdf-shoplist-table .col-price { width: 130px; text-align: left; padding-right: 8px !important; white-space: nowrap; }
+.catpdf-shoplist-table .col-qty { width: 64px; text-align: center; }
+.catpdf-shoplist-table .col-supplier { width: 150px; }
+
+.catpdf-shoplist-price-prefix {
+  display: inline-block;
+  margin-right: 4px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pdf-brown);
+  vertical-align: middle;
+}
 
 .catpdf-shoplist-chk {
   display: inline-block;
@@ -997,12 +1007,19 @@
 }
 
 .catpdf-shoplist-qty-line,
-.catpdf-shoplist-price-line,
 .catpdf-shoplist-supplier-line {
   display: block;
   height: 1px;
-  border-bottom: 1px solid var(--pdf-gray-400, #B09778);
+  border-bottom: 1.2px solid var(--pdf-brown-light);
   margin: 10px 4px 4px;
+}
+
+.catpdf-shoplist-price-line {
+  display: inline-block;
+  height: 1px;
+  border-bottom: 1.2px solid var(--pdf-brown-light);
+  width: calc(100% - 26px);
+  vertical-align: middle;
 }
 
 /* Linhas mais altas e confortáveis para escrita à mão */

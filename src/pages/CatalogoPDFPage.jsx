@@ -436,7 +436,10 @@ function ShoppingList({ subs, subKeys, startNum = 1 }) {
                       </span>
                       {p.description && <span className="catpdf-shoplist-desc">{p.description}</span>}
                     </td>
-                    <td className="col-price"><span className="catpdf-shoplist-price-line" /></td>
+                    <td className="col-price">
+                      <span className="catpdf-shoplist-price-prefix">R$</span>
+                      <span className="catpdf-shoplist-price-line" />
+                    </td>
                     <td className="col-qty"><span className="catpdf-shoplist-qty-line" /></td>
                     <td className="col-supplier"><span className="catpdf-shoplist-supplier-line" /></td>
                   </tr>
