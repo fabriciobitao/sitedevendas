@@ -10,6 +10,7 @@ import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
 import SubcategoryFilter from './components/SubcategoryFilter';
 import ProductCard from './components/ProductCard';
+import BackToTop from './components/BackToTop';
 import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -220,6 +221,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
           <p>Tente buscar por outro termo ou altere os filtros</p>
         </div>
       )}
+      <BackToTop />
     </main>
   );
 }
