@@ -21,12 +21,16 @@ function formatMonthYear(d = new Date()) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// Resolve src da imagem: locais/base64 direto, externas via proxy (resolve CORS + hotlinking)
-function imgSrc(url) {
-  if (!url) return null;
-  if (url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('/')) return url;
+// Verifica se url é interno (local ou base64)
+function isInternal(url) {
+  return !!url && (url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('/'));
+}
+
+// Proxy via weserv — fallback para imagens externas que bloqueiam hotlinking
+function proxySrc(url) {
+  if (!url || isInternal(url)) return null;
   const clean = url.replace(/^https?:\/\//, '');
-  return `https://images.weserv.nl/?url=${encodeURIComponent(clean)}&w=400&h=400&fit=contain&output=webp&q=85`;
+  return `https://images.weserv.nl/?url=${encodeURIComponent(clean)}&w=500&fit=contain&output=webp&q=85`;
 }
 
 // QR code via API pública (zero deps)
@@ -356,20 +360,32 @@ function ShoppingList({ subs, subKeys }) {
 }
 
 function ProductCard({ product: p, layout }) {
-  const [imgError, setImgError] = useState(false);
-  const src = imgSrc(p.image);
+  // step 0: URL original | 1: proxy weserv | 2: placeholder
+  const [step, setStep] = useState(0);
   const price = formatPrice(p.price);
+
+  const proxy = proxySrc(p.image);
+  let src = null;
+  if (step === 0) src = p.image || null;
+  else if (step === 1) src = proxy;
+
+  const handleError = () => {
+    // se não é interno e ainda não tentou proxy, tenta proxy
+    if (step === 0 && proxy) setStep(1);
+    else setStep(2);
+  };
 
   return (
     <article className={`catpdf-card ${p.outOfStock ? 'out' : ''} layout-${layout}`}>
       <div className="catpdf-card-img-wrap">
-        {src && !imgError ? (
+        {src ? (
           <img
             src={src}
             alt={p.name}
             className="catpdf-card-img"
             loading="eager"
-            onError={() => setImgError(true)}
+            referrerPolicy="no-referrer"
+            onError={handleError}
           />
         ) : (
           <div className="catpdf-card-img-placeholder">
