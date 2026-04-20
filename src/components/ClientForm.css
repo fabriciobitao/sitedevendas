@@ -764,6 +764,23 @@
   background: var(--gray-100);
 }
 
+.cf-link-button {
+  background: transparent;
+  border: none;
+  color: var(--gray-600);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 8px;
+  text-decoration: underline;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  align-self: center;
+}
+
+.cf-link-button:hover {
+  color: var(--gray-800);
+}
+
 /* ==================== VALIDACAO CPF/CNPJ ==================== */
 .cf-input-invalid {
   border-color: #c62828 !important;
