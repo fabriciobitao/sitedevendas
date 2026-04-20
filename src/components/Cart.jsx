@@ -141,20 +141,6 @@ export default function Cart() {
                   <strong>R$ {totalPrice.toFixed(2)}</strong>
                 </div>
               )}
-              {hasItemsWithoutPrice && (
-                <p className="cart-price-note">* Alguns itens com preço a consultar</p>
-              )}
-
-              <div className="cart-observations">
-                <label htmlFor="cart-obs">Observações (opcional)</label>
-                <textarea
-                  id="cart-obs"
-                  value={observations}
-                  onChange={(e) => setObservations(e.target.value)}
-                  placeholder="Ex: entregar pela manhã, sem cebola..."
-                  rows={3}
-                />
-              </div>
 
               {sendError && (
                 <div className="cart-send-error" role="alert">
