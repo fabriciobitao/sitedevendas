@@ -148,12 +148,17 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
     let cancelled = false;
     setCnpjLookup({ status: 'loading', situacao: '' });
-    consultarCNPJ(d).then(info => {
+    consultarCNPJ(d).then(result => {
       if (cancelled) return;
-      if (!info) {
-        setCnpjLookup({ status: 'notfound', situacao: '' });
+      if (!result.ok) {
+        if (result.reason === 'notfound') {
+          setCnpjLookup({ status: 'notfound', situacao: '' });
+        } else {
+          setCnpjLookup({ status: 'network', situacao: '' });
+        }
         return;
       }
+      const info = result.data;
       const ativa = /ATIVA/i.test(info.situacao);
       setCnpjLookup({ status: ativa ? 'ok' : 'inactive', situacao: info.situacao });
       // Autopreenche apenas os campos vazios para nao sobrescrever edicoes do usuario
@@ -535,8 +540,24 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         setError('CPF do responsável inválido. Confira os dígitos.');
         return;
       }
+      if (cnpjLookup.status === 'loading') {
+        setError('Aguarde a verificação do CNPJ na Receita Federal.');
+        return;
+      }
+      if (cnpjLookup.status === 'notfound') {
+        setError('CNPJ não encontrado na base da Receita Federal. Confira os dígitos.');
+        return;
+      }
+      if (cnpjLookup.status === 'network') {
+        setError('Não foi possível verificar o CNPJ na Receita (sem internet ou serviço fora do ar). Tente novamente em instantes.');
+        return;
+      }
       if (cnpjLookup.status === 'inactive') {
         setError(`Este CNPJ consta como "${cnpjLookup.situacao}" na Receita Federal e não pode ser cadastrado.`);
+        return;
+      }
+      if (cnpjLookup.status !== 'ok') {
+        setError('CNPJ ainda não foi verificado na Receita. Tente novamente.');
         return;
       }
     } else if (isCliente) {
@@ -934,10 +955,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                         className={cnpjValid === false ? 'cf-input-invalid' : cnpjValid === true ? 'cf-input-valid' : ''}
                       />
                       {cnpjValid === false && <span className="cf-field-hint cf-field-hint--error">CNPJ inválido</span>}
-                      {cnpjLookup.status === 'loading' && <span className="cf-field-hint">Consultando Receita…</span>}
+                      {cnpjLookup.status === 'loading' && <span className="cf-field-hint">Consultando Receita Federal…</span>}
                       {cnpjLookup.status === 'ok' && <span className="cf-field-hint cf-field-hint--ok">✓ {cnpjLookup.situacao} — dados preenchidos</span>}
-                      {cnpjLookup.status === 'inactive' && <span className="cf-field-hint cf-field-hint--error">⚠️ {cnpjLookup.situacao} na Receita</span>}
-                      {cnpjLookup.status === 'notfound' && cnpjValid && <span className="cf-field-hint">CNPJ válido — não foi possível consultar a Receita agora</span>}
+                      {cnpjLookup.status === 'inactive' && <span className="cf-field-hint cf-field-hint--error">⚠️ {cnpjLookup.situacao} na Receita — não pode cadastrar</span>}
+                      {cnpjLookup.status === 'notfound' && <span className="cf-field-hint cf-field-hint--error">CNPJ não existe na base da Receita</span>}
+                      {cnpjLookup.status === 'network' && <span className="cf-field-hint cf-field-hint--error">⚠️ Falha ao consultar Receita — tente de novo em instantes</span>}
                     </label>
                   </div>
                   <div className="cf-row">

@@ -39,29 +39,49 @@ export function validarCNPJ(input) {
   return d2 === parseInt(cnpj[13], 10);
 }
 
-// Consulta CNPJ na BrasilAPI (gratis, com rate limit). Retorna null em erro.
+// Consulta CNPJ na BrasilAPI.
+// Retorna: { ok: true, data } | { ok: false, reason: 'notfound' | 'network' | 'invalid' }
 export async function consultarCNPJ(cnpj) {
   const clean = onlyDigits(cnpj);
-  if (clean.length !== 14) return null;
-  try {
-    const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${clean}`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    return {
-      razaoSocial: data.razao_social || '',
-      nomeFantasia: data.nome_fantasia || '',
-      situacao: data.descricao_situacao_cadastral || '',
-      cep: (data.cep || '').replace(/\D/g, ''),
-      endereco: data.logradouro || '',
-      numero: data.numero || '',
-      complemento: data.complemento || '',
-      bairro: data.bairro || '',
-      municipio: data.municipio || '',
-      estado: data.uf || '',
-      telefone: data.ddd_telefone_1 || '',
-      email: data.email || '',
-    };
-  } catch {
-    return null;
+  if (clean.length !== 14) return { ok: false, reason: 'invalid' };
+
+  const attempt = async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${clean}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (res.status === 404 || res.status === 400) return { ok: false, reason: 'notfound' };
+      if (!res.ok) return { ok: false, reason: 'network' };
+      const data = await res.json();
+      return {
+        ok: true,
+        data: {
+          razaoSocial: data.razao_social || '',
+          nomeFantasia: data.nome_fantasia || '',
+          situacao: data.descricao_situacao_cadastral || '',
+          cep: (data.cep || '').replace(/\D/g, ''),
+          endereco: data.logradouro || '',
+          numero: data.numero || '',
+          complemento: data.complemento || '',
+          bairro: data.bairro || '',
+          municipio: data.municipio || '',
+          estado: data.uf || '',
+          telefone: data.ddd_telefone_1 || '',
+          email: data.email || '',
+        }
+      };
+    } catch {
+      clearTimeout(timeout);
+      return { ok: false, reason: 'network' };
+    }
+  };
+
+  // Uma tentativa + uma repeticao em caso de falha de rede
+  let result = await attempt();
+  if (!result.ok && result.reason === 'network') {
+    await new Promise(r => setTimeout(r, 800));
+    result = await attempt();
   }
+  return result;
 }
