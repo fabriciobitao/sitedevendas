@@ -59,8 +59,8 @@
 .pdm-image-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  background: var(--parchment);
+  aspect-ratio: 1;
+  background: var(--cream-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,8 +71,7 @@
 .pdm-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 16px;
+  object-fit: cover;
 }
 
 .pdm-image-fallback {
@@ -295,8 +294,7 @@
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     animation: pdmSlideUpMobile 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .pdm-image-wrap { aspect-ratio: 3 / 2; }
-  .pdm-image { padding: 12px; }
+  .pdm-image-wrap { aspect-ratio: 1; }
   .pdm-name { font-size: 20px; }
   .pdm-description { font-size: 14px; }
   .pdm-price { font-size: 28px; }
