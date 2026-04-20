@@ -59,6 +59,22 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     scrollToProducts();
   };
 
+  const handleProductAdded = (product) => {
+    if (!search.trim()) return;
+    const catMap = { Secos: 'secos', Resfriados: 'resfriados', Congelados: 'congelados' };
+    const targetCat = catMap[product.category] || 'all';
+    setSearch('');
+    setCategory(targetCat);
+    setSubcategory('all');
+    setTimeout(() => {
+      const el = document.querySelector(`[data-product-id="${product.id}"]`);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const offset = window.scrollY + rect.top - 120;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }, 150);
+  };
+
   const normalize = (s) => (s || '')
     .toString()
     .normalize('NFD')
@@ -184,7 +200,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </div>
                 <div className="product-grid">
                   {catProducts.map((product, i) => (
-                    <ProductCard key={product.id} product={product} index={i} />
+                    <ProductCard key={product.id} product={product} index={i} onAdded={handleProductAdded} />
                   ))}
                 </div>
               </div>
@@ -193,7 +209,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         ) : (
           <div className="product-grid">
             {filteredProducts.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
+              <ProductCard key={product.id} product={product} index={i} onAdded={handleProductAdded} />
             ))}
           </div>
         )

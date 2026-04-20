@@ -11,7 +11,7 @@ function buildWebpSrcset(imagePath) {
   return `/images/webp/${base}-400.webp 400w, /images/webp/${base}-800.webp 800w`;
 }
 
-export default function ProductDetailModal({ product, onClose }) {
+export default function ProductDetailModal({ product, onClose, onAdded }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
   const [qty, setQty] = useState('');
   const [added, setAdded] = useState(false);
@@ -65,6 +65,7 @@ export default function ProductDetailModal({ product, onClose }) {
     setTimeout(() => {
       setAdded(false);
       onCloseRef.current && onCloseRef.current();
+      onAdded && onAdded(product);
     }, 600);
   };
 

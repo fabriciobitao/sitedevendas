@@ -11,7 +11,7 @@ function buildWebpSrcset(imagePath) {
   return `/images/webp/${base}-400.webp 400w, /images/webp/${base}-800.webp 800w`;
 }
 
-export default function ProductCard({ product, index = 0 }) {
+export default function ProductCard({ product, index = 0, onAdded }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
   const [imgError, setImgError] = useState(false);
 
@@ -34,6 +34,7 @@ export default function ProductCard({ product, index = 0 }) {
     setAdded(true);
     setQty('');
     setTimeout(() => setAdded(false), 1000);
+    onAdded && onAdded(product);
   };
 
   const handleQtyChange = (val) => {
@@ -65,6 +66,7 @@ export default function ProductCard({ product, index = 0 }) {
     <div
       className={`product-card ${catClass} ${product.outOfStock ? 'out-of-stock' : ''}`}
       style={{ animationDelay: `${(index % 8) * 50}ms` }}
+      data-product-id={product.id}
     >
       <button
         type="button"
@@ -182,7 +184,7 @@ export default function ProductCard({ product, index = 0 }) {
         </div>
       </div>
       {detailOpen && (
-        <ProductDetailModal product={product} onClose={() => setDetailOpen(false)} />
+        <ProductDetailModal product={product} onClose={() => setDetailOpen(false)} onAdded={onAdded} />
       )}
     </div>
   );
