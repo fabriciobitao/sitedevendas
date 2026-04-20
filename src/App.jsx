@@ -46,7 +46,15 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
+  const [filtersCompact, setFiltersCompact] = useState(false);
   const productsRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => setFiltersCompact(window.scrollY > 220);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const scrollToProducts = () => {
     setTimeout(() => {
@@ -158,8 +166,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         </div>
       )}
 
-      <section className="filters-section">
-        <div className="filters-row">
+      <section className={`filters-section ${filtersCompact ? 'filters-section--compact' : ''}`}>
+        <div className="filters-row filters-row--search">
           <SearchBar value={search} onChange={setSearch} />
         </div>
         <div className="filters-row">
