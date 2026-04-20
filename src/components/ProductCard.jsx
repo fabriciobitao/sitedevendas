@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import ProductDetailModal from './ProductDetailModal';
 import './ProductCard.css';
 
 function buildWebpSrcset(imagePath) {
@@ -20,6 +21,9 @@ export default function ProductCard({ product, index = 0 }) {
   }, [product.image]);
   const [qty, setQty] = useState('');
   const [added, setAdded] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const openDetail = () => setDetailOpen(true);
 
   const cartItem = items.find(item => item.id === product.id);
   const inCart = !!cartItem;
@@ -62,7 +66,12 @@ export default function ProductCard({ product, index = 0 }) {
       className={`product-card ${catClass} ${product.outOfStock ? 'out-of-stock' : ''}`}
       style={{ animationDelay: `${(index % 8) * 50}ms` }}
     >
-      <div className="product-image-wrap">
+      <button
+        type="button"
+        className="product-image-wrap"
+        onClick={openDetail}
+        aria-label={`Ver detalhes de ${product.name}`}
+      >
         {product.outOfStock && <div className="product-out-of-stock-banner">ESGOTADO</div>}
         {!imgError ? (
           (() => {
@@ -91,13 +100,14 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
         )}
         <div className="product-image-overlay" />
-      </div>
+      </button>
 
       <div className="product-info">
-        <div className="product-info-top">
+        <button type="button" className="product-info-top product-info-top--clickable" onClick={openDetail}>
           <h3 className="product-name">{product.name}</h3>
           {product.description && <p className="product-desc">{product.description}</p>}
-        </div>
+          <span className="product-see-more">Ver detalhes</span>
+        </button>
         <div className="product-info-bottom">
         <div className="product-divider" />
         <div className="product-pricing">
@@ -171,6 +181,9 @@ export default function ProductCard({ product, index = 0 }) {
         )}
         </div>
       </div>
+      {detailOpen && (
+        <ProductDetailModal product={product} onClose={() => setDetailOpen(false)} />
+      )}
     </div>
   );
 }

@@ -1,0 +1,308 @@
+.pdm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(29, 22, 16, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: pdmFadeIn 0.2s ease-out;
+}
+
+@keyframes pdmFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pdm-modal {
+  position: relative;
+  background: var(--cream);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(77, 43, 24, 0.35);
+  animation: pdmSlideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pdmSlideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.pdm-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.15s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pdm-close:hover { background: #fff; }
+}
+
+.pdm-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pdm-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 16px;
+}
+
+.pdm-image-fallback {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--brown);
+}
+
+.pdm-out-banner {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.5px;
+  z-index: 1;
+}
+
+.pdm-body {
+  padding: 20px 22px 16px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.pdm-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+
+.pdm-modal.cat-resfriados .pdm-category {
+  background: var(--cat-resfriados-tint);
+  color: var(--cat-resfriados);
+}
+.pdm-modal.cat-congelados .pdm-category {
+  background: var(--cat-congelados-tint);
+  color: var(--cat-congelados);
+}
+.pdm-modal.cat-secos .pdm-category {
+  background: var(--cat-secos-tint);
+  color: var(--cat-secos);
+}
+
+.pdm-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brown-dark);
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+.pdm-description {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--gray-700);
+  margin-bottom: 18px;
+  white-space: pre-wrap;
+}
+
+.pdm-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.pdm-currency {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brown-medium);
+}
+
+.pdm-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--brown-dark);
+  line-height: 1;
+}
+
+.pdm-unit {
+  font-size: 14px;
+  color: var(--gray-500);
+  margin-left: 4px;
+}
+
+.pdm-price-consulte {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.pdm-footer {
+  padding: 16px 22px 20px;
+  border-top: 1px solid var(--gray-200);
+  background: var(--parchment);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+
+.pdm-qty-row {
+  display: inline-flex;
+  align-items: center;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pdm-qty-btn {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  color: var(--brown);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pdm-qty-btn:hover { background: var(--cream-dark); }
+}
+
+.pdm-qty-input {
+  width: 54px;
+  height: 44px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brown-dark);
+  background: transparent;
+  border: none;
+  -moz-appearance: textfield;
+}
+
+.pdm-qty-input::-webkit-outer-spin-button,
+.pdm-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pdm-add-btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--orange), var(--orange-light));
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+  box-shadow: var(--shadow-warm-glow);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pdm-add-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(212, 77, 45, 0.35);
+  }
+}
+
+.pdm-add-btn.added {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.pdm-cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.pdm-in-cart-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.pdm-out-msg {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+/* Mobile: full-screen drawer estilo bottom-sheet */
+@media (max-width: 640px) {
+  .pdm-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .pdm-modal {
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation: pdmSlideUpMobile 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .pdm-image-wrap { aspect-ratio: 3 / 2; }
+  .pdm-image { padding: 12px; }
+  .pdm-name { font-size: 20px; }
+  .pdm-description { font-size: 14px; }
+  .pdm-price { font-size: 28px; }
+}
+
+@keyframes pdmSlideUpMobile {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
