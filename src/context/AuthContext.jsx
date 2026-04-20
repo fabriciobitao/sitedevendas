@@ -35,9 +35,19 @@ export function AuthProvider({ children }) {
   const loginAttempts = useRef({ count: 0, lockedUntil: 0 });
 
   useEffect(() => {
+    const todayKey = () => new Date().toISOString().slice(0, 10);
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
       if (firebaseUser) {
+        const storedDate = localStorage.getItem('authSessionDate');
+        const today = todayKey();
+        if (storedDate && storedDate !== today) {
+          localStorage.removeItem('authSessionDate');
+          await signOut(auth);
+          return;
+        }
+        localStorage.setItem('authSessionDate', today);
+        setUser(firebaseUser);
         const snap = await getDoc(doc(db, 'customers', firebaseUser.uid));
         if (snap.exists()) {
           const decrypted = await decryptSensitiveData(snap.data(), firebaseUser.uid);
@@ -46,12 +56,27 @@ export function AuthProvider({ children }) {
           setCustomerProfile(null);
         }
       } else {
+        localStorage.removeItem('authSessionDate');
+        setUser(null);
         setCustomerProfile(null);
       }
       setLoading(false);
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const now = new Date();
+    const nextMidnight = new Date(now);
+    nextMidnight.setHours(24, 0, 0, 0);
+    const msUntil = nextMidnight.getTime() - now.getTime() + 500;
+    const timer = setTimeout(async () => {
+      localStorage.removeItem('authSessionDate');
+      await signOut(auth);
+    }, msUntil);
+    return () => clearTimeout(timer);
+  }, [user]);
 
   // Login agora aceita codigo de cliente (0001) OU telefone (retrocompat)
   const login = useCallback(async (identifier, password) => {
