@@ -1,34 +1,57 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../context/ProductsContext';
 import './CatalogoPDFPage.css';
 
 const CATEGORY_ORDER = ['Secos', 'Resfriados', 'Congelados'];
+const WHATSAPP = '5535998511194';
+const SITE = 'friosof.web.app';
 
 function formatPrice(price) {
   if (price === null || price === undefined) return null;
   return `R$ ${Number(price).toFixed(2).replace('.', ',')}`;
 }
 
-function formatDate() {
-  const d = new Date();
+function formatDate(d = new Date()) {
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
+function formatMonthYear(d = new Date()) {
+  const s = d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// Resolve src da imagem: locais/base64 direto, externas via proxy (resolve CORS + hotlinking)
+function imgSrc(url) {
+  if (!url) return null;
+  if (url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('/')) return url;
+  const clean = url.replace(/^https?:\/\//, '');
+  return `https://images.weserv.nl/?url=${encodeURIComponent(clean)}&w=400&h=400&fit=contain&output=webp&q=85`;
+}
+
+// QR code via API pública (zero deps)
+function qrUrl(data, size = 180) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&margin=0&data=${encodeURIComponent(data)}&color=4D2B18&bgcolor=FFFFFF`;
+}
+
+const FleurOrnament = ({ className = '' }) => (
+  <svg className={className} viewBox="0 0 40 40" fill="currentColor" aria-hidden="true">
+    <path d="M20 4c-1 3-3 5-6 6 3 1 5 3 6 6 1-3 3-5 6-6-3-1-5-3-6-6zm0 20c-1 3-3 5-6 6 3 1 5 3 6 6 1-3 3-5 6-6-3-1-5-3-6-6zm-16-4c3-1 5-3 6-6 1 3 3 5 6 6-3 1-5 3-6 6-1-3-3-5-6-6zm20 0c3-1 5-3 6-6 1 3 3 5 6 6-3 1-5 3-6 6-1-3-3-5-6-6z" />
+  </svg>
+);
+
 export default function CatalogoPDFPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { products, loading } = useProducts();
   const tipo = searchParams.get('tipo') === 'esgotados' ? 'esgotados' : 'estoque';
+  const layout = searchParams.get('layout') === 'detalhado' ? 'detalhado' : 'compacto';
 
   const filtered = useMemo(() => {
     if (!products) return [];
-    return products.filter((p) =>
-      tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock,
-    );
+    return products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
   }, [products, tipo]);
 
-  // Agrupar: categoria > subcategoria > produtos (ordenados por `order`)
   const grouped = useMemo(() => {
     const map = {};
     filtered.forEach((p) => {
@@ -38,7 +61,6 @@ export default function CatalogoPDFPage() {
       if (!map[cat][sub]) map[cat][sub] = [];
       map[cat][sub].push(p);
     });
-    // ordenar cada bucket
     Object.keys(map).forEach((cat) => {
       Object.keys(map[cat]).forEach((sub) => {
         map[cat][sub].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -52,25 +74,33 @@ export default function CatalogoPDFPage() {
     return [...CATEGORY_ORDER.filter((c) => all.includes(c)), ...all.filter((c) => !CATEGORY_ORDER.includes(c))];
   }, [grouped]);
 
-  const total = filtered.length;
+  const totalItens = filtered.length;
+  const totalSubs = useMemo(() => {
+    return categoriasOrdenadas.reduce((acc, cat) => acc + Object.keys(grouped[cat]).length, 0);
+  }, [categoriasOrdenadas, grouped]);
+
   const titulo = tipo === 'esgotados' ? 'Produtos Esgotados' : 'Catálogo de Produtos';
-  const subtitulo = tipo === 'esgotados' ? 'Itens temporariamente indisponíveis' : 'Linha completa disponível';
+  const subtitulo = tipo === 'esgotados'
+    ? 'Itens temporariamente indisponíveis'
+    : `Edição ${formatMonthYear()}`;
 
   useEffect(() => {
     document.title = `${titulo} — Frios Ouro Fino`;
   }, [titulo]);
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = () => window.print();
+
+  const toggleLayout = () => {
+    const novo = layout === 'detalhado' ? 'compacto' : 'detalhado';
+    searchParams.set('layout', novo);
+    setSearchParams(searchParams, { replace: true });
   };
 
-  if (loading) {
-    return <div className="catpdf-loading">Carregando produtos...</div>;
-  }
+  if (loading) return <div className="catpdf-loading">Carregando produtos...</div>;
 
   return (
-    <div className={`catpdf-root ${tipo === 'esgotados' ? 'is-esgotados' : 'is-estoque'}`}>
-      {/* Toolbar — só aparece na tela, não no print */}
+    <div className={`catpdf-root ${tipo === 'esgotados' ? 'is-esgotados' : 'is-estoque'} layout-${layout}`}>
+      {/* Toolbar */}
       <div className="catpdf-toolbar no-print">
         <button className="catpdf-btn-back" onClick={() => navigate('/admin')} aria-label="Voltar">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -80,8 +110,18 @@ export default function CatalogoPDFPage() {
         </button>
         <div className="catpdf-toolbar-info">
           <span className="catpdf-toolbar-title">{titulo}</span>
-          <span className="catpdf-toolbar-count">{total} {total === 1 ? 'produto' : 'produtos'}</span>
+          <span className="catpdf-toolbar-count">{totalItens} {totalItens === 1 ? 'produto' : 'produtos'} • {categoriasOrdenadas.length} categorias</span>
         </div>
+        <button className="catpdf-btn-layout" onClick={toggleLayout} title="Alternar layout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {layout === 'detalhado' ? (
+              <><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></>
+            ) : (
+              <><rect x="3" y="3" width="18" height="7" /><rect x="3" y="14" width="18" height="7" /></>
+            )}
+          </svg>
+          {layout === 'detalhado' ? 'Compacto' : 'Detalhado'}
+        </button>
         <button className="catpdf-btn-print" onClick={handlePrint}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 6 2 18 2 18 9" />
@@ -92,104 +132,208 @@ export default function CatalogoPDFPage() {
         </button>
       </div>
 
-      {/* Documento imprimível */}
+      {/* Documento */}
       <div className="catpdf-doc">
-        {/* CAPA */}
+        {/* ====== CAPA ====== */}
         <section className="catpdf-cover">
-          <div className="catpdf-cover-ornament top">
-            <span /><span /><span />
-          </div>
-          <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-cover-logo" />
-          <div className="catpdf-cover-brand">Frios Ouro Fino</div>
-          <div className="catpdf-cover-divider" />
-          <h1 className="catpdf-cover-title">{titulo}</h1>
-          <div className="catpdf-cover-subtitle">{subtitulo}</div>
-          <div className="catpdf-cover-meta">
-            <div className="catpdf-cover-stat">
-              <span className="catpdf-cover-stat-num">{total}</span>
-              <span className="catpdf-cover-stat-label">{total === 1 ? 'item' : 'itens'}</span>
+          <div className="catpdf-cover-corner tl"><FleurOrnament /></div>
+          <div className="catpdf-cover-corner tr"><FleurOrnament /></div>
+          <div className="catpdf-cover-corner bl"><FleurOrnament /></div>
+          <div className="catpdf-cover-corner br"><FleurOrnament /></div>
+
+          <div className="catpdf-cover-top">
+            <div className="catpdf-cover-ornament">
+              <span /><span /><span /><span /><span />
             </div>
+            <div className="catpdf-cover-kicker">desde sempre · tradição · qualidade</div>
+          </div>
+
+          <div className="catpdf-cover-main">
+            <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-cover-logo" />
+            <div className="catpdf-cover-brand">Frios Ouro Fino</div>
+            <div className="catpdf-cover-divider" />
+            <h1 className="catpdf-cover-title">{titulo}</h1>
+            <div className="catpdf-cover-subtitle">{subtitulo}</div>
+          </div>
+
+          <div className="catpdf-cover-stats">
+            <div className="catpdf-cover-stat">
+              <span className="catpdf-cover-stat-num">{totalItens}</span>
+              <span className="catpdf-cover-stat-label">{totalItens === 1 ? 'item' : 'itens'}</span>
+            </div>
+            <div className="catpdf-cover-stat-divider" />
             <div className="catpdf-cover-stat">
               <span className="catpdf-cover-stat-num">{categoriasOrdenadas.length}</span>
               <span className="catpdf-cover-stat-label">{categoriasOrdenadas.length === 1 ? 'categoria' : 'categorias'}</span>
             </div>
+            <div className="catpdf-cover-stat-divider" />
+            <div className="catpdf-cover-stat">
+              <span className="catpdf-cover-stat-num">{totalSubs}</span>
+              <span className="catpdf-cover-stat-label">{totalSubs === 1 ? 'subcategoria' : 'subcategorias'}</span>
+            </div>
           </div>
-          <div className="catpdf-cover-date">{formatDate()}</div>
-          <div className="catpdf-cover-ornament bottom">
-            <span /><span /><span />
+
+          <div className="catpdf-cover-qr">
+            <img src={qrUrl(`https://${SITE}`, 200)} alt="QR code" className="catpdf-cover-qr-img" />
+            <div className="catpdf-cover-qr-text">
+              <div className="catpdf-cover-qr-label">Catálogo online</div>
+              <div className="catpdf-cover-qr-site">{SITE}</div>
+            </div>
           </div>
-          <div className="catpdf-cover-footer">friosof.web.app</div>
+
+          <div className="catpdf-cover-bottom">
+            <div className="catpdf-cover-ornament">
+              <span /><span /><span /><span /><span />
+            </div>
+            <div className="catpdf-cover-date">{formatDate()}</div>
+          </div>
         </section>
 
-        {/* PÁGINAS DE PRODUTOS */}
-        {categoriasOrdenadas.map((cat) => {
-          const subs = grouped[cat];
-          const subKeys = Object.keys(subs).sort();
-          return (
-            <section key={cat} className="catpdf-categoria">
-              <header className="catpdf-categoria-header">
-                <div className="catpdf-categoria-label">Categoria</div>
-                <h2 className="catpdf-categoria-name">{cat}</h2>
-                <div className="catpdf-categoria-count">
-                  {Object.values(subs).reduce((acc, arr) => acc + arr.length, 0)} itens
-                </div>
-              </header>
-              {subKeys.map((sub) => (
-                <div key={sub} className="catpdf-subcategoria">
-                  <h3 className="catpdf-subcategoria-name">{sub}</h3>
-                  <div className="catpdf-grid">
-                    {subs[sub].map((p) => (
-                      <article key={p.firestoreId || p.id} className={`catpdf-card ${p.outOfStock ? 'out' : ''}`}>
-                        <div className="catpdf-card-img-wrap">
-                          {p.image ? (
-                            <img
-                              src={p.image}
-                              alt={p.name}
-                              className="catpdf-card-img"
-                              crossOrigin="anonymous"
-                              onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.nextSibling.style.display = 'flex';
-                              }}
-                            />
-                          ) : null}
-                          <div className="catpdf-card-img-placeholder" style={p.image ? { display: 'none' } : {}}>
-                            {(p.name || '?').charAt(0).toUpperCase()}
-                          </div>
-                          {p.outOfStock && <div className="catpdf-card-badge">ESGOTADO</div>}
-                        </div>
-                        <div className="catpdf-card-body">
-                          <h4 className="catpdf-card-name">{p.name}</h4>
-                          <div className="catpdf-card-meta">
-                            <span className="catpdf-card-unit">{p.unit || 'un'}</span>
-                            <span className={`catpdf-card-price ${p.price === null || p.price === undefined ? 'no-price' : ''}`}>
-                              {formatPrice(p.price) || 'Consultar'}
-                            </span>
-                          </div>
-                        </div>
-                      </article>
+        {/* ====== SUMÁRIO ====== */}
+        <section className="catpdf-toc">
+          <header className="catpdf-toc-header">
+            <div className="catpdf-toc-kicker">Índice</div>
+            <h2 className="catpdf-toc-title">Categorias e subcategorias</h2>
+            <div className="catpdf-toc-rule" />
+          </header>
+          <div className="catpdf-toc-list">
+            {categoriasOrdenadas.map((cat) => {
+              const subs = grouped[cat];
+              const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+              const subKeys = Object.keys(subs).sort();
+              return (
+                <div key={cat} className="catpdf-toc-entry">
+                  <div className="catpdf-toc-entry-head">
+                    <span className="catpdf-toc-entry-name">{cat}</span>
+                    <span className="catpdf-toc-entry-dots" />
+                    <span className="catpdf-toc-entry-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+                  </div>
+                  <div className="catpdf-toc-entry-subs">
+                    {subKeys.map((sub) => (
+                      <span key={sub} className="catpdf-toc-entry-sub">
+                        {sub} <em>({subs[sub].length})</em>
+                      </span>
                     ))}
                   </div>
                 </div>
-              ))}
-            </section>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ====== PÁGINAS DE CATEGORIA ====== */}
+        {categoriasOrdenadas.map((cat) => {
+          const subs = grouped[cat];
+          const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+          const subKeys = Object.keys(subs).sort();
+          return (
+            <div key={cat} className="catpdf-section">
+              {/* Divisor fullbleed da categoria */}
+              <section className="catpdf-section-divider">
+                <div className="catpdf-section-divider-inner">
+                  <div className="catpdf-section-divider-kicker">Categoria</div>
+                  <h2 className="catpdf-section-divider-name">{cat}</h2>
+                  <div className="catpdf-section-divider-rule" />
+                  <div className="catpdf-section-divider-count">
+                    {totalCat} {totalCat === 1 ? 'item' : 'itens'} · {subKeys.length} {subKeys.length === 1 ? 'subcategoria' : 'subcategorias'}
+                  </div>
+                  <FleurOrnament className="catpdf-section-divider-fleur" />
+                </div>
+              </section>
+
+              {/* Subcategorias */}
+              <section className="catpdf-categoria">
+                {subKeys.map((sub) => (
+                  <div key={sub} className="catpdf-subcategoria">
+                    <h3 className="catpdf-subcategoria-name">
+                      <span className="catpdf-subcategoria-ornament">❧</span>
+                      {sub}
+                      <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                    </h3>
+                    <div className="catpdf-grid">
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </div>
           );
         })}
 
-        {/* Contra-capa */}
+        {/* ====== CONTRA-CAPA ====== */}
         <section className="catpdf-backcover">
+          <div className="catpdf-backcover-corner tl"><FleurOrnament /></div>
+          <div className="catpdf-backcover-corner tr"><FleurOrnament /></div>
+          <div className="catpdf-backcover-corner bl"><FleurOrnament /></div>
+          <div className="catpdf-backcover-corner br"><FleurOrnament /></div>
+
           <div className="catpdf-backcover-inner">
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-backcover-logo" />
             <div className="catpdf-backcover-brand">Frios Ouro Fino</div>
             <div className="catpdf-backcover-divider" />
-            <p className="catpdf-backcover-text">
-              Peça pelo WhatsApp ou acesse nosso catálogo online.
+            <p className="catpdf-backcover-tagline">
+              Faça seu pedido pelo WhatsApp<br />ou acesse o catálogo online
             </p>
-            <div className="catpdf-backcover-site">friosof.web.app</div>
-            <div className="catpdf-backcover-date">Documento gerado em {formatDate()}</div>
+
+            <div className="catpdf-backcover-qrs">
+              <div className="catpdf-backcover-qr-item">
+                <img src={qrUrl(`https://wa.me/${WHATSAPP}`, 200)} alt="WhatsApp" />
+                <div className="catpdf-backcover-qr-label">WhatsApp</div>
+                <div className="catpdf-backcover-qr-value">(35) 99851-1194</div>
+              </div>
+              <div className="catpdf-backcover-qr-item">
+                <img src={qrUrl(`https://${SITE}`, 200)} alt="Site" />
+                <div className="catpdf-backcover-qr-label">Catálogo online</div>
+                <div className="catpdf-backcover-qr-value">{SITE}</div>
+              </div>
+            </div>
+
+            <div className="catpdf-backcover-footer">
+              <div className="catpdf-backcover-date">Edição de {formatMonthYear()}</div>
+              <div className="catpdf-backcover-note">Preços sujeitos a alteração sem aviso prévio</div>
+            </div>
           </div>
         </section>
       </div>
     </div>
+  );
+}
+
+function ProductCard({ product: p, layout }) {
+  const [imgError, setImgError] = useState(false);
+  const src = imgSrc(p.image);
+  const price = formatPrice(p.price);
+
+  return (
+    <article className={`catpdf-card ${p.outOfStock ? 'out' : ''} layout-${layout}`}>
+      <div className="catpdf-card-img-wrap">
+        {src && !imgError ? (
+          <img
+            src={src}
+            alt={p.name}
+            className="catpdf-card-img"
+            loading="eager"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="catpdf-card-img-placeholder">
+            {(p.name || '?').charAt(0).toUpperCase()}
+          </div>
+        )}
+        {p.outOfStock && <div className="catpdf-card-badge">ESGOTADO</div>}
+      </div>
+      <div className="catpdf-card-body">
+        <h4 className="catpdf-card-name">{p.name}</h4>
+        {layout === 'detalhado' && p.description && (
+          <p className="catpdf-card-desc">{p.description}</p>
+        )}
+        <div className="catpdf-card-meta">
+          <span className="catpdf-card-unit">{p.unit || 'un'}</span>
+          <span className={`catpdf-card-price ${price ? '' : 'no-price'}`}>
+            {price || 'Consultar'}
+          </span>
+        </div>
+      </div>
+    </article>
   );
 }
