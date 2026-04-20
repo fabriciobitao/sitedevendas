@@ -168,9 +168,6 @@ export function CartProvider({ children }) {
     if (totalPrice > 0) {
       msg += `\n💰 *Total: R$ ${totalPrice.toFixed(2)}*`;
     }
-    if (hasItemsWithoutPrice) {
-      msg += `\n⚠️ Alguns itens com preço a consultar`;
-    }
     if (observations && observations.trim()) {
       msg += `\n\n📝 *Observações:* ${observations.trim()}`;
     }
