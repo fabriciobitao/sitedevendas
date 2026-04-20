@@ -13,7 +13,7 @@ function buildWebpSrcset(imagePath) {
 
 export default function ProductDetailModal({ product, onClose }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
-  const [qty, setQty] = useState('1');
+  const [qty, setQty] = useState('');
   const [added, setAdded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -61,13 +61,14 @@ export default function ProductDetailModal({ product, onClose }) {
     const n = parseInt(qty) || 1;
     addItem(product, n);
     setAdded(true);
+    setQty('');
     setTimeout(() => setAdded(false), 900);
   };
 
   const handleQtyBtn = (delta) => {
     const current = parseInt(qty) || 0;
-    const n = Math.max(1, current + delta);
-    setQty(String(n));
+    const n = Math.max(0, current + delta);
+    setQty(n > 0 ? String(n) : '');
   };
 
   const handleCartQty = (delta) => {
@@ -163,7 +164,8 @@ export default function ProductDetailModal({ product, onClose }) {
                   value={qty}
                   onChange={(e) => setQty(e.target.value.replace(/\D/g, ''))}
                   onFocus={(e) => e.target.select()}
-                  min="1"
+                  placeholder="0"
+                  min="0"
                   inputMode="numeric"
                 />
                 <button className="pdm-qty-btn" onClick={() => handleQtyBtn(1)} aria-label="Aumentar">
