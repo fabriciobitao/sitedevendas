@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import './ProductDetailModal.css';
 
@@ -19,8 +19,10 @@ export default function ProductDetailModal({ product, onClose }) {
   const cartItem = items.find((i) => i.id === product?.id);
   const inCart = !!cartItem;
 
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
+
   useEffect(() => {
-    if (!product) return;
     const scrollY = window.scrollY;
     const body = document.body;
     const prev = {
@@ -34,7 +36,7 @@ export default function ProductDetailModal({ product, onClose }) {
     body.style.top = `-${scrollY}px`;
     body.style.width = '100%';
 
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e) => { if (e.key === 'Escape') onCloseRef.current && onCloseRef.current(); };
     window.addEventListener('keydown', onKey);
 
     return () => {
@@ -45,7 +47,8 @@ export default function ProductDetailModal({ product, onClose }) {
       window.scrollTo(0, scrollY);
       window.removeEventListener('keydown', onKey);
     };
-  }, [product, onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!product) return null;
 
