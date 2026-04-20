@@ -185,24 +185,79 @@ export default function CatalogoPDFPage() {
               </div>
               <div className="catpdf-shoplist-head-hint">
                 Marque <span className="catpdf-shoplist-chk-ref" /> ao comprar<br />
-                Anote qtd. e fornecedor
+                Anote valor, qtd. e fornecedor
               </div>
             </header>
 
-            {categoriasOrdenadas.map((cat) => {
-              const subs = grouped[cat];
-              const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
-              const subKeys = Object.keys(subs).sort();
-              return (
-                <div key={cat} className="catpdf-shoplist-section">
-                  <div className="catpdf-shoplist-cat-band">
-                    <span className="catpdf-shoplist-cat-name">{cat}</span>
-                    <span className="catpdf-shoplist-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+            {/* Bloco de informações da compra — preenchimento manual */}
+            <div className="catpdf-shoplist-info-box">
+              <div className="catpdf-shoplist-info-field">
+                <span className="catpdf-shoplist-info-label">Comprador</span>
+                <span className="catpdf-shoplist-info-line" />
+              </div>
+              <div className="catpdf-shoplist-info-field">
+                <span className="catpdf-shoplist-info-label">Data da compra</span>
+                <span className="catpdf-shoplist-info-line short" />
+              </div>
+              <div className="catpdf-shoplist-info-field">
+                <span className="catpdf-shoplist-info-label">Mercado / Fornecedor principal</span>
+                <span className="catpdf-shoplist-info-line" />
+              </div>
+            </div>
+
+            {(() => {
+              let counter = 0;
+              return categoriasOrdenadas.map((cat) => {
+                const subs = grouped[cat];
+                const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+                const subKeys = Object.keys(subs).sort();
+                const startNum = counter + 1;
+                counter += totalCat;
+                return (
+                  <div key={cat} className="catpdf-shoplist-section">
+                    <div className="catpdf-shoplist-cat-band">
+                      <span className="catpdf-shoplist-cat-name">{cat}</span>
+                      <span className="catpdf-shoplist-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+                    </div>
+                    <ShoppingList subs={subs} subKeys={subKeys} startNum={startNum} />
+                    <div className="catpdf-shoplist-cat-subtotal">
+                      <span className="catpdf-shoplist-cat-subtotal-label">Subtotal {cat}</span>
+                      <span className="catpdf-shoplist-cat-subtotal-itens">Itens comprados:&nbsp;<span className="catpdf-shoplist-subtotal-line short" />&nbsp;/ {totalCat}</span>
+                      <span className="catpdf-shoplist-cat-subtotal-value">R$&nbsp;<span className="catpdf-shoplist-subtotal-line" /></span>
+                    </div>
                   </div>
-                  <ShoppingList subs={subs} subKeys={subKeys} />
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
+
+            {/* Totais e assinatura */}
+            <div className="catpdf-shoplist-totals">
+              <div className="catpdf-shoplist-totals-row">
+                <span className="catpdf-shoplist-totals-label">Total geral da compra</span>
+                <span className="catpdf-shoplist-totals-value">R$&nbsp;<span className="catpdf-shoplist-totals-line" /></span>
+              </div>
+              <div className="catpdf-shoplist-totals-row">
+                <span className="catpdf-shoplist-totals-label">Total de itens comprados</span>
+                <span className="catpdf-shoplist-totals-value">
+                  <span className="catpdf-shoplist-totals-line short" />&nbsp;/ {totalItens}
+                </span>
+              </div>
+            </div>
+
+            <div className="catpdf-shoplist-sign">
+              <div className="catpdf-shoplist-sign-field">
+                <span className="catpdf-shoplist-sign-line" />
+                <span className="catpdf-shoplist-sign-label">Assinatura do comprador</span>
+              </div>
+              <div className="catpdf-shoplist-sign-field">
+                <span className="catpdf-shoplist-sign-line short" />
+                <span className="catpdf-shoplist-sign-label">Data</span>
+              </div>
+              <div className="catpdf-shoplist-sign-field">
+                <span className="catpdf-shoplist-sign-line" />
+                <span className="catpdf-shoplist-sign-label">Conferido por</span>
+              </div>
+            </div>
 
             <footer className="catpdf-shoplist-foot">
               <span>Frios Ouro Fino Ltda. · (35) 99851-1194 · {SITE}</span>
@@ -346,7 +401,8 @@ export default function CatalogoPDFPage() {
   );
 }
 
-function ShoppingList({ subs, subKeys }) {
+function ShoppingList({ subs, subKeys, startNum = 1 }) {
+  let n = startNum;
   return (
     <div className="catpdf-shoplist">
       {subKeys.map((sub) => (
@@ -367,19 +423,25 @@ function ShoppingList({ subs, subKeys }) {
               </tr>
             </thead>
             <tbody>
-              {subs[sub].map((p, i) => (
-                <tr key={p.firestoreId || p.id}>
-                  <td className="col-chk"><span className="catpdf-shoplist-chk" /></td>
-                  <td className="col-num">{i + 1}</td>
-                  <td className="col-name">
-                    <span className="catpdf-shoplist-name">{p.name}</span>
-                    {p.description && <span className="catpdf-shoplist-desc">{p.description}</span>}
-                  </td>
-                  <td className="col-price"><span className="catpdf-shoplist-price-line" /></td>
-                  <td className="col-qty"><span className="catpdf-shoplist-qty-line" /></td>
-                  <td className="col-supplier"><span className="catpdf-shoplist-supplier-line" /></td>
-                </tr>
-              ))}
+              {subs[sub].map((p) => {
+                const num = n++;
+                return (
+                  <tr key={p.firestoreId || p.id}>
+                    <td className="col-chk"><span className="catpdf-shoplist-chk" /></td>
+                    <td className="col-num">{num}</td>
+                    <td className="col-name">
+                      <span className="catpdf-shoplist-name">
+                        {p.name}
+                        {p.unit && <span className="catpdf-shoplist-unit-badge">{String(p.unit).toUpperCase()}</span>}
+                      </span>
+                      {p.description && <span className="catpdf-shoplist-desc">{p.description}</span>}
+                    </td>
+                    <td className="col-price"><span className="catpdf-shoplist-price-line" /></td>
+                    <td className="col-qty"><span className="catpdf-shoplist-qty-line" /></td>
+                    <td className="col-supplier"><span className="catpdf-shoplist-supplier-line" /></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

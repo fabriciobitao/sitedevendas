@@ -1001,8 +1001,186 @@
 .catpdf-shoplist-supplier-line {
   display: block;
   height: 1px;
-  border-bottom: 1px solid var(--pdf-gray-300);
-  margin: 8px 4px 2px;
+  border-bottom: 1px solid var(--pdf-gray-400, #B09778);
+  margin: 10px 4px 4px;
+}
+
+/* Linhas mais altas e confortáveis para escrita à mão */
+.catpdf-shoplist-table tbody td {
+  padding: 14px 10px;
+}
+
+/* Badge de unidade (cx/kg/un) inline no nome do produto */
+.catpdf-shoplist-unit-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--pdf-brown);
+  background: var(--pdf-gold-pale);
+  border-radius: 3px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+/* Bloco de preenchimento manual — comprador/data/fornecedor */
+.catpdf-shoplist-info-box {
+  display: flex;
+  gap: 22px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1.5px solid var(--pdf-gold);
+  border-radius: 6px;
+  background: var(--pdf-linen);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-shoplist-info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.catpdf-shoplist-info-field:nth-child(2) { flex: 0 0 160px; }
+.catpdf-shoplist-info-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--pdf-brown);
+}
+.catpdf-shoplist-info-line {
+  display: block;
+  height: 1px;
+  border-bottom: 1.2px solid var(--pdf-brown);
+  margin-top: 14px;
+}
+.catpdf-shoplist-info-line.short { max-width: 140px; }
+
+/* Subtotal por categoria */
+.catpdf-shoplist-cat-subtotal {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 10px 0 26px;
+  padding: 12px 16px;
+  border-top: 2px dashed var(--pdf-red);
+  background: #FDF5F0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-shoplist-cat-subtotal-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--pdf-red-dark);
+  flex: 1;
+}
+.catpdf-shoplist-cat-subtotal-itens {
+  font-size: 12px;
+  color: var(--pdf-brown);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+.catpdf-shoplist-cat-subtotal-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pdf-brown-dark);
+  display: inline-flex;
+  align-items: center;
+  min-width: 180px;
+}
+.catpdf-shoplist-subtotal-line {
+  display: inline-block;
+  height: 1px;
+  border-bottom: 1.2px solid var(--pdf-brown);
+  min-width: 110px;
+  margin: 0 2px;
+}
+.catpdf-shoplist-subtotal-line.short { min-width: 38px; }
+
+/* Totais gerais no rodapé */
+.catpdf-shoplist-totals {
+  margin: 28px 0 16px;
+  padding: 16px 20px;
+  background: var(--pdf-brown-dark);
+  color: #fff;
+  border-radius: 4px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-shoplist-totals-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+}
+.catpdf-shoplist-totals-row + .catpdf-shoplist-totals-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.catpdf-shoplist-totals-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.catpdf-shoplist-totals-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  min-width: 220px;
+  justify-content: flex-end;
+}
+.catpdf-shoplist-totals-line {
+  display: inline-block;
+  height: 1px;
+  border-bottom: 1.5px solid #fff;
+  min-width: 160px;
+  margin-left: 4px;
+}
+.catpdf-shoplist-totals-line.short { min-width: 46px; }
+
+/* Assinatura */
+.catpdf-shoplist-sign {
+  display: flex;
+  gap: 32px;
+  margin: 28px 0 12px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-shoplist-sign-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.catpdf-shoplist-sign-field:nth-child(2) { flex: 0 0 160px; }
+.catpdf-shoplist-sign-line {
+  display: block;
+  height: 1px;
+  border-bottom: 1.2px solid var(--pdf-brown);
+  margin-bottom: 6px;
+  margin-top: 28px;
+}
+.catpdf-shoplist-sign-line.short { max-width: 140px; }
+.catpdf-shoplist-sign-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--pdf-brown);
+  text-align: center;
 }
 
 /* ==========================================================================
