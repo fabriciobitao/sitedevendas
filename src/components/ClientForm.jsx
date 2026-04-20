@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { jsPDF } from 'jspdf';
+import { validarCPF, validarCNPJ, consultarCNPJ, onlyDigits } from '../utils/docValidators';
 import './ClientForm.css';
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
@@ -120,9 +121,57 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [pdfReady, setPdfReady] = useState(null); // { blob, fileName, resumo }
   const [emailStatus, setEmailStatus] = useState('idle'); // idle|sending|sent|failed|not_configured
   const [whatsAppSent, setWhatsAppSent] = useState(false);
+  const [cpfValid, setCpfValid] = useState(null); // null|true|false
+  const [cnpjValid, setCnpjValid] = useState(null);
+  const [cnpjLookup, setCnpjLookup] = useState({ status: 'idle', situacao: '' }); // idle|loading|ok|notfound|inactive
   const isCliente = tipo === 'cliente';
   const isPessoaFisica = tipo === 'pessoa_fisica';
   const isEmpresa = tipo === 'empresa';
+
+  // Valida CPF quando completo (11 digitos)
+  useEffect(() => {
+    const d = onlyDigits(form.cpf);
+    if (d.length === 0) { setCpfValid(null); return; }
+    if (d.length === 11) setCpfValid(validarCPF(d));
+    else if (d.length === 14) setCpfValid(validarCNPJ(d)); // campo unificado no fluxo "ja sou cliente"
+    else setCpfValid(null);
+  }, [form.cpf]);
+
+  // Valida CNPJ + consulta BrasilAPI quando completo
+  useEffect(() => {
+    const d = onlyDigits(form.cnpj);
+    if (d.length === 0) { setCnpjValid(null); setCnpjLookup({ status: 'idle', situacao: '' }); return; }
+    if (d.length !== 14) { setCnpjValid(null); setCnpjLookup({ status: 'idle', situacao: '' }); return; }
+    const valid = validarCNPJ(d);
+    setCnpjValid(valid);
+    if (!valid) { setCnpjLookup({ status: 'idle', situacao: '' }); return; }
+
+    let cancelled = false;
+    setCnpjLookup({ status: 'loading', situacao: '' });
+    consultarCNPJ(d).then(info => {
+      if (cancelled) return;
+      if (!info) {
+        setCnpjLookup({ status: 'notfound', situacao: '' });
+        return;
+      }
+      const ativa = /ATIVA/i.test(info.situacao);
+      setCnpjLookup({ status: ativa ? 'ok' : 'inactive', situacao: info.situacao });
+      // Autopreenche apenas os campos vazios para nao sobrescrever edicoes do usuario
+      setForm(prev => ({
+        ...prev,
+        razaoSocial: prev.razaoSocial || info.razaoSocial,
+        nomeFantasia: prev.nomeFantasia || info.nomeFantasia || info.razaoSocial,
+        cep: prev.cep || info.cep,
+        endereco: prev.endereco || info.endereco,
+        numero: prev.numero || info.numero,
+        complemento: prev.complemento || info.complemento,
+        bairro: prev.bairro || info.bairro,
+        municipio: prev.municipio || info.municipio,
+        estado: prev.estado || info.estado,
+      }));
+    });
+    return () => { cancelled = true; };
+  }, [form.cnpj]);
 
   const getPos = (e) => {
     const canvas = canvasRef.current;
@@ -471,6 +520,34 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       return;
     }
 
+    // Validacao de documento (CPF/CNPJ)
+    if (isPessoaFisica) {
+      if (!validarCPF(form.cpf)) {
+        setError('CPF inválido. Confira os dígitos.');
+        return;
+      }
+    } else if (isEmpresa) {
+      if (!validarCNPJ(form.cnpj)) {
+        setError('CNPJ inválido. Confira os dígitos.');
+        return;
+      }
+      if (!validarCPF(form.cpf)) {
+        setError('CPF do responsável inválido. Confira os dígitos.');
+        return;
+      }
+      if (cnpjLookup.status === 'inactive') {
+        setError(`Este CNPJ consta como "${cnpjLookup.situacao}" na Receita Federal e não pode ser cadastrado.`);
+        return;
+      }
+    } else if (isCliente) {
+      const d = onlyDigits(form.cpf);
+      const okDoc = d.length === 14 ? validarCNPJ(d) : validarCPF(d);
+      if (!okDoc) {
+        setError('CPF ou CNPJ inválido. Confira os dígitos.');
+        return;
+      }
+    }
+
     // ------------------ FLUXO: Ja sou cliente (simplificado) ------------------
     if (isCliente) {
       setLoading(true);
@@ -790,7 +867,19 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                 </div>
                 <div className="cf-row">
                   <label>Telefone *<input required value={form.telefone} onChange={maskTelefone('telefone')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
-                  <label>CNPJ/CPF *<input required value={form.cpf} onChange={maskCpfCnpj} placeholder="000.000.000-00" maxLength={18} inputMode="numeric" /></label>
+                  <label>CNPJ/CPF *
+                    <input
+                      required
+                      value={form.cpf}
+                      onChange={maskCpfCnpj}
+                      placeholder="000.000.000-00"
+                      maxLength={18}
+                      inputMode="numeric"
+                      className={cpfValid === false ? 'cf-input-invalid' : cpfValid === true ? 'cf-input-valid' : ''}
+                    />
+                    {cpfValid === false && <span className="cf-field-hint cf-field-hint--error">Documento inválido</span>}
+                    {cpfValid === true && <span className="cf-field-hint cf-field-hint--ok">✓ Documento válido</span>}
+                  </label>
                 </div>
                 <div className="cf-row cf-row--full">
                   <label>Email *<input required type="email" value={form.email} onChange={set('email')} /></label>
@@ -834,7 +923,22 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                   </div>
                   <div className="cf-row">
                     <label>Nome Fantasia *<input required value={form.nomeFantasia} onChange={set('nomeFantasia')} /></label>
-                    <label>CNPJ *<input required value={form.cnpj} onChange={maskCnpj} placeholder="00.000.000/0000-00" maxLength={18} inputMode="numeric" /></label>
+                    <label>CNPJ *
+                      <input
+                        required
+                        value={form.cnpj}
+                        onChange={maskCnpj}
+                        placeholder="00.000.000/0000-00"
+                        maxLength={18}
+                        inputMode="numeric"
+                        className={cnpjValid === false ? 'cf-input-invalid' : cnpjValid === true ? 'cf-input-valid' : ''}
+                      />
+                      {cnpjValid === false && <span className="cf-field-hint cf-field-hint--error">CNPJ inválido</span>}
+                      {cnpjLookup.status === 'loading' && <span className="cf-field-hint">Consultando Receita…</span>}
+                      {cnpjLookup.status === 'ok' && <span className="cf-field-hint cf-field-hint--ok">✓ {cnpjLookup.situacao} — dados preenchidos</span>}
+                      {cnpjLookup.status === 'inactive' && <span className="cf-field-hint cf-field-hint--error">⚠️ {cnpjLookup.situacao} na Receita</span>}
+                      {cnpjLookup.status === 'notfound' && cnpjValid && <span className="cf-field-hint">CNPJ válido — não foi possível consultar a Receita agora</span>}
+                    </label>
                   </div>
                   <div className="cf-row">
                     <label>Inscrição Municipal<input value={form.inscMunicipal} onChange={set('inscMunicipal')} /></label>
@@ -849,7 +953,19 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                   <label>{isPessoaFisica ? 'Nome Completo *' : 'Nome do Responsável *'}<input required value={form.nomeResponsavel} onChange={set('nomeResponsavel')} /></label>
                 </div>
                 <div className="cf-row">
-                  <label className="cf-small">CPF *<input required value={form.cpf} onChange={maskCpf} placeholder="000.000.000-00" maxLength={14} inputMode="numeric" /></label>
+                  <label className="cf-small">CPF *
+                    <input
+                      required
+                      value={form.cpf}
+                      onChange={maskCpf}
+                      placeholder="000.000.000-00"
+                      maxLength={14}
+                      inputMode="numeric"
+                      className={cpfValid === false ? 'cf-input-invalid' : cpfValid === true ? 'cf-input-valid' : ''}
+                    />
+                    {cpfValid === false && <span className="cf-field-hint cf-field-hint--error">CPF inválido</span>}
+                    {cpfValid === true && <span className="cf-field-hint cf-field-hint--ok">✓ CPF válido</span>}
+                  </label>
                   <label className="cf-small">RG<input value={form.rg} onChange={set('rg')} /></label>
                 </div>
               </fieldset>
