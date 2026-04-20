@@ -62,7 +62,10 @@ export default function ProductDetailModal({ product, onClose }) {
     addItem(product, n);
     setAdded(true);
     setQty('');
-    setTimeout(() => setAdded(false), 900);
+    setTimeout(() => {
+      setAdded(false);
+      onCloseRef.current && onCloseRef.current();
+    }, 600);
   };
 
   const handleQtyBtn = (delta) => {
