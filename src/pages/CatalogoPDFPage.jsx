@@ -361,7 +361,7 @@ function ShoppingList({ subs, subKeys }) {
                 <th className="col-chk">✓</th>
                 <th className="col-num">#</th>
                 <th className="col-name">Produto</th>
-                <th className="col-unit">Emb.</th>
+                <th className="col-price">Valor negociado</th>
                 <th className="col-qty">Qtd.</th>
                 <th className="col-supplier">Fornecedor / Obs.</th>
               </tr>
@@ -375,7 +375,7 @@ function ShoppingList({ subs, subKeys }) {
                     <span className="catpdf-shoplist-name">{p.name}</span>
                     {p.description && <span className="catpdf-shoplist-desc">{p.description}</span>}
                   </td>
-                  <td className="col-unit">{p.unit || 'un'}</td>
+                  <td className="col-price"><span className="catpdf-shoplist-price-line" /></td>
                   <td className="col-qty"><span className="catpdf-shoplist-qty-line" /></td>
                   <td className="col-supplier"><span className="catpdf-shoplist-supplier-line" /></td>
                 </tr>

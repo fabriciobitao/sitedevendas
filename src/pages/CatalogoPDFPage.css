@@ -966,9 +966,9 @@
 .catpdf-shoplist-table .col-chk { width: 32px; text-align: center; }
 .catpdf-shoplist-table .col-num { width: 32px; text-align: center; color: var(--pdf-gray-500); font-weight: 700; font-size: 11px; }
 .catpdf-shoplist-table .col-name { width: auto; }
-.catpdf-shoplist-table .col-unit { width: 70px; text-transform: uppercase; font-size: 11px; font-weight: 600; color: var(--pdf-brown-light); letter-spacing: 1px; text-align: center; }
-.catpdf-shoplist-table .col-qty { width: 80px; text-align: center; }
-.catpdf-shoplist-table .col-supplier { width: 180px; }
+.catpdf-shoplist-table .col-price { width: 110px; text-align: center; }
+.catpdf-shoplist-table .col-qty { width: 70px; text-align: center; }
+.catpdf-shoplist-table .col-supplier { width: 160px; }
 
 .catpdf-shoplist-chk {
   display: inline-block;
@@ -997,6 +997,7 @@
 }
 
 .catpdf-shoplist-qty-line,
+.catpdf-shoplist-price-line,
 .catpdf-shoplist-supplier-line {
   display: block;
   height: 1px;
