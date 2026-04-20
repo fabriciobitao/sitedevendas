@@ -511,7 +511,14 @@
   }
 
   .filters-section {
-    top: 72px;
+    position: static;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    border-bottom: none;
   }
 
   .footer-inner {
