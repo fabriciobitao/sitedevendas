@@ -9,14 +9,12 @@ export default function SearchBar({ value, onChange }) {
 
   const handleFocus = () => {
     focusedRef.current = true;
-    startScrollYRef.current = window.scrollY;
     setTimeout(() => {
       const el = wrapRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const offset = window.scrollY + rect.top - 80;
       window.scrollTo({ top: offset, behavior: 'smooth' });
-      startScrollYRef.current = offset;
     }, 120);
   };
 
@@ -25,13 +23,30 @@ export default function SearchBar({ value, onChange }) {
   };
 
   useEffect(() => {
-    const onScroll = () => {
+    let touchStartY = 0;
+    const onTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e) => {
       if (!focusedRef.current) return;
-      if (Math.abs(window.scrollY - startScrollYRef.current) < 40) return;
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (dy < 24) return;
+      const target = e.target;
+      if (target && (target === inputRef.current || (target.closest && target.closest('.search-bar')))) return;
       inputRef.current && inputRef.current.blur();
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const onWheel = () => {
+      if (!focusedRef.current) return;
+      inputRef.current && inputRef.current.blur();
+    };
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: true });
+    return () => {
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('wheel', onWheel);
+    };
   }, []);
 
   const handleKeyDown = (e) => {
