@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 
 export default function Header({ onOpenLogin, onOpenRegister }) {
   const { totalItems, toggleCart } = useCart();
   const { user, customerProfile, loading, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Página do PDF/catálogo imprimível não deve ter header global
+  if (location.pathname.startsWith('/admin/catalogo')) return null;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
