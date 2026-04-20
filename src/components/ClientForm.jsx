@@ -95,6 +95,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState('');
   const [successCode, setSuccessCode] = useState('');
+  const [pendingWhatsApp, setPendingWhatsApp] = useState(false);
   const isCliente = tipo === 'cliente';
   const isPessoaFisica = tipo === 'pessoa_fisica';
   const isEmpresa = tipo === 'empresa';
@@ -374,7 +375,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     return doc.output('blob');
   };
 
-  const fallbackDownloadAndOpenWhatsApp = (pdfBlob, fileName) => {
+  const downloadPdfAndOpenWhatsApp = (pdfBlob, fileName, codigoCliente) => {
     try {
       const url = URL.createObjectURL(pdfBlob);
       const a = document.createElement('a');
@@ -383,15 +384,19 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
     } catch {}
     const nome = form.nomeFantasia || form.nomeResponsavel;
+    const documento = isPessoaFisica ? form.cpf : form.cnpj;
+    const docLabel = isPessoaFisica ? 'CPF' : 'CNPJ';
+    const tipoLabel = isPessoaFisica ? 'PESSOA FÍSICA' : 'EMPRESA';
     const text = encodeURIComponent(
-      `📋 *FICHA CADASTRAL*\n\n` +
+      `📋 *NOVO CADASTRO* (${tipoLabel})\n\n` +
       `*Nome:* ${nome}\n` +
-      `*CNPJ:* ${form.cnpj}\n` +
-      `*Telefone:* ${form.telefone}\n\n` +
-      `⚠️ Envio automático falhou. Anexe manualmente o PDF (${fileName}) e a foto da fachada nesta conversa.`
+      `*${docLabel}:* ${documento}\n` +
+      `*Telefone:* ${form.telefone}\n` +
+      (codigoCliente ? `*Código Cliente:* ${codigoCliente}\n` : '') +
+      `\n📎 Ficha em PDF (${fileName}) já foi baixada no seu aparelho. Toque no clipe 📎 abaixo e anexe o arquivo para finalizar o envio.`
     );
     const waUrl = `https://api.whatsapp.com/send?phone=+5535998511194&text=${text}`;
     const w = window.open(waUrl, '_blank');
@@ -522,9 +527,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setLoadingStep('Gerando PDF...');
       const pdfBlob = buildPdfBlob(photoDataUrl, photoW, photoH);
 
-      let sent = false;
+      // Backup silencioso por email (não bloqueia o fluxo do WhatsApp)
       if (WEB3FORMS_KEY) {
-        setLoadingStep('Enviando ficha por email...');
         try {
           const resumo = isPessoaFisica
             ? `Novo cadastro - PESSOA FÍSICA\n\n` +
@@ -555,12 +559,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
           fd.append('message', resumo);
           fd.append('attachment', pdfBlob, fileNamePdf);
 
-          const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-          sent = res.ok;
-        } catch (err) {
-          console.error('Falha ao enviar email:', err);
-          sent = false;
-        }
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(() => {});
+        } catch {}
       }
 
       setSuccessCode(codigoCliente);
@@ -570,9 +570,9 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       removeFachada();
       clearSignature();
 
-      if (!sent) {
-        fallbackDownloadAndOpenWhatsApp(pdfBlob, fileNamePdf);
-      }
+      // Canal principal: baixa PDF no aparelho do cliente e abre WhatsApp pronto para anexar
+      setPendingWhatsApp(true);
+      downloadPdfAndOpenWhatsApp(pdfBlob, fileNamePdf, codigoCliente);
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         setError('Este email já está cadastrado. Faça login.');
@@ -588,6 +588,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
   const closeAndReset = () => {
     setSuccessCode('');
+    setPendingWhatsApp(false);
     onClose();
   };
 
@@ -612,6 +613,12 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
             <p className="cf-success-hint">
               Guarde em local seguro. Você vai usar este código + sua senha para acessar a loja.
             </p>
+            {pendingWhatsApp && (
+              <div className="cf-success-wa">
+                <strong>Falta só finalizar no WhatsApp</strong>
+                <p>Sua ficha em PDF foi baixada no aparelho e o WhatsApp abriu automaticamente. Toque no clipe 📎, escolha o PDF recém-baixado e envie para concluir.</p>
+              </div>
+            )}
             <button type="button" className="cf-submit" onClick={closeAndReset}>
               Entendi, quero começar a comprar
             </button>
