@@ -4,30 +4,17 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
-function getDateTime() {
-  const now = new Date();
-  const date = now.toLocaleDateString('pt-BR');
-  const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  return { date, time };
-}
-
 export default function Header({ onOpenLogin, onOpenRegister }) {
   const { totalItems, toggleCart } = useCart();
   const { user, customerProfile, loading, logout } = useAuth();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const [dateTime, setDateTime] = useState(getDateTime);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => setDateTime(getDateTime()), 1000);
-    return () => clearInterval(interval);
   }, []);
 
   const displayName = customerProfile?.nomeFantasia || customerProfile?.nomeResponsavel || user?.email?.split('@')[0] || '';
@@ -41,16 +28,6 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
           </svg>
         </button>
         <div className="header-info">
-          <span className="header-datetime">
-            <svg className="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            {dateTime.date}
-            <svg className="header-icon header-clock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-            {dateTime.time}
-          </span>
           <span className="header-vendedor">Vendedor: Fabrício</span>
         </div>
 
