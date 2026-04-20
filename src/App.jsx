@@ -165,15 +165,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         <div className="filters-row">
           <CategoryFilter selected={category} onSelect={handleCategoryChange} />
         </div>
-        {category !== 'all' && (
-          <div className="filters-row">
-            <SubcategoryFilter
-              category={category}
-              selected={subcategory}
-              onSelect={(sub) => { setSubcategory(sub); scrollToProducts(); }}
-            />
-          </div>
-        )}
       </section>
 
       <div ref={productsRef} className="results-anchor" />
