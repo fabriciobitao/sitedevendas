@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -11,13 +11,19 @@ import CategoryFilter from './components/CategoryFilter';
 import SubcategoryFilter from './components/SubcategoryFilter';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
-import ClientForm from './components/ClientForm';
 import LoginModal from './components/LoginModal';
-import MeusPedidosPage from './pages/MeusPedidosPage';
-import MinhaContaPage from './pages/MinhaContaPage';
-import DashboardPage from './pages/DashboardPage';
-import AdminPage from './pages/AdminPage';
+import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
+
+const ClientForm = lazy(() => import('./components/ClientForm'));
+const MeusPedidosPage = lazy(() => import('./pages/MeusPedidosPage'));
+const MinhaContaPage = lazy(() => import('./pages/MinhaContaPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+
+const RouteFallback = () => (
+  <div style={{ textAlign: 'center', padding: '60px', color: '#8E7E6E' }}>Carregando...</div>
+);
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -224,16 +230,26 @@ function AppContent() {
       <Cart />
       <AuthGateToast onLogin={openLogin} />
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} onSwitchToRegister={openRegister} />
-      <ClientForm open={registerOpen} onClose={() => setRegisterOpen(false)} onSwitchToLogin={openLogin} initialTipo="empresa" />
-      <ClientForm open={clienteOpen} onClose={() => setClienteOpen(false)} onSwitchToLogin={openLogin} initialTipo="cliente" />
+      <Suspense fallback={null}>
+        {(registerOpen || clienteOpen) && (
+          <>
+            <ClientForm open={registerOpen} onClose={() => setRegisterOpen(false)} onSwitchToLogin={openLogin} initialTipo="empresa" />
+            <ClientForm open={clienteOpen} onClose={() => setClienteOpen(false)} onSwitchToLogin={openLogin} initialTipo="cliente" />
+          </>
+        )}
+      </Suspense>
 
-      <Routes>
-        <Route path="/" element={<CatalogPage onOpenRegister={openRegister} onOpenLogin={openLogin} onOpenCliente={openCliente} />} />
-        <Route path="/meus-pedidos" element={<ProtectedRoute><MeusPedidosPage /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
-        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-      </Routes>
+      <ErrorBoundary fallbackTitle="Página indisponível" fallbackMessage="Não conseguimos carregar esta seção. Tente voltar ao início.">
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={<CatalogPage onOpenRegister={openRegister} onOpenLogin={openLogin} onOpenCliente={openCliente} />} />
+            <Route path="/meus-pedidos" element={<ProtectedRoute><MeusPedidosPage /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
 
       <footer className="footer">
         <div className="footer-gold-line" />

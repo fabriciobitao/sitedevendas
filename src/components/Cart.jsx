@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import './Cart.css';
 
@@ -11,6 +11,7 @@ export default function Cart() {
     hasItemsWithoutPrice,
     sending,
     sent,
+    sendError,
     updateQuantity,
     removeItem,
     clearCart,
@@ -18,11 +19,33 @@ export default function Cart() {
     sendOrder,
     confirmSent,
     cancelSent,
+    clearSendError,
   } = useCart();
 
   const [step, setStep] = useState('cart');
   const [observations, setObservations] = useState('');
   const [confirmClear, setConfirmClear] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prevOverflow = body.style.overflow;
+    const prevPosition = body.style.position;
+    const prevTop = body.style.top;
+    const prevWidth = body.style.width;
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.width = '100%';
+    return () => {
+      body.style.overflow = prevOverflow;
+      body.style.position = prevPosition;
+      body.style.top = prevTop;
+      body.style.width = prevWidth;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
 
   const handleClose = () => {
     setStep('cart');
@@ -41,8 +64,9 @@ export default function Cart() {
     }
   };
 
-  const handleConfirmSend = () => {
-    sendOrder(observations);
+  const handleConfirmSend = async () => {
+    if (sending) return;
+    await sendOrder(observations);
     setStep('cart');
     setObservations('');
   };
@@ -130,10 +154,16 @@ export default function Cart() {
                 />
               </div>
 
+              {sendError && (
+                <div className="cart-send-error" role="alert">
+                  <span>⚠️ {sendError}</span>
+                  <button type="button" className="cart-send-error-dismiss" onClick={clearSendError} aria-label="Fechar">×</button>
+                </div>
+              )}
               <button
                 className="cart-whatsapp-btn"
                 onClick={handleConfirmSend}
-                disabled={sending}
+                disabled={sending || sent}
               >
                 {sending ? (
                   <>

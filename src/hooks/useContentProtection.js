@@ -120,13 +120,8 @@ export default function useContentProtection() {
 
         img {
           -webkit-touch-callout: none !important;
-          pointer-events: none !important;
           -webkit-user-drag: none !important;
           user-drag: none !important;
-        }
-
-        a img, button img {
-          pointer-events: auto !important;
         }
 
         @media print {

@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { jsPDF } from 'jspdf';
+// jsPDF carregado dinamicamente apenas quando o usuario gerar o PDF
 import { validarCPF, validarCNPJ, consultarCNPJ, onlyDigits } from '../utils/docValidators';
 import './ClientForm.css';
 
@@ -321,7 +321,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     }
   };
 
-  const buildPdfBlob = (photoDataUrl, photoW, photoH) => {
+  const buildPdfBlob = async (photoDataUrl, photoW, photoH) => {
+    const { jsPDF } = await import('jspdf');
     const doc = new jsPDF();
     const now = new Date();
     const dataHora = `${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -574,14 +575,17 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setLoading(true);
       setLoadingStep('Criando conta...');
       try {
+        const docDigits = onlyDigits(form.cpf);
+        const isCnpj = docDigits.length === 14;
         const profileData = {
           tipo: 'cliente',
           nomeResponsavel: form.nomeResponsavel,
           telefone: form.telefone,
-          cpf: form.cpf, // armazena CPF ou CNPJ no mesmo campo
-          email: form.email,
+          documentoTipo: isCnpj ? 'cnpj' : 'cpf',
+          ...(isCnpj ? { cnpj: form.cpf } : { cpf: form.cpf }),
+          email: form.email.trim().toLowerCase(),
         };
-        const { codigoCliente } = await register(form.email, password, profileData);
+        const { codigoCliente } = await register(profileData.email, password, profileData);
         setSuccessCode(codigoCliente);
         setForm(INITIAL);
         setPassword('');
@@ -678,7 +682,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       }
 
       setLoadingStep('Gerando PDF...');
-      const pdfBlob = buildPdfBlob(photoDataUrl, photoW, photoH);
+      const pdfBlob = await buildPdfBlob(photoDataUrl, photoW, photoH);
 
       const docLabel = isPessoaFisica ? 'CPF' : 'CNPJ';
       const documento = isPessoaFisica ? form.cpf : form.cnpj;

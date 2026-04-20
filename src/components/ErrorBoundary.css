@@ -1,0 +1,79 @@
+.errboundary {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.errboundary-card {
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #E8D8C0;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(77, 43, 24, 0.08);
+}
+
+.errboundary-icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.errboundary-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4D2B18;
+  margin: 0 0 8px;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.errboundary-msg {
+  font-size: 14px;
+  color: #6F5B4A;
+  line-height: 1.5;
+  margin: 0 0 24px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.errboundary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.errboundary-btn {
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  cursor: pointer;
+  background: #4D2B18;
+  color: #fff;
+  border: 1px solid #4D2B18;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.errboundary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(77, 43, 24, 0.18);
+}
+
+.errboundary-btn:active {
+  transform: translateY(0);
+}
+
+.errboundary-btn--ghost {
+  background: transparent;
+  color: #6F5B4A;
+  border: 1px solid #E8D8C0;
+}
+
+.errboundary-btn--ghost:hover {
+  background: #FDF6EE;
+}

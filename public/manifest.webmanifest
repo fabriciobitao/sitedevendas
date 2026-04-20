@@ -1,0 +1,25 @@
+{
+  "name": "Frios Ouro Fino - Catalogo",
+  "short_name": "Frios Ouro Fino",
+  "description": "Catalogo B2B de frios, congelados e secos. Peca pelo WhatsApp.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF6EE",
+  "theme_color": "#4D2B18",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

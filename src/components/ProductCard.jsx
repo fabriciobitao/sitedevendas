@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
+function buildWebpSrcset(imagePath) {
+  if (!imagePath || typeof imagePath !== 'string') return null;
+  const match = imagePath.match(/^\/images\/([^/]+)\.(png|jpe?g)$/i);
+  if (!match) return null;
+  const base = match[1];
+  return `/images/webp/${base}-400.webp 400w, /images/webp/${base}-800.webp 800w`;
+}
+
 export default function ProductCard({ product, index = 0 }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
   const [imgError, setImgError] = useState(false);
@@ -57,13 +65,26 @@ export default function ProductCard({ product, index = 0 }) {
       <div className="product-image-wrap">
         {product.outOfStock && <div className="product-out-of-stock-banner">ESGOTADO</div>}
         {!imgError ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="product-image"
-            loading="lazy"
-            onError={() => setImgError(true)}
-          />
+          (() => {
+            const webpSrcset = buildWebpSrcset(product.image);
+            const img = (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-image"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 768px) 50vw, 280px"
+                onError={() => setImgError(true)}
+              />
+            );
+            return webpSrcset ? (
+              <picture>
+                <source type="image/webp" srcSet={webpSrcset} sizes="(max-width: 768px) 50vw, 280px" />
+                {img}
+              </picture>
+            ) : img;
+          })()
         ) : (
           <div className="product-image-fallback">
             <span>{product.name.charAt(0)}</span>
