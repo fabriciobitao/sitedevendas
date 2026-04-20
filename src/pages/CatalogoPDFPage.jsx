@@ -134,6 +134,50 @@ export default function CatalogoPDFPage() {
 
       {/* Documento */}
       <div className="catpdf-doc">
+        {/* ====== MODO LISTA ENXUTA (ESGOTADOS) ====== */}
+        {tipo === 'esgotados' ? (
+          <section className="catpdf-shoplist-doc">
+            <header className="catpdf-shoplist-header">
+              <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-shoplist-logo" />
+              <div className="catpdf-shoplist-head-info">
+                <div className="catpdf-shoplist-head-brand">Frios Ouro Fino</div>
+                <h1 className="catpdf-shoplist-head-title">Lista de Compras · Produtos Esgotados</h1>
+                <div className="catpdf-shoplist-head-meta">
+                  <span><strong>{totalItens}</strong> {totalItens === 1 ? 'item a repor' : 'itens a repor'}</span>
+                  <span>·</span>
+                  <span>{categoriasOrdenadas.length} {categoriasOrdenadas.length === 1 ? 'categoria' : 'categorias'}</span>
+                  <span>·</span>
+                  <span>{formatDate()}</span>
+                </div>
+              </div>
+              <div className="catpdf-shoplist-head-hint">
+                Marque <span className="catpdf-shoplist-chk-ref" /> ao comprar<br />
+                Anote qtd. e fornecedor
+              </div>
+            </header>
+
+            {categoriasOrdenadas.map((cat) => {
+              const subs = grouped[cat];
+              const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+              const subKeys = Object.keys(subs).sort();
+              return (
+                <div key={cat} className="catpdf-shoplist-section">
+                  <div className="catpdf-shoplist-cat-band">
+                    <span className="catpdf-shoplist-cat-name">{cat}</span>
+                    <span className="catpdf-shoplist-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+                  </div>
+                  <ShoppingList subs={subs} subKeys={subKeys} />
+                </div>
+              );
+            })}
+
+            <footer className="catpdf-shoplist-foot">
+              <span>Frios Ouro Fino · (35) 99851-1194 · {SITE}</span>
+              <span>Gerado em {formatDate()}</span>
+            </footer>
+          </section>
+        ) : (
+        <>
         {/* ====== CAPA ====== */}
         <section className="catpdf-cover">
           <div className="catpdf-cover-corner tl"><FleurOrnament /></div>
@@ -243,22 +287,18 @@ export default function CatalogoPDFPage() {
 
               {/* Subcategorias */}
               <section className="catpdf-categoria">
-                {tipo === 'esgotados' ? (
-                  <ShoppingList categoria={cat} subs={subs} subKeys={subKeys} />
-                ) : (
-                  subKeys.map((sub) => (
-                    <div key={sub} className="catpdf-subcategoria">
-                      <h3 className="catpdf-subcategoria-name">
-                        <span className="catpdf-subcategoria-ornament">❧</span>
-                        {sub}
-                        <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
-                      </h3>
-                      <div className="catpdf-grid">
-                        {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
-                      </div>
+                {subKeys.map((sub) => (
+                  <div key={sub} className="catpdf-subcategoria">
+                    <h3 className="catpdf-subcategoria-name">
+                      <span className="catpdf-subcategoria-ornament">❧</span>
+                      {sub}
+                      <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                    </h3>
+                    <div className="catpdf-grid">
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
                     </div>
-                  ))
-                )}
+                  </div>
+                ))}
               </section>
             </div>
           );
@@ -298,20 +338,16 @@ export default function CatalogoPDFPage() {
             </div>
           </div>
         </section>
+        </>
+        )}
       </div>
     </div>
   );
 }
 
-function ShoppingList({ categoria, subs, subKeys }) {
+function ShoppingList({ subs, subKeys }) {
   return (
     <div className="catpdf-shoplist">
-      <div className="catpdf-shoplist-intro">
-        <div className="catpdf-shoplist-intro-title">Lista de Compras · {categoria}</div>
-        <div className="catpdf-shoplist-intro-hint">
-          Marque <span className="catpdf-shoplist-chk-ref" /> ao comprar · Anote quantidade e fornecedor
-        </div>
-      </div>
       {subKeys.map((sub) => (
         <div key={sub} className="catpdf-shoplist-group">
           <h3 className="catpdf-shoplist-group-name">

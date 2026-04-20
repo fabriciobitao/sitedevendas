@@ -773,41 +773,130 @@
 .is-esgotados .catpdf-card-price.no-price { color: var(--pdf-gray-500); }
 
 /* ==========================================================================
-   LISTA DE COMPRAS (esgotados)
+   LISTA DE COMPRAS (esgotados) — modo enxuto
    ========================================================================== */
+
+.catpdf-shoplist-doc {
+  padding: 16mm 12mm;
+  background: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.catpdf-shoplist-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--pdf-brown);
+  margin-bottom: 22px;
+}
+.catpdf-shoplist-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--pdf-gold);
+  flex-shrink: 0;
+}
+.catpdf-shoplist-head-info {
+  flex: 1;
+  min-width: 0;
+}
+.catpdf-shoplist-head-brand {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pdf-brown-light);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.catpdf-shoplist-head-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--pdf-red-dark);
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+  margin: 0 0 6px;
+}
+.catpdf-shoplist-head-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--pdf-gray-500);
+  font-style: italic;
+}
+.catpdf-shoplist-head-meta strong {
+  color: var(--pdf-brown-dark);
+  font-weight: 700;
+  font-style: normal;
+  font-size: 14px;
+}
+.catpdf-shoplist-head-hint {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 1.5px dashed var(--pdf-red);
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--pdf-red-dark);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.catpdf-shoplist-section {
+  margin-bottom: 20px;
+}
+
+.catpdf-shoplist-cat-band {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--pdf-brown-dark);
+  color: #fff;
+  margin-bottom: 12px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+.catpdf-shoplist-cat-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.catpdf-shoplist-cat-count {
+  font-size: 12px;
+  opacity: 0.85;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+.catpdf-shoplist-foot {
+  margin-top: 24px;
+  padding-top: 10px;
+  border-top: 1px solid var(--pdf-gray-200);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--pdf-gray-500);
+  letter-spacing: 0.5px;
+}
 
 .catpdf-shoplist {
   font-family: 'DM Sans', sans-serif;
 }
 
-.catpdf-shoplist-intro {
-  margin-bottom: 18px;
-  padding: 12px 16px;
-  border: 1.5px dashed var(--pdf-red);
-  border-radius: 4px;
-  background: #fff;
-}
-.catpdf-shoplist-intro-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--pdf-red-dark);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-.catpdf-shoplist-intro-hint {
-  font-size: 12px;
-  color: var(--pdf-gray-500);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-style: italic;
-}
 .catpdf-shoplist-chk-ref {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 1.5px solid var(--pdf-brown);
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--pdf-red);
   vertical-align: middle;
   margin: 0 2px;
   border-radius: 2px;
@@ -824,13 +913,15 @@
   align-items: baseline;
   gap: 12px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--pdf-brown-dark);
-  margin: 0 0 10px;
-  padding: 8px 0 6px;
-  border-bottom: 2px solid var(--pdf-brown);
-  letter-spacing: -0.3px;
+  margin: 0 0 8px;
+  padding: 6px 10px;
+  background: var(--pdf-parchment);
+  border-left: 4px solid var(--pdf-red);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   page-break-after: avoid;
   break-after: avoid;
 }
