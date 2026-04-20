@@ -1,17 +1,44 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import './SearchBar.css';
 
 export default function SearchBar({ value, onChange }) {
   const wrapRef = useRef(null);
+  const inputRef = useRef(null);
+  const focusedRef = useRef(false);
+  const startScrollYRef = useRef(0);
 
   const handleFocus = () => {
+    focusedRef.current = true;
+    startScrollYRef.current = window.scrollY;
     setTimeout(() => {
       const el = wrapRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const offset = window.scrollY + rect.top - 80;
       window.scrollTo({ top: offset, behavior: 'smooth' });
+      startScrollYRef.current = offset;
     }, 120);
+  };
+
+  const handleBlur = () => {
+    focusedRef.current = false;
+  };
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!focusedRef.current) return;
+      if (Math.abs(window.scrollY - startScrollYRef.current) < 40) return;
+      inputRef.current && inputRef.current.blur();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      inputRef.current && inputRef.current.blur();
+    }
   };
 
   return (
@@ -21,11 +48,14 @@ export default function SearchBar({ value, onChange }) {
         <path d="m21 21-4.3-4.3"/>
       </svg>
       <input
+        ref={inputRef}
         type="search"
         placeholder="Buscar produtos..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
         className="search-input"
         enterKeyHint="search"
         autoCapitalize="off"
