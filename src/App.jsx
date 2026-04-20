@@ -59,13 +59,19 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     scrollToProducts();
   };
 
-  const searchTerm = search.trim().toLowerCase();
+  const normalize = (s) => (s || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
+  const searchTerm = normalize(search.trim());
   const isSearching = searchTerm.length > 0;
 
   const scoreMatch = (p, term) => {
-    const name = (p.name || '').toLowerCase();
-    const sub = (p.subcategory || '').toLowerCase();
-    const desc = (p.description || '').toLowerCase();
+    const name = normalize(p.name);
+    const sub = normalize(p.subcategory);
+    const desc = normalize(p.description);
     if (name.startsWith(term)) return 4;
     const words = name.split(/\s+/);
     if (words.some(w => w.startsWith(term))) return 3;
