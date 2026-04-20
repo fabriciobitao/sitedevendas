@@ -233,38 +233,6 @@ export default function CatalogoPDFPage() {
           </div>
         </section>
 
-        {/* ====== SUMÁRIO ====== */}
-        <section className="catpdf-toc">
-          <header className="catpdf-toc-header">
-            <div className="catpdf-toc-kicker">Índice</div>
-            <h2 className="catpdf-toc-title">Categorias e subcategorias</h2>
-            <div className="catpdf-toc-rule" />
-          </header>
-          <div className="catpdf-toc-list">
-            {categoriasOrdenadas.map((cat) => {
-              const subs = grouped[cat];
-              const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
-              const subKeys = Object.keys(subs).sort();
-              return (
-                <div key={cat} className="catpdf-toc-entry">
-                  <div className="catpdf-toc-entry-head">
-                    <span className="catpdf-toc-entry-name">{cat}</span>
-                    <span className="catpdf-toc-entry-dots" />
-                    <span className="catpdf-toc-entry-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
-                  </div>
-                  <div className="catpdf-toc-entry-subs">
-                    {subKeys.map((sub) => (
-                      <span key={sub} className="catpdf-toc-entry-sub">
-                        {sub} <em>({subs[sub].length})</em>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
         {/* ====== PÁGINAS DE CATEGORIA ====== */}
         {categoriasOrdenadas.map((cat) => {
           const subs = grouped[cat];
