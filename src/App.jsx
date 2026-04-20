@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { categories } from './data/products';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
@@ -274,6 +274,8 @@ function AuthGateToast({ onLogin }) {
 
 function AppContent() {
   useContentProtection();
+  const location = useLocation();
+  const isCatalogoPDF = location.pathname.startsWith('/admin/catalogo');
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [clienteOpen, setClienteOpen] = useState(false);
@@ -310,6 +312,7 @@ function AppContent() {
         </Suspense>
       </ErrorBoundary>
 
+      {!isCatalogoPDF && (
       <footer className="footer">
         <div className="footer-gold-line" />
         <div className="footer-inner">
@@ -329,6 +332,7 @@ function AppContent() {
           </div>
         </div>
       </footer>
+      )}
     </>
   );
 }
