@@ -243,18 +243,22 @@ export default function CatalogoPDFPage() {
 
               {/* Subcategorias */}
               <section className="catpdf-categoria">
-                {subKeys.map((sub) => (
-                  <div key={sub} className="catpdf-subcategoria">
-                    <h3 className="catpdf-subcategoria-name">
-                      <span className="catpdf-subcategoria-ornament">❧</span>
-                      {sub}
-                      <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
-                    </h3>
-                    <div className="catpdf-grid">
-                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                {tipo === 'esgotados' ? (
+                  <ShoppingList categoria={cat} subs={subs} subKeys={subKeys} />
+                ) : (
+                  subKeys.map((sub) => (
+                    <div key={sub} className="catpdf-subcategoria">
+                      <h3 className="catpdf-subcategoria-name">
+                        <span className="catpdf-subcategoria-ornament">❧</span>
+                        {sub}
+                        <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                      </h3>
+                      <div className="catpdf-grid">
+                        {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </section>
             </div>
           );
@@ -295,6 +299,54 @@ export default function CatalogoPDFPage() {
           </div>
         </section>
       </div>
+    </div>
+  );
+}
+
+function ShoppingList({ categoria, subs, subKeys }) {
+  return (
+    <div className="catpdf-shoplist">
+      <div className="catpdf-shoplist-intro">
+        <div className="catpdf-shoplist-intro-title">Lista de Compras · {categoria}</div>
+        <div className="catpdf-shoplist-intro-hint">
+          Marque <span className="catpdf-shoplist-chk-ref" /> ao comprar · Anote quantidade e fornecedor
+        </div>
+      </div>
+      {subKeys.map((sub) => (
+        <div key={sub} className="catpdf-shoplist-group">
+          <h3 className="catpdf-shoplist-group-name">
+            {sub}
+            <span className="catpdf-shoplist-group-count">{subs[sub].length} {subs[sub].length === 1 ? 'item' : 'itens'}</span>
+          </h3>
+          <table className="catpdf-shoplist-table">
+            <thead>
+              <tr>
+                <th className="col-chk">✓</th>
+                <th className="col-num">#</th>
+                <th className="col-name">Produto</th>
+                <th className="col-unit">Emb.</th>
+                <th className="col-qty">Qtd.</th>
+                <th className="col-supplier">Fornecedor / Obs.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subs[sub].map((p, i) => (
+                <tr key={p.firestoreId || p.id}>
+                  <td className="col-chk"><span className="catpdf-shoplist-chk" /></td>
+                  <td className="col-num">{i + 1}</td>
+                  <td className="col-name">
+                    <span className="catpdf-shoplist-name">{p.name}</span>
+                    {p.description && <span className="catpdf-shoplist-desc">{p.description}</span>}
+                  </td>
+                  <td className="col-unit">{p.unit || 'un'}</td>
+                  <td className="col-qty"><span className="catpdf-shoplist-qty-line" /></td>
+                  <td className="col-supplier"><span className="catpdf-shoplist-supplier-line" /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   );
 }

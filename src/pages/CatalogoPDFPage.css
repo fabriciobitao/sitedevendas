@@ -130,13 +130,11 @@
   counter-reset: page;
 }
 
-/* Textura de linho — pseudo pattern SVG inline */
+/* Capa, contra-capa e divisor: fundo branco (economiza tinta) */
 .catpdf-cover,
 .catpdf-backcover,
 .catpdf-section-divider {
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.30 0 0 0 0 0.17 0 0 0 0 0.09 0 0 0 0.035 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-    linear-gradient(180deg, var(--pdf-linen) 0%, var(--pdf-parchment) 100%);
+  background: #fff;
 }
 
 /* ==========================================================================
@@ -208,7 +206,7 @@
 }
 
 .catpdf-cover-kicker {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--pdf-gray-500);
@@ -236,7 +234,7 @@
 
 .catpdf-cover-brand {
   font-family: 'Plus Jakarta Sans', serif;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--pdf-brown);
   letter-spacing: 3px;
@@ -265,17 +263,17 @@
 
 .catpdf-cover-title {
   font-family: 'Plus Jakarta Sans', serif;
-  font-size: 52px;
+  font-size: 64px;
   font-weight: 800;
   color: var(--pdf-brown-dark);
   line-height: 1;
-  letter-spacing: -1px;
-  margin: 0 0 14px;
+  letter-spacing: -1.5px;
+  margin: 0 0 18px;
 }
 .is-esgotados .catpdf-cover-title { color: var(--pdf-red); }
 
 .catpdf-cover-subtitle {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--pdf-brown-light);
   font-style: italic;
   letter-spacing: 1px;
@@ -285,13 +283,12 @@
 .catpdf-cover-stats {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
   position: relative;
   z-index: 1;
-  padding: 20px 32px;
-  background: rgba(255, 255, 255, 0.5);
-  border-top: 1px solid rgba(201, 162, 39, 0.4);
-  border-bottom: 1px solid rgba(201, 162, 39, 0.4);
+  padding: 24px 36px;
+  border-top: 1px solid rgba(201, 162, 39, 0.5);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.5);
 }
 .catpdf-cover-stat {
   display: flex;
@@ -300,7 +297,7 @@
 }
 .catpdf-cover-stat-num {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 40px;
+  font-size: 52px;
   font-weight: 800;
   color: var(--pdf-brown);
   line-height: 1;
@@ -308,11 +305,11 @@
 .is-esgotados .catpdf-cover-stat-num { color: var(--pdf-red); }
 
 .catpdf-cover-stat-label {
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   color: var(--pdf-gray-500);
-  margin-top: 6px;
+  margin-top: 8px;
   font-weight: 600;
 }
 .catpdf-cover-stat-divider {
@@ -334,26 +331,26 @@
   z-index: 1;
   box-shadow: 0 2px 8px rgba(77, 43, 24, 0.08);
 }
-.catpdf-cover-qr-img { width: 72px; height: 72px; }
+.catpdf-cover-qr-img { width: 90px; height: 90px; }
 .catpdf-cover-qr-text { text-align: left; }
 .catpdf-cover-qr-label {
-  font-size: 9px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   color: var(--pdf-gray-500);
   font-weight: 600;
 }
 .catpdf-cover-qr-site {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--pdf-brown);
   letter-spacing: 0.5px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .catpdf-cover-date {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--pdf-brown-light);
   letter-spacing: 1.5px;
   text-transform: lowercase;
@@ -374,19 +371,19 @@
 
 .catpdf-toc-header { margin-bottom: 40px; }
 .catpdf-toc-kicker {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--pdf-gold);
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .catpdf-toc-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 42px;
+  font-size: 52px;
   font-weight: 800;
   color: var(--pdf-brown-dark);
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   letter-spacing: -0.5px;
   line-height: 1.05;
 }
@@ -399,50 +396,50 @@
 .catpdf-toc-list {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
 }
 
 .catpdf-toc-entry {
-  padding: 16px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--pdf-gray-200);
 }
 .catpdf-toc-entry-head {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .catpdf-toc-entry-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--pdf-brown);
   letter-spacing: -0.3px;
 }
 .catpdf-toc-entry-dots {
   flex: 1;
-  border-bottom: 1px dotted var(--pdf-gray-300);
-  margin: 0 4px 4px;
+  border-bottom: 1.5px dotted var(--pdf-gray-300);
+  margin: 0 6px 6px;
 }
 .catpdf-toc-entry-count {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--pdf-gray-500);
   font-style: italic;
 }
 .catpdf-toc-entry-subs {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 18px;
+  gap: 6px 22px;
   padding-left: 2px;
 }
 .catpdf-toc-entry-sub {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--pdf-brown-light);
 }
 .catpdf-toc-entry-sub em {
   color: var(--pdf-gray-500);
   font-style: normal;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 /* ==========================================================================
@@ -458,32 +455,21 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  color: #fff;
-}
-
-.is-estoque .catpdf-section-divider {
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-    linear-gradient(135deg, var(--pdf-brown-dark) 0%, var(--pdf-brown) 60%, var(--pdf-brown-light) 100%);
-}
-.is-esgotados .catpdf-section-divider {
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-    linear-gradient(135deg, #6B1919 0%, var(--pdf-red) 60%, #D84545 100%);
+  color: var(--pdf-brown-dark);
 }
 
 .catpdf-section-divider::before {
   content: '';
   position: absolute;
   inset: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1.5px solid var(--pdf-gold);
   pointer-events: none;
 }
 .catpdf-section-divider::after {
   content: '';
   position: absolute;
   inset: 30px;
-  border: 0.5px solid var(--pdf-gold);
+  border: 0.5px solid rgba(201, 162, 39, 0.4);
   pointer-events: none;
 }
 
@@ -494,29 +480,30 @@
 }
 
 .catpdf-section-divider-kicker {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 6px;
   text-transform: uppercase;
   color: var(--pdf-gold);
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .catpdf-section-divider-name {
   font-family: 'Plus Jakarta Sans', serif;
-  font-size: 88px;
+  font-size: 104px;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -2px;
-  margin: 0 0 32px;
-  color: #fff;
+  letter-spacing: -2.5px;
+  margin: 0 0 36px;
+  color: var(--pdf-brown-dark);
 }
+.is-esgotados .catpdf-section-divider-name { color: var(--pdf-red-dark); }
 
 .catpdf-section-divider-rule {
   width: 80px;
   height: 2px;
   background: var(--pdf-gold);
-  margin: 0 auto 24px;
+  margin: 0 auto 28px;
   position: relative;
 }
 .catpdf-section-divider-rule::before,
@@ -533,17 +520,17 @@
 .catpdf-section-divider-rule::after { right: -12px; }
 
 .catpdf-section-divider-count {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  color: var(--pdf-brown-light);
   letter-spacing: 2px;
   text-transform: lowercase;
   font-style: italic;
 }
 
 .catpdf-section-divider-fleur {
-  width: 32px;
-  height: 32px;
-  margin: 32px auto 0;
+  width: 40px;
+  height: 40px;
+  margin: 36px auto 0;
   color: var(--pdf-gold);
   display: block;
 }
@@ -564,41 +551,40 @@
 .catpdf-subcategoria-name {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--pdf-brown);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin: 0 0 14px;
-  padding: 10px 14px;
-  background: linear-gradient(90deg, var(--pdf-parchment) 0%, rgba(245, 235, 217, 0.3) 60%, transparent 100%);
+  margin: 0 0 16px;
+  padding: 12px 16px;
   border-left: 4px solid var(--pdf-gold);
+  border-bottom: 1px solid var(--pdf-gray-200);
   page-break-after: avoid;
   break-after: avoid;
 }
 
 .is-esgotados .catpdf-subcategoria-name {
-  background: linear-gradient(90deg, #FDF0F0 0%, rgba(253, 240, 240, 0.3) 60%, transparent 100%);
   border-left-color: var(--pdf-red);
   color: var(--pdf-red-dark);
 }
 
 .catpdf-subcategoria-ornament {
   color: var(--pdf-gold);
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1;
 }
 .is-esgotados .catpdf-subcategoria-ornament { color: var(--pdf-red); }
 
 .catpdf-subcategoria-count {
   margin-left: auto;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--pdf-gray-500);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
-  padding: 3px 10px;
+  padding: 4px 12px;
   background: #fff;
   border: 1px solid var(--pdf-gray-200);
   border-radius: 20px;
@@ -717,7 +703,7 @@
 
 .catpdf-card-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--pdf-ink);
   line-height: 1.3;
@@ -731,15 +717,15 @@
 }
 
 .catpdf-card.layout-detalhado .catpdf-card-name {
-  font-size: 13px;
+  font-size: 15px;
   min-height: unset;
   -webkit-line-clamp: 2;
 }
 
 .catpdf-card-desc {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--pdf-brown-light);
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -754,30 +740,30 @@
   justify-content: space-between;
   gap: 6px;
   margin-top: auto;
-  padding-top: 6px;
+  padding-top: 8px;
   border-top: 1px solid var(--pdf-gray-200);
 }
 
 .catpdf-card-unit {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--pdf-gray-500);
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  font-weight: 600;
-  padding: 2px 6px;
+  font-weight: 700;
+  padding: 3px 8px;
   background: var(--pdf-gray-100);
   border-radius: 3px;
 }
 
 .catpdf-card-price {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--pdf-brown);
   letter-spacing: -0.3px;
 }
 .catpdf-card-price.no-price {
-  font-size: 10px;
+  font-size: 12px;
   font-style: italic;
   font-weight: 600;
   color: var(--pdf-gold);
@@ -785,6 +771,150 @@
 }
 .is-esgotados .catpdf-card-price { color: var(--pdf-red-dark); }
 .is-esgotados .catpdf-card-price.no-price { color: var(--pdf-gray-500); }
+
+/* ==========================================================================
+   LISTA DE COMPRAS (esgotados)
+   ========================================================================== */
+
+.catpdf-shoplist {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.catpdf-shoplist-intro {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border: 1.5px dashed var(--pdf-red);
+  border-radius: 4px;
+  background: #fff;
+}
+.catpdf-shoplist-intro-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pdf-red-dark);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.catpdf-shoplist-intro-hint {
+  font-size: 12px;
+  color: var(--pdf-gray-500);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: italic;
+}
+.catpdf-shoplist-chk-ref {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--pdf-brown);
+  vertical-align: middle;
+  margin: 0 2px;
+  border-radius: 2px;
+}
+
+.catpdf-shoplist-group {
+  margin-bottom: 22px;
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+.catpdf-shoplist-group-name {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--pdf-brown-dark);
+  margin: 0 0 10px;
+  padding: 8px 0 6px;
+  border-bottom: 2px solid var(--pdf-brown);
+  letter-spacing: -0.3px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+.catpdf-shoplist-group-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--pdf-gray-500);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+.catpdf-shoplist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: #fff;
+}
+
+.catpdf-shoplist-table thead th {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--pdf-brown);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1.5px solid var(--pdf-brown);
+  background: var(--pdf-parchment);
+}
+
+.catpdf-shoplist-table tbody tr {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-shoplist-table tbody tr:nth-child(even) { background: #FAF7F2; }
+
+.catpdf-shoplist-table tbody td {
+  padding: 10px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--pdf-gray-200);
+}
+
+.catpdf-shoplist-table .col-chk { width: 32px; text-align: center; }
+.catpdf-shoplist-table .col-num { width: 32px; text-align: center; color: var(--pdf-gray-500); font-weight: 700; font-size: 11px; }
+.catpdf-shoplist-table .col-name { width: auto; }
+.catpdf-shoplist-table .col-unit { width: 70px; text-transform: uppercase; font-size: 11px; font-weight: 600; color: var(--pdf-brown-light); letter-spacing: 1px; text-align: center; }
+.catpdf-shoplist-table .col-qty { width: 80px; text-align: center; }
+.catpdf-shoplist-table .col-supplier { width: 180px; }
+
+.catpdf-shoplist-chk {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--pdf-brown);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.catpdf-shoplist-name {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pdf-ink);
+  line-height: 1.3;
+}
+.catpdf-shoplist-desc {
+  display: block;
+  font-size: 11px;
+  color: var(--pdf-gray-500);
+  font-style: italic;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.catpdf-shoplist-qty-line,
+.catpdf-shoplist-supplier-line {
+  display: block;
+  height: 1px;
+  border-bottom: 1px solid var(--pdf-gray-300);
+  margin: 8px 4px 2px;
+}
 
 /* ==========================================================================
    CONTRA-CAPA
@@ -847,7 +977,7 @@
 
 .catpdf-backcover-brand {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--pdf-brown);
   text-transform: uppercase;
@@ -875,9 +1005,9 @@
 .catpdf-backcover-divider::after { right: -12px; }
 
 .catpdf-backcover-tagline {
-  font-size: 16px;
+  font-size: 20px;
   color: var(--pdf-brown-light);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0 0 36px;
   font-style: italic;
 }
@@ -902,19 +1032,19 @@
   box-shadow: 0 2px 8px rgba(77, 43, 24, 0.1);
 }
 .catpdf-backcover-qr-label {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--pdf-gray-500);
   font-weight: 700;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 .catpdf-backcover-qr-value {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--pdf-brown);
-  margin-top: 4px;
+  margin-top: 6px;
   letter-spacing: 0.3px;
 }
 
