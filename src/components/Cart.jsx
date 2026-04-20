@@ -135,10 +135,12 @@ export default function Cart() {
             </div>
 
             <div className="cart-confirm-footer">
-              <div className="cart-total">
-                <span>Total</span>
-                <strong>R$ {totalPrice.toFixed(2)}</strong>
-              </div>
+              {totalPrice > 0 && (
+                <div className="cart-total">
+                  <span>Total</span>
+                  <strong>R$ {totalPrice.toFixed(2)}</strong>
+                </div>
+              )}
               {hasItemsWithoutPrice && (
                 <p className="cart-price-note">* Alguns itens com preço a consultar</p>
               )}
@@ -218,10 +220,12 @@ export default function Cart() {
             </div>
 
             <div className="cart-footer">
-              <div className="cart-total">
-                <span>Total</span>
-                <strong>R$ {totalPrice.toFixed(2)}</strong>
-              </div>
+              {totalPrice > 0 && (
+                <div className="cart-total">
+                  <span>Total</span>
+                  <strong>R$ {totalPrice.toFixed(2)}</strong>
+                </div>
+              )}
               {hasItemsWithoutPrice && (
                 <p className="cart-price-note">* Alguns itens com preço a consultar</p>
               )}
