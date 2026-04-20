@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 // jsPDF carregado dinamicamente apenas quando o usuario gerar o PDF
-import { validarCPF, validarCNPJ, consultarCNPJ, onlyDigits } from '../utils/docValidators';
+import { validarCPF, validarCNPJ, consultarCNPJ, onlyDigits, validarEmail, validarTelefone } from '../utils/docValidators';
 import './ClientForm.css';
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
@@ -526,6 +526,38 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     if (password !== confirmPassword) {
       setError('As senhas não conferem.');
       return;
+    }
+
+    // Validacao de email e telefone (todos os fluxos)
+    if (!validarEmail(form.email)) {
+      setError('Email inválido. Use um formato como nome@exemplo.com.');
+      return;
+    }
+    if (!validarTelefone(form.telefone)) {
+      setError('Telefone inválido. Use (DDD) + número com 10 ou 11 dígitos.');
+      return;
+    }
+    // Campos adicionais apenas no fluxo de cadastro completo (empresa)
+    if (isEmpresa) {
+      if (form.emailFinanceiro && !validarEmail(form.emailFinanceiro)) {
+        setError('Email do financeiro inválido.');
+        return;
+      }
+      if (form.telefoneFinanceiro && !validarTelefone(form.telefoneFinanceiro)) {
+        setError('Telefone do financeiro inválido.');
+        return;
+      }
+      const refs = [
+        ['Ref. 1', form.ref1Telefone],
+        ['Ref. 2', form.ref2Telefone],
+        ['Ref. 3', form.ref3Telefone],
+      ];
+      for (const [label, tel] of refs) {
+        if (tel && !validarTelefone(tel)) {
+          setError(`Telefone da ${label} inválido.`);
+          return;
+        }
+      }
     }
 
     // Validacao de documento (CPF/CNPJ)

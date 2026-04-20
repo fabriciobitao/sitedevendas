@@ -20,6 +20,31 @@ export function validarCPF(input) {
   return d2 === parseInt(cpf[10], 10);
 }
 
+export function validarEmail(input) {
+  const v = (input || '').trim().toLowerCase();
+  if (!v || v.length > 254) return false;
+  // RFC-ish: local@dominio.tld (aceita + . _ -), com TLD de 2+ letras
+  const re = /^[a-z0-9._%+-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i;
+  if (!re.test(v)) return false;
+  // Nao aceita pontos consecutivos ou pontos no inicio/fim do local
+  const [local] = v.split('@');
+  if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return false;
+  return true;
+}
+
+// Valida telefone brasileiro: 10 digitos (fixo) ou 11 (celular com 9).
+// DDD valido: 11 a 99. Rejeita sequencias iguais e DDD 00/01..10.
+export function validarTelefone(input) {
+  const d = onlyDigits(input);
+  if (d.length !== 10 && d.length !== 11) return false;
+  if (/^(\d)\1+$/.test(d)) return false;
+  const ddd = parseInt(d.slice(0, 2), 10);
+  if (ddd < 11 || ddd > 99) return false;
+  // Celular (11 digitos) precisa comecar com 9 no terceiro digito
+  if (d.length === 11 && d[2] !== '9') return false;
+  return true;
+}
+
 export function validarCNPJ(input) {
   const cnpj = onlyDigits(input);
   if (cnpj.length !== 14) return false;
