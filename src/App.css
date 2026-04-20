@@ -254,6 +254,13 @@
   }
 }
 
+/* Modo busca ativa: esconde hero e auth-buttons para liberar espaco */
+.main--searching .hero,
+.main--searching .section-divider,
+.main--searching .auth-buttons-bar {
+  display: none;
+}
+
 /* ==================== FILTERS ==================== */
 .filters-section {
   display: flex;

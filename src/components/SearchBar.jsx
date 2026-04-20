@@ -1,8 +1,21 @@
+import { useRef } from 'react';
 import './SearchBar.css';
 
 export default function SearchBar({ value, onChange }) {
+  const wrapRef = useRef(null);
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      const el = wrapRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const offset = window.scrollY + rect.top - 80;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }, 120);
+  };
+
   return (
-    <div className="search-bar">
+    <div className="search-bar" ref={wrapRef}>
       <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.3-4.3"/>
@@ -12,6 +25,7 @@ export default function SearchBar({ value, onChange }) {
         placeholder="Buscar produtos..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={handleFocus}
         className="search-input"
         enterKeyHint="search"
         autoCapitalize="off"

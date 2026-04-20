@@ -98,7 +98,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
   return (
-    <main className="main">
+    <main className={`main ${isSearching ? 'main--searching' : ''}`}>
       <section className="hero">
         <div className="hero-bg-pattern" />
         <div className="hero-content">
