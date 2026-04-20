@@ -30,7 +30,7 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
         <div className="header-info">
           <span className="header-vendedor">Vendedor: Fabrício</span>
           <span className="header-alert-text" role="alert">
-            Pedidos de hoje se encerram às 16:00. Mande o quanto antes para verificarmos a disponibilidade de estoque!
+            Horário limite de envio de pedido até as 16:00!
           </span>
         </div>
 
