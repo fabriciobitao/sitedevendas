@@ -282,6 +282,19 @@
   color: #dc2626;
 }
 
+/* Desktop: imagem menor e sem recorte para dar espaço ao conteúdo */
+@media (min-width: 641px) {
+  .pdm-image-wrap {
+    aspect-ratio: unset;
+    height: 320px;
+    background: #fff;
+  }
+  .pdm-image {
+    object-fit: contain;
+    padding: 14px;
+  }
+}
+
 /* Mobile: full-screen drawer estilo bottom-sheet */
 @media (max-width: 640px) {
   .pdm-overlay {
