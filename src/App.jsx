@@ -89,7 +89,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
           <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
           <p className="hero-tagline">Qualidade nas entregas e atendimento rápido!</p>
           <p className="hero-desc">
-            Monte seu pedido com os melhores produtos e finalize seu pedido no carrinho de compras, ele será enviado para o WhatsApp!
+            Monte seu pedido com os melhores produtos e finalize no carrinho de compras, ele será enviado pelo WhatsApp!
           </p>
         </div>
       </section>
