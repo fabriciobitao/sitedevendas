@@ -21,6 +21,7 @@ const MeusPedidosPage = lazy(() => import('./pages/MeusPedidosPage'));
 const MinhaContaPage = lazy(() => import('./pages/MinhaContaPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
+const CatalogoPDFPage = lazy(() => import('./pages/CatalogoPDFPage'));
 
 const RouteFallback = () => (
   <div style={{ textAlign: 'center', padding: '60px', color: '#8E7E6E' }}>Carregando...</div>
@@ -304,6 +305,7 @@ function AppContent() {
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
             <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+            <Route path="/admin/catalogo" element={<AdminRoute><CatalogoPDFPage /></AdminRoute>} />
           </Routes>
         </Suspense>
       </ErrorBoundary>

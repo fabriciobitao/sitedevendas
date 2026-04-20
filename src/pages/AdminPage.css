@@ -1086,6 +1086,26 @@
   border-color: #1d4ed8;
 }
 
+.admin-fab-pdf {
+  background: linear-gradient(135deg, #4d2b18, #6b4530);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(77, 43, 24, 0.35), 0 2px 6px rgba(77, 43, 24, 0.25);
+}
+.admin-fab-pdf:hover {
+  box-shadow: 0 10px 28px rgba(77, 43, 24, 0.45);
+  transform: translateY(-1px);
+}
+
+.admin-fab-pdf-out {
+  background: linear-gradient(135deg, #b92b2b, #8f1f1f);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(185, 43, 43, 0.35), 0 2px 6px rgba(185, 43, 43, 0.25);
+}
+.admin-fab-pdf-out:hover {
+  box-shadow: 0 10px 28px rgba(185, 43, 43, 0.45);
+  transform: translateY(-1px);
+}
+
 /* Mobile: FAB no canto inferior direito */
 @media (max-width: 768px) {
   .admin-fab {
