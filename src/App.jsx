@@ -59,8 +59,32 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     scrollToProducts();
   };
 
+  const searchTerm = search.trim().toLowerCase();
+  const isSearching = searchTerm.length > 0;
+
+  const scoreMatch = (p, term) => {
+    const name = (p.name || '').toLowerCase();
+    const sub = (p.subcategory || '').toLowerCase();
+    const desc = (p.description || '').toLowerCase();
+    if (name.startsWith(term)) return 4;
+    const words = name.split(/\s+/);
+    if (words.some(w => w.startsWith(term))) return 3;
+    if (name.includes(term)) return 2;
+    if (sub.includes(term)) return 1;
+    if (desc.includes(term)) return 0.5;
+    return 0;
+  };
+
   const filteredProducts = useMemo(() => {
     let result = products;
+    if (isSearching) {
+      result = result
+        .map(p => ({ p, score: scoreMatch(p, searchTerm) }))
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score || (a.p.name || '').localeCompare(b.p.name || ''))
+        .map(x => x.p);
+      return result;
+    }
     if (category !== 'all') {
       const catName = category === 'resfriados' ? 'Resfriados' : category === 'congelados' ? 'Congelados' : 'Secos';
       result = result.filter(p => p.category === catName);
@@ -68,16 +92,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     if (subcategory !== 'all') {
       result = result.filter(p => p.subcategory === subcategory);
     }
-    if (search.trim()) {
-      const term = search.toLowerCase().trim();
-      result = result.filter(p =>
-        p.name.toLowerCase().includes(term) ||
-        p.description.toLowerCase().includes(term) ||
-        p.subcategory.toLowerCase().includes(term)
-      );
-    }
     return result;
-  }, [products, search, category, subcategory]);
+  }, [products, searchTerm, isSearching, category, subcategory]);
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
@@ -147,7 +163,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       </div>
 
       {filteredProducts.length > 0 ? (
-        category === 'all' ? (
+        (isSearching || category === 'all') ? (
           // Quando "Todos" está selecionado, agrupar por categoria
           ['Secos', 'Resfriados', 'Congelados'].map(catName => {
             const catProducts = filteredProducts.filter(p => p.category === catName);
