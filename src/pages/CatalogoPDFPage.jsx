@@ -140,7 +140,7 @@ export default function CatalogoPDFPage() {
             <header className="catpdf-shoplist-header">
               <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-shoplist-logo" />
               <div className="catpdf-shoplist-head-info">
-                <div className="catpdf-shoplist-head-brand">Frios Ouro Fino</div>
+                <div className="catpdf-shoplist-head-brand">Frios Ouro Fino Ltda.</div>
                 <h1 className="catpdf-shoplist-head-title">Lista de Compras · Produtos Esgotados</h1>
                 <div className="catpdf-shoplist-head-meta">
                   <span><strong>{totalItens}</strong> {totalItens === 1 ? 'item a repor' : 'itens a repor'}</span>
@@ -172,7 +172,7 @@ export default function CatalogoPDFPage() {
             })}
 
             <footer className="catpdf-shoplist-foot">
-              <span>Frios Ouro Fino · (35) 99851-1194 · {SITE}</span>
+              <span>Frios Ouro Fino Ltda. · (35) 99851-1194 · {SITE}</span>
               <span>Gerado em {formatDate()}</span>
             </footer>
           </section>
@@ -194,7 +194,7 @@ export default function CatalogoPDFPage() {
 
           <div className="catpdf-cover-main">
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-cover-logo" />
-            <div className="catpdf-cover-brand">Frios Ouro Fino</div>
+            <div className="catpdf-cover-brand">Frios Ouro Fino Ltda.</div>
             <div className="catpdf-cover-divider" />
             <h1 className="catpdf-cover-title">{titulo}</h1>
             <div className="catpdf-cover-subtitle">{subtitulo}</div>
@@ -281,7 +281,7 @@ export default function CatalogoPDFPage() {
 
           <div className="catpdf-backcover-inner">
             <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-backcover-logo" />
-            <div className="catpdf-backcover-brand">Frios Ouro Fino</div>
+            <div className="catpdf-backcover-brand">Frios Ouro Fino Ltda.</div>
             <div className="catpdf-backcover-divider" />
             <p className="catpdf-backcover-tagline">
               Faça seu pedido pelo WhatsApp<br />ou acesse o catálogo online

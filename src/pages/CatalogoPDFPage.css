@@ -223,14 +223,11 @@
 }
 
 .catpdf-cover-logo {
-  width: 200px;
-  height: 200px;
+  width: 380px;
+  height: auto;
+  max-height: 280px;
   object-fit: contain;
-  padding: 14px;
-  background: #fff;
-  border: 1.5px solid var(--pdf-gold);
-  box-shadow: 0 8px 28px rgba(77, 43, 24, 0.15);
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .catpdf-cover-brand {
@@ -792,12 +789,10 @@
   margin-bottom: 22px;
 }
 .catpdf-shoplist-logo {
-  width: 84px;
-  height: 84px;
+  width: 140px;
+  height: auto;
+  max-height: 90px;
   object-fit: contain;
-  padding: 6px;
-  background: #fff;
-  border: 1px solid var(--pdf-gold);
   flex-shrink: 0;
 }
 .catpdf-shoplist-head-info {
@@ -1059,14 +1054,11 @@
 }
 
 .catpdf-backcover-logo {
-  width: 160px;
-  height: 160px;
+  width: 280px;
+  height: auto;
+  max-height: 200px;
   object-fit: contain;
-  padding: 12px;
-  background: #fff;
-  border: 1.5px solid var(--pdf-gold);
-  box-shadow: 0 6px 20px rgba(77, 43, 24, 0.12);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .catpdf-backcover-brand {
