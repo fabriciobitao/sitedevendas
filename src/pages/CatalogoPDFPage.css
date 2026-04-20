@@ -223,12 +223,13 @@
 }
 
 .catpdf-cover-logo {
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 10px 32px rgba(77, 43, 24, 0.28), 0 0 0 2px var(--pdf-gold);
-  border: 6px solid #fff;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  padding: 14px;
+  background: #fff;
+  border: 1.5px solid var(--pdf-gold);
+  box-shadow: 0 8px 28px rgba(77, 43, 24, 0.15);
   margin-bottom: 22px;
 }
 
@@ -791,11 +792,12 @@
   margin-bottom: 22px;
 }
 .catpdf-shoplist-logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--pdf-gold);
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--pdf-gold);
   flex-shrink: 0;
 }
 .catpdf-shoplist-head-info {
@@ -1057,12 +1059,13 @@
 }
 
 .catpdf-backcover-logo {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid #fff;
-  box-shadow: 0 6px 20px rgba(77, 43, 24, 0.25), 0 0 0 2px var(--pdf-gold);
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  padding: 12px;
+  background: #fff;
+  border: 1.5px solid var(--pdf-gold);
+  box-shadow: 0 6px 20px rgba(77, 43, 24, 0.12);
   margin-bottom: 18px;
 }
 
