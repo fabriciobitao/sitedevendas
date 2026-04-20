@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useCart } from '../context/CartContext';
 import './ProductDetailModal.css';
 
@@ -77,7 +78,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
   const webpSrcset = !imgError ? buildWebpSrcset(product.image) : null;
 
-  return (
+  return createPortal(
     <div className="pdm-overlay" onClick={onClose}>
       <div className={`pdm-modal ${catClass}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={product.name}>
         <button className="pdm-close" onClick={onClose} aria-label="Fechar">
@@ -176,6 +177,7 @@ export default function ProductDetailModal({ product, onClose }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
