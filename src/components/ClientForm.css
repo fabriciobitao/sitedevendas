@@ -810,3 +810,45 @@
   color: #2e7d32;
   font-weight: 600;
 }
+
+/* ==================== BANNER: RASCUNHO RESTAURADO ==================== */
+.cf-draft-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff8e1;
+  border: 1px solid #f5c97a;
+  color: #7a5200;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.cf-draft-banner svg {
+  flex-shrink: 0;
+  color: #c07f00;
+}
+
+.cf-draft-banner > span {
+  flex: 1;
+}
+
+.cf-draft-banner button {
+  background: transparent;
+  border: 1px solid #c07f00;
+  color: #7a5200;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cf-draft-banner button:hover {
+  background: #c07f00;
+  color: #fff;
+}

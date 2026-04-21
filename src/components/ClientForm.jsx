@@ -64,6 +64,25 @@ async function compressImage(file, maxDim = 900, quality = 0.62) {
   return { blob, dataUrl, width: w, height: h };
 }
 
+const DRAFT_KEY = 'clientFormDraft_v1';
+const DRAFT_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 dias
+
+const loadDraft = () => {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return null;
+    if (parsed.savedAt && Date.now() - parsed.savedAt > DRAFT_MAX_AGE_MS) {
+      localStorage.removeItem(DRAFT_KEY);
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
 export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
   const { register } = useAuth();
   const [form, setForm] = useState(INITIAL);
@@ -72,10 +91,18 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [showPassword, setShowPassword] = useState(false);
   // 'empresa' = cadastro PJ / 'pessoa_fisica' = cadastro PF / 'cliente' = ja sou cliente (simplificado)
   const [tipo, setTipo] = useState(initialTipo);
+  const [draftRestored, setDraftRestored] = useState(false);
+  const draftLoadedRef = useRef(false);
+  const pendingDraftPreviewRef = useRef('');
 
   useEffect(() => {
     if (open) setTipo(initialTipo);
   }, [open, initialTipo]);
+
+  const clearDraft = () => {
+    try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    setDraftRestored(false);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -113,6 +140,38 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [hasSigned, setHasSigned] = useState(false);
   const [fachadaFile, setFachadaFile] = useState(null);
   const [fachadaPreview, setFachadaPreview] = useState('');
+
+  // Restaura rascunho ao abrir o modal (antes de qualquer auto-save)
+  useEffect(() => {
+    if (!open) { draftLoadedRef.current = false; return; }
+    const draft = loadDraft();
+    if (draft && draft.form) {
+      setForm({ ...INITIAL, ...draft.form });
+      if (draft.tipo) setTipo(draft.tipo);
+      if (draft.fachadaPreview && draft.fachadaPreview.startsWith('data:')) {
+        setFachadaPreview(draft.fachadaPreview);
+        pendingDraftPreviewRef.current = draft.fachadaPreview;
+      }
+      setDraftRestored(true);
+    }
+    draftLoadedRef.current = true;
+  }, [open]);
+
+  // Auto-save a cada mudanca — sobrevive tela travando / app em background
+  useEffect(() => {
+    if (!open || !draftLoadedRef.current) return;
+    const hasAnyData = Object.values(form).some((v) => v && String(v).trim() !== '');
+    if (!hasAnyData && !fachadaPreview) return;
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({
+        form,
+        tipo,
+        fachadaPreview: typeof fachadaPreview === 'string' && fachadaPreview.startsWith('data:') ? fachadaPreview : pendingDraftPreviewRef.current,
+        savedAt: Date.now(),
+      }));
+    } catch {}
+  }, [form, tipo, fachadaPreview, open]);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState('');
@@ -226,7 +285,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     setHasSigned(false);
   };
 
-  const handleFachadaChange = (e) => {
+  const handleFachadaChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
@@ -239,7 +298,14 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     }
     setError('');
     setFachadaFile(file);
-    setFachadaPreview(URL.createObjectURL(file));
+    // Usa dataURL (base64) ao inves de blob URL para sobreviver a reload/tela travando
+    try {
+      const compressed = await compressImage(file, 900, 0.7);
+      setFachadaPreview(compressed.dataUrl);
+      pendingDraftPreviewRef.current = compressed.dataUrl;
+    } catch {
+      setFachadaPreview(URL.createObjectURL(file));
+    }
   };
 
   const removeFachada = () => {
@@ -624,6 +690,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         setForm(INITIAL);
         setPassword('');
         setConfirmPassword('');
+        clearDraft();
       } catch (err) {
         if (err.code === 'auth/email-already-in-use') {
           setError('Este email já está cadastrado. Faça login.');
@@ -788,6 +855,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setConfirmPassword('');
       removeFachada();
       clearSignature();
+      clearDraft();
       setPendingWhatsApp(true);
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
@@ -859,6 +927,16 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
         <form className={`cf-body ${loading ? 'cf-body--locked' : ''}`} onSubmit={handleSubmit} aria-busy={loading}>
           {error && <p className="cf-error">{error}</p>}
+
+          {draftRestored && (
+            <div className="cf-draft-banner" role="status">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              <span>Recuperamos os dados do seu cadastro anterior. Continue de onde parou.</span>
+              <button type="button" onClick={() => { setForm(INITIAL); setFachadaFile(null); setFachadaPreview(''); pendingDraftPreviewRef.current = ''; clearDraft(); }}>
+                Começar do zero
+              </button>
+            </div>
+          )}
 
           <p className="cf-login-link">
             Já tem conta?{' '}
