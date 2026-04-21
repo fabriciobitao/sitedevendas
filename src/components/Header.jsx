@@ -12,14 +12,15 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Página do PDF/catálogo imprimível não deve ter header global
-  if (location.pathname.startsWith('/admin/catalogo')) return null;
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Página do PDF/catálogo imprimível não deve ter header global
+  // IMPORTANTE: early return DEPOIS de todos os hooks (Rules of Hooks)
+  if (location.pathname.startsWith('/admin/catalogo')) return null;
 
   const displayName = customerProfile?.nomeFantasia || customerProfile?.nomeResponsavel || user?.email?.split('@')[0] || '';
 
