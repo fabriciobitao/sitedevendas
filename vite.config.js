@@ -1,9 +1,32 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { writeFileSync, mkdirSync } from 'fs'
+import { resolve } from 'path'
+
+// Gera /version.json no build para o app detectar novas versoes e auto-refresh
+function versionFilePlugin() {
+  return {
+    name: 'version-file',
+    apply: 'build',
+    closeBundle() {
+      const version = String(Date.now());
+      const outDir = resolve(process.cwd(), 'dist');
+      try {
+        mkdirSync(outDir, { recursive: true });
+        writeFileSync(resolve(outDir, 'version.json'), JSON.stringify({ version }));
+      } catch (e) {
+        console.warn('[version-file] falha:', e);
+      }
+    }
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), versionFilePlugin()],
+  define: {
+    __BUILD_VERSION__: JSON.stringify(String(Date.now())),
+  },
   build: {
     chunkSizeWarningLimit: 800,
     rollupOptions: {

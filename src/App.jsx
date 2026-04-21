@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
 import { ProductsProvider, useProducts } from './context/ProductsContext';
 import useContentProtection from './hooks/useContentProtection';
+import { useAutoUpdate } from './hooks/useAutoUpdate';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
@@ -274,6 +275,7 @@ function AuthGateToast({ onLogin }) {
 
 function AppContent() {
   useContentProtection();
+  useAutoUpdate();
   const location = useLocation();
   const isCatalogoPDF = location.pathname.startsWith('/admin/catalogo');
   const [loginOpen, setLoginOpen] = useState(false);
