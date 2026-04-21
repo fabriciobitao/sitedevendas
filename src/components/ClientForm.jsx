@@ -64,23 +64,34 @@ async function compressImage(file, maxDim = 900, quality = 0.62) {
   return { blob, dataUrl, width: w, height: h };
 }
 
-const DRAFT_KEY = 'clientFormDraft_v1';
+const DRAFT_KEY_BASE = 'clientFormDraft_v2';
 const DRAFT_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 dias
 
-const loadDraft = () => {
+const draftKeyFor = (tipo) => `${DRAFT_KEY_BASE}_${tipo || 'empresa'}`;
+
+const loadDraft = (tipo) => {
   try {
-    const raw = localStorage.getItem(DRAFT_KEY);
+    const key = draftKeyFor(tipo);
+    const raw = localStorage.getItem(key);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') return null;
     if (parsed.savedAt && Date.now() - parsed.savedAt > DRAFT_MAX_AGE_MS) {
-      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(key);
       return null;
     }
     return parsed;
   } catch {
     return null;
   }
+};
+
+// Limpa chaves antigas do esquema v1 (retrocompat) — roda uma vez por aba
+let _v1Cleaned = false;
+const cleanupLegacyDraft = () => {
+  if (_v1Cleaned) return;
+  _v1Cleaned = true;
+  try { localStorage.removeItem('clientFormDraft_v1'); } catch {}
 };
 
 export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
@@ -100,7 +111,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   }, [open, initialTipo]);
 
   const clearDraft = () => {
-    try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    try { localStorage.removeItem(draftKeyFor(initialTipo)); } catch {}
     setDraftRestored(false);
   };
 
@@ -141,13 +152,14 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
   const [fachadaFile, setFachadaFile] = useState(null);
   const [fachadaPreview, setFachadaPreview] = useState('');
 
-  // Restaura rascunho ao abrir o modal (antes de qualquer auto-save)
+  // Restaura rascunho ao abrir o modal (chave por tipo para nao misturar empresa x cliente x PF)
   useEffect(() => {
     if (!open) { draftLoadedRef.current = false; return; }
-    const draft = loadDraft();
+    cleanupLegacyDraft();
+    const draft = loadDraft(initialTipo);
     if (draft && draft.form) {
       setForm({ ...INITIAL, ...draft.form });
-      if (draft.tipo) setTipo(draft.tipo);
+      // NAO restaura tipo do draft — respeita o botao que o usuario clicou (initialTipo)
       if (draft.fachadaPreview && draft.fachadaPreview.startsWith('data:')) {
         setFachadaPreview(draft.fachadaPreview);
         pendingDraftPreviewRef.current = draft.fachadaPreview;
@@ -155,7 +167,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setDraftRestored(true);
     }
     draftLoadedRef.current = true;
-  }, [open]);
+  }, [open, initialTipo]);
 
   // Auto-save a cada mudanca — sobrevive tela travando / app em background
   useEffect(() => {
@@ -163,14 +175,13 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     const hasAnyData = Object.values(form).some((v) => v && String(v).trim() !== '');
     if (!hasAnyData && !fachadaPreview) return;
     try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify({
+      localStorage.setItem(draftKeyFor(initialTipo), JSON.stringify({
         form,
-        tipo,
         fachadaPreview: typeof fachadaPreview === 'string' && fachadaPreview.startsWith('data:') ? fachadaPreview : pendingDraftPreviewRef.current,
         savedAt: Date.now(),
       }));
     } catch {}
-  }, [form, tipo, fachadaPreview, open]);
+  }, [form, fachadaPreview, open, initialTipo]);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
