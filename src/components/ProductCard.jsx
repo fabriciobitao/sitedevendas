@@ -129,7 +129,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
         ) : inCart ? (
           <div className="product-cart-control">
             <div className="product-qty-row">
-              <button className="pqty-btn pqty-minus" onClick={() => handleCartQty(-1)}>
+              <button type="button" className="pqty-btn pqty-minus" onClick={() => handleCartQty(-1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
               </button>
               <input
@@ -145,7 +145,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
                 inputMode="numeric"
                 pattern="[0-9]*"
               />
-              <button className="pqty-btn pqty-plus" onClick={() => handleCartQty(1)}>
+              <button type="button" className="pqty-btn pqty-plus" onClick={() => handleCartQty(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>
@@ -154,7 +154,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
         ) : (
           <div className="product-add-row">
             <div className="product-qty-row">
-              <button className="pqty-btn pqty-minus" onClick={() => handleQtyButton(-1)}>
+              <button type="button" className="pqty-btn pqty-minus" onClick={() => handleQtyButton(-1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
               </button>
               <input
@@ -169,11 +169,12 @@ export default function ProductCard({ product, index = 0, onAdded }) {
                 pattern="[0-9]*"
                 enterKeyHint="done"
               />
-              <button className="pqty-btn pqty-plus" onClick={() => handleQtyButton(1)}>
+              <button type="button" className="pqty-btn pqty-plus" onClick={() => handleQtyButton(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>
             <button
+              type="button"
               className={`product-add-btn ${added ? 'added' : ''}`}
               onClick={handleAdd}
             >
