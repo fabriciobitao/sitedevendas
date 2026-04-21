@@ -3,17 +3,20 @@ import react from '@vitejs/plugin-react'
 import { writeFileSync, mkdirSync } from 'fs'
 import { resolve } from 'path'
 
+// CRITICO: um unico timestamp para define + version.json.
+// Se usar Date.now() em 2 lugares, os valores diferem por ms e o auto-update entra em loop infinito.
+const BUILD_TIMESTAMP = String(Date.now());
+
 // Gera /version.json no build para o app detectar novas versoes e auto-refresh
 function versionFilePlugin() {
   return {
     name: 'version-file',
     apply: 'build',
     closeBundle() {
-      const version = String(Date.now());
       const outDir = resolve(process.cwd(), 'dist');
       try {
         mkdirSync(outDir, { recursive: true });
-        writeFileSync(resolve(outDir, 'version.json'), JSON.stringify({ version }));
+        writeFileSync(resolve(outDir, 'version.json'), JSON.stringify({ version: BUILD_TIMESTAMP }));
       } catch (e) {
         console.warn('[version-file] falha:', e);
       }
@@ -25,7 +28,7 @@ function versionFilePlugin() {
 export default defineConfig({
   plugins: [react(), versionFilePlugin()],
   define: {
-    __BUILD_VERSION__: JSON.stringify(String(Date.now())),
+    __BUILD_VERSION__: JSON.stringify(BUILD_TIMESTAMP),
   },
   build: {
     chunkSizeWarningLimit: 800,
