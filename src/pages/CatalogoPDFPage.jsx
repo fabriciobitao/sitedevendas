@@ -514,7 +514,6 @@ function ShoppingList({ subs, subKeys, startNum = 1 }) {
 
 function CompactProductCard({ product: p }) {
   const [step, setStep] = useState(0);
-  const price = formatPrice(p.price);
   const proxy = proxySrc(p.image);
   let src = null;
   if (step === 0) src = p.image || null;
@@ -525,8 +524,15 @@ function CompactProductCard({ product: p }) {
     else setStep(2);
   };
 
+  const catClass = p.category === 'Resfriados' ? 'cat-resfriados'
+    : p.category === 'Congelados' ? 'cat-congelados'
+    : 'cat-secos';
+
+  const hasPrice = p.price !== null && p.price !== undefined;
+  const priceStr = hasPrice ? Number(p.price).toFixed(2).replace('.', ',') : null;
+
   return (
-    <article className={`catpdf-compact-card ${p.outOfStock ? 'out' : ''}`}>
+    <article className={`catpdf-compact-card ${catClass} ${p.outOfStock ? 'out' : ''}`}>
       <div className="catpdf-compact-card-img">
         {src ? (
           <img src={src} alt={p.name} loading="eager" referrerPolicy="no-referrer" onError={handleError} />
@@ -537,12 +543,21 @@ function CompactProductCard({ product: p }) {
         )}
         {p.outOfStock && <span className="catpdf-compact-card-badge">ESGOTADO</span>}
       </div>
-      <h4 className="catpdf-compact-card-name">{p.name}</h4>
-      <div className="catpdf-compact-card-foot">
-        <span className="catpdf-compact-card-unit">{p.unit || 'un'}</span>
-        <span className={`catpdf-compact-card-price ${price ? '' : 'no-price'}`}>
-          {price || 'Consultar'}
-        </span>
+      <div className="catpdf-compact-card-info">
+        <h4 className="catpdf-compact-card-name">{p.name}</h4>
+        {p.description && <p className="catpdf-compact-card-desc">{p.description}</p>}
+        <div className="catpdf-compact-card-divider" />
+        <div className="catpdf-compact-card-pricing">
+          {hasPrice ? (
+            <>
+              <span className="catpdf-compact-card-currency">R$</span>
+              <span className="catpdf-compact-card-price">{priceStr}</span>
+              <span className="catpdf-compact-card-unit">/{p.unit || 'un'}</span>
+            </>
+          ) : (
+            <span className="catpdf-compact-card-price no-price">Consulte preço</span>
+          )}
+        </div>
       </div>
     </article>
   );

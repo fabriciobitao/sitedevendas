@@ -1530,40 +1530,43 @@
   letter-spacing: 0.5px;
 }
 
-/* Grid 5 colunas super denso — pensado para 40 produtos/pagina A4 */
+/* Cores de categoria (espelham o site) */
+:root {
+  --pdf-cat-resfriados: #D44D2D;
+  --pdf-cat-congelados: #2D7DD4;
+  --pdf-cat-secos: #E8AB1D;
+}
+
+/* Grid 4 colunas — espelha o card do site (imagem + nome + descricao + divisor + preco) */
 .catpdf-compact-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 }
 
 .catpdf-compact-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid var(--pdf-gray-200);
-  border-radius: 3px;
+  background: #FAF4EC;
+  border: 1px solid transparent;
+  border-bottom: 2.5px solid var(--pdf-gray-200);
+  border-radius: 6px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 1px 1px rgba(77, 43, 24, 0.04);
+  box-shadow: 0 1px 3px rgba(77, 43, 24, 0.08);
 }
-.catpdf-compact-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--pdf-gold) 0%, var(--pdf-gold-light) 100%);
-  z-index: 2;
-}
-.catpdf-compact-card.out::before { background: var(--pdf-red); }
-.catpdf-compact-card.out { background: #FDF5F5; border-color: rgba(185, 43, 43, 0.25); }
+
+/* Borda inferior colorida por categoria (igual ao site) */
+.catpdf-compact-card.cat-resfriados { border-bottom-color: var(--pdf-cat-resfriados); }
+.catpdf-compact-card.cat-congelados { border-bottom-color: var(--pdf-cat-congelados); }
+.catpdf-compact-card.cat-secos { border-bottom-color: var(--pdf-cat-secos); }
+
+.catpdf-compact-card.out { background: #FDF5F5; border-color: rgba(185, 43, 43, 0.25); border-bottom-color: var(--pdf-red); }
 
 .catpdf-compact-card-img {
   position: relative;
   aspect-ratio: 1;
-  background: var(--pdf-gray-100);
+  background: #F5EBD9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1572,8 +1575,7 @@
 .catpdf-compact-card-img img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 2px;
+  object-fit: cover;
 }
 .catpdf-compact-card.out .catpdf-compact-card-img img { filter: grayscale(0.85) opacity(0.5); }
 
@@ -1584,7 +1586,7 @@
   align-items: center;
   justify-content: center;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--pdf-gray-300);
   background: linear-gradient(135deg, var(--pdf-gray-100) 0%, var(--pdf-parchment) 100%);
@@ -1592,69 +1594,97 @@
 
 .catpdf-compact-card-badge {
   position: absolute;
-  top: 3px;
-  left: 3px;
+  top: 4px;
+  left: 4px;
   background: var(--pdf-red);
   color: #fff;
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 800;
-  padding: 1px 4px;
-  border-radius: 2px;
+  padding: 2px 5px;
+  border-radius: 3px;
   letter-spacing: 0.8px;
   z-index: 3;
 }
 
+.catpdf-compact-card-info {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 7px 6px;
+  flex: 1;
+  gap: 1px;
+}
+
 .catpdf-compact-card-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   color: var(--pdf-ink);
-  line-height: 1.15;
+  line-height: 1.22;
   margin: 0;
-  padding: 2px 4px 1px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   letter-spacing: -0.1px;
   word-break: break-word;
-  min-height: 2.15em;
+  min-height: 2.44em;
 }
 
-.catpdf-compact-card-foot {
+.catpdf-compact-card-desc {
+  font-size: 7.5px;
+  color: var(--pdf-gray-500);
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-style: italic;
+}
+
+.catpdf-compact-card-divider {
+  height: 1px;
+  margin: 3px 0 2px;
+  background: linear-gradient(90deg, transparent, var(--pdf-gray-200), transparent);
+}
+
+.catpdf-compact-card-pricing {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2px;
+  align-items: baseline;
+  gap: 1px;
   margin-top: auto;
-  padding: 2px 5px 4px;
+}
+
+.catpdf-compact-card-currency {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--pdf-brown-light);
+  margin-right: 1px;
+}
+
+.catpdf-compact-card-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pdf-brown-dark);
+  letter-spacing: -0.3px;
+  line-height: 1;
 }
 
 .catpdf-compact-card-unit {
   font-size: 7.5px;
   color: var(--pdf-gray-500);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 700;
-  padding: 1px 3px;
-  background: var(--pdf-gray-100);
-  border-radius: 2px;
+  margin-left: 2px;
+  font-weight: 500;
 }
 
-.catpdf-compact-card-price {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--pdf-brown);
-  letter-spacing: -0.3px;
-  line-height: 1;
-}
 .catpdf-compact-card-price.no-price {
-  font-size: 8px;
+  font-size: 10px;
   font-style: italic;
-  font-weight: 600;
-  color: var(--pdf-gold);
-  letter-spacing: 0.3px;
+  font-weight: 700;
+  color: var(--pdf-orange);
+  letter-spacing: 0;
 }
 
 /* Footer compacto */
@@ -1729,7 +1759,7 @@
   .catpdf-compact-header-right { align-self: center; }
   .catpdf-compact-title { font-size: 22px; }
   .catpdf-compact-section { padding: 0 14px; }
-  .catpdf-compact-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .catpdf-compact-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; }
   .catpdf-compact-cat-name { font-size: 18px; }
   .catpdf-compact-footer-inner { flex-direction: column; text-align: center; }
   .catpdf-cover,
@@ -1819,15 +1849,14 @@
     margin-top: 2mm !important;
   }
 
-  /* FORCA 5 colunas e tamanhos fixos no print — anula qualquer media query */
+  /* FORCA 4 colunas e tamanhos fixos no print — espelha card do site */
   .layout-catalogo .catpdf-compact-grid {
     display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
     grid-auto-rows: min-content !important;
-    gap: 2px !important;
+    gap: 4px !important;
   }
-  /* Cards nao quebram no meio — evita cortar imagem/preco entre paginas.
-     Card pequeno (~40mm) raramente cria buracos significativos. */
+  /* Cards nao quebram no meio */
   .layout-catalogo .catpdf-compact-card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -1837,16 +1866,31 @@
   .layout-catalogo .catpdf-compact-card-img {
     aspect-ratio: 1 !important;
     width: 100% !important;
-    height: 28mm !important;
-    max-height: 28mm !important;
+    height: 34mm !important;
+    max-height: 34mm !important;
+  }
+  .layout-catalogo .catpdf-compact-card-info {
+    padding: 4px 6px 5px !important;
   }
   .layout-catalogo .catpdf-compact-card-name {
     font-size: 9px !important;
-    padding: 2px 4px 1px !important;
-    min-height: 2.2em !important;
+    min-height: 2.3em !important;
+  }
+  .layout-catalogo .catpdf-compact-card-desc {
+    font-size: 7px !important;
+    -webkit-line-clamp: 1 !important;
+  }
+  .layout-catalogo .catpdf-compact-card-divider {
+    margin: 2px 0 1px !important;
   }
   .layout-catalogo .catpdf-compact-card-price {
-    font-size: 11.5px !important;
+    font-size: 13px !important;
+  }
+  .layout-catalogo .catpdf-compact-card-currency {
+    font-size: 7.5px !important;
+  }
+  .layout-catalogo .catpdf-compact-card-unit {
+    font-size: 7px !important;
   }
   /* Subcategoria pode quebrar entre linhas de cards, mas o titulo
      fica colado na primeira linha (via sub-name page-break-after: avoid) */
