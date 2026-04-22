@@ -314,29 +314,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         </div>
       </section>
 
-      {!user && (
-        <div className="auth-buttons-bar">
-          <button className="auth-btn auth-btn--login" onClick={onOpenLogin}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
-            </svg>
-            Fazer minhas compras
-          </button>
-          <button className="auth-btn auth-btn--register" onClick={onOpenRegister}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-            </svg>
-            Quero me cadastrar
-          </button>
-          <button className="auth-btn auth-btn--cliente" onClick={onOpenCliente}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            Já sou cliente antigo - primeira vez no site
-          </button>
-        </div>
-      )}
-
       <section className={`filters-section ${filtersCompact ? 'filters-section--compact' : ''}`}>
         <div className="filters-row filters-row--search">
           <SearchBar value={search} onChange={setSearch} />
@@ -460,7 +437,7 @@ function AppContent() {
 
   return (
     <>
-      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} onOpenSearch={openSearch} />
+      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} onOpenCliente={openCliente} onOpenSearch={openSearch} />
       <GlobalSearch open={searchOpen} onClose={closeSearch} />
       <Cart />
       <AuthGateToast onLogin={openLogin} />
