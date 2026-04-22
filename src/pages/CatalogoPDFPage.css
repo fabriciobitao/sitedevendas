@@ -1723,7 +1723,7 @@
    MOBILE — preview na tela
    ========================================================================== */
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .catpdf-doc { margin: 12px 8px; }
   .catpdf-compact-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 14px; }
   .catpdf-compact-header-right { align-self: center; }
@@ -1774,8 +1774,18 @@
 
   .catpdf-doc {
     margin: 0 !important;
+    padding: 0 !important;
     box-shadow: none !important;
     max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .layout-catalogo .catpdf-compact-section,
+  .layout-catalogo .catpdf-compact-header,
+  .layout-catalogo .catpdf-compact-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   /* Paginas especiais (modo apresentacao) — ocupam a folha inteira com margens maiores */
@@ -1789,27 +1799,51 @@
     break-after: page;
   }
 
-  /* Modo catalogo — denso, corrido, sem paginas em branco */
+  /* Modo catalogo — denso, corrido, sem paginas em branco.
+     !important para anular @media (max-width: 768px) que pode vazar no print. */
   .layout-catalogo .catpdf-compact-header {
-    padding: 4mm 4mm 3mm;
+    padding: 4mm 4mm 3mm !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px !important;
   }
   .layout-catalogo .catpdf-compact-section {
-    padding: 0 3mm;
+    padding: 0 3mm !important;
   }
   .layout-catalogo .catpdf-compact-cat-band {
     page-break-before: auto;
     break-before: auto;
-    margin: 2mm 0 1.5mm;
+    margin: 2mm 0 1.5mm !important;
   }
   .layout-catalogo .catpdf-compact-section + .catpdf-compact-section {
-    margin-top: 2mm;
+    margin-top: 2mm !important;
   }
+
+  /* FORCA 5 colunas e tamanhos fixos no print — anula qualquer media query */
   .layout-catalogo .catpdf-compact-grid {
-    gap: 3px;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 3px !important;
   }
   .layout-catalogo .catpdf-compact-card {
     page-break-inside: avoid;
     break-inside: avoid;
+    width: auto !important;
+    max-width: none !important;
+  }
+  .layout-catalogo .catpdf-compact-card-img {
+    aspect-ratio: 1 !important;
+    width: 100% !important;
+    height: 34mm !important;
+    max-height: 34mm !important;
+  }
+  .layout-catalogo .catpdf-compact-card-name {
+    font-size: 9.5px !important;
+    padding: 3px 5px 1px !important;
+    min-height: 2.4em !important;
+  }
+  .layout-catalogo .catpdf-compact-card-price {
+    font-size: 12px !important;
   }
   .layout-catalogo .catpdf-compact-sub {
     page-break-inside: auto;
@@ -1818,6 +1852,10 @@
   .layout-catalogo .catpdf-compact-footer {
     margin-top: 4mm;
     padding: 3mm 4mm 4mm;
+  }
+  .layout-catalogo .catpdf-compact-footer-inner {
+    flex-direction: row !important;
+    text-align: left !important;
   }
 
   .catpdf-toc {
