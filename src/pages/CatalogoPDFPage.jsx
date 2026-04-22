@@ -84,9 +84,14 @@ export default function CatalogoPDFPage() {
 
   const filtered = useMemo(() => {
     if (!products) return [];
-    const base = products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
-    // Na lista de esgotados, quando existe variante "cx" e "por peça" do mesmo item, manter apenas a "cx"
-    return tipo === 'esgotados' ? dedupCxPeca(base) : base;
+    if (tipo === 'esgotados') {
+      // Lista de esgotados — mantém só os esgotados e remove duplicatas cx/peça
+      const base = products.filter((p) => p.outOfStock === true);
+      return dedupCxPeca(base);
+    }
+    // Catálogo de estoque — mostra TODOS os produtos cadastrados (inclusive esgotados),
+    // sem diferenciar visualmente (zera outOfStock para esconder tarja e efeitos)
+    return products.map((p) => ({ ...p, outOfStock: false }));
   }, [products, tipo]);
 
   const grouped = useMemo(() => {
