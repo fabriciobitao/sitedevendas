@@ -88,7 +88,7 @@ service cloud.firestore {
                     && !('isAdmin' in request.resource.data);
 
       allow get, list: if request.auth != null
-                       && request.auth.token.email == 'fabricio.fazer@gmail.com';
+                       && request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
 
       allow update, delete: if false;
     }
@@ -96,23 +96,23 @@ service cloud.firestore {
     // ============================================================
     // PRODUCTS COLLECTION
     // - Read: public (catalog is visible to everyone)
-    // - Write: only admin (fabricio.fazer@gmail.com)
+    // - Write: only admins
     // ============================================================
     match /products/{productId} {
       allow read: if true;
       allow write: if request.auth != null
-                   && request.auth.token.email == 'fabricio.fazer@gmail.com';
+                   && request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
     }
 
     // ============================================================
     // CONFIG COLLECTION (catalog metadata)
     // - Read: public
-    // - Write: only admin
+    // - Write: only admins
     // ============================================================
     match /config/{document=**} {
       allow read: if true;
       allow write: if request.auth != null
-                   && request.auth.token.email == 'fabricio.fazer@gmail.com';
+                   && request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
     }
 
     // ============================================================

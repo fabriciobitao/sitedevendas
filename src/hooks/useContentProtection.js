@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 
 export default function useContentProtection() {
   const { user } = useAuth();
-  const isAdminUser = user?.email === 'fabricio.fazer@gmail.com';
+  const ADMIN_EMAILS = ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
+  const isAdminUser = ADMIN_EMAILS.includes(user?.email);
 
   useEffect(() => {
     // Liberar tudo para o admin logado

@@ -38,7 +38,8 @@ function ProtectedRoute({ children }) {
 function AdminRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div style={{ textAlign: 'center', padding: '60px', color: '#8E7E6E' }}>Carregando...</div>;
-  if (!user || user.email !== 'fabricio.fazer@gmail.com') return <Navigate to="/" />;
+  const ADMIN_EMAILS = ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
+  if (!user || !ADMIN_EMAILS.includes(user.email)) return <Navigate to="/" />;
   return children;
 }
 
