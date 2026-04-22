@@ -17,7 +17,6 @@ import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
-import TopProducts from './components/TopProducts';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -226,10 +225,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         <ProductsLoader done={!productsLoading} />
       ) : (
         <>
-      {!isSearching && category === 'all' && !onlyFavorites && (
-        <TopProducts onAdded={handleProductAdded} />
-      )}
-
       <div className="results-info">
         <span className="results-count">
           {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
