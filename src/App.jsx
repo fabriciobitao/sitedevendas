@@ -15,6 +15,7 @@ import BackToTop from './components/BackToTop';
 import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
+import ProductsLoader from './components/ProductsLoader';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -45,7 +46,7 @@ function AdminRoute({ children }) {
 
 function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const { user } = useAuth();
-  const { products } = useProducts();
+  const { products, loading: productsLoading } = useProducts();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
@@ -197,6 +198,11 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       </section>
 
       <div ref={productsRef} className="results-anchor" />
+
+      {productsLoading && products.length === 0 ? (
+        <ProductsLoader done={!productsLoading} />
+      ) : (
+        <>
       <div className="results-info">
         <span className="results-count">
           {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}
@@ -240,6 +246,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
           <h3>Nenhum produto encontrado</h3>
           <p>Tente buscar por outro termo ou altere os filtros</p>
         </div>
+      )}
+        </>
       )}
       <BackToTop />
     </main>

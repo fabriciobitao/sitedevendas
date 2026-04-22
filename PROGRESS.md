@@ -1,6 +1,6 @@
 # Catalogo Frios Ouro Fino - Progress
 
-**Ultima atualizacao:** 2026-04-14
+**Ultima atualizacao:** 2026-04-22
 
 ## Status: Todas as Imagens Mapeadas e Migradas
 
@@ -44,3 +44,11 @@ Script utilizado: scripts/update-images-final.cjs
 2. Adicionar mais produtos conforme catalogo fisico (Secos, Resfriados, Congelados pendentes)
 3. Ativar Firebase Storage no console (para upload de imagens via admin)
 4. Deploy das Storage rules (apos ativar Storage)
+
+### Backlog — Performance
+- **Produtos demoram muito para carregar na abertura da pagina.** Loader visual ja foi adicionado (ProductsLoader), mas o tempo real precisa ser reduzido. Investigar:
+  - Cache local (IndexedDB / Firestore persistence) para mostrar dados instantaneamente
+  - SSR/SSG do catalogo inicial (snapshot estatico no build, hidrata com onSnapshot depois)
+  - Reduzir payload do Firestore (campos enxutos, paginacao por categoria)
+  - CDN edge cache de uma versao publica do catalogo (ex: products.json gerado periodicamente)
+  - Pre-fetch / prerender com Cloud Functions
