@@ -5,10 +5,12 @@ import './ProductCard.css';
 
 function buildWebpSrcset(imagePath) {
   if (!imagePath || typeof imagePath !== 'string') return null;
-  const match = imagePath.match(/^\/images\/([^/]+)\.(png|jpe?g)$/i);
+  const match = imagePath.match(/^\/(images|produtos)\/([^/]+)\.(png|jpe?g|webp)$/i);
   if (!match) return null;
-  const base = match[1];
-  return `/images/webp/${base}-400.webp 400w, /images/webp/${base}-800.webp 800w`;
+  const dir = match[1];
+  const base = match[2];
+  const encoded = encodeURIComponent(base);
+  return `/${dir}/webp/${encoded}-400.webp 400w, /${dir}/webp/${encoded}-800.webp 800w`;
 }
 
 export default function ProductCard({ product, index = 0, onAdded }) {
