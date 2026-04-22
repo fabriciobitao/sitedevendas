@@ -6,65 +6,91 @@
 }
 
 :root {
-  /* Brand colors */
-  --brown: #4D2B18;
-  --brown-light: #6B4530;
-  --brown-dark: #3A1F10;
-  --brown-medium: #8B5E3C;
-  --orange: #D44D2D;
-  --orange-light: #E8664A;
-  --orange-glow: #FF6B3D;
-  --yellow: #E8AB1D;
-  --yellow-light: #F5C94A;
-  --yellow-glow: #FFD700;
+  /* ============ Market Fresh — verde + creme ============ */
+  --creme: #F4F0E6;
+  --creme-deep: #ECE6D4;
+  --creme-light: #FAF7EF;
 
-  /* Warm backgrounds */
-  --cream: #FDF6EE;
-  --cream-dark: #F5EBD9;
-  --parchment: #F0E6D3;
-  --linen: #FAF4EC;
+  --ink: #0F1712;
+  --ink-soft: #243027;
+  --ink-mid: #4A5A50;
+  --ink-mute: #8A9990;
+
+  --verde: #0F3D2E;
+  --verde-deep: #0A2C22;
+  --verde-mid: #1E6B4A;
+  --verde-fresh: #2FB27A;
+  --verde-leaf: #4DA368;
+  --verde-acid: #C6F24E;
+
+  --tomate: #E24D28;
+  --mostarda: #F4B740;
+  --berry: #8A1E3A;
+
+  /* Category colors — kept for backward compat but remapped visually */
+  --cat-secos: #F4B740;
+  --cat-secos-tint: rgba(244, 183, 64, 0.08);
+  --cat-secos-border: rgba(244, 183, 64, 0.28);
+  --cat-resfriados: #E24D28;
+  --cat-resfriados-tint: rgba(226, 77, 40, 0.06);
+  --cat-resfriados-border: rgba(226, 77, 40, 0.20);
+  --cat-congelados: #3E78D4;
+  --cat-congelados-tint: rgba(62, 120, 212, 0.06);
+  --cat-congelados-border: rgba(62, 120, 212, 0.18);
+
+  /* Legacy tokens — remapped to verde palette so untouched components inherit new look */
+  --brown: var(--verde);
+  --brown-light: var(--verde-mid);
+  --brown-dark: var(--verde-deep);
+  --brown-medium: var(--verde-leaf);
+  --orange: var(--verde-fresh);
+  --orange-light: #3FC78A;
+  --orange-glow: #5AD89F;
+  --yellow: var(--mostarda);
+  --yellow-light: #F7C968;
+  --yellow-glow: #FFD36A;
+
+  --cream: var(--creme);
+  --cream-dark: var(--creme-deep);
+  --parchment: var(--creme-deep);
+  --linen: var(--creme-light);
   --white: #FFFFFF;
 
-  /* Warm grays */
-  --gray-100: #F5F0EA;
-  --gray-200: #E8DDD0;
-  --gray-300: #D6C8B8;
-  --gray-400: #B8A898;
-  --gray-500: #8E7E6E;
-  --gray-600: #6B5D4F;
-  --gray-700: #4A3F33;
-  --gray-800: #2D2418;
-  --gray-900: #1C1610;
+  /* Neutral grays — cool, match ink-mute family */
+  --gray-100: #F1EEE5;
+  --gray-200: #E2DDCE;
+  --gray-300: #C9C1AF;
+  --gray-400: #A9A298;
+  --gray-500: #8A9990;
+  --gray-600: #4A5A50;
+  --gray-700: #243027;
+  --gray-800: #121a15;
+  --gray-900: #0A0F0B;
 
-  /* Category colors */
-  --cat-resfriados: #D44D2D;
-  --cat-resfriados-tint: rgba(212, 77, 45, 0.06);
-  --cat-resfriados-border: rgba(212, 77, 45, 0.18);
-  --cat-congelados: #2D7DD4;
-  --cat-congelados-tint: rgba(45, 125, 212, 0.06);
-  --cat-congelados-border: rgba(45, 125, 212, 0.15);
-  --cat-secos: #C89A10;
-  --cat-secos-tint: rgba(232, 171, 29, 0.08);
-  --cat-secos-border: rgba(232, 171, 29, 0.20);
+  --primary: var(--verde);
+  --text-dark: var(--ink);
+  --text-light: var(--ink-mute);
 
-  /* Warm shadows */
-  --shadow-warm-sm: 0 1px 3px rgba(77, 43, 24, 0.08);
-  --shadow-warm: 0 4px 12px rgba(77, 43, 24, 0.10);
-  --shadow-warm-md: 0 8px 24px rgba(77, 43, 24, 0.12);
-  --shadow-warm-lg: 0 16px 48px rgba(77, 43, 24, 0.15);
-  --shadow-warm-glow: 0 4px 20px rgba(212, 77, 45, 0.20);
-  --shadow-gold-glow: 0 4px 16px rgba(232, 171, 29, 0.25);
+  --shadow-warm-sm: 0 1px 3px rgba(15, 61, 46, 0.08);
+  --shadow-warm: 0 4px 12px rgba(15, 61, 46, 0.10);
+  --shadow-warm-md: 0 8px 24px rgba(15, 61, 46, 0.12);
+  --shadow-warm-lg: 0 16px 48px rgba(15, 61, 46, 0.15);
+  --shadow-warm-glow: 0 4px 20px rgba(47, 178, 122, 0.22);
+  --shadow-gold-glow: 0 4px 16px rgba(198, 242, 78, 0.30);
 
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #3A1F10 0%, #4D2B18 30%, #6B4530 70%, #8B5E3C 100%);
-  --gradient-gold: linear-gradient(135deg, #E8AB1D, #FFD700);
-  --gradient-orange: linear-gradient(135deg, #D44D2D, #E8664A);
+  --gradient-hero: linear-gradient(135deg, #0A2C22 0%, #0F3D2E 45%, #1E6B4A 100%);
+  --gradient-gold: linear-gradient(135deg, #C6F24E, #E4FF8C);
+  --gradient-orange: linear-gradient(135deg, #1E6B4A, #2FB27A);
 
-  /* Radii */
   --radius: 12px;
   --radius-sm: 8px;
   --radius-lg: 16px;
   --radius-xl: 20px;
+
+  /* Typography */
+  --font-body: 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Instrument Serif', 'Fraunces', Georgia, serif;
+  --font-label: 'Fraunces', Georgia, serif;
 }
 
 html {
@@ -72,22 +98,21 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-  background: var(--cream);
-  color: var(--gray-800);
+  font-family: var(--font-body);
+  background: var(--creme);
+  color: var(--ink);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: contain;
 }
 
-/* Grain texture overlay */
 #root::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -106,24 +131,25 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--yellow);
+  outline: 2px solid var(--verde-fresh);
   outline-offset: 2px;
 }
 
 h1, h2, h3 {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: var(--brown);
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.4px;
 }
 
 button {
   cursor: pointer;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   border: none;
   outline: none;
 }
 
 input, select, textarea {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   outline: none;
   border: none;
   font-size: 16px;
@@ -145,7 +171,6 @@ img {
   display: block;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -153,11 +178,10 @@ img {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-300);
+  background: var(--creme-deep);
   border-radius: 3px;
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
@@ -184,8 +208,8 @@ img {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 171, 29, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(232, 171, 29, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(47, 178, 122, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(47, 178, 122, 0); }
 }
 
 @keyframes ripple {

@@ -16,6 +16,7 @@ import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
+import GlobalSearch from './components/GlobalSearch';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -58,6 +59,27 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onSelect = (e) => {
+      const { productId, categoryId } = e.detail || {};
+      if (!productId) return;
+      setSearch('');
+      setCategory(categoryId || 'all');
+      setSubcategory('all');
+      setTimeout(() => {
+        const el = document.querySelector(`[data-product-id="${productId}"]`);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const offset = window.scrollY + rect.top - 140;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+        el.classList.add('product-card--focus');
+        setTimeout(() => el.classList.remove('product-card--focus'), 1800);
+      }, 200);
+    };
+    window.addEventListener('globalsearch:select', onSelect);
+    return () => window.removeEventListener('globalsearch:select', onSelect);
   }, []);
 
   useEffect(() => {
@@ -150,20 +172,147 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
+  const topProducts = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const tagged = products.filter(p => !p.outOfStock && p.image);
+    return tagged.slice(0, 4);
+  }, [products]);
+
+  const handleCategoryJump = (catId) => {
+    handleCategoryChange(catId);
+  };
+
   return (
     <main className={`main ${isSearching ? 'main--searching' : ''}`}>
-      <section className="hero">
-        <div className="hero-bg-pattern" />
-        <div className="hero-content">
-          <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
-          <p className="hero-tagline">Qualidade nas entregas e atendimento rápido!</p>
-          <p className="hero-desc">
-            Monte seu pedido com os melhores produtos e finalize no carrinho de compras, ele será enviado pelo WhatsApp!
-          </p>
+      <section className="hero-mf">
+        <div className="hero-mf-grid">
+          <div className="hero-mf-left">
+            <h1 className="hero-mf-h1">
+              Abasteça seu<br />
+              negócio com <em className="hero-mf-em">fôlego</em>
+              <span className="hero-mf-dot">.</span>
+            </h1>
+            <p className="hero-mf-lead">
+              Secos, resfriados e congelados — monte o carrinho e envie direto pro
+              WhatsApp do vendedor. Atendimento personalizado, sem enrolação.
+            </p>
+
+            <div className="hero-mf-ctas">
+              <button
+                type="button"
+                className="hero-mf-cta-primary"
+                onClick={() => {
+                  handleCategoryChange('all');
+                  scrollToProducts();
+                }}
+              >
+                Montar pedido
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+              <a
+                href="https://wa.me/5535998511194?text=Ol%C3%A1%20Fabr%C3%ADcio%2C%20quero%20montar%20um%20pedido."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-mf-cta-secondary"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5s-.7-1.6-.9-2.2-.5-.5-.7-.5H7.8c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1 2.1 3.2 5.1 4.5c.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4s.2-1.3.2-1.4c-.1-.1-.3-.2-.6-.4z"/></svg>
+                Atendimento direto
+              </a>
+            </div>
+
+            <div className="hero-mf-seller">
+              <div className="hero-mf-seller-avatar">
+                <img src="/fabricio.png" alt="Fabrício" />
+                <span className="hero-mf-seller-online" />
+              </div>
+              <div className="hero-mf-seller-body">
+                <div className="hero-mf-seller-kicker">
+                  <span className="hero-mf-seller-dot" /> Seu vendedor online agora
+                </div>
+                <p className="hero-mf-seller-quote">
+                  "Olá, sou o <strong>Fabrício</strong>, representante de vendas da Frios OF.
+                  Escolha seus produtos e envie o pedido direto pro meu WhatsApp — atendimento personalizado."
+                </p>
+                <div className="hero-mf-seller-meta">
+                  <span>Resposta em até 15 min</span>
+                  <span className="hero-mf-seller-meta-sep">·</span>
+                  <span>Seg a Sáb · 7h–17h</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-mf-right">
+            <div className="hero-mf-featured-tag">
+              <span>◉</span> MAIS PEDIDOS · TOP 4
+            </div>
+            <div className="hero-mf-featured-grid">
+              {topProducts.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`hero-mf-featured-card${i === 0 ? ' hero-mf-featured-card--big' : ''}`}
+                  onClick={() => {
+                    const catId = p.category === 'Resfriados' ? 'resfriados'
+                      : p.category === 'Congelados' ? 'congelados' : 'secos';
+                    handleCategoryChange(catId);
+                  }}
+                >
+                  <div className="hero-mf-featured-img">
+                    <img src={p.image} alt={p.name} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {i === 0 && <span className="hero-mf-featured-badge">TOP 1</span>}
+                  </div>
+                  <div className="hero-mf-featured-meta">
+                    <div className="hero-mf-featured-brand">{p.subcategory || p.category}</div>
+                    <div className="hero-mf-featured-name">{p.name}</div>
+                    <span className="hero-mf-featured-cta">
+                      Ver produto
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-mf-showcase">
+          <div className="hero-mf-showcase-label">
+            <span className="hero-mf-showcase-num">01 →</span> Ir direto pra categoria
+          </div>
+          <div className="hero-mf-showcase-row">
+            {categories.map(c => (
+              <button
+                key={c.id}
+                type="button"
+                className="hero-mf-cat-card"
+                style={{ '--cat-accent': c.color }}
+                onClick={() => handleCategoryJump(c.id)}
+              >
+                <span className="hero-mf-cat-glyph" aria-hidden>{c.icon}</span>
+                <div className="hero-mf-cat-text">
+                  <div className="hero-mf-cat-name">{c.name}</div>
+                  <div className="hero-mf-cat-desc">{c.description}</div>
+                </div>
+                <span className="hero-mf-cat-arrow">→</span>
+              </button>
+            ))}
+            <a
+              href="https://wa.me/5535998511194"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-mf-whats-card"
+            >
+              <div className="hero-mf-whats-top">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="#C6F24E"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5s-.7-1.6-.9-2.2-.5-.5-.7-.5H7.8c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1 2.1 3.2 5.1 4.5c.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4s.2-1.3.2-1.4c-.1-.1-.3-.2-.6-.4z"/></svg>
+                <span className="hero-mf-whats-label">Via WhatsApp</span>
+              </div>
+              <div className="hero-mf-whats-title">Pedido conversado,<br />sem burocracia.</div>
+              <div className="hero-mf-whats-sub">(35) 99851-1194</div>
+            </a>
+          </div>
         </div>
       </section>
-
-      <div className="section-divider" />
 
       {!user && (
         <div className="auth-buttons-bar">
@@ -290,14 +439,29 @@ function AppContent() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [clienteOpen, setClienteOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const openLogin = () => { setRegisterOpen(false); setClienteOpen(false); setLoginOpen(true); };
   const openRegister = () => { setLoginOpen(false); setClienteOpen(false); setRegisterOpen(true); };
   const openCliente = () => { setLoginOpen(false); setRegisterOpen(false); setClienteOpen(true); };
+  const openSearch = () => setSearchOpen(true);
+  const closeSearch = () => setSearchOpen(false);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <>
-      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} />
+      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} onOpenSearch={openSearch} />
+      <GlobalSearch open={searchOpen} onClose={closeSearch} />
       <Cart />
       <AuthGateToast onLogin={openLogin} />
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} onSwitchToRegister={openRegister} />
