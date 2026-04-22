@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gruta — Finalistas 01 & 02</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 24px; background: #f4f4f6; color: #0a0a0f; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
+  h1 { font-weight: 800; font-size: 28px; margin: 0 0 8px; text-align: center; letter-spacing: -0.8px; }
+  .sub { text-align: center; color: #6b6b75; font-size: 13px; margin-bottom: 56px; }
+  .finalist { max-width: 1200px; margin: 0 auto 80px; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .finalist-header { padding: 32px 40px; border-bottom: 1px solid #ececf0; }
+  .finalist-header .num { font-size: 11px; color: #6b6b75; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .finalist-header .title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .finalist-header .desc { color: #6b6b75; font-size: 14px; margin-top: 6px; line-height: 1.5; }
+  .section { padding: 32px 40px; border-bottom: 1px solid #ececf0; }
+  .section:last-child { border-bottom: none; }
+  .section-label { font-size: 11px; color: #6b6b75; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; font-weight: 600; }
+  .grid { display: grid; gap: 16px; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 768px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr 1fr; } }
+  .box { background: #fafafb; border: 1px solid #ececf0; border-radius: 12px; padding: 32px 20px; display: flex; align-items: center; justify-content: center; min-height: 140px; position: relative; }
+  .box.dark { background: #0a0a0f; border-color: #1a1a22; }
+  .box.grad { background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%); border-color: transparent; }
+  .box-label { position: absolute; top: 10px; left: 14px; font-size: 10px; color: #9a9aa5; letter-spacing: 1px; text-transform: uppercase; }
+  .box.dark .box-label { color: #4a4a55; }
+  .box.grad .box-label { color: rgba(255,255,255,0.7); }
+  .prompt-box { background: #0a0a0f; color: #e8e8ea; padding: 24px; border-radius: 12px; font-family: "JetBrains Mono", "Courier New", monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+  .prompt-box .neg { color: #f87171; }
+  .prompt-box .param { color: #60a5fa; margin-top: 12px; display: block; }
+  .palette { display: flex; gap: 12px; }
+  .swatch { flex: 1; border-radius: 10px; padding: 20px 14px; font-size: 12px; font-weight: 600; }
+  .swatch code { font-size: 10px; opacity: 0.7; display: block; margin-top: 4px; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<h1>Gruta — Finalistas</h1>
+<p class="sub">Direções 01 (G-Portal) e 02 (Arco Duplo) refinadas com variações + prompts IA</p>
+
+<!-- ========================================== -->
+<!-- FINALISTA 01: G-PORTAL MONOLINE -->
+<!-- ========================================== -->
+<div class="finalist">
+  <div class="finalist-header">
+    <div class="num">Finalista 01</div>
+    <div class="title">G-Portal</div>
+    <div class="desc">Monoline minimalista · vibe Linear / Vercel · preto puro, alta legibilidade em qualquer tamanho</div>
+  </div>
+
+  <!-- Logo principal -->
+  <div class="section">
+    <div class="section-label">Lockup principal</div>
+    <div class="grid grid-2">
+      <div class="box" style="min-height: 220px;">
+        <svg width="200" height="200" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 80 20 C 45 20 20 45 20 80 C 20 115 45 140 80 140 C 100 140 118 130 128 114 L 128 80 L 90 80 L 90 96 L 110 96 L 110 108 C 104 116 92 122 80 122 C 55 122 38 105 38 80 C 38 55 55 38 80 38 C 95 38 108 46 116 58"
+                fill="none" stroke="#0a0a0f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="box" style="min-height: 220px; flex-direction: column; gap: 12px;">
+        <svg width="260" height="90" viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg">
+          <text x="130" y="64" text-anchor="middle" font-family="-apple-system, Inter, sans-serif"
+                font-size="64" font-weight="800" fill="#0a0a0f" letter-spacing="-3">gruta</text>
+        </svg>
+        <div style="font-size:10px; letter-spacing:4px; color:#6b6b75; font-weight:600;">ESTÚDIO DE SOFTWARE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variações -->
+  <div class="section">
+    <div class="section-label">Variações de uso</div>
+    <div class="grid grid-4">
+
+      <div class="box">
+        <span class="box-label">Favicon</span>
+        <svg width="80" height="80" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="14" fill="#0a0a0f"/>
+          <path d="M 32 12 C 20 12 12 20 12 32 C 12 44 20 52 32 52 C 39 52 44 49 48 43 L 48 32 L 36 32 L 36 38 L 42 38 L 42 40 C 40 43 36 45 32 45 C 24 45 19 40 19 32 C 19 24 24 19 32 19 C 37 19 42 22 44 26"
+                fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="box">
+        <span class="box-label">Horizontal</span>
+        <svg width="180" height="56" viewBox="0 0 200 56" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(4, 10)">
+            <path d="M 18 4 C 10 4 4 10 4 18 C 4 26 10 32 18 32 C 22 32 26 30 28 26 L 28 18 L 21 18 L 21 22 L 25 22 L 25 23 C 24 25 22 26 18 26 C 12 26 9 22 9 18 C 9 14 12 10 18 10 C 21 10 24 12 25 14"
+                  fill="none" stroke="#0a0a0f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <text x="48" y="34" font-family="-apple-system, Inter, sans-serif"
+                font-size="28" font-weight="800" fill="#0a0a0f" letter-spacing="-1">gruta</text>
+        </svg>
+      </div>
+
+      <div class="box dark">
+        <span class="box-label">Dark mode</span>
+        <svg width="100" height="100" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 80 20 C 45 20 20 45 20 80 C 20 115 45 140 80 140 C 100 140 118 130 128 114 L 128 80 L 90 80 L 90 96 L 110 96 L 110 108 C 104 116 92 122 80 122 C 55 122 38 105 38 80 C 38 55 55 38 80 38 C 95 38 108 46 116 58"
+                fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="box">
+        <span class="box-label">App icon</span>
+        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="22" fill="#0a0a0f"/>
+          <path d="M 50 22 C 35 22 25 32 25 50 C 25 68 35 78 50 78 C 60 78 68 73 72 65 L 72 50 L 55 50 L 55 58 L 64 58 L 64 60 C 61 64 56 66 50 66 C 38 66 33 60 33 50 C 33 40 38 34 50 34 C 57 34 63 37 66 42"
+                fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Paleta -->
+  <div class="section">
+    <div class="section-label">Paleta</div>
+    <div class="palette">
+      <div class="swatch" style="background:#0a0a0f; color:white;">Tinta<code>#0A0A0F</code></div>
+      <div class="swatch" style="background:#f4f4f6; color:#0a0a0f; border: 1px solid #ececf0;">Papel<code>#F4F4F6</code></div>
+      <div class="swatch" style="background:#6b6b75; color:white;">Grafite<code>#6B6B75</code></div>
+    </div>
+    <p style="font-size:12px; color:#6b6b75; margin-top:12px;">Paleta propositalmente restrita (B&W + cinza). Opcional: 1 cor de destaque a escolher depois.</p>
+  </div>
+
+  <!-- Prompt IA -->
+  <div class="section">
+    <div class="section-label">Prompt IA · Ideogram 2.0 (recomendado) ou Midjourney v6</div>
+    <div class="prompt-box">Minimalist monoline logo for "Gruta", a modern software studio. A single continuous rounded stroke drawing the letter G reinterpreted as a cave portal — the opening of the G forms the cave mouth, smooth geometric arcs, rounded line caps, uniform stroke weight throughout. Extreme minimalism, no fills, pure line-art. Style references: Linear app logo, Vercel, Stripe, Arc Browser — contemporary silicon valley tech identity, 2026 aesthetic. Pure black stroke #0A0A0F on bright white background #F4F4F6. Perfectly centered, square 1:1 composition, generous negative space, vector-ready, scalable from 16px favicon to billboard, timeless geometry.
+
+<span class="neg">Negative: no text, no letters besides the G mark, no gradients, no shadows, no 3D, no photorealism, no texture, no serif details, no decorative flourishes, no multiple strokes, no color beyond black</span>
+
+<span class="param">Midjourney: --v 6 --ar 1:1 --style raw --s 50
+Ideogram: Design model · Square · Magic Prompt OFF</span></div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- FINALISTA 02: ARCO DUPLO -->
+<!-- ========================================== -->
+<div class="finalist">
+  <div class="finalist-header">
+    <div class="num">Finalista 02</div>
+    <div class="title">Arco Duplo</div>
+    <div class="desc">Portal geométrico com gradient azul-roxo · vibe SaaS premium · narrativa de profundidade (entrada + luz interior)</div>
+  </div>
+
+  <!-- Logo principal -->
+  <div class="section">
+    <div class="section-label">Lockup principal</div>
+    <div class="grid grid-2">
+      <div class="box grad" style="min-height: 220px;">
+        <svg width="200" height="200" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="glow-main" cx="50%" cy="100%" r="80%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <path d="M 20 140 L 20 80 Q 20 20 80 20 Q 140 20 140 80 L 140 140 Z"
+                fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M 40 140 L 40 90 Q 40 40 80 40 Q 120 40 120 90 L 120 140 Z"
+                fill="url(#glow-main)"/>
+          <circle cx="80" cy="100" r="6" fill="#ffffff"/>
+        </svg>
+      </div>
+      <div class="box" style="min-height: 220px; flex-direction: column; gap: 12px;">
+        <svg width="260" height="90" viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <text x="130" y="64" text-anchor="middle" font-family="-apple-system, Inter, sans-serif"
+                font-size="64" font-weight="800" fill="url(#textGrad)" letter-spacing="-3">Gruta</text>
+        </svg>
+        <div style="font-size:10px; letter-spacing:4px; color:#6b6b75; font-weight:600;">SOFTWARE EM PROFUNDIDADE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variações -->
+  <div class="section">
+    <div class="section-label">Variações de uso</div>
+    <div class="grid grid-4">
+
+      <div class="box">
+        <span class="box-label">Favicon</span>
+        <svg width="80" height="80" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fav-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="14" fill="url(#fav-grad)"/>
+          <path d="M 14 54 L 14 30 Q 14 14 32 14 Q 50 14 50 30 L 50 54 Z"
+                fill="none" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"/>
+          <circle cx="32" cy="40" r="3" fill="#ffffff"/>
+        </svg>
+      </div>
+
+      <div class="box">
+        <span class="box-label">Horizontal</span>
+        <svg width="180" height="56" viewBox="0 0 200 56" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hz-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <g transform="translate(4, 6)">
+            <path d="M 6 44 L 6 22 Q 6 6 22 6 Q 38 6 38 22 L 38 44 Z"
+                  fill="none" stroke="url(#hz-grad)" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="22" cy="30" r="2.5" fill="url(#hz-grad)"/>
+          </g>
+          <text x="56" y="34" font-family="-apple-system, Inter, sans-serif"
+                font-size="28" font-weight="800" fill="#0a0a0f" letter-spacing="-1">Gruta</text>
+        </svg>
+      </div>
+
+      <div class="box dark">
+        <span class="box-label">Dark mode</span>
+        <svg width="100" height="100" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dk-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#818cf8"/>
+              <stop offset="100%" stop-color="#c4b5fd"/>
+            </linearGradient>
+            <radialGradient id="dk-glow" cx="50%" cy="100%" r="80%">
+              <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <path d="M 20 140 L 20 80 Q 20 20 80 20 Q 140 20 140 80 L 140 140 Z"
+                fill="none" stroke="url(#dk-grad)" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M 40 140 L 40 90 Q 40 40 80 40 Q 120 40 120 90 L 120 140 Z"
+                fill="url(#dk-glow)"/>
+          <circle cx="80" cy="100" r="6" fill="#ffffff"/>
+        </svg>
+      </div>
+
+      <div class="box">
+        <span class="box-label">Mono (preto)</span>
+        <svg width="100" height="100" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 20 140 L 20 80 Q 20 20 80 20 Q 140 20 140 80 L 140 140 Z"
+                fill="none" stroke="#0a0a0f" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M 40 140 L 40 90 Q 40 40 80 40 Q 120 40 120 90 L 120 140 Z"
+                fill="#0a0a0f" opacity="0.1"/>
+          <circle cx="80" cy="100" r="6" fill="#0a0a0f"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Paleta -->
+  <div class="section">
+    <div class="section-label">Paleta</div>
+    <div class="palette">
+      <div class="swatch" style="background:#6366f1; color:white;">Índigo<code>#6366F1</code></div>
+      <div class="swatch" style="background:#a78bfa; color:white;">Violeta<code>#A78BFA</code></div>
+      <div class="swatch" style="background:#0a0a0f; color:white;">Caverna<code>#0A0A0F</code></div>
+      <div class="swatch" style="background:#ffffff; color:#0a0a0f; border: 1px solid #ececf0;">Luz<code>#FFFFFF</code></div>
+    </div>
+  </div>
+
+  <!-- Prompt IA -->
+  <div class="section">
+    <div class="section-label">Prompt IA · Midjourney v6 (recomendado para gradients)</div>
+    <div class="prompt-box">Premium flat vector logo for "Gruta" software studio. Composition: two concentric arched cave portals, one inside the other, forming a sense of depth and descent. Outer arch is a clean stroke outline, inner arch is a soft radial glow suggesting luminosity at the cave's core. A single small white dot floats at the center of the inner arch — the point of light, the destination, the idea. Style: geometric, minimal, SaaS-premium aesthetic. Color palette: indigo to violet gradient (#6366F1 to #A78BFA) on a complementary dark indigo #1E1B4B background, or inverted on white. Composition perfectly centered, square 1:1, generous padding, sharp geometric curves, scalable from favicon to enterprise billboard. Modern 2026 tech brand identity — references: Linear, Stripe, Vercel, Arc Browser.
+
+<span class="neg">Negative: no text, no letters, no people, no mascot, no realistic cave, no photorealism, no multiple objects, no cluttered details, no heavy shadows, no 3D rendering, no decorative flourishes</span>
+
+<span class="param">Midjourney: --v 6 --ar 1:1 --style raw --s 120
+Ideogram: Design model · Square · Magic Prompt OFF</span></div>
+  </div>
+</div>
+
+<p style="text-align:center; margin: 40px auto 60px; color:#6b6b75; font-size:13px; max-width:600px; line-height:1.6;">
+  <strong>Próximo passo:</strong> rode os prompts no Ideogram ou Midjourney (2-3 variações cada), me manda o resultado e decidimos entre o SVG aqui e a versão IA — ou fundimos o melhor dos dois.
+</p>
+
+</body>
+</html>

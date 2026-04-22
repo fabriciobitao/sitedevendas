@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CodeCave — Caverna Viva (refinado)</title>
+<style>
+  :root {
+    --stone: #1a1a20;
+    --fire: #f59e0b;
+    --fire-deep: #dc6803;
+    --bone: #f4f4f6;
+    --muted: #6b6b75;
+  }
+  body { margin: 0; padding: 40px 24px; background: #ececf0; color: #1a1a20; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
+  h1 { font-weight: 700; font-size: 22px; margin: 0 0 8px; text-align: center; }
+  .sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 48px; }
+  .section { max-width: 1200px; margin: 0 auto 48px; }
+  .section-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+  .grid { display: grid; gap: 16px; }
+  .card { background: white; border: 1px solid #dcdce2; border-radius: 14px; padding: 32px 24px; display: flex; align-items: center; justify-content: center; min-height: 180px; position: relative; }
+  .card.dark { background: #0d0d10; border-color: #26262c; }
+  .card-label { position: absolute; top: 12px; left: 16px; font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .card.dark .card-label { color: #6b6b75; }
+  .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .row-4 { grid-template-columns: repeat(4, 1fr); }
+  .row-2 { grid-template-columns: 2fr 1fr; }
+  @media (max-width: 768px) { .row-3, .row-4, .row-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>CodeCave — Caverna Viva</h1>
+<p class="sub">Versão refinada · variações de uso · pronto pra Figma</p>
+
+<!-- LOGO PRINCIPAL -->
+<div class="section">
+  <div class="section-title">01 · Logo principal (lockup vertical)</div>
+  <div class="grid row-2">
+    <div class="card">
+      <svg width="280" height="280" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Estalactites (topo, descendo) - ritmo irregular, grosso no meio -->
+        <g fill="#1a1a20">
+          <path d="M 30 20 L 42 20 L 38 80 Z"/>
+          <path d="M 52 20 L 70 20 L 62 115 Z"/>
+          <path d="M 80 20 L 92 20 L 88 65 Z"/>
+          <path d="M 100 20 L 124 20 L 114 140 Z"/>
+          <path d="M 134 20 L 148 20 L 143 95 Z"/>
+          <path d="M 158 20 L 178 20 L 170 125 Z"/>
+          <path d="M 188 20 L 202 20 L 198 75 Z"/>
+          <path d="M 210 20 L 218 20 L 214 55 Z"/>
+        </g>
+        <!-- Chão (estalagmites invertidas + base) -->
+        <path d="M 10 200 Q 40 180 70 195 Q 100 205 130 190 Q 160 178 190 195 Q 215 208 230 200 L 230 250 L 10 250 Z"
+              fill="#1a1a20"/>
+        <!-- Fogueira: base de lenhas -->
+        <g fill="#1a1a20" opacity="0.9">
+          <rect x="108" y="205" width="24" height="3" rx="1"/>
+          <rect x="104" y="210" width="32" height="3" rx="1" transform="rotate(8 120 211)"/>
+          <rect x="104" y="210" width="32" height="3" rx="1" transform="rotate(-8 120 211)"/>
+        </g>
+        <!-- Chama: camada externa (glow laranja) -->
+        <ellipse cx="120" cy="200" rx="28" ry="6" fill="#f59e0b" opacity="0.15"/>
+        <!-- Chama: formato orgânico -->
+        <path d="M 120 195
+                 C 112 195 108 188 110 180
+                 C 112 176 108 170 114 166
+                 C 116 170 118 168 118 164
+                 C 120 160 124 158 122 168
+                 C 126 164 130 170 128 176
+                 C 132 180 130 188 128 192
+                 C 126 196 124 196 120 195 Z"
+              fill="#f59e0b"/>
+        <!-- Núcleo quente -->
+        <path d="M 120 190
+                 C 116 190 114 186 116 180
+                 C 118 176 120 174 120 170
+                 C 122 174 124 180 122 186
+                 C 122 188 122 190 120 190 Z"
+              fill="#fbbf24"/>
+      </svg>
+    </div>
+    <div class="card">
+      <svg width="260" height="100" viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="130" y="55" text-anchor="middle"
+              font-family="-apple-system, Inter, sans-serif"
+              font-size="38" font-weight="800" fill="#1a1a20" letter-spacing="-1.5">Code<tspan fill="#f59e0b">Cave</tspan></text>
+        <text x="130" y="78" text-anchor="middle"
+              font-family="-apple-system, Inter, sans-serif"
+              font-size="10" font-weight="600" fill="#6b6b75" letter-spacing="4">DEVS NA CAVERNA</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- VARIAÇÕES -->
+<div class="section">
+  <div class="section-title">02 · Variações de uso</div>
+  <div class="grid row-4">
+
+    <!-- Favicon 32x32 -->
+    <div class="card">
+      <span class="card-label">Favicon</span>
+      <svg width="120" height="120" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="14" fill="#1a1a20"/>
+        <g fill="#f4f4f6">
+          <path d="M 10 8 L 14 8 L 13 22 Z"/>
+          <path d="M 18 8 L 24 8 L 21 30 Z"/>
+          <path d="M 28 8 L 34 8 L 31 20 Z"/>
+          <path d="M 38 8 L 46 8 L 43 32 Z"/>
+          <path d="M 50 8 L 56 8 L 53 24 Z"/>
+        </g>
+        <path d="M 32 42
+                 C 28 42 26 38 28 34
+                 C 30 31 28 27 31 24
+                 C 32 27 34 26 33 22
+                 C 35 20 38 20 35 28
+                 C 38 25 41 30 39 34
+                 C 42 37 40 42 38 44
+                 C 36 46 34 46 32 42 Z"
+              fill="#f59e0b"/>
+      </svg>
+    </div>
+
+    <!-- Logo horizontal -->
+    <div class="card">
+      <span class="card-label">Horizontal</span>
+      <svg width="240" height="60" viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
+        <!-- Mini caverna à esquerda -->
+        <g transform="translate(0, 4)">
+          <g fill="#1a1a20">
+            <path d="M 6 0 L 10 0 L 9 16 Z"/>
+            <path d="M 14 0 L 20 0 L 17 22 Z"/>
+            <path d="M 24 0 L 30 0 L 27 14 Z"/>
+            <path d="M 34 0 L 42 0 L 39 24 Z"/>
+            <path d="M 46 0 L 52 0 L 49 18 Z"/>
+          </g>
+          <path d="M 28 40
+                   C 24 40 22 36 24 32
+                   C 26 29 24 25 27 22
+                   C 28 25 30 24 29 20
+                   C 31 18 34 18 31 26
+                   C 34 23 37 28 35 32
+                   C 38 35 36 40 34 42
+                   C 32 44 30 44 28 40 Z"
+                fill="#f59e0b"/>
+        </g>
+        <text x="72" y="40" font-family="-apple-system, Inter, sans-serif"
+              font-size="28" font-weight="800" fill="#1a1a20" letter-spacing="-1">Code<tspan fill="#f59e0b">Cave</tspan></text>
+      </svg>
+    </div>
+
+    <!-- Monocromático claro -->
+    <div class="card dark">
+      <span class="card-label">Mono (dark)</span>
+      <svg width="140" height="140" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f4f4f6">
+          <path d="M 20 12 L 26 12 L 24 50 Z"/>
+          <path d="M 32 12 L 42 12 L 38 68 Z"/>
+          <path d="M 48 12 L 56 12 L 53 42 Z"/>
+          <path d="M 62 12 L 76 12 L 70 82 Z"/>
+          <path d="M 82 12 L 92 12 L 88 56 Z"/>
+          <path d="M 98 12 L 110 12 L 104 72 Z"/>
+          <path d="M 116 12 L 122 12 L 120 44 Z"/>
+        </g>
+        <path d="M 5 118 Q 25 108 45 115 Q 70 122 95 112 Q 115 105 135 115 L 135 148 L 5 148 Z"
+              fill="#f4f4f6"/>
+        <path d="M 70 115
+                 C 64 115 61 108 63 100
+                 C 66 95 63 88 68 84
+                 C 70 88 73 86 72 80
+                 C 74 74 79 74 76 86
+                 C 80 80 84 88 82 94
+                 C 86 98 84 108 82 112
+                 C 80 116 76 116 70 115 Z"
+              fill="#f59e0b"/>
+      </svg>
+    </div>
+
+    <!-- Só símbolo -->
+    <div class="card">
+      <span class="card-label">Símbolo</span>
+      <svg width="140" height="140" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#1a1a20">
+          <path d="M 20 12 L 26 12 L 24 50 Z"/>
+          <path d="M 32 12 L 42 12 L 38 68 Z"/>
+          <path d="M 48 12 L 56 12 L 53 42 Z"/>
+          <path d="M 62 12 L 76 12 L 70 82 Z"/>
+          <path d="M 82 12 L 92 12 L 88 56 Z"/>
+          <path d="M 98 12 L 110 12 L 104 72 Z"/>
+          <path d="M 116 12 L 122 12 L 120 44 Z"/>
+        </g>
+        <path d="M 5 118 Q 25 108 45 115 Q 70 122 95 112 Q 115 105 135 115 L 135 148 L 5 148 Z"
+              fill="#1a1a20"/>
+        <path d="M 70 115
+                 C 64 115 61 108 63 100
+                 C 66 95 63 88 68 84
+                 C 70 88 73 86 72 80
+                 C 74 74 79 74 76 86
+                 C 80 80 84 88 82 94
+                 C 86 98 84 108 82 112
+                 C 80 116 76 116 70 115 Z"
+              fill="#f59e0b"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- PALETA -->
+<div class="section">
+  <div class="section-title">03 · Paleta</div>
+  <div class="grid row-4">
+    <div class="card" style="background:#1a1a20; color:white;"><div><strong>Pedra</strong><br><code style="font-size:12px;">#1A1A20</code></div></div>
+    <div class="card" style="background:#f59e0b; color:#1a1a20;"><div><strong>Fogo</strong><br><code style="font-size:12px;">#F59E0B</code></div></div>
+    <div class="card" style="background:#dc6803; color:white;"><div><strong>Brasa</strong><br><code style="font-size:12px;">#DC6803</code></div></div>
+    <div class="card" style="background:#f4f4f6; color:#1a1a20;"><div><strong>Osso</strong><br><code style="font-size:12px;">#F4F4F6</code></div></div>
+  </div>
+</div>
+
+<p style="text-align:center; margin-top:48px; color:var(--muted); font-size:12px;">Pra editar: arraste este HTML pro Figma (File → Import), ou abra no Illustrator. Todos os elementos são SVG puro.</p>
+
+</body>
+</html>

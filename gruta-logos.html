@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gruta — 3 conceitos modernos</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 24px; background: #0a0a0f; color: #e8e8ea; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; min-height: 100vh; }
+  h1 { font-weight: 700; font-size: 24px; margin: 0 0 8px; text-align: center; letter-spacing: -0.5px; }
+  .sub { text-align: center; color: #6b6b75; font-size: 13px; margin-bottom: 56px; letter-spacing: 0.3px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; max-width: 1280px; margin: 0 auto; }
+  .card { background: #13131a; border: 1px solid #23232c; border-radius: 20px; overflow: hidden; transition: transform 0.2s; }
+  .card:hover { transform: translateY(-2px); border-color: #33333e; }
+  .stage { padding: 60px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; min-height: 280px; }
+  .stage.light { background: linear-gradient(135deg, #f4f4f6 0%, #e8e8ec 100%); }
+  .stage.dark { background: radial-gradient(circle at 30% 30%, #1a1a24 0%, #0a0a10 100%); }
+  .stage.gradient { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%); }
+  .meta { padding: 24px; border-top: 1px solid #23232c; }
+  .meta .num { font-size: 11px; color: #6b6b75; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .meta .name { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .meta .desc { font-size: 13px; color: #9a9aa5; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>Gruta</h1>
+<p class="sub">3 direções modernas · escolha a base</p>
+
+<div class="grid">
+
+  <!-- CONCEITO 1: G-Portal -->
+  <div class="card">
+    <div class="stage light">
+      <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- G como portal/arco -->
+        <path d="M 80 20
+                 C 45 20 20 45 20 80
+                 C 20 115 45 140 80 140
+                 C 100 140 118 130 128 114
+                 L 128 80
+                 L 90 80
+                 L 90 96
+                 L 110 96
+                 L 110 108
+                 C 104 116 92 122 80 122
+                 C 55 122 38 105 38 80
+                 C 38 55 55 38 80 38
+                 C 95 38 108 46 116 58"
+              fill="none" stroke="#0a0a0f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="120" height="32" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg">
+        <text x="60" y="24" text-anchor="middle" font-family="-apple-system, Inter, sans-serif"
+              font-size="26" font-weight="800" fill="#0a0a0f" letter-spacing="-1">gruta</text>
+      </svg>
+    </div>
+    <div class="meta">
+      <div class="num">01 · Monoline</div>
+      <div class="name">G-Portal</div>
+      <div class="desc">Letra G desenhada como portal de uma linha só. Moderno, minimal, vibe Linear/Vercel. Funciona em preto puro, escalável até favicon.</div>
+    </div>
+  </div>
+
+  <!-- CONCEITO 2: Arco geométrico -->
+  <div class="card">
+    <div class="stage dark">
+      <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#a78bfa"/>
+          </linearGradient>
+          <radialGradient id="innerGlow" cx="50%" cy="100%" r="80%">
+            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Arco externo (gruta) -->
+        <path d="M 20 140 L 20 80 Q 20 20 80 20 Q 140 20 140 80 L 140 140 Z"
+              fill="none" stroke="url(#arcGrad)" stroke-width="8" stroke-linejoin="round"/>
+        <!-- Arco interno (profundidade) -->
+        <path d="M 40 140 L 40 90 Q 40 40 80 40 Q 120 40 120 90 L 120 140 Z"
+              fill="url(#innerGlow)"/>
+        <!-- Ponto focal -->
+        <circle cx="80" cy="100" r="6" fill="#ffffff"/>
+      </svg>
+      <svg width="140" height="32" viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg">
+        <text x="70" y="24" text-anchor="middle" font-family="-apple-system, Inter, sans-serif"
+              font-size="26" font-weight="800" fill="#ffffff" letter-spacing="-1">Gruta</text>
+      </svg>
+    </div>
+    <div class="meta">
+      <div class="num">02 · Portal</div>
+      <div class="name">Arco Duplo</div>
+      <div class="desc">Duas entradas concêntricas com gradient azul-roxo + ponto de luz central. Vibe SaaS premium (Stripe, Linear). Bilíngue, atemporal.</div>
+    </div>
+  </div>
+
+  <!-- CONCEITO 3: Negative space -->
+  <div class="card">
+    <div class="stage gradient">
+      <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Círculo sólido branco com gruta (arco) em negative space -->
+        <circle cx="80" cy="80" r="64" fill="#ffffff"/>
+        <path d="M 50 120 L 50 90 Q 50 60 80 60 Q 110 60 110 90 L 110 120 Z"
+              fill="#6366f1"/>
+      </svg>
+      <svg width="120" height="32" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg">
+        <text x="60" y="24" text-anchor="middle" font-family="-apple-system, Inter, sans-serif"
+              font-size="26" font-weight="800" fill="#ffffff" letter-spacing="-1">gruta</text>
+      </svg>
+    </div>
+    <div class="meta">
+      <div class="num">03 · Negative Space</div>
+      <div class="name">Selo</div>
+      <div class="desc">Círculo branco com arco de gruta recortado em negativo. Vira carimbo/selo, funciona em qualquer fundo, memorável como Notion ou Airbnb.</div>
+    </div>
+  </div>
+
+  <!-- CONCEITO 4 (bônus): Wordmark puro -->
+  <div class="card">
+    <div class="stage light">
+      <svg width="260" height="90" viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- "gruta" com o "g" como arco -->
+        <g font-family="-apple-system, Inter, sans-serif" font-size="72" font-weight="800" fill="#0a0a0f" letter-spacing="-3">
+          <text x="0" y="70">gruta</text>
+        </g>
+        <!-- Arco sobre o g (indica profundidade) -->
+        <path d="M 8 78 Q 24 58 40 78" fill="none" stroke="#ec4899" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <div class="num">04 · Wordmark</div>
+      <div class="name">Só tipografia</div>
+      <div class="desc">Wordmark limpo com arco rosa sublinhando o "g". Economia máxima, tipo Stripe ou Vercel. Usa o minúsculo como assinatura moderna.</div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center; margin-top:56px; color:#4a4a55; font-size:12px;">Me diga qual número (01/02/03/04) te pegou — refino a versão final + gero prompt IA dedicado.</p>
+
+</body>
+</html>

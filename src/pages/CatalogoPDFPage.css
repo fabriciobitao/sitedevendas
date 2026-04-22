@@ -1826,21 +1826,19 @@
     grid-auto-rows: min-content !important;
     gap: 2px !important;
   }
-  /* Cards nao tem mais page-break-inside: avoid — deixa o navegador
-     preencher as paginas sem deixar buracos no fim da folha.
-     A page-break-inside: avoid ficava empurrando cards inteiros para
-     a proxima pagina e criando espacos vazios. */
+  /* Cards nao quebram no meio — evita cortar imagem/preco entre paginas.
+     Card pequeno (~40mm) raramente cria buracos significativos. */
   .layout-catalogo .catpdf-compact-card {
-    page-break-inside: auto !important;
-    break-inside: auto !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
     width: auto !important;
     max-width: none !important;
   }
   .layout-catalogo .catpdf-compact-card-img {
     aspect-ratio: 1 !important;
     width: 100% !important;
-    height: 30mm !important;
-    max-height: 30mm !important;
+    height: 28mm !important;
+    max-height: 28mm !important;
   }
   .layout-catalogo .catpdf-compact-card-name {
     font-size: 9px !important;
@@ -1850,10 +1848,26 @@
   .layout-catalogo .catpdf-compact-card-price {
     font-size: 11.5px !important;
   }
+  /* Subcategoria pode quebrar entre linhas de cards, mas o titulo
+     fica colado na primeira linha (via sub-name page-break-after: avoid) */
   .layout-catalogo .catpdf-compact-sub {
     page-break-inside: auto;
     break-inside: auto;
-    margin-bottom: 1mm !important;
+    margin-bottom: 1.5mm !important;
+  }
+  /* Reforco critico: titulo de subcategoria NUNCA fica orfao no fim da pagina */
+  .layout-catalogo .catpdf-compact-sub-name {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  /* Banda de categoria tambem nao pode ficar orfa */
+  .layout-catalogo .catpdf-compact-cat-band {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .layout-catalogo .catpdf-compact-footer {
     margin-top: 4mm;
