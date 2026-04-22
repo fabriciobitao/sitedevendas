@@ -38,7 +38,6 @@ export function CartProvider({ children }) {
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState(null);
   const [authGate, setAuthGate] = useState(null);
-  const sentTimerRef = useRef(null);
   const lastUserRef = useRef(user?.uid || null);
 
   const triggerAuthGate = useCallback(() => {
@@ -298,34 +297,14 @@ export function CartProvider({ children }) {
       openWhatsApp(message);
     }
 
+    setItems([]);
     setSending(false);
     setSent(true);
-
-    if (sentTimerRef.current) clearTimeout(sentTimerRef.current);
-    sentTimerRef.current = setTimeout(() => {
-      setItems([]);
-      setSent(false);
-      setIsOpen(false);
-      sentTimerRef.current = null;
-    }, 60000);
   }, [sending, sent, items, user, customerProfile, generateMessage, buildOrderPayload, buildLeadPayload, saveWithRetry, openWhatsApp]);
 
   const confirmSent = useCallback(() => {
-    if (sentTimerRef.current) {
-      clearTimeout(sentTimerRef.current);
-      sentTimerRef.current = null;
-    }
-    setItems([]);
     setSent(false);
     setIsOpen(false);
-  }, []);
-
-  const cancelSent = useCallback(() => {
-    if (sentTimerRef.current) {
-      clearTimeout(sentTimerRef.current);
-      sentTimerRef.current = null;
-    }
-    setSent(false);
   }, []);
 
   const clearSendError = useCallback(() => setSendError(null), []);
@@ -380,7 +359,6 @@ export function CartProvider({ children }) {
       toggleCart,
       sendOrder,
       confirmSent,
-      cancelSent,
       clearSendError,
       loadOrder,
       authGate,

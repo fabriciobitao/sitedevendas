@@ -18,7 +18,6 @@ export default function Cart() {
     closeCart,
     sendOrder,
     confirmSent,
-    cancelSent,
     clearSendError,
   } = useCart();
 
@@ -103,10 +102,7 @@ export default function Cart() {
             <span>Confira a mensagem no WhatsApp para finalizar</span>
             <div className="cart-sent-actions">
               <button className="cart-sent-confirm" onClick={confirmSent}>
-                Tudo certo, pode fechar
-              </button>
-              <button className="cart-sent-cancel" onClick={() => { cancelSent(); setStep('cart'); }}>
-                Não enviou? Voltar ao carrinho
+                Fechar
               </button>
             </div>
           </div>
