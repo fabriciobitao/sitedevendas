@@ -7,6 +7,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 const CartContext = createContext();
 
 const API_URL = import.meta.env.VITE_ORDER_API_URL || '';
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
 const MAX_QTY_PER_ITEM = 999;
 
 const toNumber = (v) => {
@@ -248,6 +249,23 @@ export function CartProvider({ children }) {
     if (!w || w.closed) window.location.href = u;
   }, []);
 
+  const sendOrderEmail = useCallback(async (customerInfo, orderId, message) => {
+    if (!WEB3FORMS_KEY) return;
+    try {
+      const cleanMessage = message.replace(/\*/g, '').replace(/▸/g, '-');
+      const name = customerInfo?.name || 'Cliente não identificado';
+      const totalLabel = totalPrice > 0 ? ` (R$ ${totalPrice.toFixed(2)})` : '';
+      const fd = new FormData();
+      fd.append('access_key', WEB3FORMS_KEY);
+      fd.append('subject', `Novo pedido - ${name}${totalLabel}`);
+      fd.append('from_name', 'Site Frios Ouro Fino');
+      fd.append('message', `${cleanMessage}\n\n──────────────\nID do pedido: ${orderId || 'N/A'}`);
+      await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+    } catch (err) {
+      console.warn('Notificação por email falhou (pedido segue salvo):', err);
+    }
+  }, [totalPrice]);
+
   const sendOrder = useCallback(async (observations) => {
     if (sending || sent) return;
     if (items.length === 0) return;
@@ -281,6 +299,9 @@ export function CartProvider({ children }) {
       return;
     }
 
+    // Notificação por email em paralelo (não bloqueia fluxo do WhatsApp)
+    sendOrderEmail(customerInfo, orderId, message);
+
     // Abre WhatsApp
     if (API_URL) {
       try {
@@ -300,7 +321,7 @@ export function CartProvider({ children }) {
     setItems([]);
     setSending(false);
     setSent(true);
-  }, [sending, sent, items, user, customerProfile, generateMessage, buildOrderPayload, buildLeadPayload, saveWithRetry, openWhatsApp]);
+  }, [sending, sent, items, user, customerProfile, generateMessage, buildOrderPayload, buildLeadPayload, saveWithRetry, openWhatsApp, sendOrderEmail]);
 
   const confirmSent = useCallback(() => {
     setSent(false);
