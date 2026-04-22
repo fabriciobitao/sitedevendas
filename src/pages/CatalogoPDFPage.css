@@ -1606,19 +1606,19 @@
 
 .catpdf-compact-card-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
   color: var(--pdf-ink);
-  line-height: 1.2;
+  line-height: 1.15;
   margin: 0;
-  padding: 3px 5px 1px;
+  padding: 2px 4px 1px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   letter-spacing: -0.1px;
   word-break: break-word;
-  min-height: 2.4em;
+  min-height: 2.15em;
 }
 
 .catpdf-compact-card-foot {
@@ -1758,7 +1758,7 @@
 @media print {
   @page {
     size: A4 portrait;
-    margin: 5mm 4mm 5mm 4mm;
+    margin: 3mm 3mm 3mm 3mm;
   }
 
   body, html {
@@ -1823,31 +1823,37 @@
   .layout-catalogo .catpdf-compact-grid {
     display: grid !important;
     grid-template-columns: repeat(5, 1fr) !important;
-    gap: 3px !important;
+    grid-auto-rows: min-content !important;
+    gap: 2px !important;
   }
+  /* Cards nao tem mais page-break-inside: avoid — deixa o navegador
+     preencher as paginas sem deixar buracos no fim da folha.
+     A page-break-inside: avoid ficava empurrando cards inteiros para
+     a proxima pagina e criando espacos vazios. */
   .layout-catalogo .catpdf-compact-card {
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
     width: auto !important;
     max-width: none !important;
   }
   .layout-catalogo .catpdf-compact-card-img {
     aspect-ratio: 1 !important;
     width: 100% !important;
-    height: 34mm !important;
-    max-height: 34mm !important;
+    height: 30mm !important;
+    max-height: 30mm !important;
   }
   .layout-catalogo .catpdf-compact-card-name {
-    font-size: 9.5px !important;
-    padding: 3px 5px 1px !important;
-    min-height: 2.4em !important;
+    font-size: 9px !important;
+    padding: 2px 4px 1px !important;
+    min-height: 2.2em !important;
   }
   .layout-catalogo .catpdf-compact-card-price {
-    font-size: 12px !important;
+    font-size: 11.5px !important;
   }
   .layout-catalogo .catpdf-compact-sub {
     page-break-inside: auto;
     break-inside: auto;
+    margin-bottom: 1mm !important;
   }
   .layout-catalogo .catpdf-compact-footer {
     margin-top: 4mm;
