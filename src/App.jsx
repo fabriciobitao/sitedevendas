@@ -6,6 +6,7 @@ import { CartProvider, useCart } from './context/CartContext';
 import { ProductsProvider, useProducts } from './context/ProductsContext';
 import useContentProtection from './hooks/useContentProtection';
 import { useAutoUpdate } from './hooks/useAutoUpdate';
+import { useFavorites } from './hooks/useFavorites';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
@@ -16,6 +17,7 @@ import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
+import TopProducts from './components/TopProducts';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -47,9 +49,11 @@ function AdminRoute({ children }) {
 function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const { user } = useAuth();
   const { products, loading: productsLoading } = useProducts();
+  const { favorites, count: favCount } = useFavorites();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [filtersCompact, setFiltersCompact] = useState(false);
   const productsRef = useRef(null);
 
@@ -130,6 +134,10 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
 
   const filteredProducts = useMemo(() => {
     let result = products;
+    if (onlyFavorites) {
+      const favSet = new Set(favorites);
+      result = result.filter(p => favSet.has(p.id) || favSet.has(p.legacyId) || favSet.has(p.firestoreId));
+    }
     if (isSearching) {
       result = result
         .map(p => ({ p, score: scoreMatch(p, searchTerm) }))
@@ -146,7 +154,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       result = result.filter(p => p.subcategory === subcategory);
     }
     return result;
-  }, [products, searchTerm, isSearching, category, subcategory]);
+  }, [products, searchTerm, isSearching, category, subcategory, onlyFavorites, favorites]);
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
@@ -195,6 +203,21 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         <div className="filters-row">
           <CategoryFilter selected={category} onSelect={handleCategoryChange} />
         </div>
+        {favCount > 0 && (
+          <div className="filters-row filters-row--fav">
+            <button
+              type="button"
+              className={`fav-filter-btn ${onlyFavorites ? 'active' : ''}`}
+              onClick={() => setOnlyFavorites((v) => !v)}
+              aria-pressed={onlyFavorites}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={onlyFavorites ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              {onlyFavorites ? 'Mostrar todos' : `Meus favoritos (${favCount})`}
+            </button>
+          </div>
+        )}
       </section>
 
       <div ref={productsRef} className="results-anchor" />
@@ -203,6 +226,10 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         <ProductsLoader done={!productsLoading} />
       ) : (
         <>
+      {!isSearching && category === 'all' && !onlyFavorites && (
+        <TopProducts onAdded={handleProductAdded} />
+      )}
+
       <div className="results-info">
         <span className="results-count">
           {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''}

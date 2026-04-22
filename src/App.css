@@ -318,6 +318,35 @@
   display: none;
 }
 
+.filters-row--fav {
+  justify-content: center;
+  overflow: visible !important;
+}
+
+.fav-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #E5D8C4;
+  background: #fff;
+  color: #8E7E6E;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.fav-filter-btn:hover {
+  border-color: #D44D2D;
+  color: #D44D2D;
+}
+.fav-filter-btn.active {
+  background: #D44D2D;
+  border-color: #D44D2D;
+  color: #fff;
+}
+
 /* Results */
 .results-anchor {
   scroll-margin-top: 260px;
