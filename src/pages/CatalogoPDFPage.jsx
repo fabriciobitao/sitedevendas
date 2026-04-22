@@ -76,7 +76,11 @@ export default function CatalogoPDFPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { products, loading } = useProducts();
   const tipo = searchParams.get('tipo') === 'esgotados' ? 'esgotados' : 'estoque';
-  const layout = searchParams.get('layout') === 'detalhado' ? 'detalhado' : 'compacto';
+  const layoutParam = searchParams.get('layout');
+  // Padrao = catalogo (denso, pronto pra imprimir). 'apresentacao' = versao com capa/divisores.
+  const layout = layoutParam === 'apresentacao' || layoutParam === 'detalhado'
+    ? 'apresentacao'
+    : 'catalogo';
 
   const filtered = useMemo(() => {
     if (!products) return [];
@@ -124,7 +128,7 @@ export default function CatalogoPDFPage() {
   const handlePrint = () => window.print();
 
   const toggleLayout = () => {
-    const novo = layout === 'detalhado' ? 'compacto' : 'detalhado';
+    const novo = layout === 'apresentacao' ? 'catalogo' : 'apresentacao';
     searchParams.set('layout', novo);
     setSearchParams(searchParams, { replace: true });
   };
@@ -147,13 +151,13 @@ export default function CatalogoPDFPage() {
         </div>
         <button className="catpdf-btn-layout" onClick={toggleLayout} title="Alternar layout">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            {layout === 'detalhado' ? (
+            {layout === 'apresentacao' ? (
               <><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></>
             ) : (
               <><rect x="3" y="3" width="18" height="7" /><rect x="3" y="14" width="18" height="7" /></>
             )}
           </svg>
-          {layout === 'detalhado' ? 'Compacto' : 'Detalhado'}
+          {layout === 'apresentacao' ? 'Catálogo' : 'Apresentação'}
         </button>
         <button className="catpdf-btn-print" onClick={handlePrint}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -245,6 +249,75 @@ export default function CatalogoPDFPage() {
               <span>Gerado em {formatDate()}</span>
             </footer>
           </section>
+        ) : layout === 'catalogo' ? (
+        <>
+        {/* ====== MODO CATALOGO COMERCIAL — denso, pronto para impressao ====== */}
+        <section className="catpdf-compact-header">
+          <div className="catpdf-compact-header-left">
+            <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-compact-logo" />
+          </div>
+          <div className="catpdf-compact-header-center">
+            <div className="catpdf-compact-brand">Frios Ouro Fino Ltda.</div>
+            <h1 className="catpdf-compact-title">{titulo}</h1>
+            <div className="catpdf-compact-meta">
+              <span>{formatMonthYear()}</span>
+              <span className="sep">·</span>
+              <span><strong>{totalItens}</strong> itens</span>
+              <span className="sep">·</span>
+              <span>{categoriasOrdenadas.length} categorias</span>
+            </div>
+            <div className="catpdf-compact-contact">
+              <span className="wa">WhatsApp (35) 99851-1194</span>
+              <span className="sep">·</span>
+              <span>{SITE}</span>
+            </div>
+          </div>
+          <div className="catpdf-compact-header-right">
+            <img src={qrUrl(`https://${SITE}`, 160)} alt="QR" className="catpdf-compact-qr" />
+            <div className="catpdf-compact-qr-label">Compre online</div>
+          </div>
+        </section>
+
+        {categoriasOrdenadas.map((cat) => {
+          const subs = grouped[cat];
+          const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+          const subKeys = Object.keys(subs).sort();
+          return (
+            <section key={cat} className={`catpdf-compact-section cat-${cat.toLowerCase()}`}>
+              <div className="catpdf-compact-cat-band">
+                <span className="catpdf-compact-cat-name">{cat}</span>
+                <span className="catpdf-compact-cat-dots" />
+                <span className="catpdf-compact-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+              </div>
+              {subKeys.map((sub) => (
+                <div key={sub} className="catpdf-compact-sub">
+                  <h3 className="catpdf-compact-sub-name">
+                    <span className="catpdf-compact-sub-rule" />
+                    <span>{sub}</span>
+                    <span className="catpdf-compact-sub-count">{subs[sub].length}</span>
+                    <span className="catpdf-compact-sub-rule" />
+                  </h3>
+                  <div className="catpdf-compact-grid">
+                    {subs[sub].map((p) => <CompactProductCard key={p.firestoreId || p.id} product={p} />)}
+                  </div>
+                </div>
+              ))}
+            </section>
+          );
+        })}
+
+        <footer className="catpdf-compact-footer">
+          <div className="catpdf-compact-footer-inner">
+            <img src="/logo.jpg" alt="Frios Ouro Fino" className="catpdf-compact-footer-logo" />
+            <div className="catpdf-compact-footer-text">
+              <strong>Frios Ouro Fino Ltda.</strong>
+              <span>WhatsApp (35) 99851-1194 · {SITE}</span>
+              <span className="note">Preços sujeitos a alteração sem aviso prévio · Edição de {formatMonthYear()}</span>
+            </div>
+            <img src={qrUrl(`https://wa.me/${WHATSAPP}`, 140)} alt="WhatsApp" className="catpdf-compact-footer-qr" />
+          </div>
+        </footer>
+        </>
         ) : (
         <>
         {/* ====== CAPA ====== */}
@@ -332,7 +405,7 @@ export default function CatalogoPDFPage() {
                       <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
                     </h3>
                     <div className="catpdf-grid">
-                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout="detalhado" />)}
                     </div>
                   </div>
                 ))}
@@ -431,6 +504,42 @@ function ShoppingList({ subs, subKeys, startNum = 1 }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function CompactProductCard({ product: p }) {
+  const [step, setStep] = useState(0);
+  const price = formatPrice(p.price);
+  const proxy = proxySrc(p.image);
+  let src = null;
+  if (step === 0) src = p.image || null;
+  else if (step === 1) src = proxy;
+
+  const handleError = () => {
+    if (step === 0 && proxy) setStep(1);
+    else setStep(2);
+  };
+
+  return (
+    <article className={`catpdf-compact-card ${p.outOfStock ? 'out' : ''}`}>
+      <div className="catpdf-compact-card-img">
+        {src ? (
+          <img src={src} alt={p.name} loading="eager" referrerPolicy="no-referrer" onError={handleError} />
+        ) : (
+          <div className="catpdf-compact-card-placeholder">
+            {(p.name || '?').charAt(0).toUpperCase()}
+          </div>
+        )}
+        {p.outOfStock && <span className="catpdf-compact-card-badge">ESGOTADO</span>}
+      </div>
+      <h4 className="catpdf-compact-card-name">{p.name}</h4>
+      <div className="catpdf-compact-card-foot">
+        <span className="catpdf-compact-card-unit">{p.unit || 'un'}</span>
+        <span className={`catpdf-compact-card-price ${price ? '' : 'no-price'}`}>
+          {price || 'Consultar'}
+        </span>
+      </div>
+    </article>
   );
 }
 
