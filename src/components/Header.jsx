@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLastOrder } from '../hooks/useLastOrder';
 import './Header.css';
 
 export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onOpenSearch }) {
-  const { totalItems, toggleCart } = useCart();
+  const { totalItems, toggleCart, loadOrder, items } = useCart();
   const { user, customerProfile, loading, logout } = useAuth();
+  const { order: lastOrder } = useLastOrder(user);
   const navigate = useNavigate();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -39,6 +41,19 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
   if (location.pathname.startsWith('/admin/catalogo')) return null;
 
   const displayName = customerProfile?.nomeFantasia || customerProfile?.nomeResponsavel || user?.email?.split('@')[0] || '';
+  const hasLastOrder = !!(user && lastOrder && Array.isArray(lastOrder.items) && lastOrder.items.length > 0);
+
+  const handleRepeatLast = () => {
+    if (!hasLastOrder) return;
+    if (items.length > 0) {
+      const ok = window.confirm('Isso vai substituir os itens atuais do seu carrinho pelos do último pedido. Continuar?');
+      if (!ok) return;
+    }
+    const warnings = loadOrder(lastOrder.items);
+    if (warnings.length > 0) {
+      alert(`Alguns produtos do último pedido não estão disponíveis:\n\n${warnings.join('\n')}\n\nOs demais foram adicionados ao carrinho.`);
+    }
+  };
 
   return (
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
@@ -123,6 +138,20 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
                 </>
               )}
             </div>
+          )}
+
+          {hasLastOrder && (
+            <button
+              type="button"
+              className="header-repeat-btn"
+              onClick={handleRepeatLast}
+              title="Carregar os itens do seu último pedido no carrinho"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+              </svg>
+              <span className="header-repeat-label">Repetir último</span>
+            </button>
           )}
 
           <button className="cart-button" onClick={toggleCart} aria-label="Abrir carrinho">
