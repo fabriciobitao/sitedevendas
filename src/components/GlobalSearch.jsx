@@ -27,16 +27,82 @@ export default function GlobalSearch({ open, onClose }) {
   const { addItem } = useCart();
   const inputRef = useRef(null);
   const listRef = useRef(null);
+  const recognitionRef = useRef(null);
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
+  const [listening, setListening] = useState(false);
+  const [voiceError, setVoiceError] = useState(null);
+
+  const voiceSupported = typeof window !== 'undefined'
+    && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
   useEffect(() => {
     if (!open) return;
     setQuery('');
     setCursor(0);
+    setVoiceError(null);
     const t = setTimeout(() => inputRef.current?.focus(), 50);
     return () => clearTimeout(t);
   }, [open]);
+
+  useEffect(() => {
+    return () => {
+      try { recognitionRef.current?.stop(); } catch { /* noop */ }
+      recognitionRef.current = null;
+    };
+  }, []);
+
+  const stopListening = () => {
+    try { recognitionRef.current?.stop(); } catch { /* noop */ }
+    setListening(false);
+  };
+
+  const startListening = () => {
+    if (!voiceSupported) {
+      setVoiceError('Seu navegador não suporta ditado por voz. Tente Chrome, Edge ou Safari.');
+      return;
+    }
+    setVoiceError(null);
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const rec = new SR();
+    rec.lang = 'pt-BR';
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.maxAlternatives = 1;
+    rec.onresult = (event) => {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      setQuery(transcript.trim());
+    };
+    rec.onerror = (e) => {
+      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+        setVoiceError('Permissão de microfone negada. Autorize nas configurações do navegador.');
+      } else if (e.error === 'no-speech') {
+        setVoiceError('Não ouvi nada. Tente falar o nome do produto de novo.');
+      } else if (e.error !== 'aborted') {
+        setVoiceError('Não foi possível acessar o microfone.');
+      }
+      setListening(false);
+    };
+    rec.onend = () => {
+      setListening(false);
+      recognitionRef.current = null;
+    };
+    try {
+      rec.start();
+      recognitionRef.current = rec;
+      setListening(true);
+    } catch {
+      setListening(false);
+    }
+  };
+
+  const toggleVoice = () => {
+    if (listening) stopListening();
+    else startListening();
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -113,7 +179,7 @@ export default function GlobalSearch({ open, onClose }) {
           <input
             ref={inputRef}
             className="gs-input"
-            placeholder="Buscar produto por nome, marca ou categoria..."
+            placeholder={listening ? 'Ouvindo… fale o nome do produto' : 'Buscar produto por nome, marca ou categoria...'}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKey}
@@ -121,8 +187,25 @@ export default function GlobalSearch({ open, onClose }) {
             autoCorrect="off"
             enterKeyHint="search"
           />
+          {voiceSupported && (
+            <button
+              type="button"
+              className={`gs-mic ${listening ? 'gs-mic--on' : ''}`}
+              onClick={toggleVoice}
+              aria-label={listening ? 'Parar gravação' : 'Buscar por voz'}
+              title={listening ? 'Parar gravação' : 'Buscar por voz'}
+            >
+              {listening && <span className="gs-mic-pulse" aria-hidden />}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="2" width="6" height="12" rx="3"/>
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+              </svg>
+            </button>
+          )}
           <kbd className="gs-kbd">Esc</kbd>
         </div>
+        {voiceError && <div className="gs-voice-error">{voiceError}</div>}
 
         <div className="gs-results" ref={listRef}>
           {results.length === 0 ? (

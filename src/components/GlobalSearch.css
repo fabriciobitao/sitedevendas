@@ -69,6 +69,59 @@
   letter-spacing: 0.3px;
 }
 
+.gs-mic {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--creme-deep);
+  color: var(--ink-soft);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.gs-mic:hover {
+  background: var(--verde-fresh);
+  color: var(--creme-light);
+}
+
+.gs-mic--on {
+  background: var(--tomate);
+  color: var(--creme-light);
+}
+
+.gs-mic--on:hover {
+  background: var(--tomate);
+}
+
+.gs-mic-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--tomate);
+  opacity: 0.6;
+  animation: gsMicPulse 1.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gsMicPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.gs-voice-error {
+  padding: 10px 18px;
+  font-size: 12.5px;
+  color: var(--tomate);
+  background: rgba(226, 77, 40, 0.08);
+  border-bottom: 1px solid rgba(226, 77, 40, 0.20);
+}
+
 /* Results */
 .gs-results {
   flex: 1;
