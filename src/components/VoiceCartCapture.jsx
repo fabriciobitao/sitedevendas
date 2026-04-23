@@ -127,7 +127,10 @@ export default function VoiceCartCapture({ open, onClose }) {
                     <div className="vcc-item-name">
                       {it.productName || <span className="vcc-item-missing">Não encontrei "{it.query}"</span>}
                     </div>
-                    {it.unit && <div className="vcc-item-hint">{it.qty} {it.unit}</div>}
+                    <div className="vcc-item-hint">
+                      {it.unit && <>{it.qty} {it.unit} · </>}
+                      você disse: <em>"{it.query}"</em>
+                    </div>
                     {!it.productId && (
                       <button className="vcc-item-pick" onClick={() => setManualEdit(it.id)}>Escolher produto</button>
                     )}
