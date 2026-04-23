@@ -1345,6 +1345,22 @@
   z-index: 2;
 }
 
+/* floco de neve no topo do medalhão, levemente inclinado para a esquerda */
+.hero-brand-medallion-snow {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-18deg);
+  font-size: 30px;
+  color: #d4a017;
+  text-shadow:
+    0 0 14px rgba(212, 160, 23, 0.55),
+    0 2px 4px rgba(90, 45, 20, 0.25);
+  z-index: 4;
+  pointer-events: none;
+  line-height: 1;
+}
+
 /* estrelinhas decorativas nos 4 cantos do medalhão */
 .hero-brand-medallion-star {
   position: absolute;

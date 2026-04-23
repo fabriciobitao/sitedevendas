@@ -194,6 +194,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                     <div className="hero-brand-logocard-glow" aria-hidden />
                     <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
                   </div>
+                  <span className="hero-brand-medallion-snow" aria-hidden>&#10052;&#65038;</span>
                   <span className="hero-brand-medallion-star hero-brand-medallion-star--tl" aria-hidden>✦</span>
                   <span className="hero-brand-medallion-star hero-brand-medallion-star--tr" aria-hidden>✦</span>
                   <span className="hero-brand-medallion-star hero-brand-medallion-star--bl" aria-hidden>✦</span>
