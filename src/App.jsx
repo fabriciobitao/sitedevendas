@@ -180,10 +180,10 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 <div className="hero-brand-medallion">
                   <svg className="hero-brand-medallion-text" viewBox="0 0 440 440" aria-hidden>
                     <defs>
-                      <path id="brandOrbit" d="M 220,220 m -196,0 a 196,196 0 1,1 392,0 a 196,196 0 1,1 -392,0" />
+                      <path id="brandOrbit" d="M 81.4,358.6 A 196,196 0 1,1 358.6,358.6" />
                     </defs>
                     <text>
-                      <textPath href="#brandOrbit" startOffset="75%" textAnchor="middle">
+                      <textPath href="#brandOrbit" startOffset="50%" textAnchor="middle">
                         FRIOS OURO FINO LTDA. &#160;&#160;&#10052;&#65038;&#160;&#160; DESDE 1998 &#160;&#160;&#10052;&#65038;&#160;&#160; COMÉRCIO ATACADISTA
                       </textPath>
                     </text>
