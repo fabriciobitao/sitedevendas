@@ -48,7 +48,7 @@ export async function decryptField(encoded, uid) {
   }
 }
 
-export const SENSITIVE_FIELDS = ['cpf', 'cnpj', 'rg', 'inscMunicipal', 'inscEstadual'];
+export const SENSITIVE_FIELDS = ['cpf', 'cnpj', 'inscMunicipal', 'inscEstadual'];
 
 export async function encryptSensitiveData(data, uid) {
   const encrypted = { ...data };

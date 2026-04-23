@@ -14,7 +14,6 @@ const INITIAL = {
   inscEstadual: '',
   nomeResponsavel: '',
   cpf: '',
-  rg: '',
   endereco: '',
   numero: '',
   complemento: '',
@@ -27,12 +26,6 @@ const INITIAL = {
   nomeFinanceiro: '',
   telefoneFinanceiro: '',
   emailFinanceiro: '',
-  ref1Nome: '',
-  ref1Telefone: '',
-  ref2Nome: '',
-  ref2Telefone: '',
-  ref3Nome: '',
-  ref3Telefone: '',
 };
 
 const slugify = (v) =>
@@ -459,8 +452,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
 
     addSection(isPessoaFisica ? 'DADOS PESSOAIS' : 'RESPONSÁVEL');
     addField('Nome', form.nomeResponsavel);
-    addField('CPF', form.cpf);
-    addField('RG', form.rg);
+    if (isPessoaFisica) addField('CPF', form.cpf);
 
     addSection('ENDEREÇO');
     addField('Endereço', `${form.endereco}, Nº ${form.numero}`);
@@ -478,11 +470,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       addField('Nome', form.nomeFinanceiro);
       addField('Telefone', form.telefoneFinanceiro);
       addField('Email', form.emailFinanceiro);
-
-      addSection('REFERÊNCIAS COMERCIAIS');
-      addField('Ref. 1', `${form.ref1Nome} - ${form.ref1Telefone}`);
-      addField('Ref. 2', `${form.ref2Nome} - ${form.ref2Telefone}`);
-      addField('Ref. 3', `${form.ref3Nome} - ${form.ref3Telefone}`);
     }
 
     if (photoDataUrl) {
@@ -624,17 +611,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         setError('Telefone do financeiro inválido.');
         return;
       }
-      const refs = [
-        ['Ref. 1', form.ref1Telefone],
-        ['Ref. 2', form.ref2Telefone],
-        ['Ref. 3', form.ref3Telefone],
-      ];
-      for (const [label, tel] of refs) {
-        if (tel && !validarTelefone(tel)) {
-          setError(`Telefone da ${label} inválido.`);
-          return;
-        }
-      }
     }
 
     // Validacao de documento (CPF/CNPJ)
@@ -736,7 +712,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         tipo: 'pessoa_fisica',
         nomeResponsavel: form.nomeResponsavel,
         cpf: form.cpf,
-        rg: form.rg,
         endereco: form.endereco,
         numero: form.numero,
         complemento: form.complemento,
@@ -754,8 +729,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         inscMunicipal: form.inscMunicipal,
         inscEstadual: form.inscEstadual,
         nomeResponsavel: form.nomeResponsavel,
-        cpf: form.cpf,
-        rg: form.rg,
         endereco: form.endereco,
         numero: form.numero,
         complemento: form.complemento,
@@ -768,11 +741,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         nomeFinanceiro: form.nomeFinanceiro,
         telefoneFinanceiro: form.telefoneFinanceiro,
         emailFinanceiro: form.emailFinanceiro,
-        referencias: [
-          { nome: form.ref1Nome, telefone: form.ref1Telefone },
-          { nome: form.ref2Nome, telefone: form.ref2Telefone },
-          { nome: form.ref3Nome, telefone: form.ref3Telefone },
-        ],
       };
 
       const { codigoCliente } = await register(form.email, password, profileData);
@@ -1075,22 +1043,23 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                 <div className="cf-row cf-row--full">
                   <label>{isPessoaFisica ? 'Nome Completo *' : 'Nome do Responsável *'}<input required value={form.nomeResponsavel} onChange={set('nomeResponsavel')} /></label>
                 </div>
-                <div className="cf-row">
-                  <label className="cf-small">CPF *
-                    <input
-                      required
-                      value={form.cpf}
-                      onChange={maskCpf}
-                      placeholder="000.000.000-00"
-                      maxLength={14}
-                      inputMode="numeric"
-                      className={cpfValid === false ? 'cf-input-invalid' : cpfValid === true ? 'cf-input-valid' : ''}
-                    />
-                    {cpfValid === false && <span className="cf-field-hint cf-field-hint--error">CPF inválido</span>}
-                    {cpfValid === true && <span className="cf-field-hint cf-field-hint--ok">✓ CPF válido</span>}
-                  </label>
-                  <label className="cf-small">RG<input value={form.rg} onChange={set('rg')} /></label>
-                </div>
+                {isPessoaFisica && (
+                  <div className="cf-row">
+                    <label className="cf-small">CPF *
+                      <input
+                        required
+                        value={form.cpf}
+                        onChange={maskCpf}
+                        placeholder="000.000.000-00"
+                        maxLength={14}
+                        inputMode="numeric"
+                        className={cpfValid === false ? 'cf-input-invalid' : cpfValid === true ? 'cf-input-valid' : ''}
+                      />
+                      {cpfValid === false && <span className="cf-field-hint cf-field-hint--error">CPF inválido</span>}
+                      {cpfValid === true && <span className="cf-field-hint cf-field-hint--ok">✓ CPF válido</span>}
+                    </label>
+                  </div>
+                )}
               </fieldset>
 
               <fieldset className="cf-section">
@@ -1152,15 +1121,6 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                     <label>Telefone *<input required value={form.telefoneFinanceiro} onChange={maskTelefone('telefoneFinanceiro')} placeholder="(00) 00000-0000" maxLength={15} inputMode="numeric" /></label>
                     <label>Email *<input required type="email" value={form.emailFinanceiro} onChange={set('emailFinanceiro')} /></label>
                   </div>
-                </fieldset>
-              )}
-
-              {isEmpresa && (
-                <fieldset className="cf-section">
-                  <legend>Referências Comerciais</legend>
-                  <div className="cf-row"><label>Nome<input value={form.ref1Nome} onChange={set('ref1Nome')} /></label><label className="cf-small">Telefone<input value={form.ref1Telefone} onChange={set('ref1Telefone')} /></label></div>
-                  <div className="cf-row"><label>Nome<input value={form.ref2Nome} onChange={set('ref2Nome')} /></label><label className="cf-small">Telefone<input value={form.ref2Telefone} onChange={set('ref2Telefone')} /></label></div>
-                  <div className="cf-row"><label>Nome<input value={form.ref3Nome} onChange={set('ref3Nome')} /></label><label className="cf-small">Telefone<input value={form.ref3Telefone} onChange={set('ref3Telefone')} /></label></div>
                 </fieldset>
               )}
 

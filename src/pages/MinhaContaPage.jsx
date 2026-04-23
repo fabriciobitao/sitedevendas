@@ -1,6 +1,28 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { maskCPF, maskCNPJ, maskTelefone } from '../utils/mask';
 import './MinhaContaPage.css';
+
+function SensitiveField({ label, value, mask }) {
+  const [show, setShow] = useState(false);
+  if (!value) return null;
+  return (
+    <div className="conta-field">
+      <span>{label}</span>
+      <strong className="conta-sensitive">
+        {show ? value : mask(value)}
+        <button
+          type="button"
+          className="conta-reveal-btn"
+          onClick={() => setShow(!show)}
+          aria-label={show ? 'Ocultar' : 'Mostrar'}
+        >
+          {show ? 'ocultar' : 'mostrar'}
+        </button>
+      </strong>
+    </div>
+  );
+}
 
 export default function MinhaContaPage() {
   const { customerProfile, user, logout, resetPassword } = useAuth();
@@ -73,12 +95,7 @@ export default function MinhaContaPage() {
                   <strong>{p.nomeFantasia}</strong>
                 </div>
               )}
-              {p.cnpj && (
-                <div className="conta-field">
-                  <span>CNPJ</span>
-                  <strong>{p.cnpj}</strong>
-                </div>
-              )}
+              <SensitiveField label="CNPJ" value={p.cnpj} mask={maskCNPJ} />
               {p.inscMunicipal && (
                 <div className="conta-field">
                   <span>Insc. Municipal</span>
@@ -104,23 +121,9 @@ export default function MinhaContaPage() {
                 <strong>{p.nomeResponsavel || p.nome}</strong>
               </div>
             )}
-            {p.cpf && (
-              <div className="conta-field">
-                <span>CPF</span>
-                <strong>{p.cpf}</strong>
-              </div>
-            )}
+            <SensitiveField label="CPF" value={p.cpf} mask={maskCPF} />
             {!p.cpf && p.cnpj && !isEmpresa && (
-              <div className="conta-field">
-                <span>CNPJ</span>
-                <strong>{p.cnpj}</strong>
-              </div>
-            )}
-            {p.rg && (
-              <div className="conta-field">
-                <span>RG</span>
-                <strong>{p.rg}</strong>
-              </div>
+              <SensitiveField label="CNPJ" value={p.cnpj} mask={maskCNPJ} />
             )}
           </div>
         </div>
@@ -160,12 +163,7 @@ export default function MinhaContaPage() {
         <div className="conta-section">
           <h3>Contato</h3>
           <div className="conta-grid">
-            {p.telefone && (
-              <div className="conta-field">
-                <span>Telefone</span>
-                <strong>{p.telefone}</strong>
-              </div>
-            )}
+            <SensitiveField label="Telefone" value={p.telefone} mask={maskTelefone} />
             {(p.email || user?.email) && (
               <div className="conta-field">
                 <span>Email</span>
