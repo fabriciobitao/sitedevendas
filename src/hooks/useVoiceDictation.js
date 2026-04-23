@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Ditado contínuo: acumula transcript até usuário parar manualmente.
-export function useVoiceDictation({ lang = 'pt-BR' } = {}) {
+export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
   const recognitionRef = useRef(null);
   const baseTranscriptRef = useRef('');
   const shouldContinueRef = useRef(false);
+  const onFinalSegmentRef = useRef(onFinalSegment);
   const [transcript, setTranscript] = useState('');
   const [interim, setInterim] = useState('');
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => { onFinalSegmentRef.current = onFinalSegment; }, [onFinalSegment]);
 
   const supported = typeof window !== 'undefined'
     && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
@@ -36,9 +39,13 @@ export function useVoiceDictation({ lang = 'pt-BR' } = {}) {
         else partial += r[0].transcript;
       }
       if (finalized) {
-        baseTranscriptRef.current = (baseTranscriptRef.current + ' ' + finalized).trim();
+        const seg = finalized.trim();
+        baseTranscriptRef.current = (baseTranscriptRef.current + ' ' + seg).trim();
         setTranscript(baseTranscriptRef.current);
         setInterim('');
+        if (seg) {
+          try { onFinalSegmentRef.current?.(seg); } catch { /* noop */ }
+        }
       } else {
         setInterim(partial);
       }

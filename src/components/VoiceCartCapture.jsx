@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import { useVoiceDictation } from '../hooks/useVoiceDictation';
@@ -8,32 +8,41 @@ import './VoiceCartCapture.css';
 export default function VoiceCartCapture({ open, onClose }) {
   const { products } = useProducts();
   const { addItem } = useCart();
-  const { supported, listening, transcript, interim, error, start, stop, reset } = useVoiceDictation();
   const [items, setItems] = useState([]);
   const [manualEdit, setManualEdit] = useState(null);
   const [added, setAdded] = useState(false);
+  const [lastAddedId, setLastAddedId] = useState(null);
+  const productsRef = useRef(products);
+  useEffect(() => { productsRef.current = products; }, [products]);
+
+  const appendFromSegment = useCallback((segment) => {
+    const parsed = parseShoppingList(segment, productsRef.current);
+    if (parsed.length === 0) return;
+    const now = Date.now();
+    const newItems = parsed.map((it, idx) => ({
+      id: `${now}-${idx}`,
+      qty: it.qty,
+      unit: it.unit,
+      query: it.query,
+      productId: it.match?.product?.id || null,
+      productName: it.match?.product?.name || null,
+    }));
+    setItems(prev => [...prev, ...newItems]);
+    setLastAddedId(newItems[newItems.length - 1].id);
+  }, []);
+
+  const { supported, listening, transcript, interim, error, start, stop, reset } = useVoiceDictation({
+    onFinalSegment: appendFromSegment,
+  });
 
   useEffect(() => {
     if (!open) return;
     reset();
     setItems([]);
     setAdded(false);
+    setLastAddedId(null);
     return () => stop();
   }, [open, reset, stop]);
-
-  // reparser quando transcript muda
-  useEffect(() => {
-    if (!transcript) return setItems([]);
-    const parsed = parseShoppingList(transcript, products);
-    setItems(parsed.map((it, idx) => ({
-      id: `${idx}-${it.raw}`,
-      qty: it.qty,
-      unit: it.unit,
-      query: it.query,
-      productId: it.match?.product?.id || null,
-      productName: it.match?.product?.name || null,
-    })));
-  }, [transcript, products]);
 
   const unresolvedCount = useMemo(() => items.filter(i => !i.productId).length, [items]);
   const resolvedCount = items.length - unresolvedCount;
@@ -62,7 +71,7 @@ export default function VoiceCartCapture({ open, onClose }) {
         <header className="vcc-header">
           <div>
             <h2>Monte seu pedido falando</h2>
-            <p>Diga, por exemplo: <em>"2 quilos de mussarela, 3 pacotes de peito de peru e uma caixa de ovos"</em></p>
+            <p>Fale um item por vez e pause. Cada pausa adiciona um item na lista. Ex.: <em>"2 quilos de mussarela"</em> ... <em>"3 pacotes de peito de peru"</em> ...</p>
           </div>
           <button className="vcc-close" onClick={onClose} aria-label="Fechar">×</button>
         </header>
@@ -108,7 +117,7 @@ export default function VoiceCartCapture({ open, onClose }) {
             </div>
             <ul className="vcc-items-list">
               {items.map(it => (
-                <li key={it.id} className={`vcc-item ${!it.productId ? 'vcc-item--warn' : ''}`}>
+                <li key={it.id} className={`vcc-item ${!it.productId ? 'vcc-item--warn' : ''} ${it.id === lastAddedId ? 'vcc-item--flash' : ''}`}>
                   <div className="vcc-item-qty">
                     <button onClick={() => updateItem(it.id, { qty: Math.max(1, (it.qty || 1) - 1) })}>−</button>
                     <span>{it.qty}</span>

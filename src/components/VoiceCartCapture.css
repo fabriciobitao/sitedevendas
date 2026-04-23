@@ -145,6 +145,12 @@
   position: relative;
 }
 .vcc-item--warn { background: #fdf3f1; border: 1px dashed #e8a89a; }
+.vcc-item--flash { animation: vcc-item-flash 1.2s ease-out; }
+@keyframes vcc-item-flash {
+  0% { background: #c9f2de; transform: translateX(-10px); }
+  40% { background: #c9f2de; transform: translateX(0); }
+  100% { background: #f9f6ec; }
+}
 .vcc-item-qty {
   display: flex;
   align-items: center;
