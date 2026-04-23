@@ -184,7 +184,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                     </defs>
                     <text>
                       <textPath href="#brandOrbit" startOffset="0">
-                        FRIOS OURO FINO LTDA &#160;&#160;·&#160;&#160; DESDE 1998 &#160;&#160;·&#160;&#160; FRIOS OURO FINO LTDA &#160;&#160;·&#160;&#160; DESDE 1998 &#160;&#160;·&#160;&#160;
+                        FRIOS OURO FINO LTDA. &#160;&#160;&#10052;&#65038;&#160;&#160; DESDE 1998 &#160;&#160;&#10052;&#65038;&#160;&#160; COMÉRCIO ATACADISTA &#160;&#160;&#10052;&#65038;&#160;&#160;
                       </textPath>
                     </text>
                   </svg>
