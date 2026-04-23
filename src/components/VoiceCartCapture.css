@@ -1,18 +1,14 @@
 .vcc-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(20, 35, 28, 0.5);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(20, 35, 28, 0.55);
   z-index: 10000;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 5vh 16px;
   overflow-y: auto;
-  animation: vcc-fade 0.2s ease;
 }
-@keyframes vcc-fade { from { opacity: 0; } to { opacity: 1; } }
 
 .vcc-modal {
   background: #fff;
@@ -21,9 +17,7 @@
   max-width: 620px;
   box-shadow: 0 30px 80px -20px rgba(0,0,0,0.3);
   overflow: hidden;
-  animation: vcc-slide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@keyframes vcc-slide { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .vcc-header {
   padding: 22px 24px 16px;

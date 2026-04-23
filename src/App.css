@@ -1317,7 +1317,6 @@
   mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px) 50%, transparent 50% 100%);
   -webkit-mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px) 50%, transparent 50% 100%);
   filter: drop-shadow(0 0 18px rgba(212, 160, 23, 0.35));
-  animation: hero-brand-spin 60s linear infinite reverse;
   z-index: 2;
 }
 
@@ -1364,10 +1363,6 @@
   max-height: 98%;
   mix-blend-mode: darken;
   transform: scale(1.5);
-  transition: transform 0.4s ease;
-}
-.hero-brand--round .hero-brand-medallion:hover .hero-brand-logo {
-  transform: scale(1.58);
 }
 .hero-brand--round .hero-brand-logocard .hero-brand-logocard-glow {
   border-radius: 50%;
