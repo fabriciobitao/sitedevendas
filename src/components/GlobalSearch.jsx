@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import { normalize, scoreMatch } from '../utils/searchMatch';
+import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import './GlobalSearch.css';
 
 export default function GlobalSearch({ open, onClose }) {
@@ -9,82 +10,25 @@ export default function GlobalSearch({ open, onClose }) {
   const { addItem } = useCart();
   const inputRef = useRef(null);
   const listRef = useRef(null);
-  const recognitionRef = useRef(null);
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
-  const [listening, setListening] = useState(false);
-  const [voiceError, setVoiceError] = useState(null);
-
-  const voiceSupported = typeof window !== 'undefined'
-    && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  const voice = useVoiceSearch({ onResult: (text) => setQuery(text) });
+  const {
+    supported: voiceSupported,
+    listening,
+    error: voiceError,
+    toggle: toggleVoice,
+    clearError,
+  } = voice;
 
   useEffect(() => {
     if (!open) return;
     setQuery('');
     setCursor(0);
-    setVoiceError(null);
+    clearError();
     const t = setTimeout(() => inputRef.current?.focus(), 50);
     return () => clearTimeout(t);
-  }, [open]);
-
-  useEffect(() => {
-    return () => {
-      try { recognitionRef.current?.stop(); } catch { /* noop */ }
-      recognitionRef.current = null;
-    };
-  }, []);
-
-  const stopListening = () => {
-    try { recognitionRef.current?.stop(); } catch { /* noop */ }
-    setListening(false);
-  };
-
-  const startListening = () => {
-    if (!voiceSupported) {
-      setVoiceError('Seu navegador não suporta ditado por voz. Tente Chrome, Edge ou Safari.');
-      return;
-    }
-    setVoiceError(null);
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const rec = new SR();
-    rec.lang = 'pt-BR';
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.maxAlternatives = 1;
-    rec.onresult = (event) => {
-      let transcript = '';
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-      }
-      setQuery(transcript.trim());
-    };
-    rec.onerror = (e) => {
-      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-        setVoiceError('Permissão de microfone negada. Autorize nas configurações do navegador.');
-      } else if (e.error === 'no-speech') {
-        setVoiceError('Não ouvi nada. Tente falar o nome do produto de novo.');
-      } else if (e.error !== 'aborted') {
-        setVoiceError('Não foi possível acessar o microfone.');
-      }
-      setListening(false);
-    };
-    rec.onend = () => {
-      setListening(false);
-      recognitionRef.current = null;
-    };
-    try {
-      rec.start();
-      recognitionRef.current = rec;
-      setListening(true);
-    } catch {
-      setListening(false);
-    }
-  };
-
-  const toggleVoice = () => {
-    if (listening) stopListening();
-    else startListening();
-  };
+  }, [open, clearError]);
 
   useEffect(() => {
     if (!open) return;
