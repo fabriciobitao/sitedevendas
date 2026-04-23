@@ -201,7 +201,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </div>
 
                 <p className="hero-brand-promise">
-                  O melhor <em>atendimento</em>, com os melhores <em>produtos</em> e a melhor <em>entrega</em>!
+                  <em>Atendimento</em> amigo. <em>Produtos</em> de qualidade. <em>Entrega</em> rápida!
                 </p>
               </div>
             </div>
