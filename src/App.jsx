@@ -187,7 +187,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       <section className="hero-mf">
         <div className="hero-mf-grid">
           <div className="hero-mf-left">
-            <div className="hero-brand hero-brand--inline">
+            <div className="hero-brand hero-brand--inline hero-brand--round">
               <div className="hero-brand-aurora" aria-hidden />
               <div className="hero-brand-ring hero-brand-ring--1" aria-hidden />
               <div className="hero-brand-ring hero-brand-ring--2" aria-hidden />
@@ -195,26 +195,14 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
               <div className="hero-brand-grain" aria-hidden />
 
               <div className="hero-brand-content">
-                <div className="hero-brand-badge">
-                  <span className="hero-brand-badge-dot" />
-                  ATACADO &amp; DISTRIBUIÇÃO
-                </div>
-
-                <div className="hero-brand-logocard">
+                <div className="hero-brand-logocard hero-brand-logocard--round">
                   <div className="hero-brand-logocard-glow" aria-hidden />
                   <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
                 </div>
 
-                <div className="hero-brand-tagline">
-                  <span className="hero-brand-tagline-line hero-brand-tagline-line--italic">Três linhas,</span>
-                  <span className="hero-brand-tagline-line hero-brand-tagline-line--bold">um compromisso.</span>
-                </div>
-
-                <div className="hero-brand-chips">
-                  <span className="hero-brand-chip hero-brand-chip--carnes">Carnes &amp; Frios</span>
-                  <span className="hero-brand-chip hero-brand-chip--laticinios">Laticínios</span>
-                  <span className="hero-brand-chip hero-brand-chip--pescados">Pescados</span>
-                </div>
+                <p className="hero-brand-promise">
+                  O melhor <em>atendimento</em>, com os melhores <em>produtos</em> e a melhor <em>entrega</em>!
+                </p>
               </div>
             </div>
             <p className="hero-mf-lead">

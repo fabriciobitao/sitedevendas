@@ -1217,3 +1217,61 @@
   .hero-brand--inline .hero-brand-logo { max-width: 200px; }
   .hero-brand--inline .hero-brand-tagline-line--bold { font-size: 19px; }
 }
+
+/* ===== HERO BRAND — variante round (logo circular + promessa) ===== */
+.hero-brand--round .hero-brand-content {
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+.hero-brand-logocard--round {
+  width: 280px;
+  height: 280px;
+  max-width: 280px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 35% 30%, #ffffff 0%, #fbf9f3 60%, #f3eedf 100%);
+  box-shadow:
+    0 0 0 1px rgba(90, 45, 20, 0.08),
+    0 0 0 8px rgba(255, 255, 255, 0.6),
+    0 0 0 9px rgba(90, 45, 20, 0.06),
+    0 30px 60px -20px rgba(15, 61, 46, 0.25),
+    0 10px 25px -10px rgba(120, 60, 20, 0.18);
+  overflow: hidden;
+}
+.hero-brand-logocard--round .hero-brand-logo {
+  max-width: 78%;
+  max-height: 78%;
+  mix-blend-mode: darken;
+}
+.hero-brand-logocard--round .hero-brand-logocard-glow {
+  border-radius: 50%;
+}
+
+.hero-brand-promise {
+  margin: 0;
+  max-width: 440px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #2a3d30;
+  letter-spacing: -0.2px;
+}
+.hero-brand-promise em {
+  font-style: italic;
+  font-weight: 700;
+  background: linear-gradient(120deg, #1E6B4A 0%, #2d8a5f 50%, #d4a017 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 900px) {
+  .hero-brand-logocard--round { width: 220px; height: 220px; }
+  .hero-brand-promise { font-size: 18px; }
+}
