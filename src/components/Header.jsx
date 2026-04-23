@@ -59,7 +59,7 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="header-announce">
         <span className="header-announce-dot" />
-        <span>Aberto para pedidos · {time}</span>
+        <span>Pedidos se encerram às 16:00 · {time}</span>
         <span className="header-announce-sep">—</span>
         <span className="header-announce-region">Vendedor Fabrício · WhatsApp direto</span>
       </div>
