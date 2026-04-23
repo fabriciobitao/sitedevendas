@@ -1179,3 +1179,41 @@
   .hero-brand-logocard-glow,
   .hero-brand-badge-dot { animation: none; }
 }
+
+/* ===== HERO BRAND — variante inline (dentro do hero-mf-left) ===== */
+.hero-brand--inline {
+  min-height: auto;
+  margin-bottom: 22px;
+  padding: 22px 22px 18px;
+  border-radius: 22px;
+}
+.hero-brand--inline .hero-brand-content {
+  padding: 0;
+  gap: 14px;
+}
+.hero-brand--inline .hero-brand-logocard {
+  max-width: 360px;
+  padding: 18px 22px;
+  border-radius: 18px;
+}
+.hero-brand--inline .hero-brand-logo {
+  max-width: 240px;
+}
+.hero-brand--inline .hero-brand-tagline-line--italic { font-size: 18px; }
+.hero-brand--inline .hero-brand-tagline-line--bold { font-size: 22px; letter-spacing: -0.5px; }
+.hero-brand--inline .hero-brand-ring--1 { width: 320px; height: 320px; }
+.hero-brand--inline .hero-brand-ring--2 { width: 440px; height: 440px; }
+.hero-brand--inline .hero-brand-ring--3 { width: 560px; height: 560px; }
+.hero-brand--inline .hero-brand-chips {
+  gap: 8px;
+}
+.hero-brand--inline .hero-brand-chip {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .hero-brand--inline { padding: 18px 16px 14px; }
+  .hero-brand--inline .hero-brand-logo { max-width: 200px; }
+  .hero-brand--inline .hero-brand-tagline-line--bold { font-size: 19px; }
+}

@@ -187,11 +187,36 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       <section className="hero-mf">
         <div className="hero-mf-grid">
           <div className="hero-mf-left">
-            <h1 className="hero-mf-h1">
-              Abasteça seu<br />
-              negócio com <em className="hero-mf-em">fôlego</em>
-              <span className="hero-mf-dot">.</span>
-            </h1>
+            <div className="hero-brand hero-brand--inline">
+              <div className="hero-brand-aurora" aria-hidden />
+              <div className="hero-brand-ring hero-brand-ring--1" aria-hidden />
+              <div className="hero-brand-ring hero-brand-ring--2" aria-hidden />
+              <div className="hero-brand-ring hero-brand-ring--3" aria-hidden />
+              <div className="hero-brand-grain" aria-hidden />
+
+              <div className="hero-brand-content">
+                <div className="hero-brand-badge">
+                  <span className="hero-brand-badge-dot" />
+                  ATACADO &amp; DISTRIBUIÇÃO
+                </div>
+
+                <div className="hero-brand-logocard">
+                  <div className="hero-brand-logocard-glow" aria-hidden />
+                  <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
+                </div>
+
+                <div className="hero-brand-tagline">
+                  <span className="hero-brand-tagline-line hero-brand-tagline-line--italic">Três linhas,</span>
+                  <span className="hero-brand-tagline-line hero-brand-tagline-line--bold">um compromisso.</span>
+                </div>
+
+                <div className="hero-brand-chips">
+                  <span className="hero-brand-chip hero-brand-chip--carnes">Carnes &amp; Frios</span>
+                  <span className="hero-brand-chip hero-brand-chip--laticinios">Laticínios</span>
+                  <span className="hero-brand-chip hero-brand-chip--pescados">Pescados</span>
+                </div>
+              </div>
+            </div>
             <p className="hero-mf-lead">
               Secos, resfriados e congelados — monte o carrinho e envie direto pro
               WhatsApp do vendedor. Atendimento personalizado, sem enrolação.
@@ -242,40 +267,36 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
             </div>
           </div>
 
-          <div className="hero-mf-right hero-brand">
-            <div className="hero-brand-aurora" aria-hidden />
-            <div className="hero-brand-ring hero-brand-ring--1" aria-hidden />
-            <div className="hero-brand-ring hero-brand-ring--2" aria-hidden />
-            <div className="hero-brand-ring hero-brand-ring--3" aria-hidden />
-            <div className="hero-brand-grain" aria-hidden />
-
-            <div className="hero-brand-content">
-              <div className="hero-brand-badge">
-                <span className="hero-brand-badge-dot" />
-                ATACADO &amp; DISTRIBUIÇÃO
-              </div>
-
-              <div className="hero-brand-logocard">
-                <div className="hero-brand-logocard-glow" aria-hidden />
-                <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
-              </div>
-
-              <div className="hero-brand-tagline">
-                <span className="hero-brand-tagline-line hero-brand-tagline-line--italic">Três linhas,</span>
-                <span className="hero-brand-tagline-line hero-brand-tagline-line--bold">um compromisso.</span>
-              </div>
-
-              <div className="hero-brand-chips">
-                <span className="hero-brand-chip hero-brand-chip--carnes">Carnes &amp; Frios</span>
-                <span className="hero-brand-chip hero-brand-chip--laticinios">Laticínios</span>
-                <span className="hero-brand-chip hero-brand-chip--pescados">Pescados</span>
-              </div>
-
-              <div className="hero-brand-signature">
-                <span className="hero-brand-signature-bar" />
-                FRIOS OURO FINO · MINAS GERAIS
-                <span className="hero-brand-signature-bar" />
-              </div>
+          <div className="hero-mf-right">
+            <div className="hero-mf-featured-tag">
+              <span>◉</span> MAIS PEDIDOS · TOP 4
+            </div>
+            <div className="hero-mf-featured-grid">
+              {topProducts.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`hero-mf-featured-card${i === 0 ? ' hero-mf-featured-card--big' : ''}`}
+                  onClick={() => {
+                    const catId = p.category === 'Resfriados' ? 'resfriados'
+                      : p.category === 'Congelados' ? 'congelados' : 'secos';
+                    handleCategoryChange(catId);
+                  }}
+                >
+                  <div className="hero-mf-featured-img">
+                    <img src={p.image} alt={p.name} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {i === 0 && <span className="hero-mf-featured-badge">TOP 1</span>}
+                  </div>
+                  <div className="hero-mf-featured-meta">
+                    <div className="hero-mf-featured-brand">{p.subcategory || p.category}</div>
+                    <div className="hero-mf-featured-name">{p.name}</div>
+                    <span className="hero-mf-featured-cta">
+                      Ver produto
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         </div>
