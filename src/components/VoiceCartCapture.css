@@ -171,6 +171,15 @@
   color: #1E6B4A;
 }
 .vcc-item-qty span { min-width: 22px; text-align: center; font-weight: 700; color: #2a3d30; }
+.vcc-item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid #e8e0c8;
+  flex-shrink: 0;
+}
 .vcc-item-main { flex: 1; min-width: 0; }
 .vcc-item-name { font-weight: 600; color: #2a3d30; font-size: 14px; }
 .vcc-item-missing { color: #c0392b; font-style: italic; font-weight: 500; }
@@ -219,9 +228,10 @@
 .vcc-picker ul { list-style: none; margin: 0; padding: 0; max-height: 180px; overflow-y: auto; }
 .vcc-picker li button {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  padding: 8px 10px;
+  padding: 6px 8px;
   background: transparent;
   border: none;
   text-align: left;
@@ -230,7 +240,17 @@
   font-size: 13px;
 }
 .vcc-picker li button:hover { background: #f4efe2; }
-.vcc-picker-cat { color: #8b8273; font-size: 11px; }
+.vcc-picker-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid #eee;
+  flex-shrink: 0;
+}
+.vcc-picker-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vcc-picker-cat { color: #8b8273; font-size: 11px; flex-shrink: 0; }
 .vcc-picker-empty { padding: 10px; font-size: 13px; color: #999; text-align: center; }
 .vcc-picker-cancel {
   margin-top: 8px;

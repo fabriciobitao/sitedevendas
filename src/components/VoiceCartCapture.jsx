@@ -26,6 +26,7 @@ export default function VoiceCartCapture({ open, onClose }) {
       query: it.query,
       productId: it.match?.product?.id || null,
       productName: it.match?.product?.name || null,
+      productImage: it.match?.product?.image || null,
     }));
     setItems(prev => [...prev, ...newItems]);
     setLastAddedId(newItems[newItems.length - 1].id);
@@ -123,6 +124,15 @@ export default function VoiceCartCapture({ open, onClose }) {
                     <span>{it.qty}</span>
                     <button onClick={() => updateItem(it.id, { qty: (it.qty || 1) + 1 })}>+</button>
                   </div>
+                  {it.productImage && (
+                    <img
+                      src={it.productImage}
+                      alt=""
+                      className="vcc-item-thumb"
+                      loading="lazy"
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  )}
                   <div className="vcc-item-main">
                     <div className="vcc-item-name">
                       {it.productName || <span className="vcc-item-missing">Não encontrei "{it.query}"</span>}
@@ -140,7 +150,7 @@ export default function VoiceCartCapture({ open, onClose }) {
                     <ManualPicker
                       products={products}
                       initialQuery={it.query}
-                      onPick={(p) => { updateItem(it.id, { productId: p.id, productName: p.name }); setManualEdit(null); }}
+                      onPick={(p) => { updateItem(it.id, { productId: p.id, productName: p.name, productImage: p.image || null }); setManualEdit(null); }}
                       onCancel={() => setManualEdit(null)}
                     />
                   )}
@@ -191,7 +201,10 @@ function ManualPicker({ products, initialQuery, onPick, onCancel }) {
         {results.map(p => (
           <li key={p.id}>
             <button onClick={() => onPick(p)}>
-              <span>{p.name}</span>
+              {p.image && (
+                <img src={p.image} alt="" className="vcc-picker-thumb" loading="lazy" onError={(e)=>{e.currentTarget.style.display='none';}} />
+              )}
+              <span className="vcc-picker-name">{p.name}</span>
               <span className="vcc-picker-cat">{p.category}</span>
             </button>
           </li>
