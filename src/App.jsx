@@ -183,8 +183,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                       <path id="brandOrbit" d="M 220,220 m -196,0 a 196,196 0 1,1 392,0 a 196,196 0 1,1 -392,0" />
                     </defs>
                     <text>
-                      <textPath href="#brandOrbit" startOffset="0">
-                        FRIOS OURO FINO LTDA. &#160;&#160;&#10052;&#65038;&#160;&#160; DESDE 1998 &#160;&#160;&#10052;&#65038;&#160;&#160; COMÉRCIO ATACADISTA &#160;&#160;&#10052;&#65038;&#160;&#160;
+                      <textPath href="#brandOrbit" startOffset="75%" textAnchor="middle">
+                        FRIOS OURO FINO LTDA. &#160;&#160;&#10052;&#65038;&#160;&#160; DESDE 1998 &#160;&#160;&#10052;&#65038;&#160;&#160; COMÉRCIO ATACADISTA
                       </textPath>
                     </text>
                   </svg>
