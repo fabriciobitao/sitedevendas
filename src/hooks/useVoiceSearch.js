@@ -17,12 +17,30 @@ export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
   }, []);
 
-  const start = useCallback(() => {
+  const start = useCallback(async () => {
     if (!supported) {
-      setError('Seu navegador não suporta busca por voz.');
+      setError('Seu navegador não suporta busca por voz. Use Chrome ou Edge.');
       return;
     }
     setError(null);
+
+    // Priming: força o prompt de permissao do mic no Safari/macOS antes do SR.start
+    if (navigator.mediaDevices?.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(t => t.stop());
+      } catch (err) {
+        if (err?.name === 'NotAllowedError' || err?.name === 'SecurityError') {
+          setError('Microfone bloqueado. Permita acesso nas Preferências do navegador.');
+        } else if (err?.name === 'NotFoundError') {
+          setError('Nenhum microfone detectado neste dispositivo.');
+        } else {
+          setError('Não foi possível acessar o microfone.');
+        }
+        return;
+      }
+    }
+
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     const rec = new SR();
     rec.lang = lang;
