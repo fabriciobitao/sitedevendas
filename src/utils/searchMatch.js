@@ -66,19 +66,40 @@ export function fuzzyIncludes(haystack, needle) {
   return false;
 }
 
+// Fração de palavras do termo que aparecem em alvo (0–1).
+function tokenOverlap(haystack, term) {
+  const tokens = term.split(' ').filter(t => t.length >= 2);
+  if (!tokens.length) return 0;
+  let hit = 0;
+  for (const t of tokens) {
+    if (haystack.includes(t) || fuzzyIncludes(haystack, t)) hit++;
+  }
+  return hit / tokens.length;
+}
+
 // Score unificado para ranking em listas/buscas globais.
+// Descrição tem peso comparável a subcategoria; termos com várias palavras
+// recebem boost se a maioria das palavras aparece em name+description.
 export function scoreMatch(product, term) {
   if (!term) return 0;
   const name = normalize(product.name);
   const sub = normalize(product.subcategory);
   const desc = normalize(product.description);
+  const combined = `${name} ${desc} ${sub}`.trim();
 
   if (name.startsWith(term)) return 5;
   const words = name.split(' ');
   if (words.some(w => w.startsWith(term))) return 4;
-  if (name.includes(term)) return 3;
-  if (fuzzyIncludes(name, term)) return 2.5;
-  if (sub.includes(term) || fuzzyIncludes(sub, term)) return 2;
-  if (desc.includes(term) || fuzzyIncludes(desc, term)) return 1;
+  if (name.includes(term)) return 3.5;
+  if (desc.includes(term)) return 3;
+  if (sub.includes(term)) return 2.8;
+  if (fuzzyIncludes(name, term)) return 2.6;
+  if (fuzzyIncludes(desc, term)) return 2.2;
+  if (fuzzyIncludes(sub, term)) return 1.8;
+
+  // Múltiplas palavras: considera casamento parcial em name+desc combinados
+  const overlap = tokenOverlap(combined, term);
+  if (overlap >= 0.75) return 2.4;
+  if (overlap >= 0.5) return 1.5;
   return 0;
 }
