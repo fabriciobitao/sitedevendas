@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { buildMicBlockedHelp } from '../utils/micPermissionHelp';
 
 // Ditado contínuo: acumula transcript até usuário parar manualmente.
 export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
@@ -53,7 +54,7 @@ export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
     rec.onerror = (event) => {
       const code = event.error;
       if (code === 'not-allowed' || code === 'service-not-allowed') {
-        setError('Permita o acesso ao microfone para ditar.');
+        setError(buildMicBlockedHelp());
         shouldContinueRef.current = false;
       } else if (code === 'no-speech') {
         // silêncio prolongado — deixa o onend reiniciar
@@ -87,7 +88,7 @@ export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
         stream.getTracks().forEach(t => t.stop());
       } catch (err) {
         if (err?.name === 'NotAllowedError' || err?.name === 'SecurityError') {
-          setError('Microfone bloqueado. Permita acesso nas Preferências do navegador.');
+          setError(buildMicBlockedHelp());
         } else if (err?.name === 'NotFoundError') {
           setError('Nenhum microfone detectado neste dispositivo.');
         } else {
