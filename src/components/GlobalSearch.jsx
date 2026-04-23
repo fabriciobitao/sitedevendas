@@ -1,26 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
+import { normalize, scoreMatch } from '../utils/searchMatch';
 import './GlobalSearch.css';
-
-const normalize = (s) => (s || '')
-  .toString()
-  .normalize('NFD')
-  .replace(/[\u0300-\u036f]/g, '')
-  .toLowerCase();
-
-const scoreMatch = (p, term) => {
-  const name = normalize(p.name);
-  const sub = normalize(p.subcategory);
-  const desc = normalize(p.description);
-  if (name.startsWith(term)) return 5;
-  const words = name.split(/\s+/);
-  if (words.some(w => w.startsWith(term))) return 4;
-  if (name.includes(term)) return 3;
-  if (sub.includes(term)) return 2;
-  if (desc.includes(term)) return 1;
-  return 0;
-};
 
 export default function GlobalSearch({ open, onClose }) {
   const { products } = useProducts();

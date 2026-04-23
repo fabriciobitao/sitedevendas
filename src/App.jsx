@@ -17,6 +17,7 @@ import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
 import GlobalSearch from './components/GlobalSearch';
+import { normalize, scoreMatch } from './utils/searchMatch';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -128,27 +129,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     }, 150);
   };
 
-  const normalize = (s) => (s || '')
-    .toString()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
-
   const searchTerm = normalize(search.trim());
   const isSearching = searchTerm.length > 0;
-
-  const scoreMatch = (p, term) => {
-    const name = normalize(p.name);
-    const sub = normalize(p.subcategory);
-    const desc = normalize(p.description);
-    if (name.startsWith(term)) return 4;
-    const words = name.split(/\s+/);
-    if (words.some(w => w.startsWith(term))) return 3;
-    if (name.includes(term)) return 2;
-    if (sub.includes(term)) return 1;
-    if (desc.includes(term)) return 0.5;
-    return 0;
-  };
 
   const filteredProducts = useMemo(() => {
     let result = products;
