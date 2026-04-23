@@ -63,7 +63,7 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
         <span className={`header-announce-dot ${ordersClosed ? 'header-announce-dot--closed' : ''}`} />
         <span>{ordersClosed ? 'Pedidos encerrados · retorno amanhã' : 'Pedidos se encerram às 16:00'} · {time}</span>
         <span className="header-announce-sep">—</span>
-        <span className="header-announce-region">Vendedor Fabrício · (35) 3441-5633</span>
+        <span className="header-announce-region">Vendedor Fabrício · (35) 99851-1194</span>
       </div>
       <div className="header-inner">
         <button className="header-brand" onClick={() => navigate('/')} aria-label="Voltar para a página principal">
