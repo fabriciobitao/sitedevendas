@@ -195,9 +195,27 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
               <div className="hero-brand-grain" aria-hidden />
 
               <div className="hero-brand-content">
-                <div className="hero-brand-logocard hero-brand-logocard--round">
-                  <div className="hero-brand-logocard-glow" aria-hidden />
-                  <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
+                <div className="hero-brand-medallion">
+                  <svg className="hero-brand-medallion-text" viewBox="0 0 440 440" aria-hidden>
+                    <defs>
+                      <path id="brandOrbit" d="M 220,220 m -196,0 a 196,196 0 1,1 392,0 a 196,196 0 1,1 -392,0" />
+                    </defs>
+                    <text>
+                      <textPath href="#brandOrbit" startOffset="0">
+                        FRIOS OURO FINO &#160;&#160;·&#160;&#160; COMÉRCIO ATACADISTA &#160;&#160;·&#160;&#160; MINAS GERAIS &#160;&#160;·&#160;&#160; FRIOS OURO FINO &#160;&#160;·&#160;&#160; COMÉRCIO ATACADISTA &#160;&#160;·&#160;&#160; MINAS GERAIS &#160;&#160;·&#160;&#160;
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="hero-brand-medallion-orbit" aria-hidden />
+                  <div className="hero-brand-medallion-gold" aria-hidden />
+                  <div className="hero-brand-logocard hero-brand-logocard--round">
+                    <div className="hero-brand-logocard-glow" aria-hidden />
+                    <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
+                  </div>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--tl" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--tr" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--bl" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--br" aria-hidden>✦</span>
                 </div>
 
                 <p className="hero-brand-promise">

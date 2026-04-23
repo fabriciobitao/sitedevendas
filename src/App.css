@@ -1218,35 +1218,122 @@
   .hero-brand--inline .hero-brand-tagline-line--bold { font-size: 19px; }
 }
 
-/* ===== HERO BRAND — variante round (logo circular + promessa) ===== */
+/* ===== HERO BRAND — MEDALHÃO (logo circular gigante + texto orbital) ===== */
 .hero-brand--round .hero-brand-content {
   align-items: center;
   text-align: center;
-  gap: 20px;
+  gap: 26px;
 }
+
+.hero-brand-medallion {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: hero-brand-appear 0.9s ease 0.1s both;
+}
+
+/* texto orbital girando */
+.hero-brand-medallion-text {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: hero-brand-spin 45s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-brand-medallion-text text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 12.5px;
+  letter-spacing: 7px;
+  font-weight: 700;
+  fill: #6b4a2a;
+  text-transform: uppercase;
+}
+
+/* anel dashed orbital (estático) */
+.hero-brand-medallion-orbit {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(90, 45, 20, 0.22);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* anel dourado metálico (fica logo fora do logocard) */
+.hero-brand-medallion-gold {
+  position: absolute;
+  inset: 35px;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    conic-gradient(from 210deg,
+      #d4a017 0deg,
+      #f4d16b 70deg,
+      #fff5c2 140deg,
+      #d4a017 220deg,
+      #9a6f10 300deg,
+      #d4a017 360deg);
+  padding: 2px;
+  mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px) 50%, transparent 50% 100%);
+  -webkit-mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px) 50%, transparent 50% 100%);
+  filter: drop-shadow(0 0 18px rgba(212, 160, 23, 0.35));
+  animation: hero-brand-spin 60s linear infinite reverse;
+  z-index: 2;
+}
+
+/* estrelinhas decorativas nos 4 cantos do medalhão */
+.hero-brand-medallion-star {
+  position: absolute;
+  font-size: 16px;
+  color: #d4a017;
+  text-shadow: 0 0 12px rgba(212, 160, 23, 0.6);
+  animation: hero-brand-pulse 2.4s ease-in-out infinite;
+  z-index: 3;
+  pointer-events: none;
+}
+.hero-brand-medallion-star--tl { top: 18px; left: 68px; animation-delay: 0s; }
+.hero-brand-medallion-star--tr { top: 18px; right: 68px; animation-delay: 0.6s; }
+.hero-brand-medallion-star--bl { bottom: 18px; left: 68px; animation-delay: 1.2s; }
+.hero-brand-medallion-star--br { bottom: 18px; right: 68px; animation-delay: 1.8s; }
+
+/* logocard — agora gigante dentro do medalhão */
 .hero-brand--round .hero-brand-logocard {
-  width: 280px;
-  height: 280px;
-  max-width: 280px;
+  position: relative;
+  width: 356px;
+  height: 356px;
+  max-width: 356px;
   padding: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 35% 30%, #ffffff 0%, #fbf9f3 60%, #f3eedf 100%);
+    radial-gradient(circle at 32% 28%, #ffffff 0%, #fbf8ef 55%, #f2ecd9 100%);
   box-shadow:
-    0 0 0 1px rgba(90, 45, 20, 0.08),
-    0 0 0 8px rgba(255, 255, 255, 0.6),
-    0 0 0 9px rgba(90, 45, 20, 0.06),
-    0 30px 60px -20px rgba(15, 61, 46, 0.25),
-    0 10px 25px -10px rgba(120, 60, 20, 0.18);
+    0 0 0 1px rgba(90, 45, 20, 0.1) inset,
+    0 0 0 6px rgba(255, 255, 255, 0.85),
+    0 0 0 7px rgba(212, 160, 23, 0.18),
+    0 40px 80px -25px rgba(15, 61, 46, 0.35),
+    0 15px 35px -15px rgba(120, 60, 20, 0.25),
+    inset 0 0 40px rgba(245, 220, 140, 0.15);
   overflow: hidden;
+  z-index: 3;
 }
 .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-  max-width: 72%;
-  max-height: 72%;
+  max-width: 84%;
+  max-height: 84%;
   mix-blend-mode: darken;
+  transform: scale(1.15);
+  transition: transform 0.4s ease;
+}
+.hero-brand--round .hero-brand-medallion:hover .hero-brand-logo {
+  transform: scale(1.22);
 }
 .hero-brand--round .hero-brand-logocard .hero-brand-logocard-glow {
   border-radius: 50%;
@@ -1272,6 +1359,12 @@
 }
 
 @media (max-width: 900px) {
-  .hero-brand--round .hero-brand-logocard { width: 220px; height: 220px; }
+  .hero-brand-medallion { width: 320px; height: 320px; }
+  .hero-brand--round .hero-brand-logocard { width: 252px; height: 252px; max-width: 252px; }
+  .hero-brand-medallion-text text { font-size: 10.5px; letter-spacing: 5px; }
+  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--tr { top: 10px; }
+  .hero-brand-medallion-star--bl, .hero-brand-medallion-star--br { bottom: 10px; }
+  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--bl { left: 44px; }
+  .hero-brand-medallion-star--tr, .hero-brand-medallion-star--br { right: 44px; }
   .hero-brand-promise { font-size: 18px; }
 }
