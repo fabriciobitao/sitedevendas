@@ -104,6 +104,41 @@
   color: var(--creme-light);
 }
 
+.hero-mf-cta-voice {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #d4a017, #f4d16b);
+  color: #2a3d30;
+  border: 1px solid rgba(120, 80, 10, 0.3);
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 8px 18px -6px rgba(212, 160, 23, 0.5);
+  position: relative;
+}
+.hero-mf-cta-voice::before {
+  content: 'NOVO';
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  background: #e74c3c;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(231, 76, 60, 0.4);
+}
+.hero-mf-cta-voice:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -6px rgba(212, 160, 23, 0.6);
+}
+
 /* ===== Seller card ===== */
 .hero-mf-seller {
   display: flex;

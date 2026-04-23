@@ -1,0 +1,104 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+// Ditado contínuo: acumula transcript até usuário parar manualmente.
+export function useVoiceDictation({ lang = 'pt-BR' } = {}) {
+  const recognitionRef = useRef(null);
+  const baseTranscriptRef = useRef('');
+  const shouldContinueRef = useRef(false);
+  const [transcript, setTranscript] = useState('');
+  const [interim, setInterim] = useState('');
+  const [listening, setListening] = useState(false);
+  const [error, setError] = useState(null);
+
+  const supported = typeof window !== 'undefined'
+    && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+  useEffect(() => () => {
+    shouldContinueRef.current = false;
+    try { recognitionRef.current?.stop(); } catch { /* noop */ }
+    recognitionRef.current = null;
+  }, []);
+
+  const createRecognition = useCallback(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const rec = new SR();
+    rec.lang = lang;
+    rec.interimResults = true;
+    rec.continuous = true;
+    rec.maxAlternatives = 1;
+
+    rec.onresult = (event) => {
+      let finalized = '';
+      let partial = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const r = event.results[i];
+        if (r.isFinal) finalized += r[0].transcript;
+        else partial += r[0].transcript;
+      }
+      if (finalized) {
+        baseTranscriptRef.current = (baseTranscriptRef.current + ' ' + finalized).trim();
+        setTranscript(baseTranscriptRef.current);
+        setInterim('');
+      } else {
+        setInterim(partial);
+      }
+    };
+    rec.onerror = (event) => {
+      const code = event.error;
+      if (code === 'not-allowed' || code === 'service-not-allowed') {
+        setError('Permita o acesso ao microfone para ditar.');
+        shouldContinueRef.current = false;
+      } else if (code === 'no-speech') {
+        // silêncio prolongado — deixa o onend reiniciar
+      } else if (code !== 'aborted') {
+        setError('Erro no microfone. Tente novamente.');
+      }
+    };
+    rec.onend = () => {
+      if (shouldContinueRef.current) {
+        try { rec.start(); } catch { /* pode falhar se Chrome bloqueou */ }
+      } else {
+        setListening(false);
+        setInterim('');
+        recognitionRef.current = null;
+      }
+    };
+    return rec;
+  }, [lang]);
+
+  const start = useCallback(() => {
+    if (!supported) {
+      setError('Seu navegador não suporta ditado por voz.');
+      return;
+    }
+    setError(null);
+    baseTranscriptRef.current = '';
+    setTranscript('');
+    setInterim('');
+    shouldContinueRef.current = true;
+    const rec = createRecognition();
+    try {
+      rec.start();
+      recognitionRef.current = rec;
+      setListening(true);
+    } catch {
+      setError('Não foi possível iniciar a gravação.');
+      shouldContinueRef.current = false;
+      setListening(false);
+    }
+  }, [supported, createRecognition]);
+
+  const stop = useCallback(() => {
+    shouldContinueRef.current = false;
+    try { recognitionRef.current?.stop(); } catch { /* noop */ }
+  }, []);
+
+  const reset = useCallback(() => {
+    baseTranscriptRef.current = '';
+    setTranscript('');
+    setInterim('');
+    setError(null);
+  }, []);
+
+  return { supported, listening, transcript, interim, error, start, stop, reset };
+}

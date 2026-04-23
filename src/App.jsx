@@ -17,6 +17,7 @@ import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
 import GlobalSearch from './components/GlobalSearch';
+import VoiceCartCapture from './components/VoiceCartCapture';
 import { normalize, scoreMatch } from './utils/searchMatch';
 import './App.css';
 
@@ -53,6 +54,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
   const [filtersCompact, setFiltersCompact] = useState(false);
+  const [voiceCartOpen, setVoiceCartOpen] = useState(false);
   const productsRef = useRef(null);
 
   useEffect(() => {
@@ -222,6 +224,19 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 Montar pedido
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </button>
+              <button
+                type="button"
+                className="hero-mf-cta-voice"
+                onClick={() => setVoiceCartOpen(true)}
+                title="Dite seu pedido completo"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="2" width="6" height="12" rx="3"/>
+                  <path d="M5 10a7 7 0 0 0 14 0"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+                Ditar pedido
+              </button>
               <a
                 href="https://wa.me/5535998511194?text=Ol%C3%A1%20Fabr%C3%ADcio%2C%20quero%20montar%20um%20pedido."
                 target="_blank"
@@ -389,6 +404,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         </>
       )}
       <BackToTop />
+      <VoiceCartCapture open={voiceCartOpen} onClose={() => setVoiceCartOpen(false)} />
     </main>
   );
 }
