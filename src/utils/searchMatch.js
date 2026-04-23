@@ -83,9 +83,9 @@ function tokenOverlap(haystack, term) {
   return total ? matched / total : 0;
 }
 
-// Score unificado para ranking em listas/buscas globais.
-// Descrição tem peso comparável a subcategoria; termos com várias palavras
-// recebem boost se a maioria das palavras aparece em name+description.
+// Score unificado para ranking. Para queries multi-token (ex: "catupiri scala"),
+// exige que TODOS os tokens significativos apareçam no produto — evita que um
+// casamento parcial só por marca arraste produtos do tipo errado.
 export function scoreMatch(product, term) {
   if (!term) return 0;
   const name = normalize(product.name);
@@ -93,19 +93,30 @@ export function scoreMatch(product, term) {
   const desc = normalize(product.description);
   const combined = `${name} ${desc} ${sub}`.trim();
 
+  // Casamento da frase inteira (alta confiança)
   if (name.startsWith(term)) return 5;
   const words = name.split(' ');
   if (words.some(w => w.startsWith(term))) return 4;
   if (name.includes(term)) return 3.5;
   if (desc.includes(term)) return 3;
   if (sub.includes(term)) return 2.8;
+
+  // Query com múltiplos tokens: exige que TODOS casem em algum lugar.
+  const tokens = term.split(' ').filter(t => t.length >= 2);
+  if (tokens.length > 1) {
+    const matchesToken = (t) => combined.includes(t) || fuzzyIncludes(combined, t);
+    const allMatch = tokens.every(matchesToken);
+    if (!allMatch) return 0;
+    // Score conforme onde os tokens apareceram
+    const inName = tokens.filter(t => name.includes(t) || fuzzyIncludes(name, t)).length;
+    if (inName === tokens.length) return 3.3;
+    if (inName >= 1) return 2.7;
+    return 2.2;
+  }
+
+  // Query single-token: fuzzy por campo
   if (fuzzyIncludes(name, term)) return 2.6;
   if (fuzzyIncludes(desc, term)) return 2.2;
   if (fuzzyIncludes(sub, term)) return 1.8;
-
-  // Múltiplas palavras: considera casamento parcial em name+desc combinados
-  const overlap = tokenOverlap(combined, term);
-  if (overlap >= 0.75) return 2.4;
-  if (overlap >= 0.5) return 1.5;
   return 0;
 }
