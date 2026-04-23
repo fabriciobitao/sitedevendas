@@ -36,6 +36,10 @@
   box-shadow: 0 0 0 4px rgba(198, 242, 78, 0.2);
   flex-shrink: 0;
 }
+.header-announce-dot--closed {
+  background: #e74c3c;
+  box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.22);
+}
 
 .header-announce-sep { opacity: 0.4; }
 
