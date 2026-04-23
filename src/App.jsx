@@ -250,7 +250,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
 
             <div className="hero-mf-seller">
               <div className="hero-mf-seller-avatar">
-                <img src="/fabricio.png" alt="Fabrício" />
+                <img src="/fabricio.jpg" alt="Fabrício" />
                 <span className="hero-mf-seller-online" />
               </div>
               <div className="hero-mf-seller-body">
@@ -263,8 +263,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </p>
                 <div className="hero-mf-seller-meta">
                   <span>Resposta em até 15 min</span>
-                  <span className="hero-mf-seller-meta-sep">·</span>
-                  <span>Seg a Sáb · 7h–17h</span>
                 </div>
               </div>
             </div>
