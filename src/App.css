@@ -1224,7 +1224,7 @@
   text-align: center;
   gap: 20px;
 }
-.hero-brand-logocard--round {
+.hero-brand--round .hero-brand-logocard {
   width: 280px;
   height: 280px;
   max-width: 280px;
@@ -1243,12 +1243,12 @@
     0 10px 25px -10px rgba(120, 60, 20, 0.18);
   overflow: hidden;
 }
-.hero-brand-logocard--round .hero-brand-logo {
-  max-width: 78%;
-  max-height: 78%;
+.hero-brand--round .hero-brand-logocard .hero-brand-logo {
+  max-width: 72%;
+  max-height: 72%;
   mix-blend-mode: darken;
 }
-.hero-brand-logocard--round .hero-brand-logocard-glow {
+.hero-brand--round .hero-brand-logocard .hero-brand-logocard-glow {
   border-radius: 50%;
 }
 
@@ -1272,6 +1272,6 @@
 }
 
 @media (max-width: 900px) {
-  .hero-brand-logocard--round { width: 220px; height: 220px; }
+  .hero-brand--round .hero-brand-logocard { width: 220px; height: 220px; }
   .hero-brand-promise { font-size: 18px; }
 }
