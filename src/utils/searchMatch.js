@@ -66,15 +66,21 @@ export function fuzzyIncludes(haystack, needle) {
   return false;
 }
 
-// Fração de palavras do termo que aparecem em alvo (0–1).
+// Fração ponderada de palavras do termo que aparecem no alvo (0–1).
+// Palavras longas pesam mais (são mais específicas — "catupiri" > "scala").
 function tokenOverlap(haystack, term) {
   const tokens = term.split(' ').filter(t => t.length >= 2);
   if (!tokens.length) return 0;
-  let hit = 0;
+  let total = 0;
+  let matched = 0;
   for (const t of tokens) {
-    if (haystack.includes(t) || fuzzyIncludes(haystack, t)) hit++;
+    const weight = t.length;
+    total += weight;
+    if (haystack.includes(t) || fuzzyIncludes(haystack, t)) {
+      matched += weight;
+    }
   }
-  return hit / tokens.length;
+  return total ? matched / total : 0;
 }
 
 // Score unificado para ranking em listas/buscas globais.
