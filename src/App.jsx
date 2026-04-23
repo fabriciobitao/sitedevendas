@@ -173,9 +173,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
           <div className="hero-mf-left">
             <div className="hero-brand hero-brand--inline hero-brand--round">
               <div className="hero-brand-aurora" aria-hidden />
-              <div className="hero-brand-ring hero-brand-ring--1" aria-hidden />
-              <div className="hero-brand-ring hero-brand-ring--2" aria-hidden />
-              <div className="hero-brand-ring hero-brand-ring--3" aria-hidden />
+              <div className="hero-brand-halo" aria-hidden />
               <div className="hero-brand-grain" aria-hidden />
 
               <div className="hero-brand-content">
@@ -190,8 +188,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                       </textPath>
                     </text>
                   </svg>
-                  <div className="hero-brand-medallion-orbit" aria-hidden />
                   <div className="hero-brand-medallion-gold" aria-hidden />
+                  <div className="hero-brand-medallion-innerline" aria-hidden />
                   <div className="hero-brand-logocard hero-brand-logocard--round">
                     <div className="hero-brand-logocard-glow" aria-hidden />
                     <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
