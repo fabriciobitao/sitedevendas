@@ -60,9 +60,20 @@
 
 .hero-mf-ctas {
   display: flex;
+  align-items: center;
   gap: 12px;
   margin-top: 28px;
   flex-wrap: wrap;
+}
+
+.hero-mf-cta-or {
+  font-family: var(--font-label, 'Instrument Serif', serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-mute);
+  letter-spacing: 0.4px;
+  padding: 0 2px;
+  user-select: none;
 }
 
 .hero-mf-cta-primary {

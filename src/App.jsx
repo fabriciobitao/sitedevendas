@@ -220,9 +220,10 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                   scrollToProducts();
                 }}
               >
-                Montar pedido
+                Faça seu Pedido
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </button>
+              <span className="hero-mf-cta-or" aria-hidden="true">ou</span>
               <button
                 type="button"
                 className="hero-mf-cta-voice"
