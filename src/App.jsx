@@ -479,6 +479,10 @@ function AppContent() {
           <div className="footer-info">
             <p className="footer-tagline">Frios Ouro Fino Ltda. — Comércio Atacadista</p>
           </div>
+          <div className="footer-dev">
+            <span className="footer-dev-label">Developed by</span>
+            <img src="/grufa-logo.png" alt="Grufa" className="footer-dev-logo" />
+          </div>
           <div className="footer-contact">
             <a href="https://wa.me/5535998511194" className="footer-whatsapp" target="_blank" rel="noopener noreferrer">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -487,10 +491,6 @@ function AppContent() {
               (35) 99851-1194
             </a>
           </div>
-        </div>
-        <div className="footer-dev">
-          <span className="footer-dev-label">Developed by</span>
-          <img src="/grufa-logo.png" alt="Grufa" className="footer-dev-logo" />
         </div>
       </footer>
       )}
