@@ -100,6 +100,12 @@ export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
     else start();
   }, [useWhisper, whisper, listening, stop, start]);
 
+  const whisperClearError = whisper.clearError;
+  const clearError = useCallback(() => {
+    setError(null);
+    whisperClearError?.();
+  }, [whisperClearError]);
+
   const activeListening = useWhisper ? whisper.listening : listening;
   const activeError = useWhisper ? whisper.error : error;
   const processing = useWhisper ? whisper.processing : false;
@@ -115,6 +121,6 @@ export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
     start,
     stop,
     toggle,
-    clearError: () => { setError(null); whisper.clearError?.(); },
+    clearError,
   };
 }

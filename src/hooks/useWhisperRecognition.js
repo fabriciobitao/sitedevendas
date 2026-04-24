@@ -174,5 +174,7 @@ export function useWhisperRecognition({ onResult, onFinalSegment, lang = 'portug
     if (listening) stop(); else start();
   }, [listening, start, stop]);
 
-  return { supported, listening, processing, loadProgress, error, start, stop, toggle, clearError: () => setError(null) };
+  const clearError = useCallback(() => setError(null), []);
+
+  return { supported, listening, processing, loadProgress, error, start, stop, toggle, clearError };
 }
