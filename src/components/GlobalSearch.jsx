@@ -16,6 +16,8 @@ export default function GlobalSearch({ open, onClose }) {
   const {
     supported: voiceSupported,
     listening,
+    processing: voiceProcessing,
+    loadProgress: voiceLoadProgress,
     error: voiceError,
     toggle: toggleVoice,
     clearError,
@@ -116,17 +118,24 @@ export default function GlobalSearch({ open, onClose }) {
           {voiceSupported && (
             <button
               type="button"
-              className={`gs-mic ${listening ? 'gs-mic--on' : ''}`}
+              className={`gs-mic ${listening ? 'gs-mic--on' : ''} ${voiceProcessing ? 'gs-mic--processing' : ''}`}
               onClick={toggleVoice}
-              aria-label={listening ? 'Parar gravação' : 'Buscar por voz'}
-              title={listening ? 'Parar gravação' : 'Buscar por voz'}
+              disabled={voiceProcessing}
+              aria-label={listening ? 'Parar gravação' : voiceProcessing ? 'Transcrevendo' : 'Buscar por voz'}
+              title={voiceProcessing ? (voiceLoadProgress > 0 && voiceLoadProgress < 100 ? `Baixando modelo ${voiceLoadProgress}%` : 'Transcrevendo...') : listening ? 'Parar gravação' : 'Buscar por voz'}
             >
               {listening && <span className="gs-mic-pulse" aria-hidden />}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="9" y="2" width="6" height="12" rx="3"/>
-                <path d="M5 10a7 7 0 0 0 14 0"/>
-                <line x1="12" y1="19" x2="12" y2="22"/>
-              </svg>
+              {voiceProcessing ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="gs-mic-spin">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="2" width="6" height="12" rx="3"/>
+                  <path d="M5 10a7 7 0 0 0 14 0"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+              )}
             </button>
           )}
           <kbd className="gs-kbd">Esc</kbd>

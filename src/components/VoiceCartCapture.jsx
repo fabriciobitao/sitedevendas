@@ -32,7 +32,7 @@ export default function VoiceCartCapture({ open, onClose }) {
     setLastAddedId(newItems[newItems.length - 1].id);
   }, []);
 
-  const { supported, listening, transcript, interim, error, start, stop, reset } = useVoiceDictation({
+  const { supported, listening, processing, loadProgress, engine, transcript, interim, error, start, stop, reset } = useVoiceDictation({
     onFinalSegment: appendFromSegment,
   });
 
@@ -84,17 +84,25 @@ export default function VoiceCartCapture({ open, onClose }) {
           {supported && (
             <button
               type="button"
-              className={`vcc-mic-btn ${listening ? 'vcc-mic-btn--on' : ''}`}
+              className={`vcc-mic-btn ${listening ? 'vcc-mic-btn--on' : ''} ${processing ? 'vcc-mic-btn--processing' : ''}`}
               onClick={listening ? stop : start}
+              disabled={processing}
             >
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="9" y="2" width="6" height="12" rx="3"/>
                 <path d="M5 10a7 7 0 0 0 14 0"/>
                 <line x1="12" y1="19" x2="12" y2="22"/>
               </svg>
-              <span>{listening ? 'Parar' : 'Começar a ditar'}</span>
+              <span>
+                {processing
+                  ? (loadProgress > 0 && loadProgress < 100 ? `Baixando modelo ${loadProgress}%` : 'Transcrevendo...')
+                  : listening ? 'Parar' : 'Começar a ditar'}
+              </span>
               {listening && <span className="vcc-mic-ring" aria-hidden />}
             </button>
+          )}
+          {engine === 'whisper' && !error && (
+            <p className="vcc-hint">Seu navegador usa o modo offline (primeira vez baixa ~40MB e fica em cache). Fale, depois toque em "Parar" para transcrever.</p>
           )}
           {error && <p className="vcc-error">{error}</p>}
         </div>

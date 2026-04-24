@@ -1,13 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { buildMicBlockedHelp } from '../utils/micPermissionHelp';
+import { useWhisperRecognition } from './useWhisperRecognition';
 
 export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
   const recognitionRef = useRef(null);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(null);
 
-  const supported = typeof window !== 'undefined'
+  const hasWebSpeech = typeof window !== 'undefined'
     && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+  // Fallback Whisper (iPhone Chrome, Android Firefox, etc.)
+  const whisper = useWhisperRecognition({ onResult, lang: 'portuguese' });
+  const useWhisper = !hasWebSpeech && whisper.supported;
+
+  const supported = hasWebSpeech || whisper.supported;
 
   useEffect(() => () => {
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
@@ -15,11 +22,13 @@ export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
   }, []);
 
   const stop = useCallback(() => {
+    if (useWhisper) { whisper.stop(); return; }
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
-  }, []);
+  }, [useWhisper, whisper]);
 
   const start = useCallback(async () => {
-    if (!supported) {
+    if (useWhisper) { whisper.start(); return; }
+    if (!hasWebSpeech) {
       setError('Seu navegador não suporta busca por voz. Use Chrome ou Edge.');
       return;
     }
@@ -84,12 +93,28 @@ export function useVoiceSearch({ onResult, lang = 'pt-BR' } = {}) {
       setError('Não foi possível iniciar a gravação.');
       setListening(false);
     }
-  }, [supported, lang, onResult]);
+  }, [useWhisper, whisper, hasWebSpeech, lang, onResult]);
 
   const toggle = useCallback(() => {
-    if (listening) stop();
+    if (useWhisper ? whisper.listening : listening) stop();
     else start();
-  }, [listening, stop, start]);
+  }, [useWhisper, whisper, listening, stop, start]);
 
-  return { supported, listening, error, start, stop, toggle, clearError: () => setError(null) };
+  const activeListening = useWhisper ? whisper.listening : listening;
+  const activeError = useWhisper ? whisper.error : error;
+  const processing = useWhisper ? whisper.processing : false;
+  const loadProgress = useWhisper ? whisper.loadProgress : 0;
+
+  return {
+    supported,
+    listening: activeListening,
+    processing,
+    loadProgress,
+    engine: useWhisper ? 'whisper' : 'webspeech',
+    error: activeError,
+    start,
+    stop,
+    toggle,
+    clearError: () => { setError(null); whisper.clearError?.(); },
+  };
 }

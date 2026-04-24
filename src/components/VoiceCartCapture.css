@@ -82,7 +82,14 @@
   0% { transform: scale(0.95); opacity: 0.8; }
   100% { transform: scale(1.15); opacity: 0; }
 }
+.vcc-mic-btn--processing {
+  background: linear-gradient(135deg, #1E6B4A, #2d8a5f);
+  opacity: 0.85;
+  cursor: wait;
+}
+.vcc-mic-btn--processing:hover { transform: none; }
 .vcc-warn { color: #b55; font-size: 13px; text-align: center; margin: 0; }
+.vcc-hint { color: #666; font-size: 12px; text-align: center; margin: 4px 16px 0; max-width: 420px; line-height: 1.4; }
 .vcc-error { color: #c0392b; font-size: 13px; margin: 4px 0 0; }
 
 .vcc-transcript {

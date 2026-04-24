@@ -113,6 +113,13 @@
   0% { transform: scale(0.9); opacity: 0.6; }
   100% { transform: scale(1.4); opacity: 0; }
 }
+.gs-mic--processing {
+  background: var(--verde-fresh);
+  color: var(--creme-light);
+  cursor: wait;
+}
+.gs-mic-spin { animation: gsMicSpin 0.9s linear infinite; }
+@keyframes gsMicSpin { to { transform: rotate(360deg); } }
 
 .gs-voice-error {
   padding: 10px 18px;

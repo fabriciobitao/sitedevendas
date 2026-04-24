@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { buildMicBlockedHelp } from '../utils/micPermissionHelp';
+import { useWhisperRecognition } from './useWhisperRecognition';
 
 // Ditado contínuo: acumula transcript até usuário parar manualmente.
+// Em navegadores sem Web Speech (iPhone Chrome, Android Firefox),
+// cai automaticamente para Whisper local via MediaRecorder.
 export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
   const recognitionRef = useRef(null);
   const baseTranscriptRef = useRef('');
@@ -14,8 +17,20 @@ export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
 
   useEffect(() => { onFinalSegmentRef.current = onFinalSegment; }, [onFinalSegment]);
 
-  const supported = typeof window !== 'undefined'
+  const hasWebSpeech = typeof window !== 'undefined'
     && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+  // Handler do Whisper: cada gravação vira um segmento finalizado.
+  const whisperOnResult = useCallback((text) => {
+    if (!text) return;
+    baseTranscriptRef.current = (baseTranscriptRef.current + ' ' + text).trim();
+    setTranscript(baseTranscriptRef.current);
+    try { onFinalSegmentRef.current?.(text); } catch { /* noop */ }
+  }, []);
+
+  const whisper = useWhisperRecognition({ onResult: whisperOnResult, lang: 'portuguese' });
+  const useWhisper = !hasWebSpeech && whisper.supported;
+  const supported = hasWebSpeech || whisper.supported;
 
   useEffect(() => () => {
     shouldContinueRef.current = false;
@@ -75,7 +90,14 @@ export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
   }, [lang]);
 
   const start = useCallback(async () => {
-    if (!supported) {
+    if (useWhisper) {
+      baseTranscriptRef.current = '';
+      setTranscript('');
+      setInterim('');
+      whisper.start();
+      return;
+    }
+    if (!hasWebSpeech) {
       setError('Seu navegador não suporta ditado por voz.');
       return;
     }
@@ -112,19 +134,38 @@ export function useVoiceDictation({ lang = 'pt-BR', onFinalSegment } = {}) {
       shouldContinueRef.current = false;
       setListening(false);
     }
-  }, [supported, createRecognition]);
+  }, [useWhisper, whisper, hasWebSpeech, createRecognition]);
 
   const stop = useCallback(() => {
+    if (useWhisper) { whisper.stop(); return; }
     shouldContinueRef.current = false;
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
-  }, []);
+  }, [useWhisper, whisper]);
 
   const reset = useCallback(() => {
     baseTranscriptRef.current = '';
     setTranscript('');
     setInterim('');
     setError(null);
-  }, []);
+    whisper.clearError?.();
+  }, [whisper]);
 
-  return { supported, listening, transcript, interim, error, start, stop, reset };
+  const activeListening = useWhisper ? whisper.listening : listening;
+  const activeError = useWhisper ? whisper.error : error;
+  const processing = useWhisper ? whisper.processing : false;
+  const loadProgress = useWhisper ? whisper.loadProgress : 0;
+
+  return {
+    supported,
+    listening: activeListening,
+    processing,
+    loadProgress,
+    engine: useWhisper ? 'whisper' : 'webspeech',
+    transcript,
+    interim,
+    error: activeError,
+    start,
+    stop,
+    reset,
+  };
 }
