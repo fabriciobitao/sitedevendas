@@ -250,7 +250,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </div>
                 <p className="hero-mf-seller-quote">
                   "Olá, sou o <strong>Fabrício</strong>, representante de vendas da Frios OF.
-                  Escolha seus produtos e envie o pedido direto pro meu WhatsApp — atendimento personalizado."
+                  Escolha seus produtos, finalize no carrinho de compras, que o pedido vai direto pro meu WhatsApp — atendimento personalizado."
                 </p>
                 <div className="hero-mf-seller-meta">
                   <span>Resposta em até 15 min</span>
