@@ -36,14 +36,18 @@ export default function VoiceCartCapture({ open, onClose }) {
     onFinalSegment: appendFromSegment,
   });
 
+  const resetRef = useRef(reset);
+  const stopRef = useRef(stop);
+  useEffect(() => { resetRef.current = reset; stopRef.current = stop; }, [reset, stop]);
+
   useEffect(() => {
     if (!open) return;
-    reset();
+    resetRef.current();
     setItems([]);
     setAdded(false);
     setLastAddedId(null);
-    return () => stop();
-  }, [open, reset, stop]);
+    return () => stopRef.current();
+  }, [open]);
 
   const unresolvedCount = useMemo(() => items.filter(i => !i.productId).length, [items]);
   const resolvedCount = items.length - unresolvedCount;
