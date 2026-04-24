@@ -236,15 +236,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </svg>
                 Ditar pedido
               </button>
-              <a
-                href="https://wa.me/5535998511194?text=Ol%C3%A1%20Fabr%C3%ADcio%2C%20quero%20montar%20um%20pedido."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hero-mf-cta-secondary"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5s-.7-1.6-.9-2.2-.5-.5-.7-.5H7.8c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1 2.1 3.2 5.1 4.5c.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4s.2-1.3.2-1.4c-.1-.1-.3-.2-.6-.4z"/></svg>
-                Atendimento direto
-              </a>
             </div>
 
             <div className="hero-mf-seller">
