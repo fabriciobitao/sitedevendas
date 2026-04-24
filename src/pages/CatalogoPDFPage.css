@@ -668,8 +668,33 @@
   margin-bottom: 8px;
 }
 
-.layout-compacto .catpdf-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.layout-compacto .catpdf-grid { grid-template-columns: repeat(6, 1fr); gap: 3px; margin-bottom: 3px; }
 .layout-detalhado .catpdf-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+/* Cards ultra-compactos quando em modo 'compacto' */
+.layout-compacto .catpdf-card { border-radius: 3px; box-shadow: none; border-width: 0.5px; }
+.layout-compacto .catpdf-card::before { height: 1.5px; }
+.layout-compacto .catpdf-card-img-wrap { aspect-ratio: 1.1; }
+.layout-compacto .catpdf-card-img { padding: 2px; }
+.layout-compacto .catpdf-card-body { padding: 3px 4px 4px; gap: 2px; }
+.layout-compacto .catpdf-card-name {
+  font-size: 7.5px;
+  line-height: 1.15;
+  min-height: 1.8em;
+  -webkit-line-clamp: 2;
+  letter-spacing: -0.15px;
+  font-weight: 600;
+}
+.layout-compacto .catpdf-card-meta { padding-top: 2px; gap: 2px; border-top-width: 0.5px; }
+.layout-compacto .catpdf-card-unit {
+  font-size: 5.5px;
+  padding: 1px 3px;
+  letter-spacing: 0.4px;
+}
+.layout-compacto .catpdf-card-price { font-size: 9px; letter-spacing: -0.4px; }
+.layout-compacto .catpdf-card-price.no-price { font-size: 6.5px; letter-spacing: 0.3px; }
+.layout-compacto .catpdf-card-badge { font-size: 5.5px; padding: 1px 3px; letter-spacing: 0.5px; top: 2px; left: 2px; }
+.layout-compacto .catpdf-card-img-placeholder { font-size: 16px; }
 
 /* ==========================================================================
    LISTA COMPACTA (3 colunas, sem imagens — catalogo denso)
