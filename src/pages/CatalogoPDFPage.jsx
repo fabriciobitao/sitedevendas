@@ -81,8 +81,8 @@ export default function CatalogoPDFPage() {
   const filtered = useMemo(() => {
     if (!products) return [];
     const base = products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
-    // Na lista de esgotados, quando existe variante "cx" e "por peça" do mesmo item, manter apenas a "cx"
-    return tipo === 'esgotados' ? dedupCxPeca(base) : base;
+    // Quando existe variante "cx" e "por peça" do mesmo item, manter apenas a "cx" (em ambos os modos)
+    return dedupCxPeca(base);
   }, [products, tipo]);
 
   const grouped = useMemo(() => {
