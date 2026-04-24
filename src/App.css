@@ -875,7 +875,7 @@
   letter-spacing: 1.5px;
 }
 .footer-dev-logo {
-  height: 48px;
+  height: 64px;
   width: auto;
   mix-blend-mode: screen;
   filter: brightness(1.6) contrast(1.2);
@@ -892,7 +892,7 @@
     margin-left: 0;
     font-size: 13px;
   }
-  .footer-dev-logo { height: 40px; }
+  .footer-dev-logo { height: 52px; }
 }
 
 /* ==================== RESPONSIVE ==================== */
