@@ -4,3 +4,6 @@ dist/
 *.local
 .env
 scripts/serviceAccountKey.json
+.firebase/
+audit-*.mjs
+audit-screenshots/

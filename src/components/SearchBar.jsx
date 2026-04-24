@@ -1,7 +1,9 @@
 import { useRef, useEffect } from 'react';
+import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import './SearchBar.css';
 
 export default function SearchBar({ value, onChange }) {
+  const voice = useVoiceSearch({ onResult: (text) => onChange(text) });
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
   const focusedRef = useRef(false);
@@ -23,6 +25,8 @@ export default function SearchBar({ value, onChange }) {
   };
 
   useEffect(() => {
+    // Fechar teclado virtual ao rolar em touch. NAO escutar wheel — no desktop
+    // o trackpad dispara wheel a cada digitacao com inercia e tira o foco.
     let touchStartY = 0;
     const onTouchStart = (e) => {
       touchStartY = e.touches[0].clientY;
@@ -35,17 +39,11 @@ export default function SearchBar({ value, onChange }) {
       if (target && (target === inputRef.current || (target.closest && target.closest('.search-bar')))) return;
       inputRef.current && inputRef.current.blur();
     };
-    const onWheel = () => {
-      if (!focusedRef.current) return;
-      inputRef.current && inputRef.current.blur();
-    };
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: true });
     return () => {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('wheel', onWheel);
     };
   }, []);
 
@@ -81,6 +79,29 @@ export default function SearchBar({ value, onChange }) {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
           </svg>
+        </button>
+      )}
+      {voice.supported && (
+        <button
+          type="button"
+          className={`search-mic ${voice.listening ? 'search-mic--on' : ''} ${voice.processing ? 'search-mic--processing' : ''}`}
+          onClick={voice.toggle}
+          disabled={voice.processing}
+          aria-label={voice.listening ? 'Parar gravação' : voice.processing ? 'Transcrevendo' : 'Buscar por voz'}
+          title={voice.processing ? (voice.loadProgress > 0 && voice.loadProgress < 100 ? `Baixando modelo ${voice.loadProgress}%` : 'Transcrevendo...') : voice.listening ? 'Ouvindo...' : 'Buscar por voz'}
+        >
+          {voice.processing ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-mic-spin">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="2" width="6" height="12" rx="3"/>
+              <path d="M5 10a7 7 0 0 0 14 0"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+            </svg>
+          )}
+          {voice.listening && <span className="search-mic-pulse" aria-hidden />}
         </button>
       )}
     </div>

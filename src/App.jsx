@@ -17,6 +17,9 @@ import Cart from './components/Cart';
 import LoginModal from './components/LoginModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProductsLoader from './components/ProductsLoader';
+import GlobalSearch from './components/GlobalSearch';
+import VoiceCartCapture from './components/VoiceCartCapture';
+import { normalize, scoreMatch } from './utils/searchMatch';
 import './App.css';
 
 const ClientForm = lazy(() => import('./components/ClientForm'));
@@ -54,6 +57,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const [subcategory, setSubcategory] = useState('all');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [filtersCompact, setFiltersCompact] = useState(false);
+  const [voiceCartOpen, setVoiceCartOpen] = useState(false);
   const productsRef = useRef(null);
 
   useEffect(() => {
@@ -61,6 +65,27 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onSelect = (e) => {
+      const { productId, categoryId } = e.detail || {};
+      if (!productId) return;
+      setSearch('');
+      setCategory(categoryId || 'all');
+      setSubcategory('all');
+      setTimeout(() => {
+        const el = document.querySelector(`[data-product-id="${productId}"]`);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const offset = window.scrollY + rect.top - 140;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+        el.classList.add('product-card--focus');
+        setTimeout(() => el.classList.remove('product-card--focus'), 1800);
+      }, 200);
+    };
+    window.addEventListener('globalsearch:select', onSelect);
+    return () => window.removeEventListener('globalsearch:select', onSelect);
   }, []);
 
   useEffect(() => {
@@ -109,27 +134,8 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
     }, 150);
   };
 
-  const normalize = (s) => (s || '')
-    .toString()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
-
   const searchTerm = normalize(search.trim());
   const isSearching = searchTerm.length > 0;
-
-  const scoreMatch = (p, term) => {
-    const name = normalize(p.name);
-    const sub = normalize(p.subcategory);
-    const desc = normalize(p.description);
-    if (name.startsWith(term)) return 4;
-    const words = name.split(/\s+/);
-    if (words.some(w => w.startsWith(term))) return 3;
-    if (name.includes(term)) return 2;
-    if (sub.includes(term)) return 1;
-    if (desc.includes(term)) return 0.5;
-    return 0;
-  };
 
   const filteredProducts = useMemo(() => {
     let result = products;
@@ -157,43 +163,167 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 
+  const topProducts = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const tagged = products.filter(p => !p.outOfStock && p.image);
+    return tagged.slice(0, 4);
+  }, [products]);
+
+  const handleCategoryJump = (catId) => {
+    handleCategoryChange(catId);
+  };
+
   return (
     <main className={`main ${isSearching ? 'main--searching' : ''}`}>
-      <section className="hero">
-        <div className="hero-bg-pattern" />
-        <div className="hero-content">
-          <img src="/logo.jpg" alt="Frios Ouro Fino" className="hero-logo-img" />
-          <p className="hero-tagline">Qualidade nas entregas e atendimento rápido!</p>
-          <p className="hero-desc">
-            Monte seu pedido com os melhores produtos e finalize no carrinho de compras, ele será enviado pelo WhatsApp!
-          </p>
+      <section className="hero-mf">
+        <div className="hero-mf-grid">
+          <div className="hero-mf-left">
+            <div className="hero-brand hero-brand--inline hero-brand--round">
+              <div className="hero-brand-aurora" aria-hidden />
+              <div className="hero-brand-halo" aria-hidden />
+              <div className="hero-brand-grain" aria-hidden />
+
+              <div className="hero-brand-content">
+                <div className="hero-brand-medallion">
+                  <svg className="hero-brand-medallion-text" viewBox="0 0 440 440" aria-hidden>
+                    <defs>
+                      <path id="brandOrbit" d="M 81.4,358.6 A 196,196 0 1,1 358.6,358.6" />
+                    </defs>
+                    <text>
+                      <textPath href="#brandOrbit" startOffset="50%" textAnchor="middle">
+                        FRIOS OURO FINO LTDA. &#160;&#160;&#10052;&#65038;&#160;&#160; DESDE 1998 &#160;&#160;&#10052;&#65038;&#160;&#160; COMÉRCIO ATACADISTA
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="hero-brand-medallion-gold" aria-hidden />
+                  <div className="hero-brand-medallion-innerline" aria-hidden />
+                  <div className="hero-brand-logocard hero-brand-logocard--round">
+                    <div className="hero-brand-logocard-glow" aria-hidden />
+                    <img src="/logo.jpg" alt="Frios Ouro Fino — Comércio Atacadista" className="hero-brand-logo" />
+                  </div>
+                  <span className="hero-brand-medallion-snow" aria-hidden>&#10052;&#65038;</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--tl" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--tr" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--bl" aria-hidden>✦</span>
+                  <span className="hero-brand-medallion-star hero-brand-medallion-star--br" aria-hidden>✦</span>
+                </div>
+
+                <p className="hero-brand-promise">
+                  <em>Atendimento</em> amigo. <em>Produtos</em> de qualidade. <em>Entrega</em> rápida!
+                </p>
+              </div>
+            </div>
+            <p className="hero-mf-lead">
+              Secos, resfriados e congelados — monte o carrinho e envie direto pro
+              WhatsApp do vendedor. Atendimento personalizado, sem enrolação.
+            </p>
+
+            <div className="hero-mf-ctas">
+              <button
+                type="button"
+                className="hero-mf-cta-primary"
+                onClick={() => {
+                  handleCategoryChange('all');
+                  scrollToProducts();
+                }}
+              >
+                Faça seu Pedido
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+              <span className="hero-mf-cta-or" aria-hidden="true">ou</span>
+              <button
+                type="button"
+                className="hero-mf-cta-voice"
+                onClick={() => setVoiceCartOpen(true)}
+                title="Fala que eu anoto seu pedido"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="2" width="6" height="12" rx="3"/>
+                  <path d="M5 10a7 7 0 0 0 14 0"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+                Fala que eu anoto
+              </button>
+            </div>
+
+            <div className="hero-mf-seller">
+              <div className="hero-mf-seller-avatar">
+                <img src="/fabricio.jpg" alt="Fabrício" />
+                <span className="hero-mf-seller-online" />
+              </div>
+              <div className="hero-mf-seller-body">
+                <div className="hero-mf-seller-kicker">
+                  <span className="hero-mf-seller-dot" /> Seu vendedor online agora
+                </div>
+                <p className="hero-mf-seller-quote">
+                  "Olá, sou o <strong>Fabrício</strong>, representante de vendas da Frios OF.
+                  Escolha seus produtos, finalize no carrinho de compras, que o pedido vai direto pro meu WhatsApp — atendimento personalizado."
+                </p>
+                <div className="hero-mf-seller-meta">
+                  <span>Resposta em até 15 min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-mf-right">
+            <div className="hero-mf-featured-tag">
+              <span>◉</span> MAIS PEDIDOS · TOP 4
+            </div>
+            <div className="hero-mf-featured-grid">
+              {topProducts.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`hero-mf-featured-card${i === 0 ? ' hero-mf-featured-card--big' : ''}`}
+                  onClick={() => {
+                    const catId = p.category === 'Resfriados' ? 'resfriados'
+                      : p.category === 'Congelados' ? 'congelados' : 'secos';
+                    handleCategoryChange(catId);
+                  }}
+                >
+                  <div className="hero-mf-featured-img">
+                    <img src={p.image} alt={p.name} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {i === 0 && <span className="hero-mf-featured-badge">TOP 1</span>}
+                  </div>
+                  <div className="hero-mf-featured-meta">
+                    <div className="hero-mf-featured-brand">{p.subcategory || p.category}</div>
+                    <div className="hero-mf-featured-name">{p.name}</div>
+                    <span className="hero-mf-featured-cta">
+                      Ver produto
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-mf-showcase">
+          <div className="hero-mf-showcase-label">
+            <span className="hero-mf-showcase-num">01 →</span> Ir direto pra categoria
+          </div>
+          <div className="hero-mf-showcase-row">
+            {categories.map(c => (
+              <button
+                key={c.id}
+                type="button"
+                className="hero-mf-cat-card"
+                style={{ '--cat-accent': c.color }}
+                onClick={() => handleCategoryJump(c.id)}
+              >
+                <span className="hero-mf-cat-glyph" aria-hidden>{c.icon}</span>
+                <div className="hero-mf-cat-text">
+                  <div className="hero-mf-cat-name">{c.name}</div>
+                  <div className="hero-mf-cat-desc">{c.description}</div>
+                </div>
+                <span className="hero-mf-cat-arrow">→</span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
-
-      <div className="section-divider" />
-
-      {!user && (
-        <div className="auth-buttons-bar">
-          <button className="auth-btn auth-btn--login" onClick={onOpenLogin}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
-            </svg>
-            Fazer minhas compras
-          </button>
-          <button className="auth-btn auth-btn--register" onClick={onOpenRegister}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-            </svg>
-            Quero me cadastrar
-          </button>
-          <button className="auth-btn auth-btn--cliente" onClick={onOpenCliente}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            Já sou cliente antigo - primeira vez no site
-          </button>
-        </div>
-      )}
 
       <section className={`filters-section ${filtersCompact ? 'filters-section--compact' : ''}`}>
         <div className="filters-row filters-row--search">
@@ -272,6 +402,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
         </>
       )}
       <BackToTop />
+      <VoiceCartCapture open={voiceCartOpen} onClose={() => setVoiceCartOpen(false)} />
     </main>
   );
 }
@@ -312,14 +443,29 @@ function AppContent() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [clienteOpen, setClienteOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const openLogin = () => { setRegisterOpen(false); setClienteOpen(false); setLoginOpen(true); };
   const openRegister = () => { setLoginOpen(false); setClienteOpen(false); setRegisterOpen(true); };
   const openCliente = () => { setLoginOpen(false); setRegisterOpen(false); setClienteOpen(true); };
+  const openSearch = () => setSearchOpen(true);
+  const closeSearch = () => setSearchOpen(false);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <>
-      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} />
+      <Header onOpenLogin={openLogin} onOpenRegister={openRegister} onOpenCliente={openCliente} onOpenSearch={openSearch} />
+      <GlobalSearch open={searchOpen} onClose={closeSearch} />
       <Cart />
       <AuthGateToast onLogin={openLogin} />
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} onSwitchToRegister={openRegister} />
@@ -354,6 +500,10 @@ function AppContent() {
           </div>
           <div className="footer-info">
             <p className="footer-tagline">Frios Ouro Fino Ltda. — Comércio Atacadista</p>
+          </div>
+          <div className="footer-dev">
+            <span className="footer-dev-label">Developed by</span>
+            <img src="/grufa-logo.png" alt="Grufa" className="footer-dev-logo" />
           </div>
           <div className="footer-contact">
             <a href="https://wa.me/5535998511194" className="footer-whatsapp" target="_blank" rel="noopener noreferrer">

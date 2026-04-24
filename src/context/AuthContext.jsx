@@ -8,7 +8,7 @@ import {
   sendPasswordResetEmail,
 } from 'firebase/auth';
 import {
-  doc, setDoc, getDoc, getDocs, query, where, collection, limit, serverTimestamp, runTransaction,
+  doc, setDoc, getDoc, serverTimestamp, runTransaction,
 } from 'firebase/firestore';
 import { encryptSensitiveData, decryptSensitiveData } from '../utils/crypto';
 
@@ -57,6 +57,20 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
+  // Resolve identifier (codigo de cliente ou telefone) -> email via login_index
+  async function resolveEmailFromIndex(identifier) {
+    const trimmed = String(identifier || '').trim();
+    const onlyDigits = trimmed.replace(/\D/g, '');
+    const keys = [];
+    if (/^\d{1,6}$/.test(trimmed)) keys.push(onlyDigits.padStart(4, '0'));
+    if (onlyDigits.length >= 10) keys.push(onlyDigits);
+    for (const key of keys) {
+      const snap = await getDoc(doc(db, 'login_index', key));
+      if (snap.exists()) return snap.data().email;
+    }
+    return null;
+  }
+
   // Login agora aceita codigo de cliente (0001) OU telefone (retrocompat)
   const login = useCallback(async (identifier, password) => {
     const now = Date.now();
@@ -66,37 +80,20 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      const trimmed = String(identifier || '').trim();
-      let snap;
-
-      // Tenta por codigo de cliente (apenas digitos e tamanho <= 6)
-      const onlyDigits = trimmed.replace(/\D/g, '');
-      const looksLikeCode = /^\d{1,6}$/.test(trimmed);
-      if (looksLikeCode) {
-        const padded = onlyDigits.padStart(4, '0');
-        snap = await getDocs(query(collection(db, 'customers'), where('codigoCliente', '==', padded), limit(1)));
-      }
-
-      // Fallback: telefone (retrocompat)
-      if (!snap || snap.empty) {
-        snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', trimmed), limit(1)));
-        if (snap.empty && onlyDigits) {
-          snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', onlyDigits), limit(1)));
-        }
-      }
-
-      if (snap.empty) {
+      const email = await resolveEmailFromIndex(identifier);
+      if (!email) {
         const err = new Error('Codigo de cliente nao encontrado');
         err.code = 'auth/user-not-found';
         throw err;
       }
-      const customerData = snap.docs[0].data();
-      const email = customerData.email;
 
       const cred = await signInWithEmailAndPassword(auth, email, password);
       loginAttempts.current = { count: 0, lockedUntil: 0 };
-      const decrypted = await decryptSensitiveData(customerData, cred.user.uid);
-      setCustomerProfile(decrypted);
+      const snap = await getDoc(doc(db, 'customers', cred.user.uid));
+      if (snap.exists()) {
+        const decrypted = await decryptSensitiveData(snap.data(), cred.user.uid);
+        setCustomerProfile(decrypted);
+      }
       return cred.user;
     } catch (err) {
       loginAttempts.current.count++;
@@ -122,6 +119,16 @@ export function AuthProvider({ children }) {
       updatedAt: serverTimestamp(),
     };
     await setDoc(doc(db, 'customers', cred.user.uid), profile);
+
+    // Indexa para login via codigo/telefone (sem expor dados sensiveis em customers.list)
+    const indexPayload = { email, uid: cred.user.uid, updatedAt: serverTimestamp() };
+    const telDigits = String(formData.telefone || '').replace(/\D/g, '');
+    const writes = [setDoc(doc(db, 'login_index', codigoCliente), indexPayload)];
+    if (telDigits.length >= 10) {
+      writes.push(setDoc(doc(db, 'login_index', telDigits), indexPayload));
+    }
+    await Promise.all(writes);
+
     setCustomerProfile(dataWithCode);
     return { user: cred.user, codigoCliente };
   }, []);
@@ -132,28 +139,15 @@ export function AuthProvider({ children }) {
     setCustomerProfile(null);
   }, []);
 
-  // Recupera email pelo codigo de cliente ou telefone (fallback)
+  // Recupera email pelo codigo de cliente ou telefone via login_index
   const findEmailByIdentifier = useCallback(async (identifier) => {
-    const trimmed = String(identifier || '').trim();
-    const onlyDigits = trimmed.replace(/\D/g, '');
-    let snap;
-
-    if (/^\d{1,6}$/.test(trimmed)) {
-      const padded = onlyDigits.padStart(4, '0');
-      snap = await getDocs(query(collection(db, 'customers'), where('codigoCliente', '==', padded), limit(1)));
-    }
-    if (!snap || snap.empty) {
-      snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', trimmed), limit(1)));
-      if (snap.empty && onlyDigits) {
-        snap = await getDocs(query(collection(db, 'customers'), where('telefone', '==', onlyDigits), limit(1)));
-      }
-    }
-    if (snap.empty) {
+    const email = await resolveEmailFromIndex(identifier);
+    if (!email) {
       const err = new Error('Codigo de cliente nao encontrado');
       err.code = 'auth/user-not-found';
       throw err;
     }
-    return snap.docs[0].data().email;
+    return email;
   }, []);
 
   const resetPassword = useCallback(async (email) => {

@@ -187,3 +187,28 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.conta-sensitive {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.conta-reveal-btn {
+  background: transparent;
+  border: 1px solid var(--gray-300, #d4d4d8);
+  color: var(--gray-600, #52525b);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.15s;
+}
+
+.conta-reveal-btn:hover {
+  background: var(--gray-100, #f4f4f5);
+  color: var(--brown, #1f2937);
+}

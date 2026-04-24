@@ -2,15 +2,20 @@ import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLastOrder } from '../hooks/useLastOrder';
 import './Header.css';
 
-export default function Header({ onOpenLogin, onOpenRegister }) {
-  const { totalItems, toggleCart } = useCart();
+export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onOpenSearch }) {
+  const { totalItems, toggleCart, loadOrder, items } = useCart();
   const { user, customerProfile, loading, logout } = useAuth();
+  const { order: lastOrder } = useLastOrder(user);
   const navigate = useNavigate();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [time, setTime] = useState('');
+  const [ordersClosed, setOrdersClosed] = useState(false);
+  const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -18,29 +23,86 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Página do PDF/catálogo imprimível não deve ter header global
-  // IMPORTANTE: early return DEPOIS de todos os hooks (Rules of Hooks)
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
+  }, []);
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      setTime(`${hh}:${mm}`);
+      setOrdersClosed(now.getHours() >= 16);
+    };
+    tick();
+    const i = setInterval(tick, 30000);
+    return () => clearInterval(i);
+  }, []);
+
   if (location.pathname.startsWith('/admin/catalogo')) return null;
 
   const displayName = customerProfile?.nomeFantasia || customerProfile?.nomeResponsavel || user?.email?.split('@')[0] || '';
+  const hasLastOrder = !!(user && lastOrder && Array.isArray(lastOrder.items) && lastOrder.items.length > 0);
+
+  const handleRepeatLast = () => {
+    if (!hasLastOrder) return;
+    if (items.length > 0) {
+      const ok = window.confirm('Isso vai substituir os itens atuais do seu carrinho pelos do último pedido. Continuar?');
+      if (!ok) return;
+    }
+    const warnings = loadOrder(lastOrder.items);
+    if (warnings.length > 0) {
+      alert(`Alguns produtos do último pedido não estão disponíveis:\n\n${warnings.join('\n')}\n\nOs demais foram adicionados ao carrinho.`);
+    }
+  };
 
   return (
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
+      <div className="header-announce">
+        <span className={`header-announce-dot ${ordersClosed ? 'header-announce-dot--closed' : ''}`} />
+        <span>{ordersClosed ? 'Pedidos encerrados · retorno amanhã' : 'Pedidos se encerram às 16:00'} · {time}</span>
+        <span className="header-announce-sep">—</span>
+        <span className="header-announce-region">Vendedor Fabrício · (35) 99851-1194</span>
+      </div>
       <div className="header-inner">
-        <button className="header-home" onClick={() => navigate('/')} aria-label="Voltar para a página principal">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span className="header-home-label">Página Principal</span>
-        </button>
-        <div className="header-info">
-          <span className="header-vendedor">Vendedor: Fabrício</span>
-          <span className="header-alert-text" role="alert">
-            Horário limite de envio de pedido até às 16:00
+        <button className="header-brand" onClick={() => navigate('/')} aria-label="Voltar para a página principal">
+          <img src="/logo.jpg" alt="Frios Ouro Fino" className="header-logo-img" />
+          <span className="header-info">
+            <span className="header-phone">(35) 3441-5633</span>
+            <span className="header-since">Distribuidora · desde 1998</span>
           </span>
-        </div>
+        </button>
 
         <div className="header-actions">
+          <button className="header-search-pill" onClick={onOpenSearch} aria-label="Buscar produtos">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <span className="header-search-label">Buscar produto</span>
+            <kbd className="header-search-kbd">{isMac ? '⌘K' : 'Ctrl K'}</kbd>
+          </button>
+
+          {!loading && !user && (
+            <div className="header-auth">
+              <button type="button" className="header-auth-btn header-auth-btn--login" onClick={onOpenLogin}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+                </svg>
+                <span>Entrar</span>
+              </button>
+              <button type="button" className="header-auth-btn header-auth-btn--register" onClick={onOpenRegister}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+                </svg>
+                <span>Cadastrar</span>
+              </button>
+              <button type="button" className="header-auth-btn header-auth-btn--cliente" onClick={onOpenCliente}>
+                <span>Já sou cliente</span>
+              </button>
+            </div>
+          )}
+
           {!loading && user && (
             <div className="header-account">
               <button className="header-account-btn" onClick={() => setMenuOpen(!menuOpen)}>
@@ -83,22 +145,33 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
             </div>
           )}
 
+          {hasLastOrder && (
+            <button
+              type="button"
+              className="header-repeat-btn"
+              onClick={handleRepeatLast}
+              title="Carregar os itens do seu último pedido no carrinho"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+              </svg>
+              <span className="header-repeat-label">Repetir último</span>
+            </button>
+          )}
+
           <button className="cart-button" onClick={toggleCart} aria-label="Abrir carrinho">
-            {totalItems > 0 && (
-              <span className="cart-hint">Finalize e envie seu pedido</span>
-            )}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="9" cy="21" r="1"/>
               <circle cx="20" cy="21" r="1"/>
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
             </svg>
+            <span className="cart-button-label">Carrinho</span>
             {totalItems > 0 && (
               <span className="cart-badge" key={totalItems}>{totalItems}</span>
             )}
           </button>
         </div>
       </div>
-
     </header>
   );
 }

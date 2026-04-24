@@ -13,8 +13,8 @@ service cloud.firestore {
       // Read own profile only
       allow get: if request.auth != null && request.auth.uid == uid;
 
-      // List: allow phone lookup for login (limit 1 only, safe because sensitive fields are encrypted)
-      allow list: if request.query.limit <= 1;
+      // List: bloqueado. Lookup de login agora usa coleção login_index (sem dados sensíveis).
+      allow list: if false;
 
       // Create own profile during registration
       // Validates: document ID must match auth UID, email must match auth email,
@@ -35,6 +35,30 @@ service cloud.firestore {
                     && !('isAdmin' in request.resource.data);
 
       // Delete: explicitly denied
+      allow delete: if false;
+    }
+
+    // ============================================================
+    // LOGIN_INDEX COLLECTION
+    // Mapa público codigoCliente/telefone -> { email, uid } para login lookup.
+    // Não contém dados sensíveis (apenas email, que o cliente já usa para Firebase Auth).
+    // Substitui o antigo `customers.list`, que vazava docs inteiros.
+    // ============================================================
+    match /login_index/{id} {
+      allow get: if true;
+      allow list: if false;
+
+      // Criar: apenas o próprio dono pode indexar, e apenas se a chave ainda nao existe
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.keys().hasOnly(['email', 'uid', 'updatedAt']);
+
+      // Update: apenas quem já é dono da chave
+      allow update: if request.auth != null
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.keys().hasOnly(['email', 'uid', 'updatedAt']);
+
       allow delete: if false;
     }
 

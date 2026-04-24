@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react';
+import { Fragment, useMemo, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../context/ProductsContext';
 import './CatalogoPDFPage.css';
@@ -84,14 +84,9 @@ export default function CatalogoPDFPage() {
 
   const filtered = useMemo(() => {
     if (!products) return [];
-    if (tipo === 'esgotados') {
-      // Lista de esgotados — mantém só os esgotados e remove duplicatas cx/peça
-      const base = products.filter((p) => p.outOfStock === true);
-      return dedupCxPeca(base);
-    }
-    // Catálogo de estoque — mostra TODOS os produtos cadastrados (inclusive esgotados),
-    // sem diferenciar visualmente (zera outOfStock para esconder tarja e efeitos)
-    return products.map((p) => ({ ...p, outOfStock: false }));
+    const base = products.filter((p) => (tipo === 'esgotados' ? p.outOfStock === true : !p.outOfStock));
+    // Quando existe variante "cx" e "por peça" do mesmo item, manter apenas a "cx" (em ambos os modos)
+    return dedupCxPeca(base);
   }, [products, tipo]);
 
   const grouped = useMemo(() => {
@@ -380,29 +375,77 @@ export default function CatalogoPDFPage() {
           </div>
         </section>
 
+        {/* ====== SUMÁRIO ====== */}
+        <section className="catpdf-toc">
+          <div className="catpdf-toc-head">
+            <div className="catpdf-toc-kicker">Índice</div>
+            <h2 className="catpdf-toc-title">Sumário</h2>
+            <div className="catpdf-toc-rule" />
+          </div>
+          <div className="catpdf-toc-list">
+            {categoriasOrdenadas.map((cat) => {
+              const subs = grouped[cat];
+              const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
+              const subKeys = Object.keys(subs).sort();
+              return (
+                <div key={cat} className="catpdf-toc-cat">
+                  <div className="catpdf-toc-cat-head">
+                    <span className="catpdf-toc-cat-name">{cat}</span>
+                    <span className="catpdf-toc-cat-count">{totalCat} {totalCat === 1 ? 'item' : 'itens'}</span>
+                  </div>
+                  <ul className="catpdf-toc-subs">
+                    {subKeys.map((sub) => (
+                      <li key={sub} className="catpdf-toc-sub">
+                        <span className="catpdf-toc-sub-name">{sub}</span>
+                        <span className="catpdf-toc-sub-dots" />
+                        <span className="catpdf-toc-sub-count">{subs[sub].length}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+          <div className="catpdf-toc-foot">
+            <FleurOrnament className="catpdf-toc-fleur" />
+            <span>Frios Ouro Fino Ltda. · desde 1998</span>
+          </div>
+        </section>
+
         {/* ====== PÁGINAS DE CATEGORIA ====== */}
-        {categoriasOrdenadas.map((cat) => {
+        {categoriasOrdenadas.map((cat, idx) => {
           const subs = grouped[cat];
           const totalCat = Object.values(subs).reduce((a, arr) => a + arr.length, 0);
           const subKeys = Object.keys(subs).sort();
           return (
-            <div key={cat} className="catpdf-section">
-              {/* Divisor fullbleed da categoria */}
-              <section className="catpdf-section-divider">
-                <div className="catpdf-section-divider-inner">
-                  <div className="catpdf-section-divider-kicker">Categoria</div>
-                  <h2 className="catpdf-section-divider-name">{cat}</h2>
-                  <div className="catpdf-section-divider-rule" />
-                  <div className="catpdf-section-divider-count">
-                    {totalCat} {totalCat === 1 ? 'item' : 'itens'} · {subKeys.length} {subKeys.length === 1 ? 'subcategoria' : 'subcategorias'}
-                  </div>
-                  <FleurOrnament className="catpdf-section-divider-fleur" />
+            <section key={cat} className={`catpdf-categoria ${idx === 0 ? 'first' : ''}`}>
+              {/* Faixa inline elegante — substitui o divisor fullpage */}
+              <header className="catpdf-cat-band">
+                <div className="catpdf-cat-band-left">
+                  <span className="catpdf-cat-band-kicker">Categoria</span>
+                  <h2 className="catpdf-cat-band-name">{cat}</h2>
                 </div>
-              </section>
+                <div className="catpdf-cat-band-right">
+                  <span className="catpdf-cat-band-count">{totalCat}</span>
+                  <span className="catpdf-cat-band-label">{totalCat === 1 ? 'item' : 'itens'}</span>
+                </div>
+              </header>
 
-              {/* Subcategorias */}
-              <section className="catpdf-categoria">
-                {subKeys.map((sub) => (
+              {layout === 'compacto' ? (
+                <div className="catpdf-grid catpdf-grid--continuous">
+                  {subKeys.map((sub) => (
+                    <Fragment key={sub}>
+                      <h3 className="catpdf-subcategoria-name catpdf-subcategoria-name--inline">
+                        <span className="catpdf-subcategoria-ornament">❧</span>
+                        {sub}
+                        <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                      </h3>
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                    </Fragment>
+                  ))}
+                </div>
+              ) : (
+                subKeys.map((sub) => (
                   <div key={sub} className="catpdf-subcategoria">
                     <h3 className="catpdf-subcategoria-name">
                       <span className="catpdf-subcategoria-ornament">❧</span>
@@ -413,9 +456,9 @@ export default function CatalogoPDFPage() {
                       {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout="detalhado" />)}
                     </div>
                   </div>
-                ))}
-              </section>
-            </div>
+                ))
+              )}
+            </section>
           );
         })}
 
