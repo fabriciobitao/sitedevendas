@@ -242,7 +242,9 @@
 
 .pqty-btn {
   width: 36px;
+  min-width: 36px;
   height: 36px;
+  padding: 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -253,7 +255,9 @@
   cursor: pointer;
   transition: all 0.15s;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
+.pqty-btn svg { display: block; }
 
 .pqty-btn::before {
   content: '';

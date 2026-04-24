@@ -130,7 +130,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
           <div className="product-cart-control">
             <div className="product-qty-row">
               <button type="button" className="pqty-btn pqty-minus" onClick={() => handleCartQty(-1)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M5 12h14"/></svg>
               </button>
               <input
                 type="number"
@@ -146,7 +146,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
                 pattern="[0-9]*"
               />
               <button type="button" className="pqty-btn pqty-plus" onClick={() => handleCartQty(1)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>
             <span className="product-in-cart-label">No carrinho</span>
@@ -155,7 +155,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
           <div className="product-add-row">
             <div className="product-qty-row">
               <button type="button" className="pqty-btn pqty-minus" onClick={() => handleQtyButton(-1)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M5 12h14"/></svg>
               </button>
               <input
                 type="number"
@@ -170,7 +170,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
                 enterKeyHint="done"
               />
               <button type="button" className="pqty-btn pqty-plus" onClick={() => handleQtyButton(1)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>
             <button
