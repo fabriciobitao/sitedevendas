@@ -488,6 +488,10 @@ function AppContent() {
             </a>
           </div>
         </div>
+        <div className="footer-dev">
+          <span className="footer-dev-label">Developed by</span>
+          <img src="/grufa-logo.png" alt="Grufa" className="footer-dev-logo" />
+        </div>
       </footer>
       )}
     </>

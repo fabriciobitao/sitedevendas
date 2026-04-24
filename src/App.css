@@ -859,6 +859,36 @@
   transform: translateY(-2px);
 }
 
+.footer-dev {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-label);
+  font-style: italic;
+  font-size: 12px;
+  color: rgba(244, 240, 230, 0.55);
+  letter-spacing: 0.3px;
+}
+.footer-dev-label {
+  font-variant: small-caps;
+  letter-spacing: 1px;
+}
+.footer-dev-logo {
+  height: 32px;
+  width: auto;
+  mix-blend-mode: screen;
+  filter: brightness(1.5) contrast(1.15);
+  opacity: 0.92;
+  transition: opacity 0.2s, filter 0.2s;
+}
+.footer-dev-logo:hover {
+  opacity: 1;
+  filter: brightness(1.7) contrast(1.2);
+}
+
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .main {
