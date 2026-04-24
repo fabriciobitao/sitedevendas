@@ -365,9 +365,25 @@ export default function CatalogoPDFPage() {
                     {sub}
                     <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
                   </h3>
-                  <div className="catpdf-grid">
-                    {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
-                  </div>
+                  {layout === 'compacto' ? (
+                    <ul className="catpdf-list">
+                      {subs[sub].map((p) => {
+                        const price = formatPrice(p.price);
+                        return (
+                          <li key={p.firestoreId || p.id} className={`catpdf-list-item ${p.outOfStock ? 'out' : ''}`}>
+                            <span className="catpdf-list-name">{p.name}</span>
+                            {p.unit && <span className="catpdf-list-unit">{String(p.unit).toLowerCase()}</span>}
+                            <span className="catpdf-list-dots" />
+                            <span className={`catpdf-list-price ${price ? '' : 'no-price'}`}>{price || 'consultar'}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <div className="catpdf-grid">
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                    </div>
+                  )}
                 </div>
               ))}
             </section>

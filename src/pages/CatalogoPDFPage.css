@@ -671,6 +671,79 @@
 .layout-compacto .catpdf-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .layout-detalhado .catpdf-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
+/* ==========================================================================
+   LISTA COMPACTA (3 colunas, sem imagens — catalogo denso)
+   ========================================================================== */
+
+.catpdf-list {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0;
+  column-count: 3;
+  column-gap: 14px;
+  column-rule: 1px solid var(--pdf-gray-200);
+}
+
+.catpdf-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 2px 0;
+  font-size: 9.5px;
+  line-height: 1.35;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  border-bottom: 1px dotted var(--pdf-gray-200);
+}
+.catpdf-list-item.out { opacity: 0.55; }
+.catpdf-list-item.out .catpdf-list-name { text-decoration: line-through; }
+
+.catpdf-list-name {
+  color: var(--pdf-ink);
+  font-weight: 500;
+  font-size: 9.5px;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catpdf-list-unit {
+  font-size: 7.5px;
+  color: var(--pdf-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  flex-shrink: 0;
+}
+
+.catpdf-list-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--pdf-gray-300);
+  position: relative;
+  top: -3px;
+  min-width: 6px;
+}
+
+.catpdf-list-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--pdf-brown);
+  flex-shrink: 0;
+  white-space: nowrap;
+  letter-spacing: -0.3px;
+}
+.catpdf-list-price.no-price {
+  font-weight: 500;
+  font-size: 8.5px;
+  color: var(--pdf-gray-500);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.is-esgotados .catpdf-list-price { color: var(--pdf-red-dark); }
+
 .catpdf-card {
   display: flex;
   flex-direction: column;
@@ -1682,13 +1755,32 @@
 
   /* Categorias fluem em sequencia — so quebram pagina quando necessario */
   .catpdf-categoria {
-    padding: 8mm 8mm 4mm;
+    padding: 6mm 8mm 2mm;
   }
   /* Primeira categoria comeca em pagina nova (apos o sumario) */
   .catpdf-categoria.first {
     page-break-before: always;
     break-before: page;
   }
+
+  .layout-compacto .catpdf-cat-band {
+    padding: 8px 14px;
+    margin-bottom: 6px;
+  }
+  .layout-compacto .catpdf-cat-band-name { font-size: 18px; }
+  .layout-compacto .catpdf-cat-band-count { font-size: 18px; }
+  .layout-compacto .catpdf-cat-band-kicker { font-size: 7.5px; letter-spacing: 2px; }
+  .layout-compacto .catpdf-cat-band-label { font-size: 8px; }
+
+  .layout-compacto .catpdf-subcategoria { margin-bottom: 4px; }
+  .layout-compacto .catpdf-subcategoria-name {
+    font-size: 10.5px;
+    margin: 4px 0 3px;
+    padding: 2px 6px;
+    letter-spacing: 0.6px;
+  }
+  .layout-compacto .catpdf-subcategoria-ornament { font-size: 11px; }
+  .layout-compacto .catpdf-subcategoria-count { font-size: 7.5px; padding: 1px 6px; }
 
   .catpdf-card {
     page-break-inside: avoid;
@@ -1705,6 +1797,8 @@
     page-break-after: avoid;
     break-after: avoid;
   }
+
+  .catpdf-list-item { break-inside: avoid; page-break-inside: avoid; }
 
   /* Força cores no print */
   * {
