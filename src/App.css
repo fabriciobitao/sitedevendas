@@ -861,32 +861,44 @@
 
 .footer-dev {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 24px;
+  padding: 20px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 16px;
   font-family: var(--font-label);
   font-style: italic;
-  font-size: 12px;
-  color: rgba(244, 240, 230, 0.55);
-  letter-spacing: 0.3px;
+  font-size: 15px;
+  color: rgba(244, 240, 230, 0.7);
+  letter-spacing: 0.4px;
 }
 .footer-dev-label {
   font-variant: small-caps;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 .footer-dev-logo {
-  height: 32px;
+  height: 56px;
   width: auto;
   mix-blend-mode: screen;
-  filter: brightness(1.5) contrast(1.15);
-  opacity: 0.92;
+  filter: brightness(1.6) contrast(1.2);
+  opacity: 0.95;
   transition: opacity 0.2s, filter 0.2s;
 }
 .footer-dev-logo:hover {
   opacity: 1;
-  filter: brightness(1.7) contrast(1.2);
+  filter: brightness(1.8) contrast(1.25);
+}
+
+@media (max-width: 600px) {
+  .footer-dev {
+    justify-content: center;
+    padding: 16px 20px;
+    font-size: 13px;
+    gap: 12px;
+  }
+  .footer-dev-logo { height: 44px; }
 }
 
 /* ==================== RESPONSIVE ==================== */
