@@ -25,6 +25,8 @@ export default function SearchBar({ value, onChange }) {
   };
 
   useEffect(() => {
+    // Fechar teclado virtual ao rolar em touch. NAO escutar wheel — no desktop
+    // o trackpad dispara wheel a cada digitacao com inercia e tira o foco.
     let touchStartY = 0;
     const onTouchStart = (e) => {
       touchStartY = e.touches[0].clientY;
@@ -37,17 +39,11 @@ export default function SearchBar({ value, onChange }) {
       if (target && (target === inputRef.current || (target.closest && target.closest('.search-bar')))) return;
       inputRef.current && inputRef.current.blur();
     };
-    const onWheel = () => {
-      if (!focusedRef.current) return;
-      inputRef.current && inputRef.current.blur();
-    };
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: true });
     return () => {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('wheel', onWheel);
     };
   }, []);
 
