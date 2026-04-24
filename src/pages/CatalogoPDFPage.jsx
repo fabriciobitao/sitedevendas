@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react';
+import { Fragment, useMemo, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../context/ProductsContext';
 import './CatalogoPDFPage.css';
@@ -358,18 +358,33 @@ export default function CatalogoPDFPage() {
                 </div>
               </header>
 
-              {subKeys.map((sub) => (
-                <div key={sub} className="catpdf-subcategoria">
-                  <h3 className="catpdf-subcategoria-name">
-                    <span className="catpdf-subcategoria-ornament">❧</span>
-                    {sub}
-                    <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
-                  </h3>
-                  <div className="catpdf-grid">
-                    {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
-                  </div>
+              {layout === 'compacto' ? (
+                <div className="catpdf-grid catpdf-grid--continuous">
+                  {subKeys.map((sub) => (
+                    <Fragment key={sub}>
+                      <h3 className="catpdf-subcategoria-name catpdf-subcategoria-name--inline">
+                        <span className="catpdf-subcategoria-ornament">❧</span>
+                        {sub}
+                        <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                      </h3>
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                    </Fragment>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                subKeys.map((sub) => (
+                  <div key={sub} className="catpdf-subcategoria">
+                    <h3 className="catpdf-subcategoria-name">
+                      <span className="catpdf-subcategoria-ornament">❧</span>
+                      {sub}
+                      <span className="catpdf-subcategoria-count">{subs[sub].length}</span>
+                    </h3>
+                    <div className="catpdf-grid">
+                      {subs[sub].map((p) => <ProductCard key={p.firestoreId || p.id} product={p} layout={layout} />)}
+                    </div>
+                  </div>
+                ))
+              )}
             </section>
           );
         })}
