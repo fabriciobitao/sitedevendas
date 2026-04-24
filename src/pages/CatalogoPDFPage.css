@@ -538,27 +538,97 @@
    ========================================================================== */
 
 .catpdf-categoria {
-  padding: 16mm 14mm 14mm;
+  padding: 10mm 10mm 8mm;
   background: #fff;
+}
+.catpdf-categoria.first { padding-top: 12mm; }
+
+/* Faixa inline elegante de categoria — substitui o divisor fullpage */
+.catpdf-cat-band {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  margin: 0 0 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, var(--pdf-brown-dark) 0%, var(--pdf-brown) 100%);
+  color: #fff;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+.catpdf-cat-band::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--pdf-gold) 0%, var(--pdf-gold-light) 100%);
+}
+.is-esgotados .catpdf-cat-band {
+  background: linear-gradient(135deg, var(--pdf-red-dark) 0%, var(--pdf-red) 100%);
+}
+.catpdf-cat-band-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 10px;
+}
+.catpdf-cat-band-kicker {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pdf-gold-pale);
+  font-weight: 700;
+}
+.catpdf-cat-band-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1;
+  color: #fff;
+}
+.catpdf-cat-band-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1px;
+}
+.catpdf-cat-band-count {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--pdf-gold-light);
+  line-height: 1;
+}
+.catpdf-cat-band-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--pdf-gold-pale);
+  font-weight: 600;
 }
 
 .catpdf-subcategoria {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 
 .catpdf-subcategoria-name {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--pdf-brown);
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin: 0 0 18px;
-  padding: 14px 18px;
-  border-left: 4px solid var(--pdf-gold);
+  letter-spacing: 1.4px;
+  margin: 10px 0 8px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--pdf-gold);
   border-bottom: 1px solid var(--pdf-gray-200);
   page-break-after: avoid;
   break-after: avoid;
@@ -571,21 +641,21 @@
 
 .catpdf-subcategoria-ornament {
   color: var(--pdf-gold);
-  font-size: 28px;
+  font-size: 18px;
   line-height: 1;
 }
 .is-esgotados .catpdf-subcategoria-ornament { color: var(--pdf-red); }
 
 .catpdf-subcategoria-count {
   margin-left: auto;
-  font-size: 14px;
+  font-size: 10px;
   color: var(--pdf-gray-500);
   font-weight: 600;
-  letter-spacing: 1px;
-  padding: 4px 12px;
-  background: #fff;
+  letter-spacing: 0.8px;
+  padding: 2px 8px;
+  background: var(--pdf-gray-100);
   border: 1px solid var(--pdf-gray-200);
-  border-radius: 20px;
+  border-radius: 12px;
 }
 
 /* ==========================================================================
@@ -594,11 +664,11 @@
 
 .catpdf-grid {
   display: grid;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
-.layout-compacto .catpdf-grid { grid-template-columns: repeat(3, 1fr); }
+.layout-compacto .catpdf-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .layout-detalhado .catpdf-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
 .catpdf-card {
@@ -692,25 +762,29 @@
 }
 
 .catpdf-card-body {
-  padding: 10px 12px 12px;
+  padding: 6px 8px 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   flex: 1;
+}
+.catpdf-card.layout-detalhado .catpdf-card-body {
+  padding: 10px 12px 12px;
+  gap: 8px;
 }
 
 .catpdf-card-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--pdf-ink);
-  line-height: 1.3;
+  line-height: 1.25;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.6em;
+  min-height: 2.5em;
   letter-spacing: -0.1px;
 }
 
@@ -736,37 +810,44 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 5px;
   border-top: 1px solid var(--pdf-gray-200);
 }
 
 .catpdf-card-unit {
-  font-size: 12px;
+  font-size: 8px;
   color: var(--pdf-gray-500);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 5px;
   background: var(--pdf-gray-100);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .catpdf-card-price {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 19px;
+  font-size: 12px;
   font-weight: 800;
   color: var(--pdf-brown);
   letter-spacing: -0.3px;
 }
 .catpdf-card-price.no-price {
-  font-size: 13px;
+  font-size: 9px;
   font-style: italic;
   font-weight: 600;
   color: var(--pdf-gold);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
+
+/* Detalhado mantem os tamanhos maiores */
+.catpdf-card.layout-detalhado .catpdf-card-name { font-size: 17px; line-height: 1.3; min-height: unset; -webkit-line-clamp: 2; }
+.catpdf-card.layout-detalhado .catpdf-card-unit { font-size: 12px; padding: 3px 8px; }
+.catpdf-card.layout-detalhado .catpdf-card-price { font-size: 19px; }
+.catpdf-card.layout-detalhado .catpdf-card-price.no-price { font-size: 13px; }
+.catpdf-card.layout-detalhado .catpdf-card-meta { padding-top: 8px; gap: 6px; }
 .is-esgotados .catpdf-card-price { color: var(--pdf-red-dark); }
 .is-esgotados .catpdf-card-price.no-price { color: var(--pdf-gray-500); }
 
@@ -1349,6 +1430,158 @@
 }
 
 /* ==========================================================================
+   SUMÁRIO
+   ========================================================================== */
+
+.catpdf-toc {
+  padding: 32mm 18mm 22mm;
+  background: #fff;
+  min-height: 280mm;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.catpdf-toc::before {
+  content: '';
+  position: absolute;
+  inset: 12mm;
+  border: 1px solid var(--pdf-gold-pale);
+  pointer-events: none;
+}
+.catpdf-toc-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.catpdf-toc-kicker {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--pdf-gold);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.catpdf-toc-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--pdf-brown-dark);
+  letter-spacing: -1px;
+  margin: 0 0 14px;
+}
+.catpdf-toc-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--pdf-gold);
+  margin: 0 auto;
+  position: relative;
+}
+.catpdf-toc-rule::before,
+.catpdf-toc-rule::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: var(--pdf-gold);
+  transform: translateY(-50%) rotate(45deg);
+}
+.catpdf-toc-rule::before { left: -10px; }
+.catpdf-toc-rule::after { right: -10px; }
+
+.catpdf-toc-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 6px 0;
+}
+.catpdf-toc-cat {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.catpdf-toc-cat-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 14px;
+  background: var(--pdf-brown-dark);
+  color: #fff;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.catpdf-toc-cat-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.catpdf-toc-cat-count {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--pdf-gold-light);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.catpdf-toc-subs {
+  list-style: none;
+  padding: 0 6px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 28px;
+  row-gap: 6px;
+}
+.catpdf-toc-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--pdf-brown);
+  padding: 2px 0;
+}
+.catpdf-toc-sub-name {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.catpdf-toc-sub-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--pdf-gray-300);
+  transform: translateY(-3px);
+  min-width: 20px;
+}
+.catpdf-toc-sub-count {
+  font-size: 10px;
+  color: var(--pdf-gray-500);
+  font-weight: 700;
+  padding: 1px 6px;
+  background: var(--pdf-gray-100);
+  border-radius: 10px;
+}
+
+.catpdf-toc-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 20px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pdf-gray-500);
+}
+.catpdf-toc-fleur {
+  width: 22px;
+  height: 22px;
+  color: var(--pdf-gold);
+}
+
+/* ==========================================================================
    MOBILE — preview na tela
    ========================================================================== */
 
@@ -1380,12 +1613,37 @@
 @media print {
   @page {
     size: A4 portrait;
-    margin: 14mm 10mm 14mm 10mm;
+    margin: 12mm 8mm 14mm 8mm;
+
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9px;
+      color: #8E7E6E;
+      letter-spacing: 2px;
+    }
+    @bottom-left {
+      content: "Frios Ouro Fino · Catálogo";
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 8px;
+      color: #8E7E6E;
+      letter-spacing: 1.5px;
+    }
+    @bottom-right {
+      content: "(35) 99851-1194";
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 8px;
+      color: #8E7E6E;
+      letter-spacing: 1.5px;
+    }
   }
 
-  /* Capa, contra-capa e divisores de categoria sem margens */
+  /* Capa, contra-capa sem rodapé nem margens */
   @page :first {
     margin: 0;
+    @bottom-center { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
   }
 
   body, html {
@@ -1407,31 +1665,32 @@
 
   /* Páginas especiais ocupam a folha inteira */
   .catpdf-cover,
-  .catpdf-backcover,
-  .catpdf-section-divider {
-    margin: -14mm -10mm;
-    padding: 50px 40px;
+  .catpdf-backcover {
+    margin: -12mm -8mm -14mm;
+    padding: 40px 30px;
     min-height: 297mm;
     page-break-after: always;
     break-after: page;
   }
 
   .catpdf-toc {
+    min-height: auto;
+    padding: 20mm 16mm 14mm;
     page-break-after: always;
     break-after: page;
   }
 
-  .catpdf-section {
+  /* Categorias fluem em sequencia — so quebram pagina quando necessario */
+  .catpdf-categoria {
+    padding: 8mm 8mm 4mm;
+  }
+  /* Primeira categoria comeca em pagina nova (apos o sumario) */
+  .catpdf-categoria.first {
     page-break-before: always;
     break-before: page;
   }
 
-  .catpdf-categoria {
-    padding: 6mm 4mm;
-  }
-
-  .catpdf-card,
-  .catpdf-subcategoria-name {
+  .catpdf-card {
     page-break-inside: avoid;
     break-inside: avoid;
   }
@@ -1441,7 +1700,8 @@
     break-inside: auto;
   }
 
-  .catpdf-subcategoria-name {
+  .catpdf-subcategoria-name,
+  .catpdf-cat-band {
     page-break-after: avoid;
     break-after: avoid;
   }
