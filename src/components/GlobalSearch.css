@@ -121,6 +121,30 @@
 .gs-mic-spin { animation: gsMicSpin 0.9s linear infinite; }
 @keyframes gsMicSpin { to { transform: rotate(360deg); } }
 
+.gs-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--creme-deep);
+  color: var(--ink-soft);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.gs-close:hover { background: var(--tomate); color: var(--creme-light); }
+
+@media (max-width: 640px) {
+  .gs-kbd { display: none; }
+  .gs-close { width: 40px; height: 40px; }
+}
+@media (min-width: 641px) {
+  .gs-close { display: none; }
+}
+
 .gs-voice-error {
   padding: 10px 18px;
   font-size: 12.5px;
