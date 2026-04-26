@@ -213,11 +213,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </p>
               </div>
             </div>
-            <p className="hero-mf-lead">
-              Secos, resfriados e congelados — monte o carrinho e envie direto pro
-              WhatsApp do vendedor. Atendimento personalizado, sem enrolação.
-            </p>
-
             <div className="hero-mf-ctas">
               <button
                 type="button"
