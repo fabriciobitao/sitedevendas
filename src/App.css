@@ -497,6 +497,10 @@
 }
 
 /* ===== Hero responsive ===== */
+@media (max-width: 1024px) {
+  .hero-mf-right { display: none !important; }
+}
+
 @media (max-width: 960px) {
   .hero-mf {
     padding: 24px 24px 40px;
