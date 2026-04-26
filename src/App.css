@@ -545,12 +545,19 @@
     margin-top: 24px;
   }
   .hero-mf-ctas {
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
   .hero-mf-cta-primary,
   .hero-mf-cta-secondary {
-    padding: 14px 20px;
-    font-size: 14px;
+    padding: 12px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+    flex: 0 1 auto;
+  }
+  .hero-mf-cta-or {
+    flex: 0 0 auto;
   }
   .hero-mf-featured-grid {
     min-height: 360px;
