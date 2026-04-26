@@ -80,7 +80,6 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
             </svg>
             <span className="header-search-label">Buscar produto</span>
-            <kbd className="header-search-kbd">{isMac ? '⌘K' : 'Ctrl K'}</kbd>
           </button>
 
           {!loading && !user && (
