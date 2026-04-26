@@ -6,7 +6,6 @@ import { CartProvider, useCart } from './context/CartContext';
 import { ProductsProvider, useProducts } from './context/ProductsContext';
 import useContentProtection from './hooks/useContentProtection';
 import { useAutoUpdate } from './hooks/useAutoUpdate';
-import { useFavorites } from './hooks/useFavorites';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
@@ -51,11 +50,9 @@ function AdminRoute({ children }) {
 function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
   const { user } = useAuth();
   const { products, loading: productsLoading } = useProducts();
-  const { favorites, count: favCount } = useFavorites();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [subcategory, setSubcategory] = useState('all');
-  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [filtersCompact, setFiltersCompact] = useState(false);
   const [voiceCartOpen, setVoiceCartOpen] = useState(false);
   const productsRef = useRef(null);
@@ -139,10 +136,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
 
   const filteredProducts = useMemo(() => {
     let result = products;
-    if (onlyFavorites) {
-      const favSet = new Set(favorites);
-      result = result.filter(p => favSet.has(p.id) || favSet.has(p.legacyId) || favSet.has(p.firestoreId));
-    }
     if (isSearching) {
       result = result
         .map(p => ({ p, score: scoreMatch(p, searchTerm) }))
@@ -159,7 +152,7 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
       result = result.filter(p => p.subcategory === subcategory);
     }
     return result;
-  }, [products, searchTerm, isSearching, category, subcategory, onlyFavorites, favorites]);
+  }, [products, searchTerm, isSearching, category, subcategory]);
 
   const categoryInfo = category !== 'all' ? categories.find(c => c.id === category) : null;
 

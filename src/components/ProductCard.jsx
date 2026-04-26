@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import { useFavorites } from '../hooks/useFavorites';
 import ProductDetailModal from './ProductDetailModal';
 import './ProductCard.css';
 
@@ -16,9 +15,7 @@ function buildWebpSrcset(imagePath) {
 
 export default function ProductCard({ product, index = 0, onAdded }) {
   const { addItem, updateQuantity, removeItem, items } = useCart();
-  const { isFavorite, toggle: toggleFav } = useFavorites();
   const [imgError, setImgError] = useState(false);
-  const fav = isFavorite(product.id);
 
   // Resetar erro quando a imagem do produto mudar
   useEffect(() => {
@@ -73,17 +70,6 @@ export default function ProductCard({ product, index = 0, onAdded }) {
       style={{ animationDelay: `${(index % 8) * 50}ms` }}
       data-product-id={product.id}
     >
-      <button
-        type="button"
-        className={`product-fav-btn ${fav ? 'is-fav' : ''}`}
-        onClick={(e) => { e.stopPropagation(); toggleFav(product.id); }}
-        aria-label={fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-        aria-pressed={fav}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </button>
       <button
         type="button"
         className="product-image-wrap"
