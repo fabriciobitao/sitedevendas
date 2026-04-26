@@ -206,6 +206,25 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </p>
               </div>
             </div>
+            <div className="hero-mf-seller">
+              <div className="hero-mf-seller-avatar">
+                <img src="/fabricio.jpg" alt="Fabrício" />
+                <span className="hero-mf-seller-online" />
+              </div>
+              <div className="hero-mf-seller-body">
+                <div className="hero-mf-seller-kicker">
+                  <span className="hero-mf-seller-dot" /> Seu vendedor online agora
+                </div>
+                <p className="hero-mf-seller-quote">
+                  "Olá, sou o <strong>Fabrício</strong>, representante de vendas da Frios OF.
+                  Escolha seus produtos, finalize no carrinho de compras, que o pedido vai direto pro meu WhatsApp — atendimento personalizado."
+                </p>
+                <div className="hero-mf-seller-meta">
+                  <span>Resposta em até 15 min</span>
+                </div>
+              </div>
+            </div>
+
             <div className="hero-mf-ctas">
               <button
                 type="button"
@@ -232,25 +251,6 @@ function CatalogPage({ onOpenRegister, onOpenLogin, onOpenCliente }) {
                 </svg>
                 Fala que eu anoto
               </button>
-            </div>
-
-            <div className="hero-mf-seller">
-              <div className="hero-mf-seller-avatar">
-                <img src="/fabricio.jpg" alt="Fabrício" />
-                <span className="hero-mf-seller-online" />
-              </div>
-              <div className="hero-mf-seller-body">
-                <div className="hero-mf-seller-kicker">
-                  <span className="hero-mf-seller-dot" /> Seu vendedor online agora
-                </div>
-                <p className="hero-mf-seller-quote">
-                  "Olá, sou o <strong>Fabrício</strong>, representante de vendas da Frios OF.
-                  Escolha seus produtos, finalize no carrinho de compras, que o pedido vai direto pro meu WhatsApp — atendimento personalizado."
-                </p>
-                <div className="hero-mf-seller-meta">
-                  <span>Resposta em até 15 min</span>
-                </div>
-              </div>
             </div>
           </div>
 
