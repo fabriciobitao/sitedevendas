@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, writeBatch, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useAuth } from '../context/AuthContext';
 import { decryptSensitiveData } from '../utils/crypto';
 import './AdminAprovacoesPage.css';
 
@@ -13,10 +14,13 @@ const TIPO_LABEL = {
 
 export default function AdminAprovacoesPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('pending');
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkMsg, setBulkMsg] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -80,6 +84,39 @@ export default function AdminAprovacoesPage() {
     return items;
   }, [items, filter]);
 
+  const aprovarTodos = async () => {
+    const pendentes = items.filter(i => !i.approved && !i.rejected);
+    if (pendentes.length === 0) return;
+    if (!window.confirm(`Aprovar TODOS os ${pendentes.length} cadastros pendentes? Essa ação libera o login de cada cliente.`)) return;
+    setBulkRunning(true);
+    setBulkMsg('');
+    try {
+      let processed = 0;
+      while (processed < pendentes.length) {
+        const slice = pendentes.slice(processed, processed + 400);
+        const batch = writeBatch(db);
+        slice.forEach(p => {
+          batch.set(doc(db, 'customers', p.uid), {
+            approved: true,
+            approvedAt: serverTimestamp(),
+            approvedBy: user?.email || 'admin',
+            updatedAt: serverTimestamp(),
+          }, { merge: true });
+        });
+        await batch.commit();
+        processed += slice.length;
+      }
+      setItems(prev => prev.map(i => (
+        (!i.approved && !i.rejected) ? { ...i, approved: true } : i
+      )));
+      setBulkMsg(`✓ ${pendentes.length} cadastro${pendentes.length !== 1 ? 's' : ''} aprovado${pendentes.length !== 1 ? 's' : ''}.`);
+    } catch (e) {
+      setBulkMsg('Erro ao aprovar em lote: ' + e.message);
+    } finally {
+      setBulkRunning(false);
+    }
+  };
+
   const fmtDate = (ts) => {
     if (!ts) return '';
     const d = ts.toDate ? ts.toDate() : new Date(ts);
@@ -117,6 +154,24 @@ export default function AdminAprovacoesPage() {
             Todos <span className="aaprovs-badge">{counts.all}</span>
           </button>
         </div>
+
+        {counts.pending > 0 && (
+          <div className="aaprovs-bulk">
+            <div>
+              <strong>{counts.pending} cadastro{counts.pending !== 1 ? 's' : ''} pendente{counts.pending !== 1 ? 's' : ''}.</strong>
+              <span> Pode liberar todos de uma vez se já conferiu.</span>
+            </div>
+            <button
+              type="button"
+              className="aaprovs-bulk-btn"
+              onClick={aprovarTodos}
+              disabled={bulkRunning}
+            >
+              {bulkRunning ? 'Aprovando…' : `Aprovar todos (${counts.pending})`}
+            </button>
+          </div>
+        )}
+        {bulkMsg && <div className="aaprovs-bulk-msg">{bulkMsg}</div>}
 
         {loading && <div className="aaprovs-empty">Carregando cadastros…</div>}
         {error && <div className="aaprovs-error">{error}</div>}
