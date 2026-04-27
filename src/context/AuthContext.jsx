@@ -38,12 +38,23 @@ export function AuthProvider({ children }) {
     // Limpa chave antiga do antigo mecanismo de logout diario (retrocompat)
     localStorage.removeItem('authSessionDate');
 
+    const ADMIN_EMAILS = ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        setUser(firebaseUser);
         const snap = await getDoc(doc(db, 'customers', firebaseUser.uid));
-        if (snap.exists()) {
-          const decrypted = await decryptSensitiveData(snap.data(), firebaseUser.uid);
+        const data = snap.exists() ? snap.data() : null;
+        const isAdmin = ADMIN_EMAILS.includes(firebaseUser.email);
+        // Bloqueia sessao se cadastro nao foi aprovado pelo admin
+        if (data && data.approved === false && !isAdmin) {
+          await signOut(auth);
+          setUser(null);
+          setCustomerProfile(null);
+          setLoading(false);
+          return;
+        }
+        setUser(firebaseUser);
+        if (data) {
+          const decrypted = await decryptSensitiveData(data, firebaseUser.uid);
           setCustomerProfile(decrypted);
         } else {
           setCustomerProfile(null);
@@ -90,8 +101,17 @@ export function AuthProvider({ children }) {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       loginAttempts.current = { count: 0, lockedUntil: 0 };
       const snap = await getDoc(doc(db, 'customers', cred.user.uid));
-      if (snap.exists()) {
-        const decrypted = await decryptSensitiveData(snap.data(), cred.user.uid);
+      const data = snap.exists() ? snap.data() : null;
+      const ADMIN_EMAILS = ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
+      const isAdmin = ADMIN_EMAILS.includes(cred.user.email);
+      if (data && data.approved === false && !isAdmin) {
+        await signOut(auth);
+        const err = new Error('Seu cadastro está aguardando aprovação do vendedor. Você receberá um aviso assim que for liberado.');
+        err.code = 'auth/pending-approval';
+        throw err;
+      }
+      if (data) {
+        const decrypted = await decryptSensitiveData(data, cred.user.uid);
         setCustomerProfile(decrypted);
       }
       return cred.user;
@@ -115,6 +135,7 @@ export function AuthProvider({ children }) {
       email,
       tipo: formData.tipo,
       codigoCliente,
+      approved: false, // Cliente so faz login depois que admin aprovar
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };
@@ -129,7 +150,10 @@ export function AuthProvider({ children }) {
     }
     await Promise.all(writes);
 
-    setCustomerProfile(dataWithCode);
+    // Encerra a sessao imediatamente: cadastro fica pendente ate admin aprovar
+    await signOut(auth);
+    setUser(null);
+    setCustomerProfile(null);
     return { user: cred.user, codigoCliente };
   }, []);
 

@@ -748,12 +748,15 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       const docLabel = isPessoaFisica ? 'CPF' : 'CNPJ';
       const documento = isPessoaFisica ? form.cpf : form.cnpj;
       const tipoLabel = isPessoaFisica ? 'PESSOA FÍSICA' : 'EMPRESA';
+      const aprovarUrl = `https://friosof.web.app/admin/aprovar/${codigoCliente}`;
       const resumoWA =
         `📋 *NOVO CADASTRO* (${tipoLabel})\n\n` +
         `*Nome:* ${nome}\n` +
         `*${docLabel}:* ${documento}\n` +
         `*Telefone:* ${form.telefone}\n` +
-        `*Código Cliente:* ${codigoCliente}`;
+        `*Código Cliente:* ${codigoCliente}\n\n` +
+        `🔒 *Aguardando sua aprovação*\n` +
+        `Para liberar o login deste cliente:\n${aprovarUrl}`;
 
       // Guarda PDF em state para o usuario enviar clicando no botao (gesto direto = sem bloqueio de popup)
       setPdfReady({ blob: pdfBlob, fileName: fileNamePdf, resumo: resumoWA });
@@ -851,12 +854,15 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
                 <polyline points="22 4 12 14.01 9 11.01"/>
               </svg>
             </div>
-            <h2>Cadastro concluído!</h2>
+            <h2>Cadastro enviado!</h2>
             <div className="cf-success-code">
               <span className="cf-success-code-label">Seu código de cliente</span>
               <span className="cf-success-code-value">{successCode}</span>
             </div>
-            <p className="cf-success-sub">Anote este código para fazer login.</p>
+            <p className="cf-success-sub">
+              Anote este código. Seu acesso será liberado pelo vendedor após análise da ficha.
+              Você receberá um aviso assim que for aprovado.
+            </p>
             {pendingWhatsApp && pdfReady && (
               <button
                 type="button"

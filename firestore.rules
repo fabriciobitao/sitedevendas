@@ -10,8 +10,10 @@ service cloud.firestore {
     // - Delete: NOBODY (data retention policy)
     // ============================================================
     match /customers/{uid} {
-      // Read own profile only
-      allow get: if request.auth != null && request.auth.uid == uid;
+      // Read own profile, ou admin lendo qualquer perfil (para aprovar cadastros)
+      allow get: if request.auth != null
+                 && (request.auth.uid == uid
+                     || request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com']);
 
       // List: bloqueado. Lookup de login agora usa coleção login_index (sem dados sensíveis).
       allow list: if false;
@@ -26,13 +28,16 @@ service cloud.firestore {
                     && !('role' in request.resource.data)
                     && !('isAdmin' in request.resource.data);
 
-      // Update own profile only — cannot change email, createdAt, or escalate to admin
+      // Update: o proprio cliente, ou admin aprovando/rejeitando cadastro
       allow update: if request.auth != null
-                    && request.auth.uid == uid
                     && request.resource.data.email == resource.data.email
                     && request.resource.data.createdAt == resource.data.createdAt
                     && !('role' in request.resource.data)
-                    && !('isAdmin' in request.resource.data);
+                    && !('isAdmin' in request.resource.data)
+                    && (
+                      request.auth.uid == uid
+                      || request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com']
+                    );
 
       // Delete: explicitly denied
       allow delete: if false;

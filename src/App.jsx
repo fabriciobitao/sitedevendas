@@ -26,6 +26,7 @@ const MeusPedidosPage = lazy(() => import('./pages/MeusPedidosPage'));
 const MinhaContaPage = lazy(() => import('./pages/MinhaContaPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
+const AdminAprovarPage = lazy(() => import('./pages/AdminAprovarPage'));
 const CatalogoPDFPage = lazy(() => import('./pages/CatalogoPDFPage'));
 
 const RouteFallback = () => (
@@ -458,6 +459,7 @@ function AppContent() {
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/minha-conta" element={<ProtectedRoute><MinhaContaPage /></ProtectedRoute>} />
             <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+            <Route path="/admin/aprovar/:codigo" element={<AdminRoute><AdminAprovarPage /></AdminRoute>} />
             <Route path="/admin/catalogo" element={<AdminRoute><CatalogoPDFPage /></AdminRoute>} />
           </Routes>
         </Suspense>
