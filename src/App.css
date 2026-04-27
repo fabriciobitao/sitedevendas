@@ -1579,17 +1579,24 @@
 }
 
 @media (max-width: 900px) {
-  .hero-brand-medallion { width: 320px; height: 320px; }
-  .hero-brand--round .hero-brand-logocard { width: 252px; height: 252px; max-width: 252px; }
+  .hero-brand-medallion {
+    width: min(360px, 92vw);
+    height: min(360px, 92vw);
+  }
+  .hero-brand--round .hero-brand-logocard {
+    width: 78%;
+    height: 78%;
+    max-width: 78%;
+  }
   .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-    max-width: 74%;
-    max-height: 62%;
+    max-width: 76%;
+    max-height: 64%;
     transform: scale(1);
   }
   .hero-brand-medallion-text text { font-size: 10.5px; letter-spacing: 5px; }
-  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--tr { top: 10px; }
-  .hero-brand-medallion-star--bl, .hero-brand-medallion-star--br { bottom: 10px; }
-  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--bl { left: 44px; }
-  .hero-brand-medallion-star--tr, .hero-brand-medallion-star--br { right: 44px; }
+  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--tr { top: 4%; }
+  .hero-brand-medallion-star--bl, .hero-brand-medallion-star--br { bottom: 4%; }
+  .hero-brand-medallion-star--tl, .hero-brand-medallion-star--bl { left: 14%; }
+  .hero-brand-medallion-star--tr, .hero-brand-medallion-star--br { right: 14%; }
   .hero-brand-promise { font-size: 18px; }
 }
