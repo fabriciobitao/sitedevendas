@@ -1,7 +1,7 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   background: var(--creme);
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -11,6 +11,22 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 16px rgba(15, 61, 46, 0.08);
+}
+
+/* Em mobile, alguns Androids nao suportam backdrop-filter ou renderizam mal:
+   precisamos de um fundo opaco ou quase opaco, senao produtos vazam por tras
+   do header sticky e a UI fica ilegivel ao rolar. */
+@media (max-width: 768px) {
+  .header--scrolled {
+    background: var(--creme);
+    background-color: #f4f0e6;
+  }
+}
+@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .header--scrolled {
+    background: var(--creme);
+    background-color: #f4f0e6;
+  }
 }
 
 /* ===== Green announcement bar ===== */
@@ -162,7 +178,8 @@
 @media (max-width: 760px) {
   .header-search-pill {
     min-width: auto;
-    padding: 9px 12px;
+    padding: 11px 14px;
+    min-height: 44px;
   }
   .header-search-label,
   .header-search-kbd { display: none; }

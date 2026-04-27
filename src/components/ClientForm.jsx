@@ -920,7 +920,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     <div className="cf-overlay">
       <div className="cf-modal">
         <div className="cf-header">
-          <h2>{isCliente ? 'Já sou cliente antigo - primeira vez no site' : 'Quero me cadastrar'}</h2>
+          <h2>{isCliente ? 'Já sou cliente antigo' : 'Quero me cadastrar'}</h2>
           <button className="cf-close" onClick={onClose} disabled={loading} aria-label="Fechar">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18"/><path d="m6 6 12 12"/>

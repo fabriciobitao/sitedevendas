@@ -326,3 +326,13 @@
   .gs-foot { gap: 10px; font-size: 10.5px; }
   .gs-name { font-size: 13.5px; }
 }
+
+/* Em phones, dicas de teclado fisico nao fazem sentido — esconder */
+@media (max-width: 768px) {
+  .gs-foot { display: none; }
+  .gs-add {
+    width: 44px;
+    height: 44px;
+  }
+  .gs-add svg { width: 18px; height: 18px; }
+}

@@ -106,6 +106,15 @@ body {
   overscroll-behavior-y: contain;
 }
 
+/* Safety net contra overflow horizontal em phones (Pixel 5, S20, Note)
+   Halos/auroras decorativas extrapolam levemente o viewport; clipamos no body. */
+html, body {
+  overflow-x: hidden;
+}
+@supports (overflow-x: clip) {
+  html, body { overflow-x: clip; }
+}
+
 #root::before {
   content: '';
   position: fixed;

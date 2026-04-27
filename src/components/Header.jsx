@@ -28,6 +28,19 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
 
   useEffect(() => {
     const tick = () => {
+      // Forca timezone America/Sao_Paulo — corrige Android com TZ diferente do BRT
+      try {
+        const fmt = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          hour12: false,
+        });
+        const hour = parseInt(fmt.format(new Date()), 10);
+        if (Number.isFinite(hour)) {
+          setOrdersClosed(hour >= 16);
+          return;
+        }
+      } catch (_) { /* fallback */ }
       setOrdersClosed(new Date().getHours() >= 16);
     };
     tick();

@@ -77,7 +77,7 @@ export default function ProductCard({ product, index = 0, onAdded }) {
         aria-label={`Ver detalhes de ${product.name}`}
       >
         {product.outOfStock && <div className="product-out-of-stock-banner">ESGOTADO</div>}
-        {!imgError ? (
+        {!imgError && product.image ? (
           (() => {
             const webpSrcset = buildWebpSrcset(product.image);
             const img = (

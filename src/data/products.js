@@ -105,7 +105,7 @@ export const products = [
   { id: 198, name: 'Cerveja Heineken Lata 350ml Cx 12un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbr.vtexassets.com/arquivos/ids/189755264/image-0.jpg', description: 'Cerveja Heineken Lager, lata 350ml, caixa com 12 unidades' },
   { id: 199, name: 'Cerveja Heineken Long Neck 330ml Cx 24un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbr.vtexassets.com/arquivos/ids/189700272/image-0.jpg', description: 'Cerveja Heineken Lager, long neck 330ml, caixa com 24 unidades' },
   // Itaipava
-  { id: 73, name: 'Cerveja Itaipava Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/191/32955191.png', description: 'Cerveja Itaipava pilsen, lata 350ml' },
+  { id: 73, name: 'Cerveja Itaipava Lata 350ml', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'un', image: '', description: 'Cerveja Itaipava pilsen, lata 350ml' },
   // Original
   { id: 200, name: 'Cerveja Original Lata 350ml Cx 12un', category: 'Secos', subcategory: 'Cervejas', price: null, unit: 'cx', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/216090/5699193_1.jpg', description: 'Cerveja Original, lata 350ml, caixa com 12 unidades' },
   // Skol
@@ -136,7 +136,7 @@ export const products = [
 
   // --- Enlatados ---
   { id: 6, name: 'Atum Ralado Chicharro lata 410g Randy', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: '/produtos/atum chicharro.jpg', description: 'Atum ralado tipo chicharro, lata 410g marca Randy' },
-  { id: 53, name: 'Creme de Leite Italac 200g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/235/32987235.jpg', description: 'Creme de leite UHT Italac, caixinha 200g' },
+  { id: 53, name: 'Creme de Leite Italac 200g', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: '', description: 'Creme de leite UHT Italac, caixinha 200g' },
   { id: 25, name: 'Leite Condensado 395g Italac', category: 'Secos', subcategory: 'Enlatados', price: null, unit: 'un', image: 'https://atacadaobr.vtexassets.com/arquivos/ids/1141006/g.jpg?v=639076962610100000', description: 'Leite condensado Italac, lata 395g' },
 
   // --- Confeitaria ---
@@ -191,12 +191,12 @@ export const products = [
 
   // --- Refrigerantes (agrupado por marca) ---
   // Coca-Cola
-  { id: 64, name: 'Coca-Cola Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/59/33000059.png', description: 'Refrigerante Coca-Cola original, lata 350ml' },
+  { id: 64, name: 'Coca-Cola Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Coca-Cola original, lata 350ml' },
   // Fanta
-  { id: 62, name: 'Fanta Laranja Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/89/33022089.png', description: 'Refrigerante Fanta sabor laranja, lata 350ml' },
+  { id: 62, name: 'Fanta Laranja Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Fanta sabor laranja, lata 350ml' },
   { id: 63, name: 'Fanta Uva Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/147300954/fanta-uva-lata-350-ml-1.jpg', description: 'Refrigerante Fanta sabor uva, lata 350ml' },
   // Sprite
-  { id: 61, name: 'Sprite Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://static.paodeacucar.com/img/uploads/1/861/32993861.png', description: 'Refrigerante Sprite limão, lata 350ml' },
+  { id: 61, name: 'Sprite Lata 350ml', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '', description: 'Refrigerante Sprite limão, lata 350ml' },
   // H2O
   { id: 57, name: 'H2O Bioleve Limão', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: 'https://carrefourbrfood.vtexassets.com/arquivos/ids/24203350/5209447_1.jpg', description: 'Refrigerante H2O Bioleve sabor limão, garrafa PET' },
   { id: 59, name: 'H2O Bioleve Limoneto', category: 'Secos', subcategory: 'Refrigerantes', price: null, unit: 'un', image: '/images/h2o-limoneto.webp', description: 'Refrigerante H2O Bioleve sabor limoneto, garrafa PET' },
