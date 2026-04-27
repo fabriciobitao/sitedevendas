@@ -518,32 +518,12 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
     return doc.output('blob');
   };
 
-  // Dispara o envio pelo WhatsApp a partir de um clique direto do usuario (gesto).
-  // Tenta Web Share API com arquivo (PDF anexado automaticamente). Fallback: baixa + abre wa.me.
+  // Envia ficha direto pro WhatsApp do Fabricio: baixa o PDF e abre conversa
+  // ja com o numero (35) 99851-1194 selecionado, sem picker de contato.
   const sendPdfToWhatsApp = async () => {
     if (!pdfReady) return;
     const { blob, fileName, resumo } = pdfReady;
-    const pdfFile = new File([blob], fileName, { type: 'application/pdf' });
 
-    // Caminho moderno: navigator.share com arquivo -> abre sheet nativo -> usuario escolhe WhatsApp
-    if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
-      try {
-        await navigator.share({
-          title: `Ficha Cadastral - ${form.nomeFantasia || form.nomeResponsavel}`,
-          text: resumo,
-          files: [pdfFile],
-        });
-        setWhatsAppSent(true);
-        closeAndReset();
-        return;
-      } catch (err) {
-        // Usuario cancelou ou share falhou -> cai no fallback
-        if (err && err.name === 'AbortError') return;
-        console.warn('Share API falhou, usando fallback:', err);
-      }
-    }
-
-    // Fallback: baixa PDF + abre WhatsApp com texto (usuario anexa manualmente)
     try {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -554,10 +534,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1500);
     } catch {}
+
     const waText = encodeURIComponent(
       `${resumo}\n\n📎 Ficha em PDF foi baixada no seu aparelho. Toque no clipe 📎 e anexe o arquivo "${fileName}".`
     );
-    const waUrl = `https://api.whatsapp.com/send?phone=+5535998511194&text=${waText}`;
+    const waUrl = `https://api.whatsapp.com/send?phone=5535998511194&text=${waText}`;
     const w = window.open(waUrl, '_blank');
     if (!w) window.location.href = waUrl;
     setWhatsAppSent(true);
