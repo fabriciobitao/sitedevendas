@@ -6,6 +6,74 @@
   width: 100%;
 }
 
+/* ==================== Auth Row (acima do hero) ==================== */
+.auth-row {
+  margin: 0 -24px;
+  padding: 14px 16px 0;
+}
+.auth-row-inner {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.auth-row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.auth-row-btn:hover { transform: translateY(-1px); }
+.auth-row-btn--login {
+  background: #fff;
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+.auth-row-btn--login:hover { background: #f1f8e9; }
+.auth-row-btn--register {
+  background: #2e7d32;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(46, 125, 50, 0.28);
+}
+.auth-row-btn--register:hover { background: #266528; }
+.auth-row-btn--cliente {
+  background: #fff;
+  color: #444;
+  border-color: #d6d6d6;
+}
+.auth-row-btn--cliente:hover { background: #f5f5f5; border-color: #bbb; }
+
+@media (max-width: 640px) {
+  .auth-row { padding: 10px 12px 0; }
+  .auth-row-inner {
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .auth-row-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 10px 6px;
+    font-size: 12px;
+    gap: 5px;
+  }
+  .auth-row-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .auth-row-btn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 /* ==================== Hero · Market Fresh ==================== */
 .hero-mf {
   margin: 0 -24px;
