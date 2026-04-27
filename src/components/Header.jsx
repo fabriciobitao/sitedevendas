@@ -62,7 +62,7 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
       </div>
       <div className="header-inner">
         <button className="header-brand" onClick={() => navigate('/')} aria-label="Voltar para a página principal">
-          <img src="/logo.jpg" alt="Frios Ouro Fino" className="header-logo-img" />
+          <img src="/logo.png" alt="Frios Ouro Fino" className="header-logo-img" />
           <span className="header-info">
             <span className="header-phone">(35) 3441-5633</span>
             <span className="header-since">Distribuidora · desde 1998</span>
