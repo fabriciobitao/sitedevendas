@@ -1548,10 +1548,10 @@
   z-index: 3;
 }
 .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-  width: 86%;
+  width: 76%;
   height: auto;
   max-width: none;
-  max-height: 72%;
+  max-height: 63%;
   object-fit: contain;
   mix-blend-mode: multiply;
   transform: scale(1);
@@ -1590,10 +1590,10 @@
     max-width: 78%;
   }
   .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-    width: 86%;
+    width: 76%;
     height: auto;
     max-width: none;
-    max-height: 72%;
+    max-height: 63%;
     object-fit: contain;
     mix-blend-mode: multiply;
     transform: scale(1);
