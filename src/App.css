@@ -1585,19 +1585,33 @@
     height: min(360px, 92vw);
   }
   .hero-brand--round .hero-brand-logocard {
-    width: 78%;
-    height: 78%;
-    max-width: 78%;
+    width: 74%;
+    height: auto;
+    aspect-ratio: 610 / 506;
+    max-width: 74%;
+    border-radius: 22px;
+    clip-path: none;
+    -webkit-mask-image: none;
+    background:
+      linear-gradient(180deg, #fffdf7 0%, #f7f0df 100%);
+    box-shadow:
+      0 0 0 1px rgba(90, 45, 20, 0.12) inset,
+      0 0 0 4px rgba(255, 255, 255, 0.92),
+      0 0 0 5px rgba(212, 160, 23, 0.22),
+      0 18px 38px -12px rgba(15, 61, 46, 0.32),
+      0 8px 18px -8px rgba(120, 60, 20, 0.22);
+    padding: 8px 10px;
   }
   .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-    width: 76%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     max-width: none;
-    max-height: 63%;
+    max-height: none;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
     transform: scale(1);
   }
+  .hero-brand--round .hero-brand-logocard .hero-brand-logocard-glow { display: none; }
   .hero-brand-medallion-text text { font-size: 10.5px; letter-spacing: 5px; }
   .hero-brand-medallion-star--tl, .hero-brand-medallion-star--tr { top: 4%; }
   .hero-brand-medallion-star--bl, .hero-brand-medallion-star--br { bottom: 4%; }
