@@ -1589,10 +1589,10 @@
     max-width: 78%;
   }
   .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-    width: 82%;
+    width: 74%;
     height: auto;
     max-width: none;
-    max-height: 70%;
+    max-height: 61%;
     object-fit: contain;
     transform: scale(1);
   }
