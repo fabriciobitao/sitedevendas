@@ -1,0 +1,105 @@
+
+=== Scraping Google Maps em 4 cidades ===
+
+
+--- Ouro Fino MG ---
+    -> "restaurantes em Ouro Fino MG"
+        56 cards encontrados
+    -> "lanchonetes em Ouro Fino MG"
+        58 cards encontrados
+    -> "padarias em Ouro Fino MG"
+        20 cards encontrados
+    -> "pizzarias em Ouro Fino MG"
+        24 cards encontrados
+    -> "hamburguerias em Ouro Fino MG"
+        43 cards encontrados
+    -> "açougues em Ouro Fino MG"
+        13 cards encontrados
+    -> "bares em Ouro Fino MG"
+        51 cards encontrados
+    -> "sorveterias em Ouro Fino MG"
+        31 cards encontrados
+    -> "food truck em Ouro Fino MG"
+        2 cards encontrados
+    -> "cafés em Ouro Fino MG"
+        56 cards encontrados
+
+--- Borda da Mata MG ---
+    -> "restaurantes em Borda da Mata MG"
+        55 cards encontrados
+    -> "lanchonetes em Borda da Mata MG"
+        59 cards encontrados
+    -> "padarias em Borda da Mata MG"
+        33 cards encontrados
+    -> "pizzarias em Borda da Mata MG"
+        22 cards encontrados
+    -> "hamburguerias em Borda da Mata MG"
+        31 cards encontrados
+    -> "açougues em Borda da Mata MG"
+        8 cards encontrados
+    -> "bares em Borda da Mata MG"
+        55 cards encontrados
+    -> "sorveterias em Borda da Mata MG"
+        11 cards encontrados
+    -> "food truck em Borda da Mata MG"
+        19 cards encontrados
+    -> "cafés em Borda da Mata MG"
+        59 cards encontrados
+
+--- Inconfidentes MG ---
+    -> "restaurantes em Inconfidentes MG"
+        20 cards encontrados
+    -> "lanchonetes em Inconfidentes MG"
+        10 cards encontrados
+    -> "padarias em Inconfidentes MG"
+        13 cards encontrados
+    -> "pizzarias em Inconfidentes MG"
+        4 cards encontrados
+    -> "hamburguerias em Inconfidentes MG"
+        14 cards encontrados
+    -> "açougues em Inconfidentes MG"
+        2 cards encontrados
+    -> "bares em Inconfidentes MG"
+        55 cards encontrados
+    -> "sorveterias em Inconfidentes MG"
+        7 cards encontrados
+    -> "food truck em Inconfidentes MG"
+        10 cards encontrados
+    -> "cafés em Inconfidentes MG"
+        54 cards encontrados
+
+--- Bueno Brandão MG ---
+    -> "restaurantes em Bueno Brandão MG"
+        38 cards encontrados
+    -> "lanchonetes em Bueno Brandão MG"
+        34 cards encontrados
+    -> "padarias em Bueno Brandão MG"
+        17 cards encontrados
+    -> "pizzarias em Bueno Brandão MG"
+        10 cards encontrados
+    -> "hamburguerias em Bueno Brandão MG"
+        6 cards encontrados
+    -> "açougues em Bueno Brandão MG"
+        2 cards encontrados
+    -> "bares em Bueno Brandão MG"
+        55 cards encontrados
+    -> "sorveterias em Bueno Brandão MG"
+        6 cards encontrados
+    -> "food truck em Bueno Brandão MG"
+        12 cards encontrados
+    -> "cafés em Bueno Brandão MG"
+        55 cards encontrados
+
+=== Total dedup: 559 estabelecimentos ===
+     com telefone: 409
+     com endereco: 555
+
+  Ouro Fino: 189 (151 com tel)
+  Borda da Mata: 146 (99 com tel)
+  Inconfidentes: 110 (81 com tel)
+  Bueno Brandão: 114 (78 com tel)
+
+Salvo: leads-googlemaps.csv
+
+Salvo: leads-com-telefone.csv (409 com telefone)
+

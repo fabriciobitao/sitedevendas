@@ -46,6 +46,7 @@
 }
 .aap-status--pending { background: #fff8e1; color: #b8860b; }
 .aap-status--ok { background: #e8f5e9; color: #2e7d32; }
+.aap-status--rejected { background: #ffebee; color: #c62828; }
 
 .aap-nome {
   font-size: 28px;
@@ -126,6 +127,28 @@
   background: #f5f5f5;
   color: #555;
 }
+
+.aap-pdf {
+  margin: 0 0 20px;
+  text-align: center;
+}
+.aap-btn--pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #f1f8e9;
+  color: #2e7d32;
+  border: 1.5px solid #2e7d32;
+  text-decoration: none;
+  width: 100%;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.aap-btn--pdf:hover:not(:disabled) { background: #e8f5e9; }
 
 .aap-icon {
   width: 64px;

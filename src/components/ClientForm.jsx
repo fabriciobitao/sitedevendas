@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { db } from '../firebase';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 // jsPDF carregado dinamicamente apenas quando o usuario gerar o PDF
 import { validarCPF, validarCNPJ, consultarCNPJ, onlyDigits, validarEmail, validarTelefone } from '../utils/docValidators';
 import './ClientForm.css';
@@ -88,7 +90,7 @@ const cleanupLegacyDraft = () => {
 };
 
 export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo = 'empresa' }) {
-  const { register } = useAuth();
+  const { register, finalizeRegistration } = useAuth();
   const [form, setForm] = useState(INITIAL);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -535,9 +537,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setTimeout(() => URL.revokeObjectURL(url), 1500);
     } catch {}
 
-    const waText = encodeURIComponent(
-      `${resumo}\n\n📎 Ficha em PDF foi baixada no seu aparelho. Toque no clipe 📎 e anexe o arquivo "${fileName}".`
-    );
+    const waText = encodeURIComponent(resumo);
     const waUrl = `https://api.whatsapp.com/send?phone=5535998511194&text=${waText}`;
     const w = window.open(waUrl, '_blank');
     if (!w) window.location.href = waUrl;
@@ -654,6 +654,8 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
           email: form.email.trim().toLowerCase(),
         };
         const { codigoCliente } = await register(profileData.email, password, profileData);
+        // Encerra sessao imediatamente — fluxo simples nao tem PDF para upload
+        await finalizeRegistration();
         setSuccessCode(codigoCliente);
         setForm(INITIAL);
         setPassword('');
@@ -724,7 +726,7 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         emailFinanceiro: form.emailFinanceiro,
       };
 
-      const { codigoCliente } = await register(form.email, password, profileData);
+      const { codigoCliente, user: registeredUser } = await register(form.email, password, profileData);
       const nome = form.nomeFantasia || form.nomeResponsavel;
       const slug = slugify(nome);
       const fileNamePdf = `Ficha_Cadastral_${slug}.pdf`;
@@ -745,6 +747,35 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       setLoadingStep('Gerando PDF...');
       const pdfBlob = await buildPdfBlob(photoDataUrl, photoW, photoH);
 
+      // Salva a ficha em base64 no Firestore (projeto sem Storage habilitado)
+      // para que a tela de aprovacao do admin baixe o PDF direto.
+      setLoadingStep('Enviando ficha...');
+      let fichaSalva = false;
+      try {
+        const ab = await pdfBlob.arrayBuffer();
+        const bytes = new Uint8Array(ab);
+        let bin = '';
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        const pdfBase64 = btoa(bin);
+        if (pdfBase64.length < 900000) {
+          await setDoc(doc(db, 'fichas', registeredUser.uid), {
+            pdfBase64,
+            fileName: fileNamePdf,
+            createdAt: serverTimestamp(),
+          });
+          await setDoc(doc(db, 'customers', registeredUser.uid), {
+            fichaSalva: true,
+            fichaPdfName: fileNamePdf,
+            updatedAt: serverTimestamp(),
+          }, { merge: true });
+          fichaSalva = true;
+        } else {
+          console.warn('PDF muito grande para Firestore:', pdfBase64.length);
+        }
+      } catch (err) {
+        console.error('Falha ao salvar ficha:', err);
+      }
+
       const docLabel = isPessoaFisica ? 'CPF' : 'CNPJ';
       const documento = isPessoaFisica ? form.cpf : form.cnpj;
       const tipoLabel = isPessoaFisica ? 'PESSOA FÍSICA' : 'EMPRESA';
@@ -755,8 +786,11 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
         `*${docLabel}:* ${documento}\n` +
         `*Telefone:* ${form.telefone}\n` +
         `*Código Cliente:* ${codigoCliente}\n\n` +
+        (fichaSalva
+          ? `📎 *Ficha completa (PDF com foto e assinatura)* disponível na tela de aprovação abaixo.\n\n`
+          : `📎 *PDF foi baixado no aparelho do cliente — peça para anexar.*\n\n`) +
         `🔒 *Aguardando sua aprovação*\n` +
-        `Para liberar o login deste cliente:\n${aprovarUrl}`;
+        `Acesse para ver a ficha completa, aprovar ou rejeitar:\n${aprovarUrl}`;
 
       // Guarda PDF em state para o usuario enviar clicando no botao (gesto direto = sem bloqueio de popup)
       setPdfReady({ blob: pdfBlob, fileName: fileNamePdf, resumo: resumoWA });
@@ -811,6 +845,9 @@ export default function ClientForm({ open, onClose, onSwitchToLogin, initialTipo
       } else {
         setEmailStatus('not_configured');
       }
+
+      // Encerra a sessao agora que upload + email backup terminaram
+      try { await finalizeRegistration(); } catch {}
 
       setSuccessCode(codigoCliente);
       setForm(INITIAL);

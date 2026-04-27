@@ -68,6 +68,25 @@ service cloud.firestore {
     }
 
     // ============================================================
+    // FICHAS COLLECTION (PDFs em base64 das fichas cadastrais)
+    // - Create: o proprio cadastrante (auth.uid == uid)
+    // - Read: o dono OU admin (necessario para tela de aprovacao)
+    // - Update/Delete: ninguem (imutavel)
+    // ============================================================
+    match /fichas/{uid} {
+      allow get: if request.auth != null
+                 && (request.auth.uid == uid
+                     || request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com']);
+      allow list: if false;
+      allow create: if request.auth != null
+                    && request.auth.uid == uid
+                    && request.resource.data.keys().hasOnly(['pdfBase64', 'fileName', 'createdAt'])
+                    && request.resource.data.pdfBase64 is string
+                    && request.resource.data.pdfBase64.size() < 900000;
+      allow update, delete: if false;
+    }
+
+    // ============================================================
     // ORDERS COLLECTION
     // - Create: authenticated user, customerId must match UID
     // - Read (get): only the order owner

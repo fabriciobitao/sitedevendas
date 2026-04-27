@@ -16,6 +16,7 @@ export default function AdminAprovarPage() {
   const [uid, setUid] = useState('');
   const [approving, setApproving] = useState(false);
   const [done, setDone] = useState(false);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,7 +38,14 @@ export default function AdminAprovarPage() {
         const decrypted = await decryptSensitiveData(data, foundUid).catch(() => data);
         if (!cancelled) {
           setUid(foundUid);
-          setProfile({ ...decrypted, approved: data.approved, createdAt: data.createdAt });
+          setProfile({
+            ...decrypted,
+            approved: data.approved,
+            rejected: data.rejected,
+            createdAt: data.createdAt,
+            fichaSalva: data.fichaSalva,
+            fichaPdfName: data.fichaPdfName,
+          });
         }
       } catch (e) {
         if (!cancelled) setError('Erro ao carregar cadastro: ' + e.message);
@@ -47,6 +55,47 @@ export default function AdminAprovarPage() {
     })();
     return () => { cancelled = true; };
   }, [codigo]);
+
+  const downloadFicha = async () => {
+    if (!uid) return;
+    setDownloadingPdf(true);
+    try {
+      const snap = await getDoc(doc(db, 'fichas', uid));
+      if (!snap.exists()) {
+        alert('Ficha não encontrada (pode ter sido um cadastro simples sem PDF).');
+        return;
+      }
+      const { pdfBase64, fileName } = snap.data();
+      const bin = atob(pdfBase64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+      // Tambem dispara download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName || `Ficha_${codigo}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    } catch (e) {
+      alert('Erro ao baixar ficha: ' + e.message);
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
+
+  const sendWhatsAppNotice = (status) => {
+    // Notificacao pro proprio admin (Fabricio) com registro da decisao
+    const nome = profile?.nomeFantasia || profile?.razaoSocial || profile?.nomeResponsavel || 'Cliente';
+    const txt = status === 'rejected'
+      ? `❌ *CADASTRO REJEITADO*\n\nCliente: ${nome}\nCódigo: ${codigo}\nTelefone do cliente: ${profile?.telefone || '—'}\nRejeitado em: ${new Date().toLocaleString('pt-BR')}`
+      : `✅ *CADASTRO APROVADO*\n\nCliente: ${nome}\nCódigo: ${codigo}\nTelefone do cliente: ${profile?.telefone || '—'}\nAprovado em: ${new Date().toLocaleString('pt-BR')}`;
+    const waUrl = `https://api.whatsapp.com/send?phone=5535998511194&text=${encodeURIComponent(txt)}`;
+    window.open(waUrl, '_blank');
+  };
 
   const handleAprovar = async () => {
     if (!uid) return;
@@ -59,6 +108,7 @@ export default function AdminAprovarPage() {
         approvedBy: user?.email || 'admin',
         updatedAt: serverTimestamp(),
       }, { merge: true });
+      sendWhatsAppNotice('approved');
       setDone(true);
     } catch (e) {
       setError('Erro ao aprovar: ' + e.message);
@@ -80,6 +130,7 @@ export default function AdminAprovarPage() {
         rejectedBy: user?.email || 'admin',
         updatedAt: serverTimestamp(),
       }, { merge: true });
+      sendWhatsAppNotice('rejected');
       setDone(true);
     } catch (e) {
       setError('Erro ao rejeitar: ' + e.message);
@@ -104,9 +155,10 @@ export default function AdminAprovarPage() {
     return (
       <div className="aap-page">
         <div className="aap-card aap-card--success">
-          <div className="aap-icon">✓</div>
+          <div className="aap-icon">{profile?.rejected ? '✕' : '✓'}</div>
           <h2>{profile?.rejected ? 'Cadastro rejeitado' : 'Cadastro aprovado!'}</h2>
           <p>Cliente <strong>{profile?.nomeFantasia || profile?.nomeResponsavel}</strong> · Código <strong>{codigo}</strong></p>
+          <p style={{ fontSize: 13, color: '#666' }}>Mensagem enviada pro seu WhatsApp confirmando a decisão.</p>
           <button onClick={() => navigate('/admin')}>Ir para admin</button>
         </div>
       </div>
@@ -117,6 +169,7 @@ export default function AdminAprovarPage() {
   const docTipo = profile?.cnpj ? 'CNPJ' : 'CPF';
   const docValor = profile?.cnpj || profile?.cpf || '—';
   const isApproved = profile?.approved === true;
+  const isRejected = profile?.rejected === true;
 
   return (
     <div className="aap-page">
@@ -124,7 +177,8 @@ export default function AdminAprovarPage() {
         <div className="aap-header">
           <span className="aap-codigo">Código {codigo}</span>
           {isApproved && <span className="aap-status aap-status--ok">✓ Já aprovado</span>}
-          {!isApproved && <span className="aap-status aap-status--pending">⏳ Pendente</span>}
+          {isRejected && <span className="aap-status aap-status--rejected">✕ Rejeitado</span>}
+          {!isApproved && !isRejected && <span className="aap-status aap-status--pending">⏳ Pendente</span>}
         </div>
 
         <h1 className="aap-nome">{nomePrincipal}</h1>
@@ -152,7 +206,20 @@ export default function AdminAprovarPage() {
           {profile?.createdAt && <div><label>Cadastrado em</label><span>{fmtDate(profile.createdAt)}</span></div>}
         </div>
 
-        {!isApproved && (
+        {profile?.fichaSalva && (
+          <div className="aap-pdf">
+            <button
+              type="button"
+              onClick={downloadFicha}
+              disabled={downloadingPdf}
+              className="aap-btn aap-btn--pdf"
+            >
+              {downloadingPdf ? 'Baixando…' : '📎 Baixar ficha completa em PDF (foto + assinatura)'}
+            </button>
+          </div>
+        )}
+
+        {!isApproved && !isRejected && (
           <div className="aap-actions">
             <button className="aap-btn aap-btn--reject" onClick={handleRejeitar} disabled={approving}>
               Rejeitar
@@ -162,7 +229,7 @@ export default function AdminAprovarPage() {
             </button>
           </div>
         )}
-        {isApproved && (
+        {(isApproved || isRejected) && (
           <div className="aap-actions">
             <button className="aap-btn aap-btn--secondary" onClick={() => navigate('/admin')}>Voltar</button>
           </div>

@@ -150,11 +150,17 @@ export function AuthProvider({ children }) {
     }
     await Promise.all(writes);
 
-    // Encerra a sessao imediatamente: cadastro fica pendente ate admin aprovar
+    // NAO faz signOut aqui — deixa a sessao temporariamente ativa para o caller
+    // fazer upload de PDF/storage usando auth.uid antes de encerrar via finalizeRegistration().
+    return { user: cred.user, codigoCliente };
+  }, []);
+
+  // Encerra a sessao apos cadastro (chamado pelo caller depois que terminou
+  // uploads pendentes que dependem de auth.currentUser).
+  const finalizeRegistration = useCallback(async () => {
     await signOut(auth);
     setUser(null);
     setCustomerProfile(null);
-    return { user: cred.user, codigoCliente };
   }, []);
 
   const logout = useCallback(async () => {
@@ -185,6 +191,7 @@ export function AuthProvider({ children }) {
       loading,
       login,
       register,
+      finalizeRegistration,
       logout,
       findEmailByIdentifier,
       findEmailByPhone: findEmailByIdentifier, // retrocompat

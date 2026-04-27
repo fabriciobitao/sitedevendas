@@ -1,0 +1,22 @@
+
+=== Teste de aprovacao manual contra https://friosof.web.app ===
+    Email: teste6284353@friosof-test.com
+    CPF: 75900151301
+    Tel: 359886284353
+
+  ✓ home carregou 
+  ✓ header mostra "Entrar" (nao logado) 
+  ✓ formulario "Ja sou cliente" abriu 
+  ✓ formulario preenchido 
+  ✓ tela de sucesso apareceu 
+  ✓ tela de sucesso menciona aprovacao/liberacao 
+  ✓ codigo do cliente gerado 0021
+  ✗ botao WhatsApp nao encontrado 
+  ✓ apos cadastro, ainda mostra "Entrar" (NAO logou automaticamente) 
+  ✓ login impedido (continua mostrando Entrar) 
+
+=== 9 passed, 1 failed ===
+
+Cadastro de teste criado: codigo 0021 (email teste6284353@friosof-test.com)
+Para limpar manualmente, va em Firestore Console e remova customers/{uid} + login_index/0021
+

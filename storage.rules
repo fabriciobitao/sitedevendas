@@ -1,9 +1,8 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Fichas cadastrais: fluxo atual gera PDF no client e envia via Web Share/WhatsApp.
-    // Nenhum upload/leitura pelo Storage. Bloco removido — cai no default deny abaixo.
-    // Se reativar upload no futuro, restringir read ao dono ou admin.
+    // Fichas cadastrais: armazenadas em Firestore como base64 (projeto sem
+    // billing/Blaze, por isso nao usa Storage). Bloco removido — cai no default deny.
 
     // Product images - public read, admin-only write
     match /products/{fileName} {
