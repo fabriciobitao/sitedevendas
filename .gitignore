@@ -7,3 +7,5 @@ scripts/serviceAccountKey.json
 .firebase/
 audit-*.mjs
 audit-screenshots/
+playwright-report/
+test-results/
