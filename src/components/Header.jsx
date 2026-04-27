@@ -13,7 +13,6 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [time, setTime] = useState('');
   const [ordersClosed, setOrdersClosed] = useState(false);
   const [isMac, setIsMac] = useState(false);
 
@@ -29,11 +28,7 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
 
   useEffect(() => {
     const tick = () => {
-      const now = new Date();
-      const hh = String(now.getHours()).padStart(2, '0');
-      const mm = String(now.getMinutes()).padStart(2, '0');
-      setTime(`${hh}:${mm}`);
-      setOrdersClosed(now.getHours() >= 16);
+      setOrdersClosed(new Date().getHours() >= 16);
     };
     tick();
     const i = setInterval(tick, 30000);
@@ -61,7 +56,7 @@ export default function Header({ onOpenLogin, onOpenRegister, onOpenCliente, onO
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="header-announce">
         <span className={`header-announce-dot ${ordersClosed ? 'header-announce-dot--closed' : ''}`} />
-        <span>{ordersClosed ? 'Pedidos encerrados · retorno amanhã' : 'Pedidos se encerram às 16:00'} · {time}</span>
+        <span>{ordersClosed ? 'Pedidos encerrados · retorno amanhã' : 'Pedidos se encerram às 16:00'}</span>
         <span className="header-announce-sep">—</span>
         <span className="header-announce-region">Vendedor Fabrício · (35) 99851-1194</span>
       </div>
