@@ -15,8 +15,9 @@ service cloud.firestore {
                  && (request.auth.uid == uid
                      || request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com']);
 
-      // List: bloqueado. Lookup de login agora usa coleção login_index (sem dados sensíveis).
-      allow list: if false;
+      // List: apenas admin (para tela de aprovacoes pendentes). Lookup de login usa login_index.
+      allow list: if request.auth != null
+                  && request.auth.token.email in ['fabricio.fazer@gmail.com', 'fabiomenezes@gmail.com'];
 
       // Create own profile during registration
       // Validates: document ID must match auth UID, email must match auth email,
