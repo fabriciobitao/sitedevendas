@@ -1548,8 +1548,8 @@
   z-index: 3;
 }
 .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-  max-width: 86%;
-  max-height: 86%;
+  max-width: 76%;
+  max-height: 64%;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -1582,8 +1582,8 @@
   .hero-brand-medallion { width: 320px; height: 320px; }
   .hero-brand--round .hero-brand-logocard { width: 252px; height: 252px; max-width: 252px; }
   .hero-brand--round .hero-brand-logocard .hero-brand-logo {
-    max-width: 84%;
-    max-height: 84%;
+    max-width: 74%;
+    max-height: 62%;
     transform: scale(1);
   }
   .hero-brand-medallion-text text { font-size: 10.5px; letter-spacing: 5px; }
