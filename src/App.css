@@ -1620,8 +1620,9 @@
 
 @media (max-width: 900px) {
   .hero-brand-medallion {
-    width: min(360px, 92vw);
-    height: min(360px, 92vw);
+    width: min(360px, 100%);
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
   .hero-brand--round .hero-brand-logocard {
     width: 78%;
