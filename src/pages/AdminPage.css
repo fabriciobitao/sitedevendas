@@ -4,9 +4,12 @@
 
 .admin-page {
   max-width: 1280px;
+  width: 100%;
+  min-width: 0;
   margin: 0 auto;
   padding: 24px 20px 60px;
   min-height: 80vh;
+  box-sizing: border-box;
 }
 
 /* --- Sticky Toolbar (titulo + busca + filtros) --- */
@@ -216,8 +219,9 @@
 }
 
 .admin-product-info {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .admin-product-name {
@@ -235,6 +239,16 @@
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.admin-product-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .admin-product-badge {
@@ -985,10 +999,14 @@
 
 /* --- Sticky Toolbar — responsive --- */
 @media (max-width: 768px) {
+  .admin-page {
+    padding: 24px 12px 60px;
+  }
+
   .admin-toolbar {
     top: 58px;
-    margin: -24px -20px 16px;
-    padding: 12px 16px 10px;
+    margin: -24px -12px 16px;
+    padding: 12px 12px 10px;
   }
 
   .admin-header {
@@ -998,6 +1016,43 @@
 
   .admin-title {
     font-size: 18px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-search {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .admin-search input {
+    min-width: 0;
+    font-size: 15px;
+  }
+
+  .admin-product-card {
+    min-width: 0;
+    position: relative;
+  }
+
+  .admin-product-actions {
+    gap: 4px;
+  }
+
+  .admin-btn-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .admin-out-of-stock-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 9px;
+    padding: 2px 5px;
+    z-index: 2;
   }
 }
 
